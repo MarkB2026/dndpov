@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Village of Barovia | Walkable Alpha v0.3.8</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Village of Barovia | Walkable Alpha v0.3.10</title>
 <style>
 :root{--gold:#e6c18a;--edge:#8b6a42;--panel:rgba(12,10,13,.91)}*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#09090c;color:#ead9bd;font-family:Georgia,'Times New Roman',serif}canvas#world{display:block;width:100%;height:100%;touch-action:none}.panel{position:absolute;background:var(--panel);border:1px solid var(--edge);box-shadow:0 8px 28px #0009}#brand{top:15px;left:15px;width:min(410px,calc(100vw - 30px));padding:12px 16px;pointer-events:none}h1{font-size:22px;margin:0;color:var(--gold);letter-spacing:.035em}#brand small{font-size:12px;line-height:1.5}#detail{left:15px;top:108px;width:300px;max-height:calc(100vh - 225px);overflow-y:auto;padding:15px}#detail h2{margin:0 0 10px;font-size:19px;color:var(--gold)}#detail p{font-size:14px;line-height:1.55;color:#e0d5c4}#detail .hint{font-style:italic;color:#c7b99e;border-left:3px solid #b18c52;padding-left:11px}#mapbox{top:15px;right:121px;width:320px;padding:9px}#maptitle{font-size:12px;color:var(--gold);font-weight:bold;margin:0 0 6px}#minimap{width:100%;height:auto;display:block;background:#19171d;border:1px solid #7c6649}#maptools{text-align:center;margin-top:7px;display:flex;gap:5px;justify-content:center;flex-wrap:wrap}#controls{bottom:17px;right:17px;padding:10px;max-width:420px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}button{font:12px Georgia,serif;color:#f0dbb2;background:#32271d;border:1px solid #b08b59;border-radius:3px;cursor:pointer;padding:7px 9px}button:hover{background:#695138}button:focus-visible{outline:2px solid #e9bb69}#keys{bottom:17px;left:15px;padding:9px 12px;max-width:390px;font-size:12px;line-height:1.6;pointer-events:none}#prompt{position:absolute;left:50%;bottom:91px;transform:translateX(-50%);padding:9px 18px;background:#160f12df;border:1px solid #b08b59;color:#ffe1aa;display:none;text-align:center;white-space:nowrap}#message{position:absolute;left:50%;top:22px;transform:translateX(-50%);font-size:13px;background:#100c10c7;border:1px solid #63513a;padding:8px 12px;color:#d9bd8c}#aim{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;color:#f7d7a0aa;font:22px sans-serif}#welcome{position:absolute;inset:0;background:#030304bd;z-index:20;display:grid;place-items:center;padding:20px}#welcome .card{width:min(500px,100%);padding:27px;background:#171117;border:1px solid #b18c52;box-shadow:0 15px 50px #000;text-align:center}#welcome h2{font-size:29px;color:var(--gold);margin:0 0 12px}#welcome p{line-height:1.6;font-size:15px}#welcome button{font-size:15px;padding:12px 22px}#error{position:absolute;top:55px;left:50%;transform:translateX(-50%);z-index:50;background:#351c20;color:#ffd8d8;padding:15px;display:none}#touch{display:none}#compass{position:absolute;top:85px;left:50%;transform:translateX(-50%);font:bold 14px Georgia;color:#e3c08d;text-shadow:0 2px 5px #000}#location{color:#f1bd70}@media(max-width:900px){#mapbox{right:10px;width:235px}#detail{width:240px}#controls{max-width:310px}#message{display:none}}@media(max-width:680px){#brand{width:220px}h1{font-size:17px}#detail{left:6px;top:107px;width:190px;max-height:240px;padding:9px}#detail h2{font-size:16px}#detail p{font-size:12px}#mapbox{right:6px;top:9px;width:180px}#keys{display:none}#controls{right:6px;bottom:6px;max-width:240px}button{padding:7px;font-size:11px}#touch{display:flex;position:absolute;left:8px;bottom:10px;gap:5px;align-items:center;flex-direction:column}#touch button{background:#1c1b22c9;padding:10px 16px;font-size:16px}}
 #storyModal{position:fixed;inset:0;z-index:25;background:rgba(0,0,0,.83);display:none;align-items:center;justify-content:center;padding:18px}#storyCard{position:relative;width:min(690px,95vw);max-height:87vh;overflow:auto;padding:23px 27px;background:linear-gradient(145deg,#2c2020,#100f12 68%);border:2px solid #987548;box-shadow:0 25px 90px #000;border-radius:7px}#storyCard h2{margin:0;color:#efc182;font-size:25px}#storyCard .tagline{color:#bdab96;font:12px system-ui;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}#storyCard p{line-height:1.7}#storyPlayer{border-left:3px solid #d8ae6e;padding:10px 14px;background:#150f10;color:#efdfcd;font-style:italic}#storyPlayer,#storyDMText,#readout,#detailDM{white-space:pre-line}#storyDM{margin-top:14px;padding:15px;background:#1c1516;border:1px solid #75624a;display:none}#storyDM strong{color:#e6c080}#storyClose{margin-top:13px;padding:10px 22px}#storyX{position:absolute;right:10px;top:10px}#detailDM{display:none;border-top:1px solid #6a543b;margin-top:10px;padding-top:9px;color:#d4bba0;font-size:13px}#detailDM h3{font-size:14px;color:#e4b875;margin:4px 0}@media(max-width:680px){#storyCard{padding:18px 16px}#storyCard h2{font-size:21px}} 
 </style></head><body>
-<canvas id="world"></canvas><div id="aim">+</div><div id="compass">N</div><div id="brand" class="panel"><h1>VILLAGE OF BAROVIA</h1><small>DNDPOV · First-person illustrated exploration · <b>v0.3.8 ALPHA</b><br><span id="location">Village Crossroads</span></small></div><aside id="detail" class="panel"><h2 id="place">Village Crossroads</h2><p class="hint" id="readout">Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing mat echoes through the streets from a distance.</p><div id="detailDM"></div><p id="subread">Walk toward the marked buildings. Press <b>E</b> at a door to enter; press <b>E</b> again to leave.</p></aside><aside id="mapbox" class="panel"><div id="maptitle">VILLAGE OF BAROVIA · E1–E7</div><canvas id="minimap" width="360" height="320"></canvas><div id="maptools"><button id="mapKeys">Hide Key Locations</button><button id="recenter">Center</button></div></aside><div id="message">Village of Barovia · I6 module text · Torchlit streets</div><div id="prompt"></div><div id="keys" class="panel"><b>W / ↑</b> walk · <b>S / ↓</b> back · <b>A / D</b> strafe · <b>←</b> rotate left · <b>→</b> rotate right<br><b>Mouse drag</b> look · <b>Shift</b> run · <b>E</b> enter / leave · <b>M</b> map · <b>T</b> torch · <b>R</b> return to road</div><div id="controls" class="panel"><button id="leftTurn" title="Hold to rotate left">← Turn Left</button><button id="rightTurn" title="Hold to rotate right">Turn Right →</button><button id="enterBtn">Enter Building (E)</button><button id="torchBtn" title="Toggle the carried torch (T)">Torch: ON</button><button id="storyBtn" title="Show the current location illustration-free description">Location Details</button><button id="dmBtn">DM: OFF</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button><button id="reset">Restart Village</button><button id="castleLink">Castle Ravenloft</button></div><div id="touch"><button data-move="w">▲</button><div><button data-turn="left" title="Turn left">↶</button><button data-move="s">▼</button><button data-turn="right" title="Turn right">↷</button></div></div>
+<canvas id="world"></canvas><div id="aim">+</div><div id="compass">N</div><div id="brand" class="panel"><h1>VILLAGE OF BAROVIA</h1><small>DNDPOV · First-person illustrated exploration · <b>v0.3.10 ALPHA</b><br><span id="location">Village Crossroads</span></small></div><aside id="detail" class="panel"><h2 id="place">Village Crossroads</h2><p class="hint" id="readout">Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing mat echoes through the streets from a distance.</p><div id="detailDM"></div><p id="subread">Walk toward the marked buildings. Press <b>E</b> at a door to enter; press <b>E</b> again to leave.</p></aside><aside id="mapbox" class="panel"><div id="maptitle">VILLAGE OF BAROVIA · E1–E7</div><canvas id="minimap" width="360" height="320"></canvas><div id="maptools"><button id="mapKeys">Hide Key Locations</button><button id="recenter">Center</button></div></aside><div id="message">Village of Barovia · I6 module text · Torchlit streets</div><div id="prompt"></div><div id="keys" class="panel"><b>W / ↑</b> walk · <b>S / ↓</b> back · <b>A / D</b> strafe · <b>←</b> rotate left · <b>→</b> rotate right<br><b>Mouse drag</b> look · <b>Shift</b> run · <b>E</b> enter / leave · <b>M</b> map · <b>T</b> torch · <b>R</b> return to road</div><div id="controls" class="panel"><button id="leftTurn" title="Hold to rotate left">← Turn Left</button><button id="rightTurn" title="Hold to rotate right">Turn Right →</button><button id="enterBtn">Enter Building (E)</button><button id="torchBtn" title="Toggle the carried torch (T)">Torch: ON</button><button id="storyBtn" title="Show the current location illustration-free description">Location Details</button><button id="dmBtn">DM: OFF</button><button id="descBtn" aria-pressed="false">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button><button id="reset">Restart Village</button><button id="castleLink">Castle Ravenloft</button></div><div id="touch"><button data-move="w">▲</button><div><button data-turn="left" title="Turn left">↶</button><button data-move="s">▼</button><button data-turn="right" title="Turn right">↷</button></div></div>
 <div id="storyModal" role="dialog" aria-modal="true" aria-label="Village location information"><div id="storyCard"><button id="storyX" aria-label="Close">×</button><div class="tagline" id="storyTag">I6 · Village of Barovia</div><h2 id="storyTitle"></h2><p id="storyPlayer"></p><section id="storyDM"><strong>DM ONLY · module notes</strong><p id="storyDMText"></p></section><button id="storyClose">Continue Exploring (Enter)</button></div></div><div id="welcome"><div class="card"><h2>Village of Barovia</h2><p>Explore a stylized, fog-covered village in first person—interconnected cobblestone streets, crooked timber houses, the church, tavern, mercantile, graveyard, and the burgomaster's home.</p><p>This is a <b>walkable layout prototype</b>, not a finished reconstruction of the printed village map. The keyed E1–E7 read-aloud and DM text is drawn from I6; street layout and architecture are interpretive.</p><button id="begin">Begin Exploration</button></div></div><div id="error"></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
 <script>
@@ -17,7 +17,7 @@ const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.12,240);
 const ambient=new THREE.HemisphereLight(0x8e849c,0x24212b,.62);scene.add(ambient);
 const moonlight=new THREE.DirectionalLight(0xa1a0b9,.60);moonlight.position.set(-28,70,-68);moonlight.castShadow=true;moonlight.shadow.mapSize.set(1024,1024);moonlight.shadow.camera.left=-90;moonlight.shadow.camera.right=90;moonlight.shadow.camera.top=105;moonlight.shadow.camera.bottom=-105;moonlight.shadow.bias=-.00035;scene.add(moonlight);
 const outdoor=new THREE.Group(),indoor=new THREE.Group();scene.add(outdoor,indoor);indoor.visible=false;
-let inside=null,near=null,nearestDistance=999,mapVisible=true,showKeys=true,clock=performance.now(),modeStarted=false,dmMode=false,selectedStory=null;const seenStory=new Set();
+let inside=null,near=null,nearestDistance=999,mapVisible=true,showKeys=true,clock=performance.now(),modeStarted=false,dmMode=false,descriptionsOn=true,selectedStory=null;const seenStory=new Set();
 let px=0,pz=57,angle=0,pitch=0,drag=false,lastMX=0,lastMY=0,placeId=null;
 const mat=(c,rough=1)=>new THREE.MeshStandardMaterial({color:c,roughness:rough});
 const stone=mat('#635866'),darkstone=mat('#302b35'),timber=mat('#342b33'),wood=mat('#5f3d38'),blackwood=mat('#241d28'),roofmat=mat('#343043'),trim=mat('#171722'),grass=mat('#28352c'),roadSide=mat('#403c41'),gold=mat('#d4a364'),lightMat=new THREE.MeshBasicMaterial({color:'#f7a44c'}),darkWindow=new THREE.MeshStandardMaterial({color:'#13141d',roughness:.6}),lowGlowWindow=new THREE.MeshBasicMaterial({color:'#805135'}),flameMat=new THREE.MeshBasicMaterial({color:'#ffbc58'}),pale=mat('#8d7f83'),fenceMat=mat('#43383e');
@@ -331,13 +331,59 @@ box(castle,0,8,0,31,13,13,castleStone);box(castle,-4,16,-1,11,14,10,castleStone)
 const moon=new THREE.Mesh(new THREE.SphereGeometry(7,24,14),new THREE.MeshBasicMaterial({color:'#bd6574',fog:false}));moon.position.set(37,59,-166);outdoor.add(moon);
 // A distant, tinted mountain ridge.
 const hillmat=mat('#292737');for(let i=0;i<26;i++){const x=-160+i*13;const h=12+Math.abs(Math.sin(i*2.21))*23;cone(outdoor,x,h/2,-132,18,h,hillmat,5)}
-function furnitureRoom(e){while(indoor.children.length)indoor.remove(indoor.children[0]);const wall=e.church?stone:stone;
- box(indoor,0,-.22,0,18,.45,18,roadMaterial);box(indoor,-9,4,0,.3,8,18,wall);box(indoor,9,4,0,.3,8,18,wall);box(indoor,0,4,-9,18,8,.3,wall);box(indoor,0,4,9,18,8,.3,wall);box(indoor,0,8,0,18,.3,18,roofmat);
- for(let i=0;i<4;i++){box(indoor,-6+i*4.1,1.1,-7,2.5,2.2,.65,wood);box(indoor,-6+i*4.1,2.2,-7,2.5,.15,.75,timber)}
- if(e.id==='E2'){for(const x of [-4,3]){box(indoor,x,.8,-1,3,.2,2.2,wood);for(const dx of [-1,1])for(const dz of [-.65,.65])box(indoor,x+dx, .43,-1+dz,.24,.7,.24,blackwood)}box(indoor,6.1,1.1,-5,2,2.2,5,wood);box(indoor,0,2,-8.72,4,4,.2,blackwood);box(indoor,0,1.4,-8.53,2,2,.15,lightMat)}
- if(e.id==='E1'){for(const x of [-7,6.8])for(const z of [-5,0,5]){box(indoor,x,1.8,z,1.8,3.5,2.1,wood);for(const y of [.9,1.8,2.8])box(indoor,x,y,z,1.7,.12,2,blackwood)}}
- if(e.church){box(indoor,0,1,-6,5,2,2.8,pale);for(const x of [-4,4])for(const z of [0,3,6])box(indoor,x,.6,z,3,.4,1,wood);box(indoor,0,5,-8.6,1.5,2,.1,lightMat)}
- for(const x of [-5.5,5.5]){const p=new THREE.PointLight('#e69b68',6,14,2);p.position.set(x,4,1);indoor.add(p)}
+function furnitureRoom(e){
+ while(indoor.children.length)indoor.remove(indoor.children[0]);
+ // The original interior was almost black: opaque dark materials swallowed the
+ // two short-range lamps. Give interior rooms their own low ambient fill and
+ // visible, flame-lit wall sconces without brightening the outdoor village.
+ const interiorStone=mat('#665a56'),interiorWood=mat('#64463b'),interiorDark=mat('#352c2c');
+ const interiorFloor=new THREE.MeshStandardMaterial({color:'#57483f',roughness:.92});
+ box(indoor,0,-.22,0,18,.45,18,interiorFloor);
+ box(indoor,-9,4,0,.3,8,18,interiorStone);box(indoor,9,4,0,.3,8,18,interiorStone);
+ box(indoor,0,4,-9,18,8,.3,interiorStone);box(indoor,0,4,9,18,8,.3,interiorStone);
+ box(indoor,0,8,0,18,.3,18,interiorDark);
+ // Ceiling beams and a few distinct furnishings improve depth and readability.
+ for(const z of [-6.5,0,6.5])box(indoor,0,7.7,z,18,.3,.42,interiorWood);
+ for(let i=0;i<4;i++){
+  box(indoor,-6+i*4.1,1.1,-7,2.5,2.2,.65,interiorWood);
+  box(indoor,-6+i*4.1,2.2,-7,2.5,.15,.75,interiorDark);
+ }
+ if(e.id==='E2'){
+  for(const x of [-4,3]){
+   box(indoor,x,.8,-1,3,.2,2.2,interiorWood);
+   for(const dx of [-1,1])for(const dz of [-.65,.65])box(indoor,x+dx,.43,-1+dz,.24,.7,.24,blackwood);
+  }
+  box(indoor,6.1,1.1,-5,2,2.2,5,interiorWood);
+  box(indoor,0,2,-8.72,4,4,.2,blackwood);
+  box(indoor,0,1.4,-8.53,2,2,.15,lightMat);
+ }
+ if(e.id==='E1'){
+  for(const x of [-7,6.8])for(const z of [-5,0,5]){
+   box(indoor,x,1.8,z,1.8,3.5,2.1,interiorWood);
+   for(const y of [.9,1.8,2.8])box(indoor,x,y,z,1.7,.12,2,interiorDark);
+  }
+ }
+ if(e.church){
+  box(indoor,0,1,-6,5,2,2.8,pale);
+  for(const x of [-4,4])for(const z of [0,3,6])box(indoor,x,.6,z,3,.4,1,interiorWood);
+  box(indoor,0,5,-8.6,1.5,2,.1,lightMat);
+ }
+ const fill=new THREE.AmbientLight('#cbb2a0',1.45);indoor.add(fill);
+ for(const x of [-8.55,8.55])for(const z of [-4,4]){
+  // A real point light and a visible torch: not just an invisible light source.
+  box(indoor,x,2.25,z,.33,.15,.46,blackwood);
+  const basket=cone(indoor,x,2.45,z,.21,.35,stone,7);basket.rotation.z=Math.PI;
+  const flame=cone(indoor,x,2.88,z,.19,.65,flameMat,7);
+  const p=new THREE.PointLight('#ffc18a',3.6,24,1.6);p.position.set(x,3.0,z);indoor.add(p);
+ }
+ // Make the exit unmistakable while the actual E action remains unchanged.
+ box(indoor,0,1.38,8.77,2.5,2.76,.12,blackwood);
+ box(indoor,0,3.0,8.56,3.5,.36,.25,interiorWood);
+ const tc=document.createElement('canvas');tc.width=256;tc.height=64;
+ const ctx=tc.getContext('2d');ctx.fillStyle='#2c201b';ctx.fillRect(0,0,256,64);
+ ctx.fillStyle='#f3d8a4';ctx.font='bold 35px Georgia';ctx.textAlign='center';ctx.fillText('EXIT · E',128,44);
+ const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.2,.8),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(tc),side:THREE.DoubleSide}));
+ sign.position.set(0,3.6,8.47);sign.rotation.y=Math.PI;indoor.add(sign);
 }
 function streetDoor(e){return {x:e.x+(e.x<0?e.w/2+1.05:-e.w/2-1.05),z:e.z};}
 function currentEntry(){if(inside)return null;let min=Infinity,best=null;for(const e of entries){const d=e.cemetery?Math.hypot(px-e.x,pz-e.z):Math.hypot(px-streetDoor(e).x,pz-e.z);if(d<min){min=d;best=e}}nearestDistance=min;return min<5.5?best:null}
@@ -356,15 +402,26 @@ function boxedTagFor(e){
  return text.startsWith('No separate boxed')?'NO BOXED READ-ALOUD':'BOXED READ-ALOUD';
 }
 function showDescription(e){if(!e)return;selectedStory=e;const story=moduleStory[e.id];$('place').textContent=e.id+' · '+e.name;$('location').textContent=e.id+' · '+e.name;$('readout').textContent=boxedTextFor(e);$('subread').textContent=inside?'Press E to return outside. Building geometry is interpretive.':e.cemetery?'Explore the graveyard; use Location Details to see its description.':'Approach the street-facing door and press E to enter.';syncDM()}
-function openStory(e){if(!e)return;selectedStory=e;const story=moduleStory[e.id];$('storyTitle').textContent=e.id+' · '+e.name;$('storyTag').textContent=(inside?'INSIDE':'OUTSIDE')+' · ORIGINAL I6 · '+(boxedTagFor(e));$('storyPlayer').textContent=boxedTextFor(e);$('storyDMText').textContent=story.dm;$('storyModal').style.display='flex';pressed={};syncDM();}
+function openStory(e){if(!e||!descriptionsOn)return;selectedStory=e;const story=moduleStory[e.id];$('storyTitle').textContent=e.id+' · '+e.name;$('storyTag').textContent=(inside?'INSIDE':'OUTSIDE')+' · ORIGINAL I6 · '+(boxedTagFor(e));$('storyPlayer').textContent=boxedTextFor(e);$('storyDMText').textContent=story.dm;$('storyModal').style.display='flex';pressed={};syncDM();}
 function closeStory(){$('storyModal').style.display='none';pressed={};syncDM()}
+function applyDescriptionVisibility(){
+ $('readout').hidden=!descriptionsOn;
+ $('readout').style.display=descriptionsOn?'':'none';
+ $('storyBtn').disabled=!descriptionsOn;
+ $('storyBtn').title=descriptionsOn?'Show the current location description':'Turn descriptions on to read location text';
+ $('descBtn').textContent=descriptionsOn?'Hide Descriptions':'Show Descriptions';
+ $('descBtn').setAttribute('aria-pressed',String(!descriptionsOn));
+ if(!descriptionsOn)closeStory();
+}
+function toggleDescriptions(){descriptionsOn=!descriptionsOn;applyDescriptionVisibility()}
+
 function interact(){if($('storyModal').style.display==='flex'){closeStory();return}if(inside){const old=inside;inside=null;indoor.visible=false;outdoor.visible=true;const door=streetDoor(old);px=door.x+(old.x<0?1.3:-1.3);pz=door.z;angle=old.x<0?-Math.PI/2:Math.PI/2;pitch=0;showDescription(old);return}const e=currentEntry();if(!e)return;if(e.cemetery){showDescription(e);openStory(e);return;}inside=e;outdoor.visible=false;indoor.visible=true;furnitureRoom(e);px=0;pz=5;angle=0;pitch=0;showDescription(e);openStory(e);seenStory.add(e.id)}
 function reset(){inside=null;indoor.visible=false;outdoor.visible=true;px=0;pz=57;angle=0;pitch=0;placeId=null;selectedStory=null;seenStory.clear();$('detailDM').style.display='none';closeStory();updateDescription()}
 function updateDescription(){if(inside)return;const e=currentEntry();if(e&&e.id!==placeId){placeId=e.id;showDescription(e);if(e.cemetery&&!seenStory.has(e.id)){seenStory.add(e.id);openStory(e)}}else if(!e&&placeId!==null){placeId=null;selectedStory=null;$('detailDM').style.display=dmMode?'block':'none';if(dmMode)$('detailDM').innerHTML='<h3>DM NOTES · E. THE VILLAGE OF BAROVIA</h3>'+escapeHtml(moduleStory.VILLAGE.dm);$('place').textContent='Village of Barovia';$('location').textContent='Village Crossroads';$('readout').textContent=moduleStory.VILLAGE.player;$('subread').textContent='Approach a signed doorway and press E to enter.'}}
 function collision(x,z){if(inside)return Math.abs(x)>7.8||Math.abs(z)>7.8;for(const b of solid){if(x>b.x-b.w/2-.55&&x<b.x+b.w/2+.55&&z>b.z-b.d/2-.55&&z<b.z+b.d/2+.55)return true}return false}
 let pressed={};window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(k))e.preventDefault();pressed[k]=true;if(e.repeat)return;if(k==='escape'){closeStory();return;}if(k==='enter'&&$('storyModal').style.display==='flex'){closeStory();return}if($('storyModal').style.display==='flex')return;if(k==='e')interact();if(k==='m')toggleMap();if(k==='t')toggleTorch();if(k==='r')reset()});window.addEventListener('keyup',e=>pressed[e.key.toLowerCase()]=false);window.addEventListener('blur',()=>pressed={});
 const cv=$('world');cv.addEventListener('pointerdown',e=>{drag=true;lastMX=e.clientX;lastMY=e.clientY;cv.setPointerCapture(e.pointerId)});cv.addEventListener('pointerup',()=>drag=false);cv.addEventListener('pointermove',e=>{if(!drag)return;angle-=(e.clientX-lastMX)*.004;pitch=Math.max(-.6,Math.min(.55,pitch-(e.clientY-lastMY)*.0028));lastMX=e.clientX;lastMY=e.clientY});
-$('storyClose').onclick=closeStory;$('storyX').onclick=closeStory;$('storyModal').addEventListener('click',e=>{if(e.target.id==='storyModal')closeStory()});$('storyBtn').onclick=()=>{const e=inside||currentEntry()||selectedStory;if(e)openStory(e)};$('dmBtn').onclick=()=>{dmMode=!dmMode;syncDM();if(!selectedStory){$('detailDM').style.display=dmMode?'block':'none';if(dmMode)$('detailDM').innerHTML='<h3>DM NOTES · E. THE VILLAGE OF BAROVIA</h3>'+escapeHtml(moduleStory.VILLAGE.dm)}};$('begin').onclick=()=>{$('welcome').style.display='none';modeStarted=true};$('enterBtn').onclick=interact;$('reset').onclick=reset;
+$('descBtn').onclick=toggleDescriptions;applyDescriptionVisibility();$('storyClose').onclick=closeStory;$('storyX').onclick=closeStory;$('storyModal').addEventListener('click',e=>{if(e.target.id==='storyModal')closeStory()});$('storyBtn').onclick=()=>{const e=inside||currentEntry()||selectedStory;if(e)openStory(e)};$('dmBtn').onclick=()=>{dmMode=!dmMode;syncDM();if(!selectedStory){$('detailDM').style.display=dmMode?'block':'none';if(dmMode)$('detailDM').innerHTML='<h3>DM NOTES · E. THE VILLAGE OF BAROVIA</h3>'+escapeHtml(moduleStory.VILLAGE.dm)}};$('begin').onclick=()=>{$('welcome').style.display='none';modeStarted=true};$('enterBtn').onclick=interact;$('reset').onclick=reset;
 function toggleMap(){mapVisible=!mapVisible;$('mapbox').style.display=mapVisible?'block':'none';$('mapBtn').textContent=mapVisible?'Hide Map':'Show Map'}
 $('mapBtn').onclick=toggleMap;function toggleKeys(){showKeys=!showKeys;$('keysBtn').textContent=showKeys?'Hide Key Locations':'Show Key Locations';$('mapKeys').textContent=$('keysBtn').textContent} $('keysBtn').onclick=toggleKeys;$('mapKeys').onclick=toggleKeys;$('recenter').onclick=()=>{if(!inside){px=0;pz=57;angle=0}};
 $('castleLink').onclick=()=>{location.href='Ravenloft-I6/ravenloft.html'};
@@ -387,14 +444,14 @@ function mapDraw(){const c=$('minimap'),g=c.getContext('2d'),w=c.width,h=c.heigh
 function tick(){requestAnimationFrame(tick);const now=performance.now(),dt=Math.min(.055,(now-clock)/1000);clock=now;
  if(modeStarted&&$('storyModal').style.display!=='flex'){const speed=(pressed.shift?9.6:5.3)*dt;const f=(pressed.w||pressed.arrowup?1:0)-(pressed.s||pressed.arrowdown?1:0);const strafe=(pressed.d?1:0)-(pressed.a?1:0);if(pressed.arrowleft||pressed.turnleft)angle+=2.0*dt;if(pressed.arrowright||pressed.turnright)angle-=2.0*dt;const mx=-Math.sin(angle)*f*speed+Math.cos(angle)*strafe*speed,mz=-Math.cos(angle)*f*speed-Math.sin(angle)*strafe*speed;
  if(!collision(px+mx,pz))px+=mx;if(!collision(px,pz+mz))pz+=mz;
- updateDescription();const e=currentEntry();$('prompt').style.display=e?'block':'none';if(e)$('prompt').textContent=e.id+' · '+e.name+(e.cemetery?' · Explore graves':' · Press E to enter');$('enterBtn').disabled=!!inside?false:!e;
+ updateDescription();const e=currentEntry();$('prompt').style.display=(inside||e)?'block':'none';if(inside)$('prompt').textContent='Inside '+inside.id+' · '+inside.name+' · Press E to exit';else if(e)$('prompt').textContent=e.id+' · '+e.name+(e.cemetery?' · Explore graves':' · Press E to enter');$('enterBtn').disabled=!!inside?false:!e;$('enterBtn').textContent=inside?'Exit Building (E)':'Enter Building (E)';
  }
  camera.position.set(px,2.35,pz);camera.rotation.order='YXZ';camera.rotation.y=angle;camera.rotation.x=pitch;
  $('compass').textContent=inside?'INTERIOR':(Math.abs(((angle%(Math.PI*2))+Math.PI*2)%(Math.PI*2))<.65?'N':'');
  for(const o of mist){const phase=now*.00028+o.i*1.53;o.sp.position.x=o.x+Math.sin(phase)*2.4+Math.sin(phase*.47)*1.9;o.sp.position.z=o.z+Math.cos(phase*.72)*2.5;o.sp.position.y=1.4+Math.sin(phase*1.2)*.42;o.sp.material.opacity=.24+.13*(.5+.5*Math.sin(phase*.9));o.sp.material.rotation=Math.sin(phase*.8)*.11;}
  // Warm, local illumination moves with the player; distant streets stay in shadow.
  playerTorch.position.set(px,2.85,pz);
- playerTorch.intensity=playerTorchEnabled?(3.25+.17*Math.sin(now*.012)+.1*Math.sin(now*.023)):0;
+ playerTorch.intensity=playerTorchEnabled?((inside?7.5:3.25)+.17*Math.sin(now*.012)+.1*Math.sin(now*.023)):0;playerTorch.distance=inside?26:11;
  for(const item of villageFlames){
   const flick=.87+.10*Math.sin(now*.011+item.seed)+.055*Math.sin(now*.029+item.seed*1.7);
   item.light.intensity=(item.baseIntensity|| (item.baseIntensity=item.light.intensity))*flick;

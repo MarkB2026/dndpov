@@ -58,8 +58,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.56 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Every K label listed on this map links to its module text. Upper-floor geometry remains schematic, not a traced reproduction.</p><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help">↑↓ walk · ←→ turn · Mouse look optional · Shift run · Drag map title to move<br>F torch · M map · Tab notes · G DM mode<br>Enter dismiss room description · Esc mouse release</div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.56 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.61 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Every K label listed on this map links to its module text. Upper-floor geometry remains schematic, not a traced reproduction.</p><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help">↑↓ walk · ←→ turn · Mouse look optional · Shift run · Drag map title to move<br>F torch · M map · Tab notes · G DM mode<br>Enter dismiss room description · Esc mouse release</div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.61 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -435,17 +435,10 @@ function renderRoomDirectory(){
 // The original K-number-to-drawing index is deployed next to castle.html.
 // It is intentionally used only by the reference window: the previously working
 // automatic room-entry image popup remains untouched.
-let referenceRoomImageMap=null;
+// The K-Room Index and automatic popup share the same manifest-backed mapping.
 function referenceRoomImagePath(id){
- const fromJson=referenceRoomImageMap?.[id];
- if(typeof fromJson==='string' && normalizeRoomImagePath(fromJson))return normalizeRoomImagePath(fromJson);
- // Built-in filename list already powering room-entry artwork (fallback only).
  return GROUND_ROOM_IMAGES[id]||null;
 }
-fetch(roomAssetUrl('room-image-map.json'),{cache:'no-cache'})
- .then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
- .then(map=>{if(map&&typeof map==='object'&&!Array.isArray(map)){referenceRoomImageMap=map;applyRoomImageManifest(map);}})
- .catch(err=>{console.warn('Room-image JSON unavailable; using existing image filenames.',err)});
 function openI6RoomReference(id){
  const d=MODULE_ROOM_DATA[id]||{};const parent=d.inherited?MODULE_ROOM_DATA[d.inherited]:null;
  document.getElementById('i6ReferenceTitle').textContent=id+' · '+(d.name||id);
@@ -807,20 +800,16 @@ setLabel();
 })();
 </script>
 <script>
-// v0.9.56: Resolve the EXISTING images folder relative to the castle asset directory.
-// Works from Ravenloft-I6/castle.html and Ravenloft-I6/castle-ravenloft/index.html.
-const ROOM_ASSET_BASE=new URL(location.pathname.includes('/castle-ravenloft/')?'../':'./',location.href);
-function roomAssetUrl(path){return new URL(path,ROOM_ASSET_BASE).href;}
 // Exact paths bundled in the HTML to avoid JSON loading failures.
 const ROOM_SVG_FILENAMES='K01_Front_Courtyard.svg|K02_Center_Court_Gate.svg|K03_Servants_Court.svg|K04_Carriage_House.svg|K05_Chapel_Garden.svg|K06_Overlook.svg|K07_Entry.svg|K08_Great_Entry.svg|K09_Guests_Hall.svg|K10_Dining_Hall.svg|K11_South_Ground_Archers_Post.svg|K12_Turret_Post.svg|K13_Turret_Post_Access_Hall.svg|K14_Hall_of_Faith.svg|K15_Chapel_of_Ravenloft.svg|K16_North_Chapel_Alcoves.svg|K17_South_Chapel_Alcoves.svg|K18_High_Tower_Staircase.svg|K19_Grand_Landing.svg|K20_Tower_Hall_of_Honor.svg|K21_South_Tower_Stair.svg|K22_Archers_Post.svg|K23_Servants_Entrance.svg|K24_Servants_Quarters.svg|K25_Audience_Hall.svg|K26_Guard_s_Post.svg|K27_Hall_of_Grace.svg|K28_King_s_Worship_Place.svg|K29_Creaking_Landing.svg|K30_Office_of_the_King_s_Accountant.svg|K31_Trapworks.svg|K32_Maid_s_Hall.svg|K33_King_s_Apartment_Stair.svg|K34_Servants_Upper_Floor.svg|K35_Facing_Guardians.svg|K36_Dining_Hall_of_the_Count.svg|K37_Study.svg|K38_False_Treasury.svg|K39_Hall_of_Riches.svg|K40_Belfry.svg|K41_Treasury.svg|K42_Bedchamber.svg|K43_Bath_Chamber.svg|K44_Closet.svg|K45_Hall_of_Heroes.svg|K46_Courtyard_Overlook.svg|K47_The_Landing.svg|K48_Offstair.svg|K49_Lounge.svg|K50_Guestroom.svg|K51_Closet.svg|K52_Smokestack.svg|K53_Rooftop.svg|K54_Familiar_Room.svg|K55_Element_Room.svg|K56_Caldron.svg|K57_Parapet_Pentagram.svg|K58_Bridge.svg|K59_Hightower_Peak.svg|K60_Northtower_Peak.svg|K61_Hallway.svg|K62_Servants_Hall.svg|K63_Wine_Cellar.svg|K64_Guards_Stair.svg|K65_Kitchen.svg|K66_Butler_s_Quarters.svg|K67_Guards_Hall.svg|K68_Guards_Run.svg|K69_Guards_Quarters.svg|K70_Kingsman_Hall.svg|K71_Kingsmen_Quarters.svg|K72_Office_of_Vengeance.svg|K73_Dungeon_Hall.svg|K74_North_Dungeon.svg|K75_South_Dungeon.svg|K76_Torture_Room.svg|K77_Observation_Balcony.svg|K78_Brazier_Room.svg|K79_Western_Stair.svg|K80_Center_Stair.svg|K81_Tunnel.svg|K82_Marble_Slide.svg|K83_Western_Stair.svg|K84_The_Catacombs.svg|K85_Tomb_of_Sergei_Von_Zarovich.svg|K86_Tomb_of_Strahd_Von_Zarovich.svg|K87_Guardians.svg|K88_Tomb_of_Barov_and_Ravenovia.svg'.split("|");
-const GROUND_ROOM_IMAGES=Object.fromEntries(ROOM_SVG_FILENAMES.map((name,i)=>["K"+(i+1),roomAssetUrl("images/"+name)]));
+const GROUND_ROOM_IMAGES=Object.fromEntries(ROOM_SVG_FILENAMES.map((name,i)=>["K"+(i+1),"images/"+name]));
 // v0.9.36 behavior restored: JSON manifest is authoritative for BOTH room popups.
 // The bundled SVG list is a fallback only, never an override of the manifest.
 function normalizeRoomImagePath(value){
  if(typeof value!== 'string')return null;
  const path=value.trim().replace(/\\/g,'/');
  if(!path||/^(?:https?:|data:|javascript:|\/)/i.test(path)||path.includes('..'))return null;
- return roomAssetUrl(path.startsWith('images/')?path:'images/'+path);
+ return path.startsWith('images/')?path:'images/'+path;
 }
 function applyRoomImageManifest(map){
  if(!map||typeof map!=='object'||Array.isArray(map))return;
@@ -830,7 +819,7 @@ function applyRoomImageManifest(map){
  }
  if(latestRoomImageEntry?.id && roomImagesEnabled && !roomImagesSeen.has(latestRoomImageEntry.id))showRoomArtOnEntry(latestRoomImageEntry);
 }
-fetch(roomAssetUrl('room-image-map.json'),{cache:'no-store'})
+fetch('room-image-map.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
  .then(applyRoomImageManifest)
  .catch(err=>console.warn('Room-image manifest unavailable; using SVG filename fallback:',err));
@@ -847,43 +836,33 @@ let latestRoomImageEntry=null;
 function showRoomArtOnEntry(info,force=false){
  if(!info||!roomImagesEnabled||!GROUND_ROOM_IMAGES[info.id]||(!force&&roomImagesSeen.has(info.id)))return;
  const id=info.id;
+ if(!force&&pendingRoomArtId===id)return;
  pendingRoomArtId=id;
  const overlay=document.getElementById('roomArtOverlay');
  const img=document.getElementById('roomArtImg');
  const card=document.getElementById('roomArtCard');
  let err=document.getElementById('roomArtLoadError');
- if(!err){
-  err=document.createElement('div');
-  err.id='roomArtLoadError';
-  err.style.cssText='display:none;color:#ffd0ab;padding:12px;font-size:14px';
-  card.insertBefore(err,document.getElementById('roomArtClose'));
- }
- document.getElementById('roomArtHeading').textContent=(keyLocationsVisible?id+' · ':'')+(info.name||'Room');
+ if(!err){err=document.createElement('div');err.id='roomArtLoadError';err.style.cssText='display:none;color:#ffd0ab;padding:12px;font-size:14px';card.insertBefore(err,document.getElementById('roomArtClose'));}
  const path=GROUND_ROOM_IMAGES[id];
- const reveal=()=>{
+ document.getElementById('roomArtHeading').textContent=document.getElementById('noteTitle').textContent.trim() || (id+' · '+(info.name||'Room'));
+ function reveal(){
   if(!roomImagesEnabled||pendingRoomArtId!==id)return;
-  if(document.getElementById('start').style.display!=='none')return;
-  if(document.getElementById('encounterShock').style.display==='block'||document.getElementById('popup').style.display==='block'){
-   setTimeout(reveal,400);return;
-  }
-  overlay.style.display='flex';
+  if(document.getElementById('start').style.display!=='none'){setTimeout(reveal,150);return;}
+  if(document.getElementById('encounterShock').style.display==='block'||document.getElementById('popup').style.display==='block'){setTimeout(reveal,400);return;}
   roomImagesSeen.add(id);
+  overlay.style.display='flex';
   document.exitPointerLock?.();
- };
- img.onload=()=>{
-  if(pendingRoomArtId!==id)return;
-  img.style.display='block';err.style.display='none';
- };
+ }
+ img.onload=()=>{if(pendingRoomArtId!==id)return;err.style.display='none';img.style.display='block';};
  img.onerror=()=>{
   if(pendingRoomArtId!==id)return;
   img.style.display='none';err.style.display='block';
-  err.textContent='Image could not load: '+path;
+  err.textContent='Could not load the room image at '+path+'. Verify the image exists in Ravenloft-I6/images/ with the exact filename and capitalization.';
   console.warn('Room illustration failed:',path);
  };
  img.style.display='block';err.style.display='none';
- img.removeAttribute('src');
- img.src=path;
- // Working Ravenloft behavior: room-entry popup is independent of SVG load success.
+ img.removeAttribute('src');img.src=path;
+ // The working legacy behavior: room entry opens the popup regardless of image load.
  setTimeout(reveal,100);
 }
 window.addEventListener('dndpov-room-entry',e=>{
@@ -900,4 +879,13 @@ viewRoomArtButton.onclick=()=>{
 };
 document.getElementById('roomImagesToggle').insertAdjacentElement('afterend',viewRoomArtButton);
 addEventListener('keydown',e=>{if((e.code==='Enter'||e.code==='Escape')&&document.getElementById('roomArtOverlay').style.display==='flex'){e.preventDefault();e.stopImmediatePropagation();closeRoomArt()}},true);
-</script></body></html>
+</script>
+<script>
+// Trigger the same room illustration for the starting room after Begin Exploration.
+document.getElementById('begin').addEventListener('click',()=>setTimeout(()=>{
+ const title=document.getElementById('noteTitle').textContent.trim();
+ const match=/^(K\d{1,2})\s*[·:—-]?\s*(.*)$/.exec(title);
+ if(match)window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:match[1],name:match[2]}}));
+},150));
+</script>
+</body></html>

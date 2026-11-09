@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNDPOV — Lands of Barovia · v0.13</title>
+<style>
+:root{color-scheme:dark;--gold:#d2a76a}*{box-sizing:border-box}body{margin:0;background:#0c0b11;color:#efdfc4;font:14px Georgia,serif;overflow:hidden}button,select{font:12px Georgia,serif;color:#e8d2a4;background:#211a18;border:1px solid #8a6d44;border-radius:2px;padding:7px 10px;cursor:pointer}button:hover{background:#493628}#world{display:block;width:100vw;height:100vh}#cross{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#f2c88b;z-index:2;pointer-events:none} .panel{background:#0c0a0ce9;border:1px solid #795d3e;box-shadow:0 4px 20px #0009;position:fixed;z-index:5}#header{top:14px;left:14px;width:340px;padding:13px 16px}h1{margin:0 0 4px;color:#f1c681;font-size:24px;letter-spacing:.04em}small{color:#c8b293}#locbox{top:98px;left:14px;width:340px;max-height:68vh;overflow:auto;padding:16px}#locbox h2{color:#edc184;margin:0 0 10px;font-size:19px}[hidden]{display:none!important}#readout{font-style:italic;line-height:1.48;background:#272024;border-left:3px solid #cf9e59;padding:10px;white-space:pre-line}#dmtext{font-size:12.5px;line-height:1.5;margin-top:13px;white-space:pre-line;border-top:1px solid #725439;padding-top:12px}#minibox{right:15px;top:14px;padding:9px;width:340px}#minibox h3{color:#f3c785;font-size:12px;margin:0 0 7px}#map{display:block;width:320px;height:268px;background:#18171b;cursor:crosshair}#maptools{display:flex;gap:6px;justify-content:center;margin-top:7px}#controls{right:15px;bottom:15px;padding:9px;display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;width:435px}#controls button{padding:7px 9px}#help{left:14px;bottom:14px;padding:11px;font:12px/1.6 Georgia;color:#dfcfb7;max-width:430px}#navhint{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);z-index:3;padding:8px 13px;background:#160e10ee;border:1px solid #8d683e;color:#f9d69b;text-align:center}#banner{position:fixed;left:50%;top:15px;transform:translateX(-50%);padding:8px 15px;background:#1b1517eb;border:1px solid #79573b;z-index:3;font-size:12px;white-space:nowrap}#overlay{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;z-index:20}#intro{max-width:520px;padding:32px;border:1px solid #b78e50;background:#151015;color:#e8d7be;box-shadow:0 20px 55px #000}#intro h2{font-size:26px;margin:0 0 13px;color:#eac27a}#intro p{line-height:1.6}#storyOverlay{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:15}#story{background:#151013;border:2px solid #b58b50;width:min(650px,90vw);max-height:86vh;overflow:auto;padding:25px}#story h2{margin:0 0 12px;color:#e8bd78}#story .reader{white-space:pre-line;border-left:3px solid #bc8c4a;padding:12px;background:#282124;font-style:italic;line-height:1.6}#story .dm{white-space:pre-line;font-size:13px;line-height:1.5;margin-top:16px;border-top:1px solid #65492c;padding-top:12px}#story button{margin-top:17px}#encounterOverlay{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:19;padding:18px}
+#encounterCard{position:relative;background:#191315;border:2px solid #9c7547;color:#eadac0;max-height:91vh;overflow:auto;width:min(920px,96vw);padding:20px 24px}
+#encounterCard h2{color:#e9be7c;margin:0 0 7px}
+#encounterCard h3{color:#dfbd83;margin:16px 0 7px;font-size:17px}
+#encounterCard p{line-height:1.55}
+#encounterCard table{border-collapse:collapse;width:100%;font-size:13px}
+#encounterCard td,#encounterCard th{border-bottom:1px solid #574533;text-align:left;padding:7px;vertical-align:top}
+#encounterCard th{color:#efcb8c}
+#encounterCard .warning{color:#f3c084;background:#32251c;padding:9px}
+#encounterCard .tiny{color:#baa991;font-size:12px}
+#encounterClose{position:absolute;right:15px;top:15px}
+#encounterControls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+#encounterResult{margin:9px 0 0;white-space:pre-wrap;color:#ebc88d}
+#journey{max-width:190px}#mapKeys{white-space:nowrap}@media(max-width:950px){#header{width:260px}#locbox{width:260px}#minibox{width:250px}#map{width:228px;height:225px}#controls{width:340px}#banner{display:none}}
+
+#locbox{max-height:calc(100vh - 215px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#795b3c #171216}
+#locbox h3{color:#e5b978;font-size:15px;margin:0 0 7px}
+#locbox h4{color:#e0bd86;margin:11px 0 5px;font-size:13px}
+#locbox .sidecaption{color:#d7a76e;font-size:10px;letter-spacing:1px}
+#locbox .sideSection{border-top:1px solid #6e5435;margin-top:13px;padding-top:12px}
+#locbox #localEncounterText,#locbox #dmtext{font:13px/1.5 Georgia,serif;color:#d9c6a8;white-space:pre-line}
+#locbox #dmtext{border-top:1px dashed #604b36;margin-top:10px;padding-top:10px;font-size:12px}
+#locbox .sideSummaryButton{display:flex;align-items:center;justify-content:space-between;width:100%;font-weight:bold;font-size:14px;color:#f4d194;padding:10px 9px}
+#locbox #sideSummary{font-size:12px;line-height:1.45}
+#locbox #sideSummary table{border-collapse:collapse;width:100%;font-size:11px;table-layout:fixed}
+#locbox #sideSummary th,#locbox #sideSummary td{border-bottom:1px solid #554333;padding:5px 3px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+#locbox #sideSummary th{color:#efc585}
+#locbox #sideSummary table th:first-child,#locbox #sideSummary table td:first-child{width:31%}
+#locbox #sideSummary .warning{color:#f0c38b;background:#31241d;padding:6px}
+#locbox #sideSummary .tiny,#locbox #sideSummary .sideFine{color:#c3af92;font-size:11px}
+#locbox #sideSummary h3{margin-top:13px;font-size:13px}
+#locbox .summaryRoll{display:flex;gap:6px}
+#locbox .summaryRoll select{min-width:0;flex:1}
+#locbox #sideEncounterResult{white-space:pre-line;color:#f0cf9a}
+</style></head><body>
+<canvas id="world"></canvas><div id="cross">+</div>
+<div id="header" class="panel"><h1>LANDS OF BAROVIA</h1><small>DNDPOV · Illustrated first-person exploration · v0.13<br><span id="currentName">The Old Inn</span></small></div>
+<aside id="locbox" class="panel"><h2 id="place">The Old Inn</h2><div id="descriptionSection"><div class="sidecaption">MODULE • READ ALOUD</div><p id="readout"></p></div>
+<section id="localEncounters" class="sideSection"><h3>Location Encounter Rules</h3><p id="localEncounterText">Enable DM mode to view encounter details for this location.</p><div id="dmtext" hidden></div></section>
+<section class="sideSection"><button id="sideEncounterSummary" class="sideSummaryButton" aria-expanded="false">Encounter Summary <span id="sideSummaryChevron">▾</span></button>
+<div id="sideSummary" hidden><p class="sideFine">Entire Lands of Barovia · DM reference</p><div id="sideEncounterContent"></div>
+<h4>Manual encounter check</h4><div class="summaryRoll"><select id="sideEncounterTime"><option value="day">Daytime</option><option value="night">Nighttime</option></select><button id="sideRollEncounter">Roll</button></div><p id="sideEncounterResult"></p></div></section></aside>
+<aside id="minibox" class="panel"><h3>LANDS OF BAROVIA · ROUTE MAP</h3><canvas id="map" width="320" height="268"></canvas><div id="maptools"><button id="mapKeys">Hide Key Locations</button><button id="mapCenter">Center</button></div></aside>
+<div id="banner">Svalich Road · Gates · Village · Tser Pool · Castle approach</div>
+<div id="navhint">Walk the road, turn with left/right, and press E near a keyed location</div>
+<div id="help" class="panel">W / ↑ forward · S / ↓ backward · A / D strafe<br>← / → rotate · Mouse drag to look · Shift run<br>E explore location · M map · T torch · Esc close popup</div>
+<div id="controls" class="panel"><button id="left">← Turn Left</button><button id="right">Turn Right →</button><button id="examine">Location Details (E)</button><button id="torch">Torch: ON</button><button id="dm">DM: OFF</button><button id="descriptions" aria-pressed="false" title="Turn all module read-aloud descriptions on or off">Hide Descriptions</button><button id="keys">Hide Key Locations</button><button id="hideMap">Hide Map</button><select id="journey" title="Jump to an area for preview"><option value="">Jump to landmark…</option></select><button id="village">Village Walkthrough</button><button id="castle">Castle Walkthrough</button></div>
+<div id="encounterOverlay"><div id="encounterCard">
+<button id="encounterClose">Close ×</button>
+<h2>Lands of Barovia · DM Encounter Summary</h2>
+<p class="tiny">Original I6: Lands of Barovia, planned encounters and Tables 4–5 (module pp. 6–9). DM-only reference; use tabletop rules for resolution.</p>
+<div id="encounterContent"></div>
+<h3>Manual outdoor random-encounter check</h3><div id="encounterControls"><label>Time <select id="encounterTime"><option value="day">Daytime</option><option value="night">Nighttime</option></select></label><button id="rollEncounter">Roll Encounter</button></div>
+<div id="encounterResult"></div>
+</div></div>
+<div id="overlay"><div id="intro"><h2>Lands of Barovia</h2><p>Travel through the haunted Svalich Woods, pass the Gates of Barovia, discover the Tser Pool encampment, and approach Castle Ravenloft.</p><p>The visual landscape is a <b>stylized playable prototype</b>, not a surveyed reconstruction of Map 1. Original I6 read-aloud text appears at keyed locations; some structures are now enterable with E at the door, and DM material is separate.</p><button id="begin">Begin Exploration</button></div></div>
+<div id="storyOverlay"><div id="story"><h2 id="storyTitle"></h2><div class="reader" id="storyRead"></div><div class="dm" id="storyDM" hidden></div><button id="storyClose">Continue Exploring (Enter)</button></div></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const locations=[
+{id:'INN',name:'The Old Inn',x:-4.70,z:100,r:9,player:`To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.\n\nOutside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.\n\nYet inside these tavern walls the food is hearty and the ale is warm and frothy. A fire blazes in the hearth and the tavern is alive with the tumbling voices of country folk.\n\nSuddenly, a hush falls over the tavern. Even the flagons of
+ale seem to silence themselves. The tavern door swings open.
+Framed by the lamp-lit fog, a form strides into the room. His
+heavy, booted footfalls and the jingle of his coins shatter the
+silence. His brightly colored clothes are draped in loose folds
+about him and his hat hangs askew, hiding his eyes in shadows.
+Without hesitation, he walks directly up to your table and
+stands proudly in a wide stance with folded arms.
+His accented voice speaks, "I have been sent to you to deliver
+this messagel If you be creatures of honor, you will come to my
+master's aid at first light. It is not advisable to travel the Svalich
+woods at night!" He pulls from his tunic a sealed letter,
+addressed to all of you in beautiful flowing script. He drops the
+letter on the table. "Take the west road from here some five
+hours march down through the Svalich woods. There you will
+find my master in Barovia."
+Amid the continued silent stares of the patronage, the gypsy
+strides to the bar and says to the wary barkeeper, "Fill the
+glasses, one and all. Their throats are obviously parched." He
+drops a purse heavy with gold on the bar. With that, he leaves.
+The babble of tavern voices resumes, although somewhat
+subdued. The letter is lying before you. Dated yesterday, the ink
+is still not dry and the parchment is crisp. The seal is of a crest
+you don't recognize.`,dm:`Planned Encounters, opening inn: the PCs begin at an old inn east of Barovia. A messenger arrives with a sealed invitation supposedly from the Burgomaster. Present the letter from the original module. The players can make preparations before setting out.`},
+{id:'A',name:'The Old Svalich Road',x:0,z:65,r:12,player:`Black pools of water stand like dark mirrors about the muddy roadway. Thick, cold mists spread a pallor over the road. Giant tree trunks stand on both sides of the road, their branches clawing into the mists. In every direction the mists grow thicker and the forest grows more oppressive.`,dm:`The journey from the opening inn to B, Gates of Barovia, takes five hours on the road.`},
+{id:'B',name:'The Gates of Barovia',x:0,z:42,r:13,player:`Jutting from the impenetrable woods on both sides of the road, high stone buttresses loom up gray in the fog. Huge iron gates hang on the stonework. Dew clings with cold tenacity to the rusted bars. Two statues of armed guardians silently flank the gate. Their heads, missing from their shoulders, now lie among the weeds at their feet. They greet you only with silence.`,dm:`When PCs approach within 50 feet, the gates open and then close after they pass. They will not open for PCs from within Barovia; crossing the border brings the magical fog's choking effect. See the Lands of Barovia rules.`},
+{id:'C',name:'The Svalich Woods',x:0,z:17,r:14,player:`Towering trees, whose tops are lost in heavy gray mist, block out all save a death-gray light. The tree trunks almost touch. The thick, damp undergrowth presses in on you, making it impossible even to see one another at all times. The woods have the silence of a forgotten grave, yet exude the feeling of an unsounded scream.`,dm:`After three turns in the woods, PCs find a dead villager with an envelope bearing the Burgomaster's genuine warning. The module also prescribes wolf howling checks and attacks while in the woods. Use the original text and statistics for timing and resolution.`},
+{id:'D',name:'The River Ivlis',x:0,z:-3,r:11,player:`The river Ivlis flows as clear as a blue winter sky through the valley.`,dm:`A geographic landmark on Map 1. The bridge in this prototype represents the river crossing; the precise bridge shape is interpretive.`},
+{id:'E',name:'Village of Barovia',x:0,z:-24,r:13,player:`Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing that echoes through the streets from a distance.`,dm:`The village's E1–E7 keyed locations are represented in the separate Village of Barovia walkthrough. Most shops are abandoned, with exceptions E1 and E2. See the original module for home occupancy and encounter rules.`},
+{id:'F',name:'Road Junction',x:0,z:-48,r:12,player:`Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves.`,dm:`The northern fork leads to G, the Tser Pool encampment. The southern road leads toward I, the carriage.`},
+{id:'G',name:'Tser Pool Encampment',x:-44,z:-78,r:17,player:`The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp.`,dm:`There are ten Vistani at the camp, who invite PCs to join them. A member of the troupe leads them to Madam Eva at G1. Use the original module for reactions, character statistics and the Fortunes of Ravenloft reading.`},
+{id:'G1',name:"Madam Eva's Tent",x:-55,z:-83.6,r:7.5,player:`Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. "At last you have arrived!" Her sudden cackling laughter bursts like mad lightning from her withered lips.`,dm:`Madam Eva offers to read the PCs' fortunes. The DM should perform the Fortunes of Ravenloft procedure from the original module; a new reading supersedes the previous results. Madam Eva is a level-10 cleric, neutral, and cunning. This prototype does not automatically generate the fortune reading.`},
+{id:'H',name:'Tser Falls',x:-73,z:-107,r:12,player:`This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead.`,dm:`The stone bridge above the waterfall is described as nearly one thousand feet overhead. In this alpha its scale and terrain are intentionally condensed.`},
+{id:'I',name:'The Carriage',x:42,z:-89,r:11,player:`Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently.`,dm:`The carriage is controlled by Strahd. Once PCs enter it, the horses travel to J, the Gates of Ravenloft, and cannot be discouraged. The carriage journey is represented by the road in this prototype; no automatic carriage ride yet.`},
+{id:'J',name:'The Gates of Ravenloft',x:78,z:-125,r:16,player:`After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below.`,dm:`A lowered drawbridge crosses the precipice between the approach and the castle. Continue using the original J boxed text for the drawbridge, gargoyles and gate tunnel. The castle's K1–K88 rooms are represented in the separate Castle Ravenloft walkthrough.`}
+];
+const scene=new THREE.Scene();scene.background=new THREE.Color('#23232c');scene.fog=new THREE.FogExp2('#252832',.0125);
+const camera=new THREE.PerspectiveCamera(74,innerWidth/innerHeight,.08,450);
+const renderer=new THREE.WebGLRenderer({canvas:$('world'),antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
+const hemi=new THREE.HemisphereLight('#9c99a2','#181b16',.64);scene.add(hemi);
+const moon=new THREE.DirectionalLight('#b5b6ca',.40);moon.position.set(-40,90,-65);scene.add(moon);
+const torchLight=new THREE.PointLight('#ffb261',2.6,22,2);scene.add(torchLight);
+const mats={ground:new THREE.MeshLambertMaterial({color:'#242922'}),road:new THREE.MeshLambertMaterial({color:'#453b36'}),road2:new THREE.MeshLambertMaterial({color:'#51433c'}),water:new THREE.MeshLambertMaterial({color:'#405a67',transparent:true,opacity:.85}),stone:new THREE.MeshLambertMaterial({color:'#545359'}),dark:new THREE.MeshLambertMaterial({color:'#242128'}),wood:new THREE.MeshLambertMaterial({color:'#4c342c'}),roof:new THREE.MeshLambertMaterial({color:'#282531'}),leaves:new THREE.MeshLambertMaterial({color:'#1d2822'}),needles:new THREE.MeshLambertMaterial({color:'#182620'}),camp:new THREE.MeshLambertMaterial({color:'#653d35',side:THREE.DoubleSide}),campGold:new THREE.MeshLambertMaterial({color:'#6e6040',side:THREE.DoubleSide}),campBlue:new THREE.MeshLambertMaterial({color:'#46597a',side:THREE.DoubleSide}),campTeal:new THREE.MeshLambertMaterial({color:'#45615d',side:THREE.DoubleSide}),campCream:new THREE.MeshLambertMaterial({color:'#c0ae88',side:THREE.DoubleSide}),fire:new THREE.MeshBasicMaterial({color:'#f6a345'}),lamp:new THREE.MeshBasicMaterial({color:'#ffb979'})};
+function box(g,x,y,z,w,h,d,m){const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);q.position.set(x,y,z);g.add(q);return q}
+function cyl(g,x,y,z,r1,r2,h,m,segments=8){const q=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,segments),m);q.position.set(x,y,z);g.add(q);return q}
+function cone(g,x,y,z,r,h,m){const q=new THREE.Mesh(new THREE.ConeGeometry(r,h,7),m);q.position.set(x,y,z);g.add(q);return q}
+function pathSegment(ax,az,bx,bz,width=7,material=mats.road){const dx=bx-ax,dz=bz-az,len=Math.hypot(dx,dz);const mesh=box(scene,(ax+bx)/2,.035,(az+bz)/2,width,.06,len,material);mesh.rotation.y=Math.atan2(dx,dz);return mesh}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function makeTextTexture(text,w=512,h=160,bg='#37261c',fg='#f3d9aa'){
+ const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+ x.fillStyle=bg;x.fillRect(0,0,w,h);
+ // subtle carved wood grain, not an illuminated neon outline
+ x.fillStyle='rgba(6,3,2,.22)';for(let y=12;y<h;y+=22){x.fillRect(0,y,w,2)}
+ x.fillStyle=fg;x.textAlign='center';x.textBaseline='middle';
+ const words=text.toUpperCase().split(' ');
+ let lines=[text.toUpperCase()];
+ if(text.length>13){const mid=Math.ceil(words.length/2);lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')];}
+ const fontSize=lines.length>1?47:61;x.font='bold '+fontSize+'px Georgia,serif';
+ lines.forEach((line,i)=>x.fillText(line,w/2,h/2+(i-(lines.length-1)/2)*57,w-24));
+ const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=4;return tex;
+}
+function addNamedTorchSign(group,x,y,z,text,face='front'){
+ // Double-sided so the sign cannot disappear when seen from the other side.
+ const boardMat=new THREE.MeshBasicMaterial({map:makeTextTexture(text),side:THREE.DoubleSide});
+ const board=new THREE.Mesh(new THREE.PlaneGeometry(5.4,1.75),boardMat);board.position.set(x,y,z);
+ // A plane faces +Z by default. +90 degrees faces +X (the road here).
+ if(face==='back')board.rotation.y=Math.PI;
+ else if(face==='right')board.rotation.y=Math.PI/2;
+ else if(face==='left')board.rotation.y=-Math.PI/2;
+ group.add(board);
+ const sideFacing=face==='right'||face==='left';
+ for(const signSide of [-1,1]){
+   const sx=x+(sideFacing?0:signSide*3.15),sz=z+(sideFacing?signSide*3.15:0);
+   box(group,sx,y-.6,sz,.16,1.35,.16,mats.wood);
+   cone(group,sx,y+.20,sz,.19,.52,mats.fire);
+   const light=new THREE.PointLight('#ffaa54',1.55,10,2);
+   light.position.set(group.position.x+sx,group.position.y+y+.2,group.position.z+sz);
+   scene.add(light);
+ }
+ return board;
+}
+// Same collision method as the working Village of Barovia: register *every*
+// building footprint, then check movement against every solid independently.
+const collisionBoxes=[];
+function addCollisionBox(minX,maxX,minZ,maxZ){collisionBoxes.push({minX,maxX,minZ,maxZ})}
+function addSolid(x,z,w,d){addCollisionBox(x-w/2,x+w/2,z-d/2,z+d/2)}
+function blockedAt(x,z){const radius=.48;return collisionBoxes.some(b=>x>b.minX-radius&&x<b.maxX+radius&&z>b.minZ-radius&&z<b.maxZ+radius)}
+const enterables={};
+function addEnterable(def){enterables[def.id]=def; return def}
+function currentMapPos(){ if(inside&&activeEnterable&&enterables[activeEnterable]){ const e=enterables[activeEnterable]; return {x:e.exterior.x,z:e.exterior.z}; } return {x:px,z:pz}; }
+// Identical approach as village streetDoor/currentEntry: the accessible marker
+// lives just OUTSIDE the visible doorway, not at the centre of the structure.
+// Village v0.3.8 interaction model: one shared currentEntry/interact path,
+// keyed to the street-facing entrance rather than the solid wall or center.
+function streetDoor(e){return {x:e.exterior.x,z:e.exterior.z};}
+function currentEntry(){
+ if(inside)return null;
+ let best=null,min=Infinity;
+ for(const e of Object.values(enterables)){
+  const door=streetDoor(e),dist=Math.hypot(px-door.x,pz-door.z);
+  if(dist<min){best=e;min=dist;}
+ }
+ // The inn's actual door is at x=-6.36; its collision wall stops the
+ // player around x=-5.9. An 11-unit approach makes the prompt reachable.
+ return min<11.5?best:null;
+}
+function nearestEnterableDoor(){return currentEntry()}
+function canExitInterior(){return inside&&!!activeEnterable}
+function enterStructure(id){
+ const e=enterables[id];if(!e)return;
+ inside=true;activeEnterable=id;
+ savedExterior={x:px,z:pz,ang,pitch};
+ px=e.interior.spawn.x;pz=e.interior.spawn.z;ang=e.interior.spawn.ang;pitch=0;
+ lastLocation='';const l=locations.find(q=>q.id===id);
+ setStatus(l);openLocation(l);
+}
+function exitStructure(){
+ if(!inside||!activeEnterable)return;
+ const e=enterables[activeEnterable];inside=false;
+ px=e.exterior.returnX;pz=e.exterior.returnZ;ang=e.exterior.returnAng;
+ pitch=0;activeEnterable='';lastLocation='';closeLocation();
+}
+function interact(){
+ // Exact Village order: dismiss the read-aloud first, then use E again to exit.
+ if($('storyOverlay').style.display==='flex'){closeLocation();return;}
+ if(inside){exitStructure();return;}
+ const e=currentEntry();
+ if(e){enterStructure(e.id);return;}
+ const loc=nearestLocation();
+ if(loc){if(descriptionsOn)openLocation(loc);return;}
+ $('navhint').textContent='Approach an illuminated doorway to enter (E).';
+}
+function handleActionKey(){interact()}
+function buildSimpleInterior(id,title,cx,cz,w,d,style='tavern'){
+ const g=new THREE.Group(); scene.add(g);
+ const floorMat= style==='tent' ? new THREE.MeshLambertMaterial({color:'#5b4536'}) : new THREE.MeshLambertMaterial({color:'#4b4037'});
+ const wallMat= style==='tent' ? new THREE.MeshLambertMaterial({color:'#6b4238',side:THREE.DoubleSide}) : new THREE.MeshLambertMaterial({color:'#5b575a'});
+ const roofMat= style==='tent' ? new THREE.MeshLambertMaterial({color:'#70443d',side:THREE.DoubleSide}) : new THREE.MeshLambertMaterial({color:'#2a2830'});
+ const floor=box(g,cx,0,cz,w,.2,d,floorMat);
+ // walls
+ box(g,cx,4.2,cz-d/2,w,8,.4,wallMat); box(g,cx,4.2,cz+d/2,w,8,.4,wallMat); box(g,cx-w/2,4.2,cz,.4,8,d,wallMat); box(g,cx+w/2,4.2,cz,.4,8,d,wallMat);
+ if(style==='tent'){
+   const roof1=new THREE.Mesh(new THREE.PlaneGeometry(d,8),roofMat); roof1.position.set(cx-2.4,7,cz); roof1.rotation.z=.72; roof1.rotation.y=Math.PI/2; g.add(roof1);
+   const roof2=new THREE.Mesh(new THREE.PlaneGeometry(d,8),roofMat); roof2.position.set(cx+2.4,7,cz); roof2.rotation.z=-.72; roof2.rotation.y=Math.PI/2; g.add(roof2);
+   rug(g,cx,cz+1.5,4,5,mats.campCream); rug(g,cx-4,cz-1.5,2.4,3,mats.campGold); rug(g,cx+4,cz-1.5,2.4,3,mats.campGold);
+   box(g,cx,1,cz-5,2.6,1.6,1.6,mats.wood); lantern(g,cx-5,5.5,cz+d/2-.25); lantern(g,cx+5,5.5,cz+d/2-.25);
+ }
+ else {
+   box(g,cx,1,cz-6,8,2,1.8,mats.wood); box(g,cx-4.8,2.2,cz-4.5,3,4,1.3,mats.wood); box(g,cx+5.1,2.5,cz-2.8,1.8,5,1.8,mats.wood); box(g,cx+4,3.5,cz+5.3,4,3,.3,mats.dark);
+   const hearth=box(g,cx+4,1.1,cz+5.3,4,2.2,1,mats.stone); const flame=cone(g,cx+4,2.3,cz+5.3,.55,1.6,mats.fire); const hearthLight=new THREE.PointLight('#ff9c4b',2.1,18,2); hearthLight.position.set(cx+4,2.6,cz+5.3); scene.add(hearthLight);
+   lantern(g,cx-6,5.5,cz+d/2-.25); lantern(g,cx+6,5.5,cz+d/2-.25);
+ }
+ const exitDoor=box(g,cx,2.4,cz+d/2-.1,2.4,4.4,.2,landmarkDoorMaterial);
+ const label=new THREE.Mesh(new THREE.PlaneGeometry(4.8,.9),new THREE.MeshBasicMaterial({map:makeTextTexture(title,300,60,'#2a1b13','#f1d49a')})); label.position.set(cx,7.1,cz+d/2-.18); g.add(label);
+ return {center:{x:cx,z:cz},bounds:{minX:cx+w/2*-1+1,maxX:cx+w/2-1,minZ:cz-d/2+1,maxZ:cz+d/2-1},exit:{x:cx,z:cz+d/2-2.8,trigger:3.3},spawn:{x:cx,z:cz+1,ang:Math.PI}};
+}
+
+const grass=new THREE.Mesh(new THREE.PlaneGeometry(500,500),mats.ground);grass.rotation.x=-Math.PI/2;grass.position.y=-.09;scene.add(grass);
+const paths=[
+[[0,114],[0,-48]],[[0,-48],[-25,-62]],[[-25,-62],[-48,-80]],[[-48,-80],[-73,-107]],
+[[0,-48],[18,-64]],[[18,-64],[37,-88]],[[37,-88],[58,-107]],[[58,-107],[78,-125]]
+];
+for(const path of paths)for(let i=0;i<path.length-1;i++)pathSegment(...path[i],...path[i+1],9,mats.road);
+function seededRandom(seed){return ()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}}
+const rng=seededRandom(3781);const treeTrunk=new THREE.MeshLambertMaterial({color:'#292720'});
+const treeTemplates=[];
+// Keyed-location entrances share the coordinates used by map dots and interaction triggers.
+const landmarkDoorMaterial=new THREE.MeshLambertMaterial({color:'#241811'});
+const doorIronMaterial=new THREE.MeshLambertMaterial({color:'#171a1b'});
+function doorOnStreetWall(group,x,y,z,face='front',width=2.4){
+ const outward=face==='right';
+ const door=box(group,x,y,z,outward?.19:width,4.25,outward?width:.19,landmarkDoorMaterial);
+ if(outward){
+  for(const k of [-.67,.67])box(group,x+.1,y+k,z,.08,.08,width-.16,doorIronMaterial);
+  box(group,x+.16,y,z-.68,.15,.19,.18,mats.stone);
+  box(group,x+.19,y, z-.68,.09,.12,.11,mats.lamp);
+ }else{
+  for(const k of [-.67,.67])box(group,x,y+k,z+.1,width-.16,.08,.08,doorIronMaterial);
+  box(group,x-.70,y,z+.14,.17,.18,.16,mats.stone);
+ }
+ return door;
+}
+function locationThreshold(loc){return loc.id==='INN'||loc.id==='G1'?7:loc.r}
+
+function buildTree(){const group=new THREE.Group();cyl(group,0,4.5,0,.38,.65,9,treeTrunk,6);for(let i=0;i<3;i++){const foliage=new THREE.Mesh(new THREE.ConeGeometry(3.6-i*.5,6,7),mats.needles);foliage.position.y=8+i*2.5;group.add(foliage)}return group}
+const originalTree=buildTree();
+function distSeg(x,z,a,b){let ax=a[0],az=a[1],dx=b[0]-ax,dz=b[1]-az,t=Math.max(0,Math.min(1,((x-ax)*dx+(z-az)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-ax-t*dx,z-az-t*dz)}
+function nearRoad(x,z,threshold=11){return paths.some(path=>distSeg(x,z,path[0],path[1])<threshold)}function nearestRoadPoint(x,z){let best={d:1e9,x:x,z:z};for(const path of paths){for(let i=0;i<path.length-1;i++){const [ax,az]=path[i],[bx,bz]=path[i+1];const dx=bx-ax,dz=bz-az;const len2=dx*dx+dz*dz;let t=((x-ax)*dx+(z-az)*dz)/len2;t=Math.max(0,Math.min(1,t));const rx=ax+t*dx,rz=az+t*dz,d=Math.hypot(x-rx,z-rz);if(d<best.d)best={d:d,x:rx,z:rz};}}return best}
+
+for(let i=0;i<440;i++){const x=rng()*270-135,z=rng()*305-155;if(nearRoad(x,z)||Math.hypot(x+48,z+80)<30||Math.hypot(x-78,z+125)<27||Math.abs(z+3)<6||Math.hypot(x,z-94)<23)continue;const t=originalTree.clone();t.position.set(x,-.5,z);t.rotation.y=rng()*Math.PI*2;const sc=.7+rng()*.75;t.scale.setScalar(sc);scene.add(t)}
+// River Ivlis, its bridge, and submerged bank stones.
+box(scene,0,-.025,-3,240,.08,9,mats.water);pathSegment(0,5,0,-11,8,mats.road2);for(let i=-4;i<=4;i++){box(scene,-4.4,.7,-3+i*1.9,.3,1.4,.3,mats.wood);box(scene,4.4,.7,-3+i*1.9,.3,1.4,.3,mats.wood)}
+// Opening inn and a tiny outer settlement.
+function cottage(x,z,w=13,d=10,front='south'){
+ const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
+ box(g,0,4,0,w,8,d,mats.wood);
+ const roof=box(g,0,9.3,0,w+1.5,2,d+1.4,mats.roof);roof.rotation.z=.09;
+ if(front==='east'||front==='west'){
+   const side=front==='east'?1:-1;
+   doorOnStreetWall(g,side*(w/2+.14),2.2,0,'right');
+   for(const zz of [-d*.31,d*.31])box(g,side*(w/2+.15),5.3,zz,.18,1.55,1.45,mats.lamp);
+   box(g,side*(w/2+.13),4.5,0,.3,.6,3.2,mats.wood);
+ }else{
+   doorOnStreetWall(g,0,2.2,d/2+.14,'front');
+   for(const wx of [-w*.3,w*.3])box(g,wx,5,d/2+.16,1.5,1.7,.18,mats.lamp);
+ }
+ addSolid(x,z,w,d);
+ return g;
+}
+// The tavern door, its map pin, and its location trigger are all at (-6.45, 100).
+const roadsideInn=cottage(-14,100,15,12,'east');
+cottage(16,90,10,10,'south');cottage(17,110,9,8,'south');
+// Hand-painted tavern board beside the road-facing entrance.
+box(roadsideInn,7.8,6.05,0,.35,1.6,3.6,mats.wood);
+
+addNamedTorchSign(roadsideInn,8.85,5.35,0,'THE OLD INN','right');
+
+
+// Road gate pylons, iron bars and decapitated guardians.
+function gateAt(z){for(const x of [-7,7]){box(scene,x,5,z,4,10,4,mats.stone);box(scene,x,10.4,z,5,1.3,5,mats.dark);cyl(scene,x*1.75,2.4,z,1.1,1.25,4.7,mats.stone);box(scene,x*1.75,4.9,z,1.6,.55,.8,mats.stone)}
+/* Gate bars are animated by gateBars after the party crosses. */}
+const gateBars=new THREE.Group();scene.add(gateBars);gateBars.visible=false;
+for(let i=-6;i<=6;i++)box(gateBars,i,5,42,.20,10,.45,mats.dark);
+box(gateBars,0,10,42,15,.4,.5,mats.dark);box(gateBars,0,1,42,15,.4,.6,mats.dark);
+let baroviaGateClosed=false;
+function sealBaroviaGate(){
+ if(baroviaGateClosed)return;
+ baroviaGateClosed=true;
+ gateBars.visible=true;
+ $('navhint').textContent='The iron gates close behind you. There is no way back.';
+}
+gateAt(42);
+// Lower village gate and silhouettes; main village is separate walkthrough.
+for(let i=0;i<9;i++){let x=(i-4)*5; if(Math.abs(x)<6)continue;cottage(x,-24+(i%2)*7,7+rng()*4,8,x<0?'east':'west')}
+// A modest village boundary marker aligned with E on the map (not a fake building).
+for(const x of [-5.9,5.9]){box(scene,x,2.3,-24,.7,4.6,.7,mats.wood);box(scene,x,4.8,-24,1,.35,1,mats.roof)}
+box(scene,0,4.35,-24,12,.8,.65,mats.wood);
+// Winding path signs and an arrow at the fork.
+cyl(scene,4,2.3,-49,.22,.23,4.5,mats.wood);box(scene,4,4.2,-49,6,.65,.3,mats.wood);
+// Tser Pool and Vistani camp.
+const pool=new THREE.Mesh(new THREE.CircleGeometry(22,42),mats.water);pool.rotation.x=-Math.PI/2;pool.position.set(-66,.03,-80);pool.scale.set(1,.8,1);scene.add(pool);
+const campFire=new THREE.Group();campFire.position.set(-44,0,-78);scene.add(campFire);for(let i=0;i<8;i++){const a=i*Math.PI/4;box(campFire,Math.sin(a)*1.8,.3,Math.cos(a)*1.8,1.4,.7,.9,mats.stone)}const flame=cone(campFire,0,1.45,0,1.1,2.5,mats.fire);
+const campLight=new THREE.PointLight('#ff873a',3.1,28,2);campLight.position.set(-44,2,-78);scene.add(campLight);
+function rug(g,x,z,w,d,color){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),color);m.rotation.x=-Math.PI/2;m.position.set(x,.06,z);g.add(m);return m}
+function lantern(g,x,y,z){const post=cyl(g,x,y-1,z,.08,.08,2,mats.dark,6);const cage=box(g,x,y,z,.45,.6,.45,mats.dark);const glow=box(g,x,y,z,.3,.42,.3,mats.lamp);return glow}
+function tent(x,z,style='red'){
+ const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);
+ const body=style==='gold'?mats.campGold:style==='blue'?mats.campBlue:mats.camp;
+ const accent=style==='gold'?mats.campCream:style==='blue'?mats.campGold:mats.campTeal;
+ // platform and ridge frame
+ box(g,0,.34,0,8.2,.68,11.2,mats.wood);
+ cyl(g,0,4.9,0,.09,.09,9.6,mats.dark,6);
+ for(const sx of [-3.2,3.2]){const pole=cyl(g,sx,2.35,0,.12,.12,4.7,mats.dark,6); box(g,sx,4.7,0,.4,.25,.4,mats.dark)}
+ // side cloth panels
+ for(const side of [-1,1]){
+   const sideCloth=new THREE.Mesh(new THREE.PlaneGeometry(6.1,8.9),body); sideCloth.rotation.z=side*.9; sideCloth.rotation.y=Math.PI/2; sideCloth.position.set(side*2.95,2.65,0); g.add(sideCloth);
+   const trim=new THREE.Mesh(new THREE.PlaneGeometry(6.05,.45),accent); trim.rotation.z=side*.9; trim.rotation.y=Math.PI/2; trim.position.set(side*2.98,5.98,0); g.add(trim);
+ }
+ // front and rear flaps
+ const frontL=new THREE.Mesh(new THREE.PlaneGeometry(3.2,6.2),body); frontL.position.set(-2.32,3.1,5.32); frontL.rotation.x=-.12; g.add(frontL);
+ const frontR=new THREE.Mesh(new THREE.PlaneGeometry(3.2,6.2),body); frontR.position.set(2.32,3.1,5.32); frontR.rotation.x=.12; g.add(frontR);
+ const back=new THREE.Mesh(new THREE.PlaneGeometry(6.6,6.2),body); back.position.set(0,3.1,-5.25); g.add(back);
+ // decorative front canopy and pennants
+ const awn=new THREE.Mesh(new THREE.PlaneGeometry(6.6,2.6),accent); awn.rotation.x=Math.PI/2; awn.position.set(0,5.3,5.2); g.add(awn);
+ for(let i=-3;i<=3;i++){const penn=new THREE.Mesh(new THREE.ConeGeometry(.28,.78,3),i%2?accent:body); penn.position.set(i*.86,4.7,5.7); penn.rotation.x=Math.PI; g.add(penn)}
+ // rugs and camp dressing
+ rug(g,0,6.7,5.6,3.4,accent); rug(g,-2.2,-1.1,2.2,3.1,mats.campCream); rug(g,2.2,-1.1,2.2,3.1,mats.campCream);
+ box(g,-4.4,.55,1.7,1.4,1.1,1.4,mats.wood); box(g,4.2,.55,-2,1.4,1.1,1.4,mats.wood); box(g,0,.55,-4.4,1.8,1.1,1.2,mats.wood);
+ lantern(g,-3.5,4.1,5.15); lantern(g,3.5,4.1,5.15);
+ addSolid(x,z,7.7,10.5);
+ return g
+}
+const madamEvaTent=tent(-55,-89,'red');tent(-35,-88,'gold');tent(-50,-69,'blue');
+addNamedTorchSign(madamEvaTent,0,6.6,7.2,"Madam Eva's Tent",'front');
+
+function wagon(x,z){const g=new THREE.Group();g.position.set(x,0,z);scene.add(g);box(g,0,2.3,0,6,3,9,mats.wood);box(g,0,4.5,0,7,1.7,10,mats.camp);box(g,0,6.2,0,7.6,.4,10.6,mats.campGold);for(const wx of [-3.3,3.3])for(const wz of [-3,3]){const q=cyl(g,wx,1.2,wz,1.4,1.4,.36,mats.dark,12);q.rotation.z=Math.PI/2}box(g,0,3.8,4.7,5.2,1.2,.25,mats.campCream);addSolid(x,z,6.3,9.1)}
+wagon(-61,-79);wagon(-73,-85);box(scene,-42,.55,-84,1.2,1,1.2,mats.wood);box(scene,-40.5,.55,-76.5,1.2,1,1.2,mats.wood);box(scene,-68,.55,-74,1.6,1.1,1.6,mats.wood);
+// Upper bridge and the falls at a stylized reduced scale.
+box(scene,-78,-.04,-105,12,.1,22,mats.water);for(let j=0;j<14;j++){const y=.2+j*.5;box(scene,-81,y,-113,1.6,.5,.3,mats.water)}
+box(scene,-73,9,-110,19,1,3,mats.stone);for(let i=-2;i<=2;i++)box(scene,-73+i*4,10.5,-110,.55,2.1,.6,mats.stone);
+// The black horses and carriage near I.
+const coach=new THREE.Group();coach.position.set(42,0,-89);coach.rotation.y=-.3;scene.add(coach);box(coach,0,3,0,4.5,4.6,7,mats.dark);box(coach,0,5.9,0,5.3,.8,8,mats.roof);for(const x of [-2.8,2.8])for(const z of [-2.5,2.5]){const wheel=cyl(coach,x,1,z,1.5,1.5,.4,mats.wood,12);wheel.rotation.z=Math.PI/2}for(const x of [-1.2,1.2]){box(coach,x,2,-6,1.3,2.7,3,mats.dark);box(coach,x,3.2,-7,1,.9,1,mats.dark)}
+box(coach,-2.35,3.1,0,.16,3,2.0,landmarkDoorMaterial);
+for(const z of [-.70,.70])box(coach,-2.49,3.1,z,.11,2.6,.13,mats.wood);
+box(coach,-2.55,3.05,-.55,.16,.13,.13,mats.lamp);
+// Distant elevated castle, rock spire and entrance causeway.
+const cliffMaterial=new THREE.MeshLambertMaterial({color:'#2e3036'});const hill=new THREE.Mesh(new THREE.ConeGeometry(35,27,10),cliffMaterial);hill.position.set(96,6,-161);scene.add(hill);
+const castle=new THREE.Group();castle.position.set(96,19,-161);scene.add(castle);box(castle,0,8,0,30,16,14,mats.stone);for(const x of [-17,-6,8,18]){cyl(castle,x,13,1,3.7,3.7,25,mats.stone);cone(castle,x,28,1,4.6,12,mats.roof)}box(castle,0,15,-7,19,2,2,mats.dark);
+for(const x of [70,86]){cyl(scene,x,6,-125,3.7,4,12,mats.stone);cone(scene,x,14.5,-125,5,7,mats.roof)}
+pathSegment(78,-125,96,-151,6,mats.wood);
+// Scattered dead trees, roadside puddles and lanterns.
+const blackTwig=new THREE.MeshLambertMaterial({color:'#171a1b'});for(let i=0;i<75;i++){let z=rng()*220-108,x=(rng()-.5)*48;if(nearRoad(x,z,9)||Math.abs(z+3)<8)continue;cyl(scene,x,2,z,.19,.4,4,blackTwig);const q=box(scene,x+1.1,4,z,.18,3.8,.18,blackTwig);q.rotation.z=.7}
+for(let i=0;i<70;i++){let z=rng()*200-90,x=(rng()-.5)*30;if(!nearRoad(x,z,5)||Math.abs(z+3)<9)continue;const p=new THREE.Mesh(new THREE.CircleGeometry(.3+rng()*.9,8),mats.water);p.rotation.x=-Math.PI/2;p.scale.y=.55;p.position.set(x,.075,z);scene.add(p)}
+
+// Enterable structures: door prompts, interior teleport rooms, and collision.
+addEnterable({id:'INN',name:'The Old Inn',exterior:{x:-4.70,z:100,trigger:7,approach:{minX:-6.00,maxX:3.5,minZ:93,maxZ:109},returnX:-3.6,returnZ:100,returnAng:-Math.PI/2},interior:buildSimpleInterior('INN','Old Inn',220,0,18,16,'tavern')});
+addEnterable({id:'G1',name:"Madam Eva's Tent",exterior:{x:-55,z:-81.5,trigger:6,approach:{minX:-60.3,maxX:-49.7,minZ:-83.0,maxZ:-75.0},returnX:-55,returnZ:-77.5,returnAng:Math.PI},interior:buildSimpleInterior('G1',"Madam Eva",260,0,16,18,'tent')});
+// Mist sprites are spatial and gently animate; distant fog remains atmospheric rather than opaque.
+const mistMat=new THREE.MeshBasicMaterial({color:'#a9a7ad',transparent:true,opacity:.037,depthWrite:false,side:THREE.DoubleSide});
+const mists=[];for(let i=0;i<48;i++){const m=new THREE.Mesh(new THREE.PlaneGeometry(9+rng()*18,2+rng()*5),mistMat.clone());m.rotation.x=-Math.PI/2;m.position.set((rng()-.5)*190,.2+rng()*1.6,rng()*265-150);scene.add(m);mists.push({mesh:m,speed:.06+rng()*.2,phase:rng()*10})}
+let px=0,pz=105,ang=0,pitch=0,inside=false,activeEnterable='',savedExterior={x:0,z:0,ang:0,pitch:0},started=false,dmOn=false,descriptionsOn=true,torchOn=true,keyLabels=true,mapVisible=true,nearest=null,lastLocation='';
+const keys=new Set(),held={left:false,right:false},clk=new THREE.Clock();
+function setStatus(loc){if(!loc)return;if(lastLocation===loc.id)return;lastLocation=loc.id;$('place').textContent=loc.id==='INN'?loc.name:loc.id+' · '+loc.name;$('currentName').textContent=loc.name;$('readout').textContent=loc.player;$('dmtext').textContent='DM ONLY\n\n'+loc.dm;updateLeftEncounter(loc)}
+function nearestLocation(){ if(inside&&activeEnterable){ return locations.find(l=>l.id===activeEnterable)||null; } let best=null,bd=Infinity;for(const l of locations){const d=Math.hypot(px-l.x,pz-l.z);if(d<bd){bd=d;best=l}}return best&&bd<locationThreshold(best)?best:null}
+function openLocation(loc){if(!loc||!descriptionsOn)return;$('storyTitle').textContent=(loc.id==='INN'?'':loc.id+' · ')+loc.name;$('storyRead').textContent=loc.player;$('storyDM').textContent='DM ONLY\n\n'+loc.dm;$('storyDM').hidden=!dmOn;$('storyOverlay').style.display='flex';keys.clear()}
+function closeLocation(){$('storyOverlay').style.display='none'}
+function toggleMap(force){mapVisible=force??!mapVisible;$('minibox').style.display=mapVisible?'':'none';$('hideMap').textContent=mapVisible?'Hide Map':'Show Map'}
+function toggleKeys(){keyLabels=!keyLabels;$('keys').textContent=keyLabels?'Hide Key Locations':'Show Key Locations';$('mapKeys').textContent=$('keys').textContent;drawMap()}
+function toggleDM(){
+ dmOn=!dmOn;
+ $('dm').textContent='DM: '+(dmOn?'ON':'OFF');
+ $('storyDM').hidden=!dmOn;
+ if(!dmOn){sideSummaryOpen=false;$('sideSummary').hidden=true;$('sideEncounterSummary').setAttribute('aria-expanded','false');$('sideSummaryChevron').textContent='▾'}
+ updateLeftEncounter(nearestLocation());
+}
+function toggleDescriptions(){
+ descriptionsOn=!descriptionsOn;
+ $('descriptionSection').hidden=!descriptionsOn;
+ $('descriptionSection').style.display=descriptionsOn?'':'none';
+ $('descriptions').textContent=descriptionsOn?'Hide Descriptions':'Show Descriptions';
+ $('descriptions').setAttribute('aria-pressed',String(!descriptionsOn));
+ if(!descriptionsOn)closeLocation();
+}
+function toggleTorch(){torchOn=!torchOn;$('torch').textContent='Torch: '+(torchOn?'ON':'OFF');torchLight.visible=torchOn}
+
+const daytimeTable=[
+ ['1','2–8 (2d4) worg wolves'],['2','1–10 Vistani'],['3','1–4 villagers'],
+ ['4','1–4 worg wolves'],['5','1–4 Vistani'],['6','1–4 villagers']
+];
+const nighttimeTable=[
+ ['1–2','1–10 worg wolves'],['3','2–20 (2d10) worg wolves'],
+ ['4–5','3–12 (3d4) zombies'],['6–7','10–100 (10d10) bats'],
+ ['8','1 ghost'],['9','3–12 (3d4) ghouls'],['10','1–4 wights'],
+ ['11','1–4 wraiths'],['12','1 maiden vampire']
+];
+const plannedEncounters=[
+ ['Opening Inn','A messenger arrives with a forged Burgomaster letter; the adventure begins here.'],
+ ['A · Old Svalich Road','Five-hour journey toward the gates; the dangerous fog and the forest set the scene.'],
+ ['B · Gates of Barovia','The gates open for arrivals, close behind the party and will not open again until Strahd is destroyed. Two such gates exist in I6.'],
+ ['C · Svalich Woods','After three turns, the party finds a dead villager carrying a genuine warning letter. Each turn in the woods, roll 1d6; 4–6 begins wolf howling, increasing by one wolf each round. After five rounds of howling, 5 worg wolves attack if entering Barovia, or 25 if trying to leave. They cease pursuit at the village. Worg wolves: AC 6; HD 4+4; damage 2–8.'],
+ ['D · River Ivlis','River crossing and geographic landmark; use its module location text.'],
+ ['E · Village','Village homes, closed shops, and E1–E7 encounters are in the separate village walkthrough.'],
+ ['F · Road Junction','Fork toward the Tser Pool camp or the castle approach.'],
+ ['G · Tser Pool camp','Vistani at the camp invite the party to join them; a guide leads them to Madam Eva.'],
+ ['G1 · Madam Eva','The fortune reading determines important information and castle objectives; run the original Fortunes of Ravenloft procedure at the table.'],
+ ['H · Tser Falls','Waterfall and bridge; dramatic terrain, no invented encounter added.'],
+ ['I · Carriage','Strahd’s waiting carriage takes passengers toward the castle.'],
+ ['J · Gates of Ravenloft','Guardhouses, chasm, drawbridge and approach to K1.']
+];
+const keyedEncounterRules=Object.fromEntries(plannedEncounters.map(([title,description])=>[title.split(' · ')[0]==='Opening Inn'?'INN':title.split(' · ')[0],description]));
+function currentEncounterText(loc){
+ if(!loc)return 'Move near a keyed landmark to view its encounter information.';
+ const rule=keyedEncounterRules[loc.id];
+ return rule||'No separate keyed encounter is specified here in this summary. General outdoor encounter checks may still apply.';
+}
+function updateLeftEncounter(loc){
+ $('localEncounterText').textContent=dmOn?currentEncounterText(loc):'Enable DM mode to view encounter details for this location.';
+ $('dmtext').hidden=true;
+}
+function renderSideEncounterSummary(){
+ const target=$('sideEncounterContent');
+ target.innerHTML='<p><b>Random checks:</b> Every three turns outside Castle Ravenloft. Day encounter on 1 on 1d6; night on 1–2 on 1d6.</p>'+
+ '<h3>Table 4 · Daytime</h3>'+htmlTable(daytimeTable)+
+ '<p class="warning">Printed table lists results 1–6 while its roll instruction specifies 1d8. Results 7–8 need DM adjudication.</p>'+
+ '<h3>Table 5 · Nighttime</h3>'+htmlTable(nighttimeTable)+
+ '<h3>Special encounter rules</h3><p><b>Svalich Woods:</b> After three turns, dead villager and warning letter. Wolf-howl procedure is described under location C.</p>'+
+ '<p><b>Strahd’s nighttime harassment:</b> Five melee rounds, 4d4 worg wolves and 10d10 bats; Strahd cannot enter a building without invitation. Wolves may break in on 1–2 on 1d6 each turn.</p>'+
+ '<h3>Encounter events by location</h3><table><tbody>'+plannedEncounters.map(([name,detail])=>'<tr><th>'+name+'</th><td>'+detail+'</td></tr>').join('')+'</tbody></table>'+
+ '<p class="tiny">This reference summarizes module encounters. Combat and turns are resolved through gameplay, not automatically.</p>';
+}
+let sideSummaryOpen=false;
+$('sideEncounterSummary').onclick=()=>{
+ if(!dmOn){$('sideSummary').hidden=true;sideSummaryOpen=false;$('sideEncounterSummary').setAttribute('aria-expanded','false');$('sideSummaryChevron').textContent='▾';$('localEncounterText').textContent='Turn on DM mode to view the Encounter Summary.';return}
+ sideSummaryOpen=!sideSummaryOpen;
+ $('sideSummary').hidden=!sideSummaryOpen;
+ $('sideEncounterSummary').setAttribute('aria-expanded',String(sideSummaryOpen));
+ $('sideSummaryChevron').textContent=sideSummaryOpen?'▴':'▾';
+ if(sideSummaryOpen)renderSideEncounterSummary();
+};
+$('sideRollEncounter').onclick=()=>{
+ const isNight=$('sideEncounterTime').value==='night';const check=rollDice(1,6),hit=isNight?check<=2:check===1;
+ if(!hit){$('sideEncounterResult').textContent='1d6: '+check+' — No encounter.';return}
+ const num=rollDice(1,isNight?12:8),table=isNight?nighttimeTable:daytimeTable;
+ const row=table.find(([range])=>{const [a,b]=range.split('–').map(Number);return num>=a&&num<=(Number.isFinite(b)?b:a)});
+ $('sideEncounterResult').textContent='1d6: '+check+' · '+(isNight?'1d12':'1d8')+': '+num+'\n'+(row?row[1]:'No printed entry for this roll; DM adjudicates.');
+};
+function htmlTable(rows){
+ return '<table><thead><tr><th style="width:70px">Roll</th><th>Encounter</th></tr></thead><tbody>'+
+ rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</tbody></table>';
+}
+function renderEncounterSummary(){
+ $('encounterContent').innerHTML=
+ '<p><b>Checks:</b> Every 3 turns outside Castle Ravenloft. Daytime encounter on 1 on 1d6; nighttime on 1–2 on 1d6. Check the module for creature statistics and AD&D rules.</p>'+
+ '<h3>Table 4 · Daytime</h3>'+htmlTable(daytimeTable)+
+ '<p class="warning">The source prints a 1d8 result roll for daytime but lists only entries 1–6. Results of 7–8 are unspecified in the printed table; consult the DM rather than inventing encounters.</p>'+
+ '<h3>Table 5 · Nighttime</h3>'+htmlTable(nighttimeTable)+
+ '<h3>Special nightly harassment</h3><p>Each night outside Castle Ravenloft, Strahd attacks with wolves and bats for 5 melee rounds, primarily to frighten the party. Indoors, wolves try to break through a door or window each turn of the attack (1–2 on 1d6). Strahd cannot enter a building until invited. The special assault lists 4d4 worg wolves and 10d10 bats.</p>'+
+ '<h3>Planned encounters and events by area</h3><table><tbody>'+
+ plannedEncounters.map(r=>'<tr><th style="width:165px">'+r[0]+'</th><td>'+r[1]+'</td></tr>').join('')+
+ '</tbody></table><p class="tiny">This is a DM reference, not automated combat or encounter timing. No turn clock is simulated.</p>';
+}
+function rollDice(n,sides){let total=0;for(let i=0;i<n;i++)total+=1+Math.floor(Math.random()*sides);return total}
+function manualEncounterRoll(){
+ const isNight=$('encounterTime').value==='night';
+ const check=rollDice(1,6), success=isNight?check<=2:check===1;
+ if(!success){$('encounterResult').textContent='1d6: '+check+' — No encounter.';return}
+ const die=rollDice(1,isNight?12:8);
+ const table=isNight?nighttimeTable:daytimeTable;
+ function covers(label,num){let [a,b]=label.split('–').map(Number);return num>=a&&num<=(Number.isFinite(b)?b:a)}
+ const hit=table.find(([label])=>covers(label,die));
+ $('encounterResult').textContent='1d6: '+check+' — Encounter! '+(isNight?'1d12':'1d8')+': '+die+'\\n'+(hit?hit[1]:'Printed daytime table has no entry for '+die+'. DM adjudicates.');
+}
+
+$('encounterClose').onclick=()=>$('encounterOverlay').style.display='none';
+$('encounterOverlay').onclick=e=>{if(e.target===$('encounterOverlay'))$('encounterOverlay').style.display='none'};
+$('rollEncounter').onclick=manualEncounterRoll;
+
+$('begin').onclick=()=>{started=true;$('overlay').style.display='none';document.activeElement.blur();const loc=locations[0];setStatus(loc)};
+$('examine').onclick=interact;
+$('dm').onclick=toggleDM;$('descriptions').onclick=toggleDescriptions;$('torch').onclick=toggleTorch;
+$('keys').onclick=toggleKeys;$('mapKeys').onclick=toggleKeys;
+$('hideMap').onclick=()=>toggleMap();$('mapCenter').onclick=drawMap;
+$('storyClose').onclick=closeLocation;$('storyOverlay').onclick=e=>{if(e.target===$('storyOverlay'))closeLocation()};
+$('village').onclick=()=>{location.href='barovia.html'};
+$('castle').onclick=()=>{location.href='Ravenloft-I6/ravenloft.html'};
+for(const l of locations){const o=document.createElement('option');o.value=l.id;o.textContent=(l.id==='INN'?'':l.id+' · ')+l.name;$('journey').append(o)}
+$('journey').onchange=e=>{const l=locations.find(q=>q.id===e.target.value);if(!l)return;inside=false;activeEnterable='';px=l.x;pz=l.z+(enterables[l.id]?2.0:Math.max(4,l.r*.48));ang=0;if(pz<40.8)sealBaroviaGate();lastLocation='';setStatus(l);$('journey').value='';drawMap()};
+function onPress(k,v){if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space'].includes(k))return}
+// Keyboard interaction copied from the working Village walkthrough.
+const pressed={};
+window.addEventListener('keydown',e=>{
+ const k=e.key.toLowerCase();
+ if([' ','arrowup','arrowdown','arrowleft','arrowright'].includes(k))e.preventDefault();
+ pressed[k]=true;
+ if(e.repeat)return;
+ if(k==='escape'){
+  if($('encounterOverlay').style.display==='flex')$('encounterOverlay').style.display='none';
+  else closeLocation();return;
+ }
+ if(k==='enter'&&$('storyOverlay').style.display==='flex'){closeLocation();return;}
+ if(k==='e'){e.preventDefault();interact();return;}
+ if($('storyOverlay').style.display==='flex'||$('encounterOverlay').style.display==='flex')return;
+ if(k==='m'){toggleMap();return;}
+ if(k==='t'){toggleTorch();return;}
+ keys.add(e.code);
+});
+document.addEventListener('keyup',e=>keys.delete(e.code));
+addEventListener('blur',()=>{keys.clear();held.left=false;held.right=false});
+for(const [id,key] of [['left','left'],['right','right']]){const b=$(id);b.addEventListener('pointerdown',e=>{held[key]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>held[key]=false)}
+let dragging=false,mouseX=0,mouseY=0;
+$('world').addEventListener('pointerdown',e=>{dragging=true;mouseX=e.clientX;mouseY=e.clientY});
+addEventListener('pointerup',()=>dragging=false);
+addEventListener('pointermove',e=>{if(!dragging||!started)return;ang-=(e.clientX-mouseX)*.004;pitch=Math.max(-.55,Math.min(.6,pitch-(e.clientY-mouseY)*.003));mouseX=e.clientX;mouseY=e.clientY});
+const map=$('map'),ctx=map.getContext('2d');
+function toMap(x,z){return [160+x*.94,145+(z+20)*.82]}
+function drawMap(){ctx.fillStyle='#15161a';ctx.fillRect(0,0,320,268);ctx.lineCap='round';ctx.strokeStyle='#6e6158';ctx.lineWidth=5;for(const q of paths){ctx.beginPath();for(let i=0;i<q.length;i++){const p=toMap(q[i][0],q[i][1]);i?ctx.lineTo(...p):ctx.moveTo(...p)}ctx.stroke()}ctx.strokeStyle='#668b99';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(...toMap(-125,-3));ctx.lineTo(...toMap(125,-3));ctx.stroke();
+for(const loc of locations){let [x,y]=toMap(loc.x,loc.z);ctx.fillStyle='#bd9059';ctx.beginPath();ctx.arc(x,y,loc.id==='INN'||loc.id==='G1'||loc.id==='E'?4.3:3,0,Math.PI*2);ctx.fill();if(keyLabels){ctx.fillStyle='#eed4a1';ctx.font='bold 11px Georgia';ctx.fillText(loc.id,x+6,y-5)}}
+const mapPos=currentMapPos(); let [x,y]=toMap(mapPos.x,mapPos.z);ctx.save();ctx.translate(x,y);ctx.rotate(-ang);ctx.fillStyle='#ffe47f';ctx.beginPath();ctx.moveTo(0,-8);ctx.lineTo(-5,5);ctx.lineTo(5,5);ctx.fill();ctx.restore()}
+let elapsed=0,priorId='';
+function frame(){requestAnimationFrame(frame);const dt=Math.min(.05,clk.getDelta());if(started&&$('storyOverlay').style.display!=='flex'&&$('encounterOverlay').style.display!=='flex'){const turn=((keys.has('ArrowLeft')||held.left)?1:0)-((keys.has('ArrowRight')||held.right)?1:0);ang+=turn*dt*1.95;const f=(keys.has('KeyW')||keys.has('ArrowUp')?1:0)-(keys.has('KeyS')||keys.has('ArrowDown')?1:0),st=(keys.has('KeyD')?1:0)-(keys.has('KeyA')?1:0);let m=Math.hypot(f,st)||1,spd=(keys.has('ShiftLeft')||keys.has('ShiftRight')?14:7.6)*dt;const mx=(-Math.sin(ang)*f+Math.cos(ang)*st)/m*spd,mz=(-Math.cos(ang)*f-Math.sin(ang)*st)/m*spd;
+ if(inside&&activeEnterable){const b=enterables[activeEnterable].interior.bounds;px=clamp(px+mx,b.minX,b.maxX);pz=clamp(pz+mz,b.minZ,b.maxZ);}
+ else {const cx=clamp(px+mx,-125,125),cz=clamp(pz+mz,-145,120);
+ if(!blockedAt(cx,pz))px=cx;
+ // Before entry the gate is open. After entry, north-to-south return is blocked.
+ let targetZ=cz;
+ if(baroviaGateClosed&&pz<41.3&&targetZ>=41.3)targetZ=41.2;
+ if(!blockedAt(px,targetZ))pz=targetZ;
+ if(!baroviaGateClosed&&pz<40.8)sealBaroviaGate();
+ }}
+camera.position.set(px,1.75,pz);camera.rotation.order='YXZ';camera.rotation.y=ang;camera.rotation.x=pitch;
+torchLight.position.set(px+Math.cos(ang)*.3,1.85,pz+Math.sin(ang)*.3);torchLight.intensity=torchOn?(2.4+Math.sin(elapsed*11)*.15):0;campLight.intensity=2.9+Math.sin(elapsed*5)*.22;elapsed+=dt;
+for(const m of mists){m.mesh.position.x+=m.speed*dt;if(m.mesh.position.x>120)m.mesh.position.x=-120;m.mesh.position.y=.35+.22*Math.sin(elapsed*.5+m.phase)}
+if(started){const door=nearestEnterableDoor(); const l=nearestLocation(); if(l&&lastLocation!==l.id)setStatus(l); if(inside&&activeEnterable){$('navhint').textContent='Inside '+enterables[activeEnterable].name+' — Press E to exit';$('examine').textContent='Exit (E)';}else if(door){$('navhint').textContent='Press E to enter '+door.name;$('examine').textContent='Enter '+door.name+' (E)';}else{$('navhint').textContent=l?'At '+(l.id==='INN'?'INN':l.id)+' · '+l.name+' — Press E for module details':'Walk to a marked door or landmark · Press E for details';$('examine').textContent='Location Details (E)';}}
+drawMap();renderer.render(scene,camera)}
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+setStatus(locations[0]);frame();
+</script></body></html>

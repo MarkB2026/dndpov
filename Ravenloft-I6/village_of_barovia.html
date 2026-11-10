@@ -8,7 +8,15 @@
 #mapbox,#minimap{right:14px!important;top:12px!important;z-index:12!important;width:300px!important;box-sizing:border-box;border-radius:0!important;background:#1b191ced!important}#mapbox canvas,#minimap canvas{width:100%!important;height:auto!important;max-height:255px!important;object-fit:contain}#mapbox small,#minimap small{font-size:11px;color:#e2bd84}#mapTools{display:flex;gap:5px;justify-content:center;margin-top:5px}#mapTools button{font-size:11px}
 #help{left:360px!important;bottom:14px!important;transform:none!important;z-index:13!important;font-size:11px!important;white-space:normal!important;max-width:330px;border-radius:0!important}#loc{display:none!important}#controlDeck{position:fixed;right:14px;bottom:14px;z-index:18;width:350px;max-width:calc(100vw - 28px);background:#120e12f5;border:1px solid #9c784c;padding:9px;color:#e8c18b;font:12px Georgia,serif;box-sizing:border-box}#controlDeck .toolRow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px 0;border-bottom:1px solid #6d5037}#controlDeck .toolRow:last-child{border-bottom:0}#controlDeck .toolLabel{width:40px;flex:none;font-size:10px;color:#d7a766}#controlDeck button,#controlDeck select,#mapTools button{background:#34271d;border:1px solid #aa8757;color:#f0d6a9;padding:7px 6px;cursor:pointer;border-radius:2px;font:11px Georgia,serif}#controlDeck button:hover,#mapTools button:hover{background:#74502e}#controlDeck button.on{background:#805824;border-color:#efbc69}#controlDeck select{max-width:160px}#gameModal{z-index:70!important}#gameModal article{max-height:85vh}#gameModal .readaloud{white-space:pre-line}#keyOverlay{position:absolute;inset:8px;pointer-events:none;width:calc(100% - 16px);height:calc(100% - 16px)}
 @media(max-width:1050px){#help{left:14px!important;bottom:15px!important}#gamePanel{max-height:calc(100vh - 290px)!important}#controlDeck{bottom:100px}}@media(max-width:720px){#hud{width:240px!important}#gamePanel{width:220px!important;top:120px!important;max-height:35vh!important}#mapbox,#minimap{width:165px!important}#controlDeck{width:285px;bottom:8px}#help{display:none!important}}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v3.11</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="600" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
+</style><style id="map-upgrade">
+#mapbox{width:var(--map-w,440px)!important;max-width:calc(100vw - 35px)!important;min-width:235px;height:var(--map-h,min(75vh,690px))!important;min-height:340px;display:flex;flex-direction:column;overflow:hidden}
+#mapbox #map{width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;flex:1 1 auto;object-fit:fill}
+#mapbox small{flex:0 0 auto}
+#mapTools{flex:0 0 auto;min-height:28px}
+#mapbox #keyOverlay{position:absolute!important;top:0!important;left:0!important;inset:auto!important;width:100%!important;height:calc(100% - 76px)!important;pointer-events:auto!important;cursor:pointer}
+#mapTools{margin-top:auto}
+#mapResizeGrip{position:absolute;bottom:0;left:0;width:28px;height:28px;cursor:sw-resize;z-index:30;color:#f0c98d;background:#433023;border:1px solid #b88e59;display:grid;place-items:center;user-select:none}
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v3.21</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
 (function(){
  const panel=document.createElement('div');
  panel.id='startup-diagnostics';
@@ -195,37 +203,28 @@ function cobblePlaza(px,py,r){
 }
 // Barovia: organic north-south village streets traced approximately from the
 // provided map. The cemetery and church are west/north; another church is south.
+// Simplified village circulation: one winding spine, three cross streets,
+// and short destination lanes. Removed redundant parallel connectors.
 const baroviaPaths=[
+ // Main north/south road
  [[[240,547],[240,513],[246,483],[251,449],[244,421],[247,389],[239,353],[247,319],[256,286],[253,251],[249,220],[266,193],[286,163]],11],
- [[[113,310],[140,296],[168,278],[194,264],[217,250],[249,220]],10],
+ // Main village cross streets
  [[[92,372],[118,347],[147,327],[173,315],[199,309],[247,319],[285,316],[322,311],[358,309],[399,309]],10],
  [[[120,408],[152,394],[186,388],[214,388],[247,389],[283,390],[323,384],[365,380],[408,380]],10],
  [[[177,459],[207,452],[244,449],[284,453],[321,450],[363,445]],10],
- [[[187,507],[215,510],[240,513],[280,511],[316,511],[341,493]],10],
- [[[152,351],[164,373],[186,388]],8],
- [[[177,315],[177,290],[195,264]],8],
- [[[199,309],[203,340],[214,359],[214,388]],8],
- [[[285,316],[284,347],[283,390]],8],
- [[[322,311],[322,344],[323,384]],8],
- [[[358,309],[364,341],[365,380]],8],
- [[[399,309],[407,342],[408,380],[416,417]],8],
- [[[247,389],[247,421],[244,449]],9],
- [[[284,453],[283,480],[280,511]],8],
- [[[321,450],[321,475],[316,511]],8],
- [[[177,459],[178,485],[187,507]],8],
- [[[365,380],[363,414],[363,445]],8],
- [[[140,296],[143,269],[165,247],[191,230],[217,216],[249,220]],8],
- [[[165,247],[159,221],[181,204],[206,196],[236,184],[266,193]],8],
- [[[191,230],[215,242],[240,252],[253,251]],8],
+ // Western approach and northern branch
+ [[[113,310],[140,296],[168,278],[194,264],[217,250],[249,220]],9],
  [[[249,220],[279,216],[304,232],[327,249],[349,266],[358,309]],9],
  [[[286,163],[305,181],[322,201],[346,211],[367,218],[393,217]],9],
- [[[304,232],[329,223],[346,211]],8],
- [[[327,249],[353,248],[376,260],[399,272],[399,309]],8],
- [[[349,266],[377,282],[399,272]],8],
+ // Short connections to distinct areas; no repeating street grid
+ [[[177,315],[177,290],[195,264]],7],
+ [[[285,316],[284,347],[283,390]],7],
+ [[[365,380],[363,414],[363,445]],7],
+ [[[284,453],[283,480],[280,511]],7],
+ [[[187,507],[215,510],[240,513]],8],
  [[[286,163],[282,134],[307,116],[347,112],[382,107],[407,94]],8],
- [[[125,347],[109,323],[113,310]],8],
- [[[92,372],[76,392],[68,414]],8],
- [[[240,547],[211,552],[194,565]],9],];
+ [[[240,547],[211,552],[194,565]],8],
+];
 const baroviaSegments=[];
 function segmentDistance(x,z,a,b){
  const dx=b[0]-a[0],dz=b[1]-a[1],q=Math.max(0,Math.min(1,((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz||1)));
@@ -241,10 +240,30 @@ function cobbleSegment(p,q,width){
  m.map.repeat.set(Math.max(1,w/5),Math.max(1,length/5));m.map.needsUpdate=true;
  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,length+.13),m);
  mesh.rotation.x=-Math.PI/2;mesh.rotation.z=-Math.atan2(dx,dz);
- mesh.position.set((x+xx)/2,.033,(z+zz)/2);scene.add(mesh);
+ mesh.position.set((x+xx)/2,.034+baroviaSegments.length*.000015,(z+zz)/2);scene.add(mesh);
  baroviaSegments.push({a:[x,z],b:[xx,zz],width:w});
 }
-for(const [points,width] of baroviaPaths)for(let i=1;i<points.length;i++)cobbleSegment(points[i-1],points[i],width);
+for(const [points,width] of baroviaPaths)for(let i=1;i<points.length;i++)cobbleSegment(points[i-1],points[i],Math.max(17,width*1.65));
+// Paved round joins, matching the map's round stroke joins. Prevent broken-looking
+// roads at bends and crossings, including the main route through the village.
+const junctions=new Map();
+for(const [points,width] of baroviaPaths){
+ const radius=Math.max(17,width*1.65)/10;
+ for(const pt of points){
+  const k=pt.join(','),old=junctions.get(k);
+  junctions.set(k,{pt,radius:Math.max(radius,old?.radius||0)});
+ }
+}
+const jointMat=cobbleMaterial.clone();
+jointMat.map=cobbleMaterial.map.clone();
+jointMat.map.repeat.set(1,1);jointMat.map.needsUpdate=true;
+for(const {pt,radius} of junctions.values()){
+ const [jx,jz]=xy(...pt);
+ const disk=new THREE.Mesh(new THREE.CircleGeometry(radius,24),jointMat);
+ disk.rotation.x=-Math.PI/2;
+ disk.position.set(jx,.043,jz);
+ scene.add(disk);
+}
 function isOnRoad(x,z,pad=0){return baroviaRoad(x,z,pad);}
 
 const foundationMats=['#756952','#9d9078','#817660'].map((c,i)=>new THREE.MeshStandardMaterial({map:texture(c,'stone',100+i),roughness:1}));
@@ -583,7 +602,7 @@ function reserved(px,py){
 function placeVillageHouse(px,py,w,d){
  if(px<55||px>437||py<75||py>550||reserved(px,py))return false;
  const [x,z]=xy(px,py),radius=Math.max(w,d)/5*.48;
- if(baroviaRoad(x,z,radius+.25))return false;
+ if(baroviaRoad(x,z,radius+1.75))return false;
  if(blocks.some(b=>Math.hypot(b.x-x,b.z-z)<b.r+radius+.32))return false;
  house(px,py,w,d,n++);return true;
 }
@@ -603,6 +622,47 @@ for(let k=0;k<4800&&n<170;k++){
  const px=65+villageRand()*365,py=165+villageRand()*380;
  placeVillageHouse(px,py,12+villageRand()*10,13+villageRand()*11);
 }
+// Expansion: add 30% more cottages than the existing procedural village count.
+// Compact cottages occupy vacant plots, while preserving roads, existing homes,
+// cemetery grounds and church yards.
+const originalVillageHouseCount=n;
+const expansionTarget=Math.ceil(originalVillageHouseCount*.30);
+let expansionAdded=0;
+for(let attempt=0;attempt<24000&&expansionAdded<expansionTarget;attempt++){
+ const px=62+villageRand()*370,py=145+villageRand()*395;
+ const w=9.5+villageRand()*5.5,d=10+villageRand()*6;
+ if(placeVillageHouse(px,py,w,d))expansionAdded++;
+}
+console.info('Village housing expansion', {originalVillageHouseCount,expansionAdded,expansionTarget});
+// Targeted roadside infill: prefer stretches with few neighbours, not random
+// empty land. All placements pass the original collision and road checks.
+const roadsideCandidates=[];
+for(const road of baroviaSegments){
+ const dx=road.b[0]-road.a[0],dz=road.b[1]-road.a[1];
+ const len=Math.hypot(dx,dz);if(len<.1)continue;
+ const nx=-dz/len,nz=dx/len;
+ for(let t=.18;t<.95;t+=.18){
+  for(const side of [-1,1]){
+   const distance=road.width/2+3.3;
+   const x=road.a[0]+dx*t+side*nx*distance;
+   const z=road.a[1]+dz*t+side*nz*distance;
+   const px=x*5+240,py=z*5+300;
+   if(reserved(px,py)||px<57||px>435||py<78||py>548)continue;
+   const nearby=blocks.reduce((count,b)=>count+(Math.hypot(b.x-x,b.z-z)<12?1:0),0);
+   roadsideCandidates.push({px,py,nearby,sort:nearby*100+villageRand()*30});
+  }
+ }
+}
+roadsideCandidates.sort((a,b)=>a.sort-b.sort);
+const roadsideTarget=Math.max(24,Math.ceil(originalVillageHouseCount*.20));
+let roadsideAdded=0;
+for(const c of roadsideCandidates){
+ if(roadsideAdded>=roadsideTarget)break;
+ // Small Barovian cottages, narrow enough to fit beside roads.
+ if(placeVillageHouse(c.px,c.py,8.0+villageRand()*3,9.0+villageRand()*3))roadsideAdded++;
+}
+console.info('Village roadside infill',{roadsideAdded,roadsideTarget});
+
 // Barovian church silhouettes (large distinct buildings at map landmarks).
 function baroviaLandmark(px,py,w,d,seed){
  // Landmarks are placed on their own grounds and treated as house geometry.
@@ -933,10 +993,16 @@ function buildBaroviaMap(){
   const x=93+r()*110,y=70+r()*72;
   g.fillStyle='#b3afa2';g.fillRect(x,y,3,6);
  }
- for(const [path,width] of baroviaPaths){
-  g.beginPath();path.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));
-  g.lineJoin='round';g.lineCap='round';g.lineWidth=width+3;g.strokeStyle='#58564b';g.stroke();
-  g.lineWidth=width;g.strokeStyle='#c7c0a9';g.stroke();
+ // Draw all road edges, then all road surfaces: intersections merge instead of
+ // stacking border strokes on top of another street.
+ for(const pass of ['edge','surface']){
+  for(const [path,originalWidth] of baroviaPaths){
+   const width=Math.max(17,originalWidth*1.65);
+   g.beginPath();path.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));
+   g.lineJoin='round';g.lineCap='round';
+   g.lineWidth=pass==='edge'?width+3:width;
+   g.strokeStyle=pass==='edge'?'#58564b':'#c7c0a9';g.stroke();
+  }
  }
  const roofColors=['#766b60','#696d6e','#a26e4b','#5a595a','#8d8275','#a26b52','#60626a'];
  for(let i=0;i<houseGroups.length;i++){
@@ -958,6 +1024,7 @@ function drawMap(){
  ctx.save();ctx.translate(player.x*5+240,player.z*5+300);ctx.rotate(player.angle);
  ctx.fillStyle='#ffdf1b';ctx.strokeStyle='#19160d';ctx.lineWidth=2;
  ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(-7,7);ctx.lineTo(7,7);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+ drawKeyIcons();
 }
 let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const turn=2.25*dt; if(keys.arrowleft)player.angle-=turn;if(keys.arrowright)player.angle+=turn;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),s=(keys.d?1:0)-(keys.a?1:0);const speed=(keys.shift?10:5)*dt;
  const dx=(Math.sin(player.angle)*f+Math.cos(player.angle)*s)*speed;
@@ -972,7 +1039,81 @@ let prev=performance.now();function loop(now){requestAnimationFrame(loop);const 
 const GAME_MAP=document.querySelector('#map')?.parentElement;
 const gameLocations=[{"id": "E1", "name": "Bildrath's Mercantile", "x": -10, "z": 29, "r": 10, "player": "The sparse light from this building spills out from behind drawn heavy curtains. A sign over the door creaks on its hinges, proclaiming this \"Bildrath's Mercantile.\"", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "The building is about 70 feet long by 40 feet wide. Inside, Bildrath is behind the counter. He will sell the PCs anything on the official AD&D™ shopping list, except items found under \"Religious Items,\" \"Livestock,\" and \"Transport.\" Everything is ten times the normal price. If the PCs give him any trouble, he calls Parriwimple, his stock-boy, to help him straighten out the PCs. Bildrath, Barovian merchant, F-4: AC 8; MV 12\"; hp 30; #AT 1; Dmg 1-8; AL LN; S 15, I 10, W 12, D 14, Con 11, Ch 13.\n\nwhen they pass through. He is not, however, above making a profit from anyone else who is unlucky enough to find themselves here. He serves himself. He certainly promises no sanctuary. He never bargains a price since he believes, \"If you want it badly enough, you'll pay for it — because you certainly won't be taking your business elsewhere.\" Parriwimple, Barovian, F-9: AC 2; MV 12\"; hp 50; #AT 1; Dmg 5-12 (ld8+4); AL LN; S 18/80, I 3, W 9, D 17, Con 14, Ch 8. Parriwimple is Bildrath's stock boy. Parriwimple may occasionally be asked by his uncle, Bildrath, to carry items out for the PCs to look at. Parriwimple's muscles rippling beneath his leather tunic should give ample warning to the PCs of his strength and power. Parriwimple is extremely simple-minded, unlike Bildrath. Parriwimple is dedicated to his uncle and will not follow the PCs. In his own dim way he knows that to cross the master of the castle is death—or worse."}, {"id": "E2", "name": "Blood of the Vine Tavern", "x": 12, "z": 19, "r": 10, "player": "A single shaft of light thrusts into the main square, its brightness like a solid pillar in the heavy fog. Above the gaping doorway, a sign hangs precariously askew proclaiming this the \"Blood on the Vine Tavern.\"", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "The tavern building is about 60 feet square. Close inspection of the sign reveals that the sign originally read, \"Blood of the Vine,\" but the \"F\" has been scratched over with an \"N.\" This once finely appointed tavern has grown shoddy over the years. A blazing fire in the hearth gives scant warmth to the few huddled souls within. The silence here is broken only by the occasional sip of watery wine. Arik, the barkeeper, is behind the bar. Three gypsies are at a table on the left. Ismark sits mysteriously in shadows to the right. Arik, Barovian barkeep, F-0: AC 8; MV 12\"; hp 3; #AT 1; Dmg 1-4; AL CN, S 9, I 4, W 7, D 13, Con 8, Ch 10. Mindlessly, Arik cleans glasses, one after the other. When they are all clean, he starts over. If spoken to, he takes orders for drinks in a dull, hollow voice. After serving drinks, he returns to cleaning glasses. Arik ignores all questions. 3 gypsies, F-4: AC 4; MV 12\"; hp 32, 30, 24; #AT 1; Dmg 2-7 (1d6 +1); AL LN. The gypsies lurk near the door. They own the tavern and see to it that all customers pay their bills. These gypsies are otherwise disinterested in the PCs. Ismark the Lesser, Barovian, F-2: AC 7; MV 12\"; hp 18; #AT 1; Dmg 1-6 (longsword); AL LG; S 15, I 12, W 13, D 10, Con 16, Ch 13. Ismark sits in the corner sipping his wine. He speaks fair common speech. Ismark is the son of the Burgomaster. To aid his adopted sister, Ireena Kolyana, he greets the PCs and takes them to the Burgomaster's home. Ismark is as tight-lipped as any of the other Barovian villagers, unless the subject deals with his adopted sister, Ireena Kolyana or Strahd. Ismark knows everything the other villagers know. Ismark also knows that for some unknown reason, Strahd is attracted to Ismark's sister more than anything else. Ismark's father, the Burgomaster, has been dead for over 10 days. The 8\n\nfrom the vampire was stolen. Now, Ireena is unprotected and helpless in the house. If Ismark is shown the letter the PCs received at the start of the adventure he confirms that the Burgomaster did attempt to send a letter of warning. The PCs' letter, however, was certainly not written by the Burgomaster. Ismark recognizes that the handwriting is not the Burgomaster's."}, {"id": "E3", "name": "Mad Mary's Townhouse", "x": -13, "z": 2, "r": 10, "player": "A moaning sob floats through the still, gray streets, coloring your thoughts with sadness. The sounds flow from a dark, two-story townhouse.", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "The house (about 40 feet square) is boarded up and barricaded from the inside. Mad Mary sits in the middle of the floor of an upstairs bedroom. She is lost in her sorrow and despondency. She barely recognizes the presence of anyone in the room. Mary hid her beloved daughter, Gertruda, in this house for the girl's entire life. Gertruda broke out of the house and has not been seen since. Her mother fears the worst. Mad Mary, Barovian, F-0: AC 8; MV 9\"; hp 1; #AT 1; Dmg 1-4; AL CN; S 4, I 14, W 3, D 12, Con 14, Ch 11."}, {"id": "E4", "name": "Burgomaster's Home", "x": 13, "z": -20, "r": 10, "player": "A weary-looking mansion squats behind a rusting iron fence. The iron gates are twisted and torn. The right gate lies cast aside while the left swings crazily in the wind. The stuttering squeal and clang of the gate repeats with mindless precision. Weeds choke the grounds and press with menace upon the house itself. Yet, against the walls, the growth has been trodden under to form a path all about the domain. Heavy claw markings have stripped the once-beautiful finish of the walls. Great black blottings tell of the fires that have assailed the walls. Not a pane nor shard of glass stands in any window. All the windows are barred with heavy planking, each plank marked with stains of evil omen.", "inside": "The interior of the house is well furnished, although the fixtures show sign of considerable wear. Obvious oddities are the boarded-up windows and the overuse of holy symbols in every room. The Burgomaster is in a side drawing room — dead. He is lying in a room that is dark, despite the candles burning in his honor. The stench in the house is horrible.", "dm": "The mansion is approximately 120 feet long east to west and 50 feet wide north to south. Ireena Kolyana is inside and will not open the heavily barred door to anyone unless absolutely convinced that those outside her door are of no allegiance to the Count. If the PCs convince her (or if Ismark is with them), she will open the door and invite them in. If the PCs enter, use the following boxed text.\n\nShe has been bitten twice by the vampire and can no longer be protected here. The townspeople are afraid of her and avoid her. The PCs are her only hope for protection. Ireena is a sweet but troubled woman. Although she may at first appear mild, she has a strong will and a good arm. By no means a hapless victim, she will aid the party as best she can in saving herself. Ireena does not remember her early past. She does not know how she came to Barovia nor where she came from. Ireena will inform the party that each night, wolves and other, 9 The Burgomaster's heart could not stand the constant assault and he died a natural death. Strangely, since his death, the wolves have not attacked the house. The Burgomaster has been dead for nearly 10 days, but no one from the town has been brave enough to help Ismark take him out for burial. As the Burgomaster has been dead for nearly a week, the letter presented to the party in the tavern is certainly forged. Ireena Kolyana, Barovian, F-4: AC 10; MV 12\"; hp 6; #AT 1; Dmg 1-4; AL LG; S 13, I 10, W 14, D 17, Ch 18."}, {"id": "E5", "name": "Guest House", "x": 16, "z": -36, "r": 10, "player": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "The guest house is roughly 50 feet square. It is the guest house of the Burgomaster's house, but it is not fortified against undead as are most of the other buildings in town."}, {"id": "E6", "name": "Village Church", "x": -17, "z": -28, "r": 10, "player": "Atop a slight rise, against the very roots of the castle's pillarstone, stands a gray, sagging edifice of stone and wood. This church has weathered the assaults of evil for centuries on end and is worn and weary. The bell tower hangs to one side, its sweet tone long silenced. Flickering light shines through holes burned through the roof shingles. The rafters strain feebly against their load.", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "The church is 50 feet wide by 120 feet long. Its interior is a shambles, with overturned and broken benches littering the dusty floor. At a claw-scarred altar toward the far end is the priest. Donavich, Barovian priest, C-2: AC 10; MV 10\"; hp 10; #AT 1; Dmg 1-4; AL LG; clerical spells; S 9, I 13, W 16, D 14, Con 14, Ch 15. The priest has been praying and chanting throughout the night. His voice is hoarse and weak. His spells today are: First Level: protection from evil, sanctuary, detect evil, remove fear He spent this night, as every night, warding off evil from his church. The priest knows the following. Only nightly prayers have kept the church a place of cleanly sacredness in Barovia. There is a book in the library of Ravenloft that might be able to help destroy the devil Strand. It is well known from ancient times that Strahd kept meticulous notes on all that he did or said. Perhaps some weakness of his may be found there. Ireena Kolyana was not the natural daughter of Kolyan Indirovich. Although Ireena never knew, Old Kolyan found her one day at the edge of the Svalich Woods near the Pillarstone of Ravenloft. She was but a girl then and seemed to have no memory of her past. Old Kolyan adopted her as though she were one of his own and loved her dearly."}, {"id": "E7", "name": "Village Cemetery", "x": -20, "z": -44, "r": 10, "player": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "inside": "No separate boxed read-aloud text is provided for this location in the original I6 module.", "dm": "During daytime, this is a quiet and peaceful place behind the church. Every night at midnight, however, a ghostly procession takes place. One hundred spirits rise from the graveyard and march up the road to castle Ravenloft. They have no interest in the living and cannot be hit, damaged, or turned. They will not communicate with the PCs. At the castle, the spirits march straight 9 to the chapel (K15), up the high tower stair (Kl8) to the top of the  tower (K59). There, they throw themselves down the shaft toward  the crypts, where they disappear. These are the spirits of previous  adventurers who died trying to destroy Strahd. Every night they  attempt to complete their quest and each night they fail.  100 spirits: AC 0; MV 6\"; HD 0; #AT 0; Dmg 0; AL CN."}];
 
-const MAP_X=l=>l.x*5+240,MAP_Y=l=>l.z*5+300;
+
+// E1–E7: named signs mounted on the nearest building's street-facing wall.
+// No free-standing posts: nothing obstructs walking or the street sightline.
+const keyedSigns=[];const assignedKeyHouses=new Set();
+// Road-side entrance point: closest point on the actual rendered cobblestone network.
+function closestRoadEntrance(x,z){
+ let best=null,dist=Infinity;
+ for(const seg of baroviaSegments){
+  const dx=seg.b[0]-seg.a[0],dz=seg.b[1]-seg.a[1];
+  const t=Math.max(0,Math.min(1,((x-seg.a[0])*dx+(z-seg.a[1])*dz)/(dx*dx+dz*dz||1)));
+  const px=seg.a[0]+t*dx,pz=seg.a[1]+t*dz,d=Math.hypot(x-px,z-pz);
+  if(d<dist){dist=d;best={x:px,z:pz,seg};}
+ }
+ if(!best)return {x,z};
+ // From centreline toward the facade, remaining on the cobblestones.
+ const vx=x-best.x,vz=z-best.z,len=Math.hypot(vx,vz)||1;
+ const offset=Math.min(Math.max(.3,best.seg.width*.34),Math.max(0,dist-.7));
+ return {x:best.x+vx/len*offset,z:best.z+vz/len*offset};
+}
+function placeKeyedSigns(){
+ const timber=new THREE.MeshStandardMaterial({color:0x49301f,roughness:1});
+ for(const l of gameLocations){
+   // Prefer a building close to the keyed position and with a visible road-facing wall.
+   let choice=null,score=Infinity;
+   for(let i=0;i<houseGroups.length;i++){
+     const h=houseGroups[i],b=blocks[i];
+     if(!b||assignedKeyHouses.has(i))continue;
+     const d=Math.hypot(h.x-l.x,h.z-l.z);
+     if(d>28)continue;
+     const roadDist=Math.min(...baroviaSegments.map(seg=>segmentDistance(h.x,h.z,seg.a,seg.b)));
+     const value=d+Math.max(0,roadDist-5)*3;
+     if(value<score){score=value;choice={h,b};}
+   }
+   if(!choice){
+     // Fallback to closest unassigned house so no keyed location disappears.
+     for(let i=0;i<houseGroups.length;i++){
+       const h=houseGroups[i],b=blocks[i];if(!b||assignedKeyHouses.has(i))continue;
+       const d=Math.hypot(h.x-l.x,h.z-l.z);
+       const rd=Math.min(...baroviaSegments.map(seg=>segmentDistance(h.x,h.z,seg.a,seg.b)));
+       const v=d+Math.max(0,rd-5)*3;
+       if(v<score){score=v;choice={h,b};}
+     }
+   }
+   if(!choice){console.warn('No building assigned for',l.id);continue;}
+   assignedKeyHouses.add(houseGroups.indexOf(choice.h));
+   const {h,b}=choice;
+   // Buildings rotate their front doors toward roads. Mount each sign on
+   // THAT front facade, directly above its door, rather than on a side wall.
+   const angle=h.facingAngle||0;
+   const frontOffset=b.r+.40;
+   const group=new THREE.Group();
+   group.position.set(h.x+Math.sin(angle)*frontOffset,3.18,h.z+Math.cos(angle)*frontOffset);
+   group.rotation.y=angle;
+   const c=document.createElement('canvas');c.width=1024;c.height=320;
+   const ctx=c.getContext('2d');
+   ctx.fillStyle='#432a1c';ctx.fillRect(0,0,1024,320);
+   ctx.strokeStyle='#e2bd78';ctx.lineWidth=14;ctx.strokeRect(13,13,998,294);
+   ctx.fillStyle='#ffe5ac';ctx.textAlign='center';ctx.textBaseline='middle';
+   ctx.font='bold 57px Georgia';ctx.fillText(l.id,512,76);
+   let font=68;ctx.font='bold '+font+'px Georgia';
+   while(ctx.measureText(l.name).width>930&&font>35){font-=2;ctx.font='bold '+font+'px Georgia'}
+   ctx.fillText(l.name,512,203);
+   const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;
+   const board=new THREE.Mesh(new THREE.PlaneGeometry(4.5,1.42),new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide}));
+   group.add(board);
+   scene.add(group);
+   const entry=closestRoadEntrance(h.x+Math.sin(h.facingAngle||0)*(b.r+.4),h.z+Math.cos(h.facingAngle||0)*(b.r+.4));
+   // Map icon marks the BUILDING; entry point remains on the accessible road.
+   l.mapX=h.x;l.mapZ=h.z;l.entryX=entry.x;l.entryZ=entry.z;
+   keyedSigns.push({location:l,group,house:h,entry});
+ }
+}
+placeKeyedSigns();
+
+const MAP_X=l=>(l.mapX??l.x)*5+240,MAP_Y=l=>(l.mapZ??l.z)*5+300;
 
 let gameDM=false,gameDesc=true,gameMap=true,gameKeys=true,gameIndex=0,gameLast=-1,torchOn=true;
 const gameEl=id=>document.getElementById(id);
@@ -981,12 +1122,12 @@ function gameShowModal(title,body){gameEl('gameModalTitle').textContent=title;ga
 function gameClose(){gameEl('gameModal').style.display='none'}
 gameEl('gameClose').onclick=gameClose;gameEl('gameModal').onclick=e=>{if(e.target.id==='gameModal')gameClose()};
 function gameRender(){const l=gameLocations[gameIndex];gameEl('gamePlace').textContent=l.id+' · '+l.name;gameEl('gameRead').textContent=l.player||'';gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=!gameDM;gameEl('gameNotes').textContent=gameDM?(l.dm||'No DM notes provided.'):'';if(gameEl('jumpSelect'))gameEl('jumpSelect').value=String(gameIndex)}
-function gameOpen(){const l=gameLocations[gameIndex];let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
-function gameUpdateLocation(x,z){let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender()}}
+function gameOpen(){gameUpdateLocation(player.x,player.z);const l=gameLocations[gameIndex];if(Math.hypot(player.x-(l.entryX??l.x),player.z-(l.entryZ??l.z))>4.5){gameEl('gameHint').textContent='Walk to the roadside location icon and press E to enter.';return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
+function gameUpdateLocation(x,z){let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-(l.entryX??l.x),z-(l.entryZ??l.z));if(d<best){best=d;idx=i}}if(idx>=0&&best<6&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender()}gameEl('gameHint').textContent=(idx>=0&&best<4.5)?'Press E to enter '+gameLocations[idx].name+'.':'Walk to the roadside location icon and press E to enter.';}
 gameEl('dmBtn').onclick=()=>{gameDM=!gameDM;gameEl('dmBtn').textContent='DM: '+(gameDM?'ON':'OFF');gameEl('dmBtn').classList.toggle('on',gameDM);gameRender()};
 gameEl('descBtn').onclick=()=>{gameDesc=!gameDesc;gameEl('descBtn').textContent=gameDesc?'Hide Descriptions':'Show Descriptions';gameRender()};
 gameEl('mapBtn').onclick=()=>{gameMap=!gameMap;gameEl('mapBtn').textContent=gameMap?'Hide Map':'Show Map';GAME_MAP.style.display=gameMap?'':'none'};
-gameEl('keysBtn').onclick=()=>{gameKeys=!gameKeys;gameEl('keysBtn').textContent=gameKeys?'Hide Key Locations':'Show Key Locations';gameEl('keyOverlay').style.display=gameKeys?'':'none'};
+gameEl('keysBtn').onclick=()=>{gameKeys=!gameKeys;gameEl('keysBtn').textContent=gameKeys?'Hide Key Locations':'Show Key Locations';for(const sign of keyedSigns)sign.group.visible=gameKeys};
 const gameMapTools=document.createElement('div');gameMapTools.id='mapTools';gameMapTools.innerHTML='<button id="mapKeys">Hide Key Locations</button><button id="mapCenter">Center</button>';GAME_MAP.append(gameMapTools);
 gameEl('mapKeys').onclick=()=>gameEl('keysBtn').click();gameEl('mapCenter').onclick=()=>{gameMap=true;GAME_MAP.style.display='';gameEl('mapBtn').textContent='Hide Map'};
 gameEl('exploreBtn').onclick=gameOpen;
@@ -995,8 +1136,43 @@ const heldTurn={left:false,right:false};
 for(const [id,side] of [['turnLeft','left'],['turnRight','right']]){const b=gameEl(id);b.addEventListener('pointerdown',e=>{heldTurn[side]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>heldTurn[side]=false)}
 function gameTurnStep(){if(heldTurn.left)player.angle-=.045;if(heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
 window.addEventListener('keydown',e=>{if(e.key==='Escape')gameClose();if(e.key.toLowerCase()==='e'&&!e.repeat&&gameEl('gameModal').style.display!=='flex')gameOpen()});
-const keyOverlay=document.createElement('canvas');keyOverlay.id='keyOverlay';keyOverlay.width=480;keyOverlay.height=600;GAME_MAP.style.position='absolute';GAME_MAP.append(keyOverlay);
-function drawKeys(){const c=keyOverlay.getContext('2d');c.clearRect(0,0,480,600);c.font='bold 14px Georgia';c.textAlign='center';for(const l of gameLocations){if(!l.r)continue;const x=MAP_X(l),y=MAP_Y(l);if(x<10||x>470||y<10||y>590)continue;c.fillStyle='#f4cf8a';c.fillRect(x-15,y-12,30,19);c.fillStyle='#3c2b1d';c.fillText(l.id,x,y+2)}}drawKeys();
+// Draw map icons on the SAME canvas and in the SAME coordinates as roads,
+// buildings and player arrow. They now scale and resize together.
+const mapSymbols={E1:'🛍️',E2:'🍺',E3:'🏠',E4:'🏛️',E5:'🛏️',E6:'⛪',E7:'✝'};
+function drawKeyIcons(){
+ if(!gameKeys)return;
+ for(const l of gameLocations){
+  const x=MAP_X(l),y=MAP_Y(l);
+  if(x<15||x>465||y<15||y>585)continue;
+  ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);
+  ctx.fillStyle='#302419';ctx.fill();
+  ctx.lineWidth=2;ctx.strokeStyle='#f3d19a';ctx.stroke();
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='18px "Segoe UI Emoji",Arial';
+  ctx.fillText(mapSymbols[l.id]||'📍',x,y+1);
+ }
+}
+document.querySelector('#map').addEventListener('click',e=>{
+ if(!gameKeys)return;
+ const rect=e.currentTarget.getBoundingClientRect();
+ const x=(e.clientX-rect.left)*480/rect.width;
+ const y=(e.clientY-rect.top)*600/rect.height;
+ let closest=null,dist=21;
+ for(const l of gameLocations){
+  const d=Math.hypot(x-MAP_X(l),y-MAP_Y(l));
+  if(d<dist){dist=d;closest=l;}
+ }
+ if(closest){gameIndex=gameLocations.indexOf(closest);gameRender();}
+});
+const mapResizeGrip=document.createElement('div');mapResizeGrip.id='mapResizeGrip';mapResizeGrip.title='Drag to resize map';mapResizeGrip.textContent='◢';GAME_MAP.append(mapResizeGrip);
+mapResizeGrip.addEventListener('pointerdown',e=>{
+ e.preventDefault();e.stopPropagation();mapResizeGrip.setPointerCapture(e.pointerId);
+ const initialX=e.clientX,initialY=e.clientY,w=GAME_MAP.getBoundingClientRect().width,h=GAME_MAP.getBoundingClientRect().height;
+ const move=ev=>{GAME_MAP.style.setProperty('--map-w',Math.max(235,Math.min(innerWidth-35,w+initialX-ev.clientX))+'px');GAME_MAP.style.setProperty('--map-h',Math.max(340,Math.min(innerHeight-25,h+ev.clientY-initialY))+'px');};
+ const stop=()=>{mapResizeGrip.removeEventListener('pointermove',move);mapResizeGrip.removeEventListener('pointerup',stop);mapResizeGrip.removeEventListener('pointercancel',stop);};
+ mapResizeGrip.addEventListener('pointermove',move);mapResizeGrip.addEventListener('pointerup',stop);mapResizeGrip.addEventListener('pointercancel',stop);
+});
+
 function gameNav(path){window.location.href=path}
 gameEl('castleBtn').onclick=()=>gameNav('ravenloft.html');
 gameEl('encBtn').onclick=gameEncounter;

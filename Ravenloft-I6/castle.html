@@ -21,13 +21,13 @@
 #ambientControl{position:fixed;left:clamp(450px,36vw,590px);bottom:16px;z-index:90;background:#16100d;color:#e9c989;border:1px solid #987447;border-radius:5px;padding:9px 12px;font:13px Georgia,serif;cursor:pointer;box-shadow:0 3px 15px #000a}
 #ambientControl:hover{background:#3b2919}#ambientControl:focus-visible{outline:2px solid #f4c878}
 #edgeBrowserTip{position:fixed;z-index:7;top:16px;left:50%;transform:translateX(-50%);max-width:min(480px,calc(100vw - 550px));padding:9px 32px 9px 12px;background:#15100eea;color:#e8d7ba;border:1px solid #927b58;font:12px/1.4 Georgia,serif;box-shadow:0 3px 16px #0008}#edgeBrowserTip strong{color:#f2c98a}#edgeBrowserTip button{position:absolute;right:4px;top:3px;border:0;background:transparent;color:#e9d7b9;font:18px Georgia,serif;padding:2px 6px}#edgeBrowserTip button:hover{color:#fff}@media(max-width:1000px){#edgeBrowserTip{top:auto;bottom:95px;left:50%;max-width:360px;width:calc(100vw - 30px)}}
-/* v0.9.82: all encounter notices use a persistent, compact right-side battle card. */
+/* v0.9.86: all encounter notices use a persistent, compact right-side battle card. */
 #encounterShock,#encounterShock.monsterEncounterNotice{position:fixed!important;left:auto!important;right:145px!important;top:160px!important;transform:none!important;width:min(270px,calc(100vw - 175px))!important;max-height:45vh!important;overflow:auto!important;padding:12px 14px!important;background:linear-gradient(145deg,#261512f5,#100d0df5)!important;border:1px solid #c69b67!important;box-shadow:0 6px 24px #000b!important;text-align:left!important;animation:none!important;z-index:119!important;pointer-events:auto!important;}
 #encounterShock h2,#encounterShock.monsterEncounterNotice h2{font:small-caps bold 17px Georgia,serif!important;letter-spacing:.5px!important;margin:0 0 5px!important;}
 #encounterShock p,#encounterShock.monsterEncounterNotice p{font:13px/1.35 Georgia,serif!important;margin:0 0 10px!important;}
 #encounterShock button,#encounterShock.monsterEncounterNotice button{font:12px Georgia,serif!important;padding:7px 10px!important;}
 @media(max-width:850px){#encounterShock,#encounterShock.monsterEncounterNotice{right:10px!important;top:auto!important;bottom:85px!important;width:min(245px,55vw)!important;}}
-/* v0.9.82: battle notification occupies the map position, independent of map visibility. */
+/* v0.9.86: battle notification occupies the map position, independent of map visibility. */
 #encounterShock,#encounterShock.monsterEncounterNotice{left:auto!important;right:160px!important;top:76px!important;bottom:auto!important;transform:none!important;width:clamp(300px,30vw,490px)!important;max-width:calc(100vw - 185px)!important;max-height:200px!important;overflow:auto!important;padding:15px 18px!important;background:linear-gradient(120deg,#3c2217fa,#170e11fa)!important;border:2px solid #f1b956!important;border-left:6px solid #ffcb63!important;border-radius:8px!important;box-shadow:0 0 0 2px #150e0a,0 10px 40px #000d,0 0 26px #d8873040!important;z-index:130!important;text-align:left!important;animation:none!important;}
 #encounterShock::before{content:'⚔ ENCOUNTER NOTIFICATION';display:block;color:#ffda89;font:bold 11px Georgia,serif;letter-spacing:1.5px;margin:0 0 8px}
 #encounterShock h2,#encounterShock.monsterEncounterNotice h2{font:bold 19px Georgia,serif!important;color:#ffe2a9!important;margin:0 0 7px!important;letter-spacing:.4px!important}
@@ -112,7 +112,7 @@
  #notes{max-height:calc(100vh - 250px)!important;overflow-y:auto!important}
 }
 </style><style>
-/* v0.9.82: compact green encounter acknowledgement, anchored above map. */
+/* v0.9.86: compact green encounter acknowledgement, anchored above map. */
 #encounterShock,#encounterShock.monsterEncounterNotice{
  position:fixed!important;left:auto!important;right:160px!important;top:92px!important;bottom:auto!important;
  transform:none!important;width:270px!important;max-width:calc(100vw - 185px)!important;
@@ -152,8 +152,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.82 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.82 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.86 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon" style="display:none" aria-hidden="true"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.87 — Main Floor Edition</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -573,7 +573,9 @@ function applyFloorTheme(f){
  ambient.color.set(def.ambSky);ambient.groundColor.set(def.ambGround);ambient.intensity=def.ambient;
 }
 applyFloorTheme(0);
+const PUBLIC_MAIN_FLOOR_ONLY=true; // Set false and remove floorRibbon inline display:none to restore full navigation.
 function switchFloor(f){
+ if(PUBLIC_MAIN_FLOOR_ONLY && f!==0)return;
  if(f===activeFloor)return;
  activeFloor=f;
  for(const o of groundOnlyObjects)o.visible=f===0;
@@ -625,7 +627,7 @@ function allIndexedRoomIds(){
 function renderRoomDirectory(){
  const title=document.getElementById('roomDirectoryTitle'),root=document.getElementById('roomDirectoryItems');
  if(!title||!root)return;
- const ids=roomIndexScope==='all'?allIndexedRoomIds():(floorRoomRoster[activeFloor]||[]);
+ const ids=PUBLIC_MAIN_FLOOR_ONLY?(floorRoomRoster[0]||[]):(roomIndexScope==='all'?allIndexedRoomIds():(floorRoomRoster[activeFloor]||[]));
  const search=(document.getElementById('roomIndexSearch')?.value||'').trim().toLowerCase();
  const shown=ids.filter(id=>{const r=MODULE_ROOM_DATA[id];return !search||(id+' '+(r?.name||'')).toLowerCase().includes(search)});
  title.textContent=roomIndexScope==='all'?'Castle Ravenloft · '+ids.length+' K-room entries':floorNames[activeFloor]+' · '+ids.length+' map locations';
@@ -642,7 +644,8 @@ function renderRoomDirectory(){
  if(!shown.length){const note=document.createElement('p');note.textContent='No matching rooms';root.appendChild(note)}
 }
 document.getElementById('roomIndexFloor')?.addEventListener('click',()=>{roomIndexScope='floor';renderRoomDirectory()});
-document.getElementById('roomIndexAll')?.addEventListener('click',()=>{roomIndexScope='all';renderRoomDirectory()});
+if(PUBLIC_MAIN_FLOOR_ONLY){document.getElementById('roomIndexAll')?.remove();document.getElementById('moduleContentsBtn')?.remove();}
+else document.getElementById('roomIndexAll')?.addEventListener('click',()=>{roomIndexScope='all';renderRoomDirectory()});
 document.getElementById('roomIndexSearch')?.addEventListener('input',renderRoomDirectory);
 // The original K-number-to-drawing index is deployed next to castle.html.
 // It is intentionally used only by the reference window: the previously working
@@ -751,7 +754,7 @@ function evaluateGroundEncounter(id){
  dmWrite(id+' · '+e.title,e.rule,e.chance===null?('WHAT HAPPENS: '+e.rule):('WHAT HAPPENS: '+e.rule+' Condition: '+e.condition));
 }
 
-// v0.9.82: concise I6 encounter controls. Room events are explicit, never inferred from prose.
+// v0.9.86: concise I6 encounter controls. Room events are explicit, never inferred from prose.
 const I6_ROOM_ENCOUNTERS={"K7":[{"id":"animated_red_dragon","count":4,"condition":"Enters through EAST doors; not Strahd","chance":"Conditional"}],"K8":[{"id":"gargoyle","count":8,"condition":"Returns after everyone leaves, or attacks gargoyles","chance":"Conditional"}],"K19":[{"id":"animated_armor","count":1,"condition":"Pressure plates: 60% chance of activation","chance":"60%"}],"K20":[{"id":"guardian_of_sorrow","count":1,"condition":"Steps onto spiral staircase; guardian awakens","chance":"Conditional"}],"K28":[{"id":"strahd_zombie","count":2,"condition":"Looks around the edge of the thrones","chance":"Conditional"}],"K32":[{"id":"vampire","count":1,"condition":"Helga attacks when isolated or commanded by Strahd","chance":"Conditional"}],"K35":[{"id":"wraith","count":2,"condition":"Attempts to pass through the hall","chance":"Certain"}],"K40":[{"id":"giant_spider","count":5,"condition":"Rope pulled/climbed or spiders attacked","chance":"Conditional"}],"K45":[{"id":"helpful_spirit","count":10,"condition":"Speak directly to a statue; answers one question","chance":"Conditional"}],"K47":[{"id":"guardian_portrait","count":1,"condition":"Attacks portrait or enters via west door","chance":"Conditional"}],"K50":[{"id":"barovian_witch","count":7,"condition":"Nighttime raid from K56","chance":"Night only"}],"K51":[{"id":"barovian_witch","count":7,"condition":"Nighttime attack through trap door","chance":"Night only"}],"K54":[{"id":"black_cat","count":3,"condition":"Familiars see the party; alert witches","chance":"Conditional"}],"K56":[{"id":"barovian_witch","count":7,"condition":"Witches attack immediately","chance":"Certain"}],"K69":[{"id":"skeleton","count":10,"condition":"Party reaches midpoint of the hall","chance":"Certain"}],"K72":[{"id":"shadow_demon","count":1,"condition":"Party enters the room","chance":"Certain"}],"K75":[{"id":"werewolf","count":1,"condition":"Cell A; lurking in the water","chance":"Conditional"}],"K75a":[{"id":"werewolf","count":1,"condition":"Cell A; lurking in the water","chance":"Conditional"}],"K78":[{"id":"iron_golem","count":2,"condition":"Statues are iron golems; activation depends on room rules","chance":"Conditional"}]};
 
 function encounterRosterForFloor(floor){
@@ -807,7 +810,7 @@ function renderDmEncounters(){
    const current=document.createElement('button');current.textContent='Current floor';current.onclick=()=>{picker.value=String(activeFloor);renderDmEncounters()};
    controls.append(label,picker,current);list.before(controls);
  }
- const floor=Number(picker.value),entries=encounterRosterForFloor(floor);
+ const floor=PUBLIC_MAIN_FLOOR_ONLY?0:Number(picker.value),entries=encounterRosterForFloor(floor);
  panel.querySelector('h2').textContent='DM · '+floorNames[floor]+' Encounters';
  const intro=panel.querySelector('h2')?.parentElement?.nextElementSibling;
  if(intro?.tagName==='P')intro.textContent='Room encounter rules and castle random table only. Manual Trigger overrides conditions for visual testing; Roll/check respects numeric chances.';
@@ -892,8 +895,8 @@ function castleEncounterCheck(){
  window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:RANDOM_MONSTER_IDS[chosen.name]||null,count}}));
  encounterNotice(message,'RANDOM ENCOUNTER · '+name.toUpperCase());
 }
-function advanceExplorationTurn(){if(!autoDmEnabled)return;randomState.turns++;oracleRecord('Time advanced','10 minutes · '+floorNames[activeFloor]+' · Turn '+randomState.turns,'Turn advanced');if(randomState.turns%3===0)castleEncounterCheck();}
-function trackExplorationMovement(){
+function advanceExplorationTurn(){if(window.DNDPOV_MP?.connected)return;if(!autoDmEnabled)return;randomState.turns++;oracleRecord('Time advanced','10 minutes · '+floorNames[activeFloor]+' · Turn '+randomState.turns,'Turn advanced');if(randomState.turns%3===0)castleEncounterCheck();}
+function trackExplorationMovement(){if(window.DNDPOV_MP?.connected)return;
  if(!autoDmEnabled||$('start').style.display!=='none')return;
  if(randomState.lastX===null){randomState.lastX=player.x;randomState.lastY=player.y;return;}
  const step=Math.hypot(player.x-randomState.lastX,player.y-randomState.lastY);
@@ -986,7 +989,13 @@ for(let y=ymin;y<ymax;y++)for(let x=xmin;x<xmax;x++){
  if(y===HH-1||grid[index(x,y+1)]===0){mc.moveTo(px,py+sc);mc.lineTo(px+sc,py+sc)}
  if(x===0||grid[index(x-1,y)]===0){mc.moveTo(px,py);mc.lineTo(px,py+sc)}mc.stroke();
 }
-if(keyLocationsVisible){let placed=[];for(let r of [...rooms].sort((a,b)=>Number(b.id===room()?.id)-Number(a.id===room()?.id))){let x=ox+(r.box[0]+r.box[2])/2*sc,y=oy+(r.box[1]+r.box[3])/2*sc;if(x<17||x>w-17||y<16||y>h-16)continue;if(placed.some(p=>Math.hypot(p.x-x,p.y-y)<34))continue;placed.push({x,y});const revealed=visitedRooms().has(r.id)||r.id===room()?.id;mc.fillStyle=revealed?'#e9b968':'#16151d';mc.fillRect(x-17,y-9,34,18);mc.strokeStyle='#bca17a';mc.strokeRect(x-17,y-9,34,18);mc.fillStyle=revealed?'#17120c':'#e9d9b8';mc.font='bold 12px Georgia';mc.textAlign='center';mc.fillText(r.id,x,y+4)}}mc.save();mc.translate(mapOverview?ox+player.x*sc:w/2,mapOverview?oy+player.y*sc:h/2);mc.rotate(-player.a);mc.fillStyle='#ffe16c';mc.beginPath();mc.moveTo(0,-13);mc.lineTo(-7,8);mc.lineTo(0,4);mc.lineTo(7,8);mc.closePath();mc.fill();mc.restore();$('zoomlabel').textContent=mapOverview?'FIT':mapZoom.toFixed(1)+'×';$('mapModeToggle').textContent=mapOverview?'Follow Me':'Full Map';}
+if(keyLocationsVisible){let placed=[];for(let r of [...rooms].sort((a,b)=>Number(b.id===room()?.id)-Number(a.id===room()?.id))){let x=ox+(r.box[0]+r.box[2])/2*sc,y=oy+(r.box[1]+r.box[3])/2*sc;if(x<17||x>w-17||y<16||y>h-16)continue;if(placed.some(p=>Math.hypot(p.x-x,p.y-y)<34))continue;placed.push({x,y});const revealed=visitedRooms().has(r.id)||r.id===room()?.id;mc.fillStyle=revealed?'#e9b968':'#16151d';mc.fillRect(x-17,y-9,34,18);mc.strokeStyle='#bca17a';mc.strokeRect(x-17,y-9,34,18);mc.fillStyle=revealed?'#17120c':'#e9d9b8';mc.font='bold 12px Georgia';mc.textAlign='center';mc.fillText(r.id,x,y+4)}}
+// Local multiplayer markers: visible only when players are on this floor.
+if(window.DNDPOV_MP?.members){for(const m of window.DNDPOV_MP.members){if(m.id===window.DNDPOV_MP.id||m.floor!==activeFloor||!m.online)continue;
+ const mx=ox+m.x*sc,my=oy+m.y*sc;if(mx<0||mx>w||my<0||my>h)continue;
+ mc.save();mc.fillStyle=m.color||'#58c8ff';mc.strokeStyle='#101010';mc.lineWidth=2;mc.beginPath();mc.arc(mx,my,7,0,Math.PI*2);mc.fill();mc.stroke();mc.font='bold 11px system-ui';mc.textAlign='center';mc.fillStyle='#ffffff';mc.strokeStyle='#080808';mc.lineWidth=3;mc.strokeText(m.name.slice(0,12),mx,my-12);mc.fillText(m.name.slice(0,12),mx,my-12);mc.restore();
+}}
+mc.save();mc.translate(mapOverview?ox+player.x*sc:w/2,mapOverview?oy+player.y*sc:h/2);mc.rotate(-player.a);mc.fillStyle='#ffe16c';mc.beginPath();mc.moveTo(0,-13);mc.lineTo(-7,8);mc.lineTo(0,4);mc.lineTo(7,8);mc.closePath();mc.fill();mc.restore();$('zoomlabel').textContent=mapOverview?'FIT':mapZoom.toFixed(1)+'×';$('mapModeToggle').textContent=mapOverview?'Follow Me':'Full Map';}
 // Click a displayed K label or room footprint to inspect its full source text.
 mini.addEventListener('click',e=>{
  if(!keyLocationsVisible)return;
@@ -1066,6 +1075,13 @@ syncNavigationControls();
 $('mapModeToggle').onclick=()=>{mapOverview=!mapOverview;mapDraw()};$('zoomin').onclick=()=>{mapOverview=false;mapZoom=Math.min(5,mapZoom+.4);mapDraw()};$('zoomout').onclick=()=>{mapOverview=false;mapZoom=Math.max(.65,mapZoom-.4);mapDraw()};
 addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);addEventListener('mousemove',e=>{if(mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;renderer.domElement.onclick=()=>{if(mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
 let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=$('popup').style.display!=='block' && $('start').style.display==='none' && ($('encounterShock').style.display!=='block'||$('encounterShock').classList.contains('monsterEncounterNotice')) && $('roomArtOverlay').style.display!=='flex';let forward=active?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=active?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
+// Explicit bridge from the Three.js ES module to the multiplayer controller.
+window.DNDPOV_CASTLE_BRIDGE={
+ getPosition:()=>({x:player.x,y:player.y,a:player.a,floor:activeFloor,room:room()?.id||null}),
+ redrawMap:()=>{if(mapVisible)mapDraw()},
+ isDM:()=>dm,
+ toggleDM:()=>document.getElementById('dmBtn')?.click()
+};
 </script><script>
 /* Real audio file playback — external /sounds/ directory; no synthetic tones. */
 (()=>{
@@ -1338,5 +1354,67 @@ document.addEventListener('keyup',refreshAll);
 // Refresh on opening the tray, so states remain accurate even after programmatic changes.
 toggle.addEventListener('click',refreshAll);
 refreshAll();
+})();
+</script><style>
+#mpButton{position:fixed;top:12px;left:12px;z-index:10005;background:#193326;color:#b8f5c6;border:1px solid #60a77a;border-radius:7px;padding:8px 13px;font:700 12px system-ui;cursor:pointer}
+#mpPanel{position:fixed;z-index:10006;top:48px;left:12px;width:min(350px,calc(100vw - 24px));max-height:85vh;overflow:auto;background:#151b17;color:#eee9da;border:1px solid #6caa7d;border-radius:10px;box-shadow:0 12px 50px #000b;padding:16px;font:13px/1.5 system-ui;display:none}
+#mpPanel h3{margin:0 0 10px;color:#b7e9bd;font:700 18px system-ui}#mpPanel input,#mpPanel select{width:100%;padding:8px;margin:4px 0 10px;color:#fff;background:#202c25;border:1px solid #6b8c75;border-radius:5px}#mpPanel button{background:#2e6643;color:white;border:1px solid #6aab7a;border-radius:5px;padding:8px 10px;margin:3px;cursor:pointer}#mpPanel button:disabled{opacity:.45}#mpPanel .muted{color:#b7bdb5;font-size:11px}#mpPanel .member{padding:5px;border-bottom:1px solid #45564b}
+</style>
+<button id="mpButton" type="button">♟ Multiplayer: OFF</button>
+<section id="mpPanel" aria-label="Local multiplayer"><h3>Local Multiplayer · v0.9.87</h3>
+<p class="muted">One Windows computer hosts the session. Other players connect using its local network address. No internet service or game clock.</p>
+<label>Character name<input id="mpName" maxlength="24" placeholder="Alaric"></label>
+<label>Marker color<select id="mpColor"><option value="#58b8ff">Blue</option><option value="#67d9a0">Green</option><option value="#f5c25c">Gold</option><option value="#ce8dff">Purple</option></select></label>
+<label>Session code<input id="mpCode" maxlength="8" placeholder="Leave blank to host"></label>
+<button id="mpHost">Host as DM</button><button id="mpJoin">Join as Player</button><button id="mpLeave">Disconnect</button><button id="mpClose">Close ×</button>
+<div id="mpStatus" class="muted">Not connected.</div><div id="mpTransport" class="muted">Network: waiting</div><div id="mpMembers"></div>
+<div id="mpDM" hidden><h3>DM Encounter Control</h3><p class="muted">Select the players who should receive the monster reveal. The DM decides when to trigger or complete it.</p>
+<label>Monster ID<input id="mpMonster" placeholder="gargoyle"></label><label>Quantity<input id="mpCount" type="number" value="1" min="1" max="99"></label>
+<label>Recipients<select id="mpTargets"><option value="room">Players in my floor and room</option><option value="all">All connected players</option></select></label>
+<button id="mpTrigger">Trigger monster</button><button id="mpComplete">Battle complete</button><button id="mpPause">Pause / resume movement</button><h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
+</section>
+<script>
+(()=>{
+ const $mp=id=>document.getElementById(id), mp={connected:false,id:null,members:[],role:null,session:null,paused:false};window.DNDPOV_MP=mp;
+ let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ const say=t=>{$mp('mpStatus').textContent=t};
+ function send(o){if(ws?.readyState===WebSocket.OPEN){ws.send(JSON.stringify(o));if(o.type==='position')sent++}}
+ function redraw(){const el=$mp('mpMembers');el.replaceChildren();for(const m of mp.members){const p=document.createElement('div');p.className='member';p.textContent=(m.online?'● ':'○ ')+m.name+' · '+(floorNames[m.floor]||m.floor)+' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'')+' · X:'+Number(m.x).toFixed(1)+' Y:'+Number(m.y).toFixed(1);p.style.color=m.color;el.append(p)}
+ $mp('mpButton').textContent=mp.connected?'♟ '+mp.session+' · '+mp.members.length+' connected':'♟ Multiplayer: OFF';
+ }
+ function connect(role){if(ws)ws.close();mp.connected=false;const proto=location.protocol==='https:'?'wss:':'ws:';ws=new WebSocket(proto+'//'+location.host+'/ws');
+ ws.onopen=()=>send({type:'join',role,code:$mp('mpCode').value.trim().toUpperCase(),name:$mp('mpName').value.trim()||'Adventurer',color:$mp('mpColor').value,secret:role==='dm'?sessionSecret:null});
+ ws.onclose=()=>{mp.connected=false;say('Disconnected. Rejoin when ready.');redraw()};ws.onerror=()=>say('Connection failed. Open Castle using the local server address, not file://.');
+ ws.onmessage=e=>{let d;try{d=JSON.parse(e.data)}catch{return}
+ if(d.type==='position_ack'){acked++;return}
+ if(d.type==='error'){say(d.message);return}
+ if(d.type==='welcome'){mp.connected=true;mp.id=d.id;mp.role=d.role;mp.session=d.code;sessionSecret=d.secret||sessionSecret;$mp('mpCode').value=d.code;$mp('mpDM').hidden=d.role!=='dm';say('Connected as '+d.role.toUpperCase()+' · session '+d.code);sendPosition(true);redraw();return}
+ if(d.type==='state'){received++;mp.members=d.members||[];mp.paused=!!d.paused;redraw();window.DNDPOV_CASTLE_BRIDGE?.redrawMap?.();return}
+ if(d.type==='log'&&mp.role==='dm'){const p=document.createElement('div');p.textContent=d.message;$mp('mpLog').prepend(p);return}
+ if(d.type==='encounter'){if(!d.id)return;window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:d.id,count:d.count||1}}));
+ const shock=$mp('encounterShock');$mp('shockHeading').textContent='ENCOUNTER · '+d.id.replaceAll('_',' ').toUpperCase();$mp('shockMessage').textContent=(d.count||1)+' × '+d.id.replaceAll('_',' ');shock.style.display='block';
+ if(typeof oracleRecord==='function')oracleRecord('Multiplayer encounter','DM triggered '+d.id+' · '+d.count+' creatures','Encounter received');return}
+ if(d.type==='complete'){$mp('encounterShock').style.display='none';if(typeof oracleRecord==='function')oracleRecord('Multiplayer battle complete','DM resolved encounter','Continue exploring');return}
+ };
+ }
+ function sendPosition(force=false){if(!mp.connected)return;const now=Date.now();if(!force&&now-lastSent<170)return;lastSent=now;
+ const pos=window.DNDPOV_CASTLE_BRIDGE?.getPosition?.();if(pos)send({type:'position',...pos});}
+ setInterval(()=>sendPosition(),180);
+ setInterval(()=>{
+   const remote=mp.members.filter(m=>m.id!==mp.id);
+   $mp('mpTransport').textContent='Network: '+(ws?.readyState===1?'connected':'disconnected')+' · sent '+sent+' · server ACK '+acked+' · states received '+received+' · remote '+remote.length;
+ },1000);
+ document.addEventListener('keydown',e=>{if(mp.connected&&mp.paused&&mp.role!=='dm'&&['ArrowUp','ArrowDown','KeyW','KeyS'].includes(e.code)){e.stopImmediatePropagation();e.preventDefault()}},true);
+ window.addEventListener('dndpov-room-entry',e=>{if(mp.connected)send({type:'room',room:e.detail?.id||null,floor:activeFloor})});
+ $mp('mpButton').onclick=()=>{$mp('mpPanel').style.display=$mp('mpPanel').style.display==='block'?'none':'block'};
+ $mp('mpClose').onclick=()=>$mp('mpPanel').style.display='none';
+ $mp('mpHost').onclick=()=>connect('dm');$mp('mpJoin').onclick=()=>connect('player');
+ $mp('mpLeave').onclick=()=>{ws?.close();mp.connected=false;mp.members=[];redraw()};
+ $mp('mpTrigger').onclick=()=>send({type:'encounter',id:$mp('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),count:Number($mp('mpCount').value)||1,targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
+ $mp('mpComplete').onclick=()=>send({type:'complete',targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
+ $mp('mpPause').onclick=()=>send({type:'pause'});
+ // DM-only notes are not sent by the server. Hide local DM toggle for joined players.
+ const observer=new MutationObserver(()=>{if(mp.connected&&mp.role==='player'&&window.DNDPOV_CASTLE_BRIDGE?.isDM?.()){window.DNDPOV_CASTLE_BRIDGE?.toggleDM?.()}});
+ observer.observe($mp('dmBtn'),{attributes:true,childList:true,subtree:true});
 })();
 </script></body></html>

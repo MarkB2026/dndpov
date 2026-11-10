@@ -75,8 +75,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.70 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Every K label listed on this map links to its module text. Upper-floor geometry remains schematic, not a traced reproduction.</p><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help">↑↓ walk · ←→ turn · Mouse look optional · Shift run · Drag map title to move<br>F torch · M map · Tab notes · G DM mode<br>Enter dismiss room description · Esc mouse release</div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.70 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.9.72 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Every K label listed on this map links to its module text. Upper-floor geometry remains schematic, not a traced reproduction.</p><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help">↑↓ walk · ←→ turn · Mouse look optional · Shift run · Drag map title to move<br>F torch · M map · Tab notes · G DM mode<br>Enter dismiss room description · Esc mouse release</div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.9.72 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -1033,4 +1033,88 @@ body.dm-visible #moduleContentsBtn{display:inline-block}
  dmButton.addEventListener('click',()=>{if(!document.body.classList.contains('dm-visible'))hide()});
 })();
 </script>
-</body></html>
+<style id="dungeonToolsStyle">
+/* Compact dungeon toolbar: keep original controls wired, remove floating torch illustration. */
+#heldTorch{display:none!important}
+#controls #lantern{display:none!important}
+#oracleOrb{display:none!important}
+#dungeonToolDock{position:fixed;right:17px;bottom:72px;z-index:65;font:13px Georgia,serif;color:#eed9b5}
+#dungeonToolToggle{width:46px;height:46px;border:1px solid #b89460;border-radius:11px;background:#19120feF;color:#f0c982;font-size:23px;cursor:pointer;box-shadow:0 3px 15px #000b}
+#dungeonToolTray{position:absolute;right:0;bottom:55px;display:none;flex-direction:column;gap:7px;padding:9px;background:#120e0dec;border:1px solid #947349;border-radius:9px;box-shadow:0 7px 24px #000c;min-width:114px}
+#dungeonToolDock.open #dungeonToolTray{display:flex}
+#dungeonToolTray button{background:#30231c;border:1px solid #826341;border-radius:5px;color:#ead1a5;padding:8px;cursor:pointer;text-align:left;white-space:nowrap}
+#dungeonToolTray button:hover{background:#62452b}
+#dungeonToolTray button:disabled{opacity:.4;cursor:not-allowed}
+#dungeonToolTray .tool-icon{display:inline-block;width:22px;text-align:center;font-size:17px}
+#dungeonToolTorch[aria-pressed="false"]{opacity:.65}
+
+/* All existing settings are consolidated into the dungeon tools tray. */
+#controls{display:none!important}
+#dungeonToolDock{right:16px;bottom:18px;z-index:150}
+#dungeonToolTray{max-height:min(75vh,620px);overflow-y:auto;min-width:220px;gap:5px}
+#dungeonToolTray .tool-divider{font-size:10px;letter-spacing:1.5px;color:#b89a68;padding:9px 6px 3px;border-top:1px solid #58452f;margin-top:3px}
+#dungeonToolTray button{font:12px Georgia,serif;transition:background .15s,box-shadow .15s,border-color .15s;color:#e6d0ae}
+#dungeonToolTray button.tool-active{background:#65502c!important;color:#ffe5a1!important;border-color:#f0c36e!important;box-shadow:inset 0 0 0 1px #b58a47,0 0 13px #c68c3660;text-shadow:0 0 7px #ffd48888}
+#dungeonToolTray button.tool-active .tool-icon{filter:drop-shadow(0 0 5px #ffd27a)}
+#dungeonToolTray button.tool-danger{border-color:#825348;color:#e9b8a8}
+#dungeonToolToggle.tool-active{box-shadow:0 0 15px #bf874f80;border-color:#e4b969}
+</style><div id="dungeonToolDock"><button id="dungeonToolToggle" type="button" title="Dungeon tools" aria-label="Open dungeon tools" aria-expanded="false">⚒</button><div id="dungeonToolTray"><button id="dungeonToolTorch" type="button"><span class="tool-icon">🔥</span> Torch ON</button><button id="dungeonToolOracle" type="button"><span class="tool-icon">✦</span> Oracle</button><button id="dungeonToolDM" type="button"><span class="tool-icon">📜</span> Encounters</button></div></div><script id="dungeonToolsScript">
+(function(){
+const dock=document.getElementById('dungeonToolDock'),toggle=document.getElementById('dungeonToolToggle'),tray=document.getElementById('dungeonToolTray');
+const torch=document.getElementById('dungeonToolTorch'),oracle=document.getElementById('dungeonToolOracle'),encounters=document.getElementById('dungeonToolDM');
+function sync(){const original=document.getElementById('lantern');const on=!original||original.textContent.includes('ON');torch.innerHTML='<span class="tool-icon">🔥</span> Torch '+(on?'ON':'OFF');torch.setAttribute('aria-pressed',String(on));const dm=document.body.classList.contains('dm-visible');oracle.disabled=!dm;encounters.disabled=!dm;}
+function close(){dock.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
+toggle.addEventListener('click',()=>{dock.classList.toggle('open');toggle.setAttribute('aria-expanded',String(dock.classList.contains('open')));sync();document.exitPointerLock?.();});
+torch.addEventListener('click',()=>{document.getElementById('lantern')?.click();sync();});
+oracle.addEventListener('click',()=>{if(!oracle.disabled){document.getElementById('oracleOrb')?.click();close();}});
+encounters.addEventListener('click',()=>{if(encounters.disabled)return;const p=document.getElementById('dmEncounterPanel');if(p){p.style.display='block';if(typeof renderDmEncounters==='function')renderDmEncounters();document.exitPointerLock?.();close();}});
+document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))close();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+// Keep all original event handlers intact: move the actual controls, not clones.
+const settings=[
+ ['mouseLook','◉','Mouse Look'],
+ ['textToggle','▤','Room Notes'],
+ ['roomImagesToggle','▧','Room Images'],
+ ['ambientControl','♫','Dungeon Sounds'],
+ ['dmBtn','⚿','DM Mode'],
+ ['mapBtn','⌖','Key Locations'],
+ ['hardcoreBtn','▦','Navigation Map'],
+ ['moduleContentsBtn','📖','Module Contents'],
+ ['reset','↺','Restart Floor']
+];
+const sep=document.createElement('div');sep.className='tool-divider';sep.textContent='EXPLORATION & SETTINGS';tray.appendChild(sep);
+const moved=[];
+for(const [id,icon,label] of settings){
+ const b=document.getElementById(id);if(!b)continue;
+ b.dataset.toolIcon=icon;b.dataset.toolLabel=label;
+ tray.appendChild(b);moved.push(b);
+ if(id==='reset')b.classList.add('tool-danger');
+}
+function active(b){
+ const t=b.textContent.toUpperCase();const id=b.id;
+ if(id==='mapBtn')return /HIDE KEY/.test(t);
+ if(id==='hardcoreBtn')return /HIDE MAP/.test(t);
+ if(id==='ambientControl')return /ON/.test(t)&&!/OFF/.test(t);
+ if(['moduleContentsBtn','reset'].includes(id))return false;
+ return /\bON\b/.test(t)&&!/\bOFF\b/.test(t);
+}
+function refreshAll(){
+ sync();
+ torch.classList.toggle('tool-active',torch.getAttribute('aria-pressed')==='true');
+ oracle.classList.toggle('tool-active',document.getElementById('oraclePanel')?.style.display!=='none'&&!oracle.disabled);
+ encounters.classList.toggle('tool-active',document.getElementById('dmEncounterPanel')?.style.display!=='none'&&!encounters.disabled);
+ for(const b of moved){
+  b.classList.toggle('tool-active',active(b));
+  b.setAttribute('aria-pressed',String(active(b)));
+  // Labels stay as maintained by the original game logic.
+ }
+}
+for(const b of moved)b.addEventListener('click',()=>{setTimeout(refreshAll,0);});
+for(const b of [torch,oracle,encounters,toggle])b.addEventListener('click',()=>{setTimeout(refreshAll,0);});
+// Capture keyboard shortcuts as well as mouse interactions.
+document.addEventListener('keyup',refreshAll);
+// Refresh on opening the tray, so states remain accurate even after programmatic changes.
+toggle.addEventListener('click',refreshAll);
+refreshAll();
+})();
+</script></body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DNDPOV — Lands of Barovia · v0.16</title>
+<title>DNDPOV — Lands of Barovia · v0.17</title>
 <style>
 :root{color-scheme:dark;--gold:#d2a76a}*{box-sizing:border-box}body{margin:0;background:#0c0b11;color:#efdfc4;font:14px Georgia,serif;overflow:hidden}button,select{font:12px Georgia,serif;color:#e8d2a4;background:#211a18;border:1px solid #8a6d44;border-radius:2px;padding:7px 10px;cursor:pointer}button:hover{background:#493628}#world{display:block;width:100vw;height:100vh}#cross{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#f2c88b;z-index:2;pointer-events:none} .panel{background:#0c0a0ce9;border:1px solid #795d3e;box-shadow:0 4px 20px #0009;position:fixed;z-index:5}#header{top:14px;left:14px;width:340px;padding:13px 16px}h1{margin:0 0 4px;color:#f1c681;font-size:24px;letter-spacing:.04em}small{color:#c8b293}#locbox{top:98px;left:14px;width:340px;max-height:68vh;overflow:auto;padding:16px}#locbox h2{color:#edc184;margin:0 0 10px;font-size:19px}[hidden]{display:none!important}#readout{font-style:italic;line-height:1.48;background:#272024;border-left:3px solid #cf9e59;padding:10px;white-space:pre-line}#dmtext{font-size:12.5px;line-height:1.5;margin-top:13px;white-space:pre-line;border-top:1px solid #725439;padding-top:12px}#minibox{right:15px;top:14px;padding:9px;width:340px}#minibox h3{color:#f3c785;font-size:12px;margin:0 0 7px}#map{display:block;width:320px;height:268px;background:#18171b;cursor:crosshair}#maptools{display:flex;gap:6px;justify-content:center;margin-top:7px}#controls{right:15px;bottom:15px;padding:9px;display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;width:435px}#controls button{padding:7px 9px}#help{left:14px;bottom:14px;padding:11px;font:12px/1.6 Georgia;color:#dfcfb7;max-width:430px}#navhint{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);z-index:3;padding:8px 13px;background:#160e10ee;border:1px solid #8d683e;color:#f9d69b;text-align:center}#banner{position:fixed;left:50%;top:15px;transform:translateX(-50%);padding:8px 15px;background:#1b1517eb;border:1px solid #79573b;z-index:3;font-size:12px;white-space:nowrap}#overlay{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;z-index:20}#intro{max-width:520px;padding:32px;border:1px solid #b78e50;background:#151015;color:#e8d7be;box-shadow:0 20px 55px #000}#intro h2{font-size:26px;margin:0 0 13px;color:#eac27a}#intro p{line-height:1.6}#storyOverlay{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:15}#story{background:#151013;border:2px solid #b58b50;width:min(650px,90vw);max-height:86vh;overflow:auto;padding:25px}#story h2{margin:0 0 12px;color:#e8bd78}#story .reader{white-space:pre-line;border-left:3px solid #bc8c4a;padding:12px;background:#282124;font-style:italic;line-height:1.6}#story .dm{white-space:pre-line;font-size:13px;line-height:1.5;margin-top:16px;border-top:1px solid #65492c;padding-top:12px}#story button{margin-top:17px}#encounterOverlay{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:19;padding:18px}
 #encounterCard{position:relative;background:#191315;border:2px solid #9c7547;color:#eadac0;max-height:91vh;overflow:auto;width:min(920px,96vw);padding:20px 24px}
@@ -37,7 +37,7 @@
 #locbox .summaryRoll select{min-width:0;flex:1}
 #locbox #sideEncounterResult{white-space:pre-line;color:#f0cf9a}
 
-/* Lands v0.16: compact, clearly grouped controls and unobstructed movement help */
+/* Lands v0.17: compact, clearly grouped controls and unobstructed movement help */
 #controls{width:390px;max-width:calc(100vw - 30px);display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:10px;background:#100d10f2}
 #controls .toolGroup{display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:1px solid #58412e;padding:0 0 6px}
 #controls .toolGroup:last-child{border-bottom:0;padding-bottom:0}
@@ -53,7 +53,7 @@
 #help .helpText{flex:1;font:11px/1.55 Georgia;color:#e4d0b2}
 @media(max-width:700px){#controls{width:330px}#controls .groupLabel{width:38px}#help{width:245px}#navhint{bottom:170px}}
 
-/* v0.16 — Castle Ravenloft matching slate-grey reading panels */
+/* v0.17 — Castle Ravenloft matching slate-grey reading panels */
 #locbox{background:#24272c!important;border-color:#9b8057;color:#eee6da;box-shadow:0 5px 24px #000a}
 #locbox h2,#locbox h3,#locbox h4{color:#e9c58b}
 #locbox .sidecaption{color:#d9b37b}
@@ -66,9 +66,18 @@
 #story{background:#24272c;color:#eee6da}
 #story .dm{color:#e4d8c9}
 #encounterCard{background:#24272c;color:#eee6da}
+</style><style id="movement-panel-clearance-fix">
+/* Keep the keyboard guide outside the scrollable room-description column. */
+#help{left:380px!important;bottom:15px!important;right:auto!important;max-width:340px!important;width:max-content!important;z-index:7!important;background:rgba(17,14,15,.96)!important;border:1px solid #a17a4b!important;border-radius:5px!important;box-shadow:0 5px 18px #000a!important;}
+/* Narrow screens: reserve a separate bottom strip for the movement guide. */
+@media(max-width:1050px){
+ #help{left:14px!important;bottom:12px!important;max-width:calc(100vw - 28px)!important;font-size:11px!important;}
+ #locbox{max-height:calc(100vh - 270px)!important;}
+ #controls{bottom:115px!important;}
+}
 </style></head><body>
 <canvas id="world"></canvas><div id="cross">+</div>
-<div id="header" class="panel"><h1>LANDS OF BAROVIA</h1><small>DNDPOV · Illustrated first-person exploration · v0.16<br><span id="currentName">The Old Inn</span></small></div>
+<div id="header" class="panel"><h1>LANDS OF BAROVIA</h1><small>DNDPOV · Illustrated first-person exploration · v0.17<br><span id="currentName">The Old Inn</span></small></div>
 <aside id="locbox" class="panel"><h2 id="place">The Old Inn</h2><div id="descriptionSection"><div class="sidecaption">MODULE • READ ALOUD</div><p id="readout"></p></div>
 <section id="localEncounters" class="sideSection"><h3>Location Encounter Rules</h3><p id="localEncounterText">Enable DM mode to view encounter details for this location.</p><div id="dmtext" hidden></div></section>
 <section class="sideSection"><button id="sideEncounterSummary" class="sideSummaryButton" aria-expanded="false">Encounter Summary <span id="sideSummaryChevron">▾</span></button>

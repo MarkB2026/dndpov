@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DNDPOV — Lands of Barovia · v0.14</title>
+<title>DNDPOV — Lands of Barovia · v0.16</title>
 <style>
 :root{color-scheme:dark;--gold:#d2a76a}*{box-sizing:border-box}body{margin:0;background:#0c0b11;color:#efdfc4;font:14px Georgia,serif;overflow:hidden}button,select{font:12px Georgia,serif;color:#e8d2a4;background:#211a18;border:1px solid #8a6d44;border-radius:2px;padding:7px 10px;cursor:pointer}button:hover{background:#493628}#world{display:block;width:100vw;height:100vh}#cross{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#f2c88b;z-index:2;pointer-events:none} .panel{background:#0c0a0ce9;border:1px solid #795d3e;box-shadow:0 4px 20px #0009;position:fixed;z-index:5}#header{top:14px;left:14px;width:340px;padding:13px 16px}h1{margin:0 0 4px;color:#f1c681;font-size:24px;letter-spacing:.04em}small{color:#c8b293}#locbox{top:98px;left:14px;width:340px;max-height:68vh;overflow:auto;padding:16px}#locbox h2{color:#edc184;margin:0 0 10px;font-size:19px}[hidden]{display:none!important}#readout{font-style:italic;line-height:1.48;background:#272024;border-left:3px solid #cf9e59;padding:10px;white-space:pre-line}#dmtext{font-size:12.5px;line-height:1.5;margin-top:13px;white-space:pre-line;border-top:1px solid #725439;padding-top:12px}#minibox{right:15px;top:14px;padding:9px;width:340px}#minibox h3{color:#f3c785;font-size:12px;margin:0 0 7px}#map{display:block;width:320px;height:268px;background:#18171b;cursor:crosshair}#maptools{display:flex;gap:6px;justify-content:center;margin-top:7px}#controls{right:15px;bottom:15px;padding:9px;display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;width:435px}#controls button{padding:7px 9px}#help{left:14px;bottom:14px;padding:11px;font:12px/1.6 Georgia;color:#dfcfb7;max-width:430px}#navhint{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);z-index:3;padding:8px 13px;background:#160e10ee;border:1px solid #8d683e;color:#f9d69b;text-align:center}#banner{position:fixed;left:50%;top:15px;transform:translateX(-50%);padding:8px 15px;background:#1b1517eb;border:1px solid #79573b;z-index:3;font-size:12px;white-space:nowrap}#overlay{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;z-index:20}#intro{max-width:520px;padding:32px;border:1px solid #b78e50;background:#151015;color:#e8d7be;box-shadow:0 20px 55px #000}#intro h2{font-size:26px;margin:0 0 13px;color:#eac27a}#intro p{line-height:1.6}#storyOverlay{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:15}#story{background:#151013;border:2px solid #b58b50;width:min(650px,90vw);max-height:86vh;overflow:auto;padding:25px}#story h2{margin:0 0 12px;color:#e8bd78}#story .reader{white-space:pre-line;border-left:3px solid #bc8c4a;padding:12px;background:#282124;font-style:italic;line-height:1.6}#story .dm{white-space:pre-line;font-size:13px;line-height:1.5;margin-top:16px;border-top:1px solid #65492c;padding-top:12px}#story button{margin-top:17px}#encounterOverlay{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:19;padding:18px}
 #encounterCard{position:relative;background:#191315;border:2px solid #9c7547;color:#eadac0;max-height:91vh;overflow:auto;width:min(920px,96vw);padding:20px 24px}
@@ -36,9 +36,39 @@
 #locbox .summaryRoll{display:flex;gap:6px}
 #locbox .summaryRoll select{min-width:0;flex:1}
 #locbox #sideEncounterResult{white-space:pre-line;color:#f0cf9a}
+
+/* Lands v0.16: compact, clearly grouped controls and unobstructed movement help */
+#controls{width:390px;max-width:calc(100vw - 30px);display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:10px;background:#100d10f2}
+#controls .toolGroup{display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:1px solid #58412e;padding:0 0 6px}
+#controls .toolGroup:last-child{border-bottom:0;padding-bottom:0}
+#controls .groupLabel{font:10px Georgia,serif;color:#d7a766;letter-spacing:1px;width:47px;flex:none}
+#controls button{padding:7px 8px;min-height:32px}
+#controls button.activeTool{background:#765022;color:#fff2c9;border-color:#e8bb70;box-shadow:0 0 10px #e7a34a55}
+#controls button:focus-visible{outline:2px solid #f2c47e;outline-offset:2px}
+#controls #journey{flex:1;min-width:130px;max-width:180px}
+#help{left:14px;bottom:14px;z-index:6;width:260px;max-width:calc(100vw - 30px);padding:9px 12px;background:#0f0c10f4;display:flex;flex-wrap:wrap;gap:5px 12px;align-items:center;pointer-events:none}
+#help .moveTitle{width:100%;color:#e9bb78;font:bold 11px Georgia;letter-spacing:1px}
+#help .arrowPad{display:grid;grid-template-columns:repeat(3,25px);gap:3px;text-align:center}
+#help .arrowKey{display:grid;place-items:center;border:1px solid #a47c4d;border-radius:3px;background:#33271f;color:#f6d89e;font:bold 17px Georgia;height:25px}
+#help .helpText{flex:1;font:11px/1.55 Georgia;color:#e4d0b2}
+@media(max-width:700px){#controls{width:330px}#controls .groupLabel{width:38px}#help{width:245px}#navhint{bottom:170px}}
+
+/* v0.16 — Castle Ravenloft matching slate-grey reading panels */
+#locbox{background:#24272c!important;border-color:#9b8057;color:#eee6da;box-shadow:0 5px 24px #000a}
+#locbox h2,#locbox h3,#locbox h4{color:#e9c58b}
+#locbox .sidecaption{color:#d9b37b}
+#readout{background:#3d424a!important;color:#f0eae1!important;border-left:3px solid #d3a35e!important;padding:13px!important;font:italic 14px/1.52 Georgia,serif!important}
+#locbox #localEncounterText,#locbox #dmtext{color:#e4d8c9!important}
+#locbox .sideSection{border-top-color:#8b714f}
+#locbox #sideSummary{background:#30343a;color:#e9ded0;padding:9px;border:1px solid #655742}
+#locbox #sideSummary th,#locbox #sideSummary h3{color:#e9c58b}
+#story .reader{background:#3d424a;color:#f0eae1;border-left-color:#d3a35e}
+#story{background:#24272c;color:#eee6da}
+#story .dm{color:#e4d8c9}
+#encounterCard{background:#24272c;color:#eee6da}
 </style></head><body>
 <canvas id="world"></canvas><div id="cross">+</div>
-<div id="header" class="panel"><h1>LANDS OF BAROVIA</h1><small>DNDPOV · Illustrated first-person exploration · v0.14<br><span id="currentName">The Old Inn</span></small></div>
+<div id="header" class="panel"><h1>LANDS OF BAROVIA</h1><small>DNDPOV · Illustrated first-person exploration · v0.16<br><span id="currentName">The Old Inn</span></small></div>
 <aside id="locbox" class="panel"><h2 id="place">The Old Inn</h2><div id="descriptionSection"><div class="sidecaption">MODULE • READ ALOUD</div><p id="readout"></p></div>
 <section id="localEncounters" class="sideSection"><h3>Location Encounter Rules</h3><p id="localEncounterText">Enable DM mode to view encounter details for this location.</p><div id="dmtext" hidden></div></section>
 <section class="sideSection"><button id="sideEncounterSummary" class="sideSummaryButton" aria-expanded="false">Encounter Summary <span id="sideSummaryChevron">▾</span></button>
@@ -47,8 +77,8 @@
 <aside id="minibox" class="panel"><h3>LANDS OF BAROVIA · ROUTE MAP</h3><canvas id="map" width="320" height="268"></canvas><div id="maptools"><button id="mapKeys">Hide Key Locations</button><button id="mapCenter">Center</button></div></aside>
 <div id="banner">Svalich Road · Gates · Village · Tser Pool · Castle approach</div>
 <div id="navhint">Walk the road, turn with left/right, and press E near a keyed location</div>
-<div id="help" class="panel">W / ↑ forward · S / ↓ backward · A / D strafe<br>← / → rotate · Mouse drag to look · Shift run<br>E explore location · M map · T torch · Esc close popup</div>
-<div id="controls" class="panel"><button id="left">← Turn Left</button><button id="right">Turn Right →</button><button id="examine">Location Details (E)</button><button id="torch">Torch: ON</button><button id="dm">DM: OFF</button><button id="descriptions" aria-pressed="false" title="Turn all module read-aloud descriptions on or off">Hide Descriptions</button><button id="keys">Hide Key Locations</button><button id="hideMap">Hide Map</button><select id="journey" title="Jump to an area for preview"><option value="">Jump to landmark…</option></select><button id="village">Village Walkthrough</button><button id="castle">Castle Walkthrough</button></div>
+<div id="help" class="panel"><div class="moveTitle">MOVEMENT</div><div class="arrowPad"><span></span><span class="arrowKey">↑</span><span></span><span class="arrowKey">←</span><span class="arrowKey">↓</span><span class="arrowKey">→</span></div><div class="helpText">↑ ↓ Walk · ← → Turn · Shift Run<br>W / S Walk · A / D Strafe · Drag to look<br>E Enter / Explore · M Map · T Torch · Esc Close</div></div>
+<div id="controls" class="panel"><div class="toolGroup"><span class="groupLabel">MOVE</span><button id="left" title="Turn left (hold)">◀ Turn</button><button id="right" title="Turn right (hold)">Turn ▶</button><button id="examine">Explore (E)</button></div><div class="toolGroup"><span class="groupLabel">VIEW</span><button id="torch" title="Toggle torch (T)">🔥 Torch: ON</button><button id="descriptions" aria-pressed="false" title="Toggle read-aloud descriptions">Hide Descriptions</button><button id="keys">Hide Key Locations</button><button id="hideMap">Hide Map</button></div><div class="toolGroup"><span class="groupLabel">DM</span><button id="dm">DM: OFF</button><button id="encountersTool" title="Open DM encounter summary">Encounters</button></div><div class="toolGroup travelGroup"><span class="groupLabel">TRAVEL</span><select id="journey" title="Jump to an area for preview"><option value="">Jump to landmark…</option></select><button id="village">Go to Village</button><button id="castle">Go to Castle</button></div></div>
 <div id="encounterOverlay"><div id="encounterCard">
 <button id="encounterClose">Close ×</button>
 <h2>Lands of Barovia · DM Encounter Summary</h2>
@@ -105,7 +135,7 @@ const camera=new THREE.PerspectiveCamera(74,innerWidth/innerHeight,.08,450);
 const renderer=new THREE.WebGLRenderer({canvas:$('world'),antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
 const hemi=new THREE.HemisphereLight('#9c99a2','#181b16',.64);scene.add(hemi);
 const moon=new THREE.DirectionalLight('#b5b6ca',.40);moon.position.set(-40,90,-65);scene.add(moon);
-const torchLight=new THREE.PointLight('#ffb261',2.6,22,2);scene.add(torchLight);
+const torchLight=new THREE.PointLight('#ffb261',3.4,30,1.6);scene.add(torchLight);
 const mats={ground:new THREE.MeshLambertMaterial({color:'#242922'}),road:new THREE.MeshLambertMaterial({color:'#453b36'}),road2:new THREE.MeshLambertMaterial({color:'#51433c'}),water:new THREE.MeshLambertMaterial({color:'#405a67',transparent:true,opacity:.85}),stone:new THREE.MeshLambertMaterial({color:'#545359'}),dark:new THREE.MeshLambertMaterial({color:'#242128'}),wood:new THREE.MeshLambertMaterial({color:'#4c342c'}),roof:new THREE.MeshLambertMaterial({color:'#282531'}),leaves:new THREE.MeshLambertMaterial({color:'#1d2822'}),needles:new THREE.MeshLambertMaterial({color:'#182620'}),camp:new THREE.MeshLambertMaterial({color:'#653d35',side:THREE.DoubleSide}),campGold:new THREE.MeshLambertMaterial({color:'#6e6040',side:THREE.DoubleSide}),campBlue:new THREE.MeshLambertMaterial({color:'#46597a',side:THREE.DoubleSide}),campTeal:new THREE.MeshLambertMaterial({color:'#45615d',side:THREE.DoubleSide}),campCream:new THREE.MeshLambertMaterial({color:'#c0ae88',side:THREE.DoubleSide}),fire:new THREE.MeshBasicMaterial({color:'#f6a345'}),lamp:new THREE.MeshBasicMaterial({color:'#ffb979'})};
 function box(g,x,y,z,w,h,d,m){const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);q.position.set(x,y,z);g.add(q);return q}
 function cyl(g,x,y,z,r1,r2,h,m,segments=8){const q=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,segments),m);q.position.set(x,y,z);g.add(q);return q}
@@ -428,14 +458,14 @@ function setStatus(loc){if(!loc)return;if(lastLocation===loc.id)return;lastLocat
 function nearestLocation(){ if(inside&&activeEnterable){ return locations.find(l=>l.id===activeEnterable)||null; } let best=null,bd=Infinity;for(const l of locations){const d=Math.hypot(px-l.x,pz-l.z);if(d<bd){bd=d;best=l}}return best&&bd<locationThreshold(best)?best:null}
 function openLocation(loc){if(!loc||!descriptionsOn)return;$('storyTitle').textContent=(loc.id==='INN'?'':loc.id+' · ')+loc.name;$('storyRead').textContent=loc.player;$('storyDM').textContent='DM ONLY\n\n'+loc.dm;$('storyDM').hidden=!dmOn;$('storyOverlay').style.display='flex';keys.clear()}
 function closeLocation(){$('storyOverlay').style.display='none'}
-function toggleMap(force){mapVisible=force??!mapVisible;$('minibox').style.display=mapVisible?'':'none';$('hideMap').textContent=mapVisible?'Hide Map':'Show Map'}
-function toggleKeys(){keyLabels=!keyLabels;$('keys').textContent=keyLabels?'Hide Key Locations':'Show Key Locations';$('mapKeys').textContent=$('keys').textContent;drawMap()}
+function toggleMap(force){mapVisible=force??!mapVisible;$('minibox').style.display=mapVisible?'':'none';$('hideMap').textContent=mapVisible?'Hide Map':'Show Map';refreshToolStates()}
+function toggleKeys(){keyLabels=!keyLabels;$('keys').textContent=keyLabels?'Hide Key Locations':'Show Key Locations';$('mapKeys').textContent=$('keys').textContent;drawMap();refreshToolStates()}
 function toggleDM(){
  dmOn=!dmOn;
  $('dm').textContent='DM: '+(dmOn?'ON':'OFF');
  $('storyDM').hidden=!dmOn;
  if(!dmOn){sideSummaryOpen=false;$('sideSummary').hidden=true;$('sideEncounterSummary').setAttribute('aria-expanded','false');$('sideSummaryChevron').textContent='▾'}
- updateLeftEncounter(nearestLocation());
+ updateLeftEncounter(nearestLocation());refreshToolStates();
 }
 function toggleDescriptions(){
  descriptionsOn=!descriptionsOn;
@@ -443,9 +473,9 @@ function toggleDescriptions(){
  $('descriptionSection').style.display=descriptionsOn?'':'none';
  $('descriptions').textContent=descriptionsOn?'Hide Descriptions':'Show Descriptions';
  $('descriptions').setAttribute('aria-pressed',String(!descriptionsOn));
- if(!descriptionsOn)closeLocation();
+ if(!descriptionsOn)closeLocation();refreshToolStates();
 }
-function toggleTorch(){torchOn=!torchOn;$('torch').textContent='Torch: '+(torchOn?'ON':'OFF');torchLight.visible=torchOn}
+function toggleTorch(){torchOn=!torchOn;$('torch').textContent='🔥 Torch: '+(torchOn?'ON':'OFF');torchLight.visible=torchOn;torchLight.intensity=torchOn?2.6:0;refreshToolStates()}
 
 const daytimeTable=[
  ['1','2–8 (2d4) worg wolves'],['2','1–10 Vistani'],['3','1–4 villagers'],
@@ -539,14 +569,21 @@ $('encounterClose').onclick=()=>$('encounterOverlay').style.display='none';
 $('encounterOverlay').onclick=e=>{if(e.target===$('encounterOverlay'))$('encounterOverlay').style.display='none'};
 $('rollEncounter').onclick=manualEncounterRoll;
 
+function refreshToolStates(){
+ for(const [id,on] of [['torch',torchOn],['dm',dmOn],['descriptions',descriptionsOn],['keys',keyLabels],['hideMap',mapVisible]]){
+  const b=$(id);if(!b)continue;b.classList.toggle('activeTool',!!on);b.setAttribute('aria-pressed',String(!!on));
+ }
+}
+$('encountersTool').onclick=()=>{if(!dmOn)toggleDM();$('encounterOverlay').style.display='flex';};
+refreshToolStates();
 $('begin').onclick=()=>{prepareGateSlam();prepareWolfHowl();started=true;$('overlay').style.display='none';document.activeElement.blur();const loc=locations[0];setStatus(loc)};
 $('examine').onclick=interact;
 $('dm').onclick=toggleDM;$('descriptions').onclick=toggleDescriptions;$('torch').onclick=toggleTorch;
 $('keys').onclick=toggleKeys;$('mapKeys').onclick=toggleKeys;
 $('hideMap').onclick=()=>toggleMap();$('mapCenter').onclick=drawMap;
 $('storyClose').onclick=closeLocation;$('storyOverlay').onclick=e=>{if(e.target===$('storyOverlay'))closeLocation()};
-$('village').onclick=()=>{location.href='barovia.html'};
-$('castle').onclick=()=>{location.href='Ravenloft-I6/ravenloft.html'};
+$('village').onclick=()=>{location.href='village_of_barovia.html'};
+$('castle').onclick=()=>{location.href='castle.html'};
 for(const l of locations){const o=document.createElement('option');o.value=l.id;o.textContent=(l.id==='INN'?'':l.id+' · ')+l.name;$('journey').append(o)}
 $('journey').onchange=e=>{const l=locations.find(q=>q.id===e.target.value);if(!l)return;inside=false;activeEnterable='';px=l.x;pz=l.z+(enterables[l.id]?2.0:Math.max(4,l.r*.48));ang=0;if(pz<40.8)sealBaroviaGate();lastLocation='';setStatus(l);$('journey').value='';drawMap()};
 function onPress(k,v){if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space'].includes(k))return}
@@ -593,7 +630,7 @@ function frame(){requestAnimationFrame(frame);const dt=Math.min(.05,clk.getDelta
  if(!baroviaGateClosed&&pz<40.8)sealBaroviaGate();
  }}
 camera.position.set(px,1.75,pz);camera.rotation.order='YXZ';camera.rotation.y=ang;camera.rotation.x=pitch;
-torchLight.position.set(px+Math.cos(ang)*.3,1.85,pz+Math.sin(ang)*.3);torchLight.intensity=torchOn?(2.4+Math.sin(elapsed*11)*.15):0;campLight.intensity=2.9+Math.sin(elapsed*5)*.22;elapsed+=dt;
+torchLight.position.set(px-Math.sin(ang)*.65,1.75,pz-Math.cos(ang)*.65);torchLight.intensity=torchOn?(3.4+Math.sin(elapsed*11)*.12):0;campLight.intensity=2.9+Math.sin(elapsed*5)*.22;elapsed+=dt;
 for(const m of mists){m.mesh.position.x+=m.speed*dt;if(m.mesh.position.x>120)m.mesh.position.x=-120;m.mesh.position.y=.35+.22*Math.sin(elapsed*.5+m.phase)}
 if(started){const door=nearestEnterableDoor(); const l=nearestLocation(); if(l&&lastLocation!==l.id)setStatus(l); if(inside&&activeEnterable){$('navhint').textContent='Inside '+enterables[activeEnterable].name+' — Press E to exit';$('examine').textContent='Exit (E)';}else if(door){$('navhint').textContent='Press E to enter '+door.name;$('examine').textContent='Enter '+door.name+' (E)';}else{$('navhint').textContent=l?'At '+(l.id==='INN'?'INN':l.id)+' · '+l.name+' — Press E for module details':'Walk to a marked door or landmark · Press E for details';$('examine').textContent='Location Details (E)';}}
 drawMap();renderer.render(scene,camera)}

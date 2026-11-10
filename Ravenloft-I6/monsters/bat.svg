@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="bat">
+ <title>Bat</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M150 120 Q104 61 22 91 L52 112 L36 144 L87 131 L103 169 L145 150 L160 182 L176 150 L217 169 L233 131 L284 144 L268 112 L298 91 Q216 61 170 120 L174 85 L160 104 L146 85 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="149" cy="130" rx="6" ry="4" fill="#c23849"/><ellipse cx="173" cy="130" rx="6" ry="4" fill="#c23849"/></g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="shadow demon">
+ <title>Shadow Demon</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M133 133 Q85 62 23 49 Q53 96 39 146 Q77 125 96 172 L134 165 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M187 133 Q235 62 297 49 Q267 96 281 146 Q243 125 224 172 L186 165 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M131 135 Q114 149 123 183 L135 218 L150 218 L155 184 L166 184 L172 218 L189 218 L197 181 Q204 148 188 135 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M132 91 Q127 65 145 59 L138 35 L157 51 L174 51 L194 34 L187 64 Q200 83 190 113 L176 133 L146 133 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="148" cy="95" rx="6" ry="4" fill="#c23849"/><ellipse cx="178" cy="95" rx="6" ry="4" fill="#c23849"/></g>
+</svg>

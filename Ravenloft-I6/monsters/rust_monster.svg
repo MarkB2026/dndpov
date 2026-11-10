@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="rust monster">
+ <title>Rust Monster</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M63 156 Q85 111 147 122 L185 109 L217 130 L231 158 L197 175 L191 210 L170 210 L165 180 L119 180 L114 210 L93 210 L93 177 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M190 116 Q212 59 243 64 M197 118 Q235 84 257 99" fill="none" stroke="#8a7364" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M83 136 Q54 100 65 70" fill="none" stroke="#8a7364" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="211" cy="143" rx="6" ry="4" fill="#d4a36c"/><ellipse cx="225" cy="143" rx="6" ry="4" fill="#d4a36c"/></g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="green slime">
+ <title>Green Slime</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M60 203 Q64 177 89 174 Q75 133 112 129 Q104 95 143 104 Q157 68 186 104 Q228 91 226 135 Q268 148 249 182 Q280 200 253 214 L80 214 Z" fill="#3b6756" stroke="#6a9980" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="126" cy="170" r="9" fill="#8cbd8d"/>
+  <circle cx="195" cy="151" r="13" fill="#78a983"/></g>
+</svg>

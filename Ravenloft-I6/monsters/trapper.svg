@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="trapper">
+ <title>Trapper</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M39 196 Q51 132 98 115 L121 72 L156 100 L185 68 L215 118 Q263 129 282 196 L238 187 L218 214 L190 190 L161 219 L135 191 L103 213 L80 187 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M91 160 Q161 190 232 160" fill="none" stroke="#62616a" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="137" cy="153" rx="6" ry="4" fill="#c23849"/><ellipse cx="183" cy="153" rx="6" ry="4" fill="#c23849"/></g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="huge spider">
+ <title>Huge Spider</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M123 132 L77 91 L32 105" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M123 148 L70 143 L23 168" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M123 162 L82 198 L43 223" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M197 132 L243 91 L288 105" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M197 148 L250 143 L297 168" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M197 162 L238 198 L277 223" fill="none" stroke="#55545b" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="164" cy="165" rx="47" ry="42" fill="#24242c"/>
+  <ellipse cx="158" cy="115" rx="31" ry="28" fill="#34343b"/>
+  <ellipse cx="144" cy="111" rx="6" ry="4" fill="#c23849"/><ellipse cx="171" cy="111" rx="6" ry="4" fill="#c23849"/></g>
+</svg>

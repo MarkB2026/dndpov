@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="guardian portrait">
+ <title>Guardian Portrait</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M89 31 H231 V222 H89 Z" fill="none" stroke="#8e7047" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M106 49 H214 V203 H106 Z" fill="#202027" stroke="#504a45" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M125 183 L126 132 Q160 111 193 132 L194 183 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="160" cy="100" rx="31" ry="38" fill="#34343b"/>
+  <ellipse cx="148" cy="97" rx="6" ry="4" fill="#c23849"/><ellipse cx="172" cy="97" rx="6" ry="4" fill="#c23849"/></g>
+</svg>

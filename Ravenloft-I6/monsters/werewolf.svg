@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="werewolf">
+ <title>Werewolf</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M125 148 L111 208 L135 213 L151 171 L163 172 L181 213 L207 209 L194 148 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M123 111 Q109 112 98 143 L73 183 L87 192 L117 165 L126 188 L192 187 L201 165 L228 191 L242 181 L219 139 Q206 112 193 111 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M131 75 Q133 49 161 47 Q188 50 191 76 L185 112 Q162 127 139 110 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M132 70 L120 32 L150 54 L174 54 L199 30 L191 75" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M147 105 L161 122 L176 105" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="146" cy="89" rx="6" ry="4" fill="#c23849"/><ellipse cx="176" cy="89" rx="6" ry="4" fill="#c23849"/>
+  <path d="M148 105 Q162 112 177 104" fill="none" stroke="#17171c" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

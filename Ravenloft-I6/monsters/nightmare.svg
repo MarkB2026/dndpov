@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="nightmare">
+ <title>Nightmare</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M75 149 Q97 123 130 126 L162 107 L180 70 L204 62 L216 92 L205 119 L188 135 L211 176 L205 218 L188 218 L184 175 L133 178 L127 218 L110 218 L109 176 L84 172 L77 216 L59 216 L63 166 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M175 79 Q152 51 169 35 Q178 56 193 48 L206 73" fill="#9d542e" stroke="#bb6e35" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="194" cy="91" rx="6" ry="4" fill="#ff9a43"/><ellipse cx="207" cy="91" rx="6" ry="4" fill="#ff9a43"/></g>
+</svg>

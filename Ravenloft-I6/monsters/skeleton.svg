@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="skeleton">
+ <title>Skeleton</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M125 148 L111 208 L135 213 L151 171 L163 172 L181 213 L207 209 L194 148 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M123 111 Q109 112 98 143 L73 183 L87 192 L117 165 L126 188 L192 187 L201 165 L228 191 L242 181 L219 139 Q206 112 193 111 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M131 75 Q133 49 161 47 Q188 50 191 76 L185 112 Q162 127 139 110 Z" fill="#34343b" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M133 131 L189 131 M135 143 L187 143 M139 155 L183 155 M158 121 L158 177" fill="none" stroke="#a49b86" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M139 86 Q160 105 182 86 L175 114 L146 114 Z" fill="#a49b86" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="146" cy="89" rx="6" ry="4" fill="#c6a363"/><ellipse cx="176" cy="89" rx="6" ry="4" fill="#c6a363"/></g>
+</svg>

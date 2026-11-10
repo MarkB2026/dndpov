@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="wight">
+ <title>Wight</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M129 80 Q137 44 161 43 Q193 47 198 85 Q224 121 206 171 L229 218 L199 207 L181 227 L160 208 L135 228 L122 205 L96 217 L113 173 Q93 120 129 80 Z" fill="#24242c" stroke="#565665" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M135 116 Q158 138 189 116 L182 150 Q158 167 142 150 Z" fill="#393a48" stroke="#545568" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="146" cy="101" rx="6" ry="4" fill="#a87bd1"/><ellipse cx="178" cy="101" rx="6" ry="4" fill="#a87bd1"/></g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="hell hound">
+ <title>Hell Hound</title>
+ <g stroke-linejoin="round" stroke-linecap="round"><path d="M58 154 Q77 120 125 123 L158 121 L178 103 L183 75 L199 89 L214 72 L220 108 L245 122 L224 151 L205 157 L201 209 L183 209 L179 169 L136 169 L126 211 L107 211 L103 169 L82 171 L70 211 L53 211 L60 166 L44 146 Z" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M78 132 Q52 113 49 88" fill="none" stroke="#55545b" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M215 138 L236 145 L219 153" fill="#24242c" stroke="#55545b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="201" cy="122" rx="6" ry="4" fill="#e47b3d"/><ellipse cx="219" cy="122" rx="6" ry="4" fill="#e47b3d"/></g>
+</svg>

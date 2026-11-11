@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool and Castle Ravenloft</title><style>
+html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · THE OLD SVALICH ROAD v1.1</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+try{
+let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,480);const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.35));renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.prepend(renderer.domElement);
+const hemi=new THREE.HemisphereLight(0xc7d7d6,0x2c342b,1.4);scene.add(hemi);const sun=new THREE.DirectionalLight(0xffdfb4,1.6);sun.position.set(-50,90,45);scene.add(sun);
+const mat=c=>new THREE.MeshStandardMaterial({color:c,roughness:.95,side:THREE.DoubleSide});const soil=mat(0x354635),stone=mat(0x696b65),roadmat=mat(0x827b6d),wood=mat(0x463526),watermat=new THREE.MeshStandardMaterial({color:0x293f4a,roughness:.28,metalness:.2,transparent:true,opacity:.89});
+function box(x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);scene.add(o);return o}
+box(0,-.6,-155,340,1.2,650,soil);
+// Village -> Tser river bridge -> Vistani encampment -> mountain approach.
+const nodes=[[0,105],[0,80],[-5,52],[-10,20],[-5,-15],[8,-48],[16,-82],[8,-115],[-6,-150],[-14,-190],[-5,-230],[12,-270],[18,-310],[6,-350],[0,-395]];
+function pathX(z){for(let i=1;i<nodes.length;i++){const a=nodes[i-1],b=nodes[i];if(z<=a[1]&&z>=b[1])return a[0]+(b[0]-a[0])*(z-a[1])/(b[1]-a[1]);}return z>105?0:0}
+function segment(a,b,width,material,y=.025){const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);const m=box((a[0]+b[0])/2,y,(a[1]+b[1])/2,width,.08,len+.8,material);m.rotation.y=-Math.atan2(dx,dz);return m}
+for(let i=1;i<nodes.length;i++)segment(nodes[i-1],nodes[i],9,roadmat);
+// Tser river crosses the road near z=-90, with a timber-and-stone bridge.
+const riverZ=-92;const riverGeo=new THREE.PlaneGeometry(340,18);const river=new THREE.Mesh(riverGeo,watermat);river.rotation.x=-Math.PI/2;river.position.set(0,.08,riverZ);scene.add(river);
+const bridgeX=pathX(riverZ);box(bridgeX,.43,riverZ,11,.85,24,wood);for(const side of [-1,1]){box(bridgeX+side*5.15,1.38,riverZ,.28,.28,24,wood);for(let z=riverZ-11;z<=riverZ+11;z+=3)box(bridgeX+side*5.15,.85,z,.32,1.5,.32,wood)}for(let z=riverZ-11;z<=riverZ+11;z+=1.1)box(bridgeX,.9,z,10,.12,.12,mat(0x685039));
+// Camp clearing: canvas tents, central fire and benches off the road.
+const campZ=-210,campX=pathX(campZ)+22;box(campX,-.01,campZ,35,.07,31,mat(0x4d4b35));
+function tent(x,z,rotation=0){const group=new THREE.Group();const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute([-3,0,-4,3,0,-4,0,4,-4,-3,0,4,3,0,4,0,4,4],3));g.setIndex([0,1,2,3,5,4,0,2,3,3,2,5,1,4,5,1,5,2]);g.computeVertexNormals();group.add(new THREE.Mesh(g,mat(0x86714d)));group.position.set(x,0,z);group.rotation.y=rotation;scene.add(group)}
+for(const [dx,dz,r] of [[-10,-8,0],[10,-8,.3],[-10,9,.4],[10,10,-.3]])tent(campX+dx,campZ+dz,r);
+const fire=mat(0xe48d34);box(campX,.22,campZ,1.4,.42,1.4,stone);const flame=new THREE.Mesh(new THREE.ConeGeometry(.55,1.6,7),fire);flame.position.set(campX,1.1,campZ);scene.add(flame);const firelight=new THREE.PointLight(0xff8c37,3,24);firelight.position.set(campX,2,campZ);scene.add(firelight);
+// Castle Ravenloft stands on level ground, its silhouette obscured by the mist.
+const castleZ=-424,castleX=pathX(-395),castleY=0;
+const castleMat=new THREE.MeshStandardMaterial({color:0x33383d,transparent:true,opacity:.47,roughness:1});
+box(castleX,castleY+6,castleZ,28,14,15,castleMat);
+for(const [dx,height,radius] of [[-16,31,3.8],[16,34,4.1],[-7,43,4.5],[8,40,4.5]]){const tower=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height,8),castleMat);tower.position.set(castleX+dx,castleY+height/2,castleZ);scene.add(tower);const roof=new THREE.Mesh(new THREE.ConeGeometry(radius*1.5,10,8),castleMat);roof.position.set(castleX+dx,castleY+height+5,castleZ);scene.add(roof)}
+function spruceRandom(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+function needleTexture(){
+  const c=document.createElement('canvas');c.width=512;c.height=224;
+  const g=c.getContext('2d');const R=spruceRandom(11);
+  g.clearRect(0,0,c.width,c.height);
+  const cy=c.height/2;
+  // twig stem
+  g.strokeStyle='#5a4632';g.lineWidth=5;g.lineCap='round';
+  g.beginPath();g.moveTo(10,cy);g.quadraticCurveTo(256,cy-4,502,cy+2);g.stroke();
+  const greens=['#2a4a2c','#305433','#365c38','#3e663e','#467044','#3a5f40','#4a7650'];
+  for(let x=14;x<500;x+=3.2){
+    const along=x/512;
+    const reach=(1-Math.pow(Math.abs(along-0.45)*1.7,2))*0.55+0.45;
+    for(const side of [-1,1]){
+      if(R()<0.12)continue;
+      const len=(52+R()*38)*reach;
+      const ang=(0.75+R()*0.45)*side; // forward-swept needles
+      const dx=Math.cos(ang)*len*0.55, dy=Math.sin(ang)*len;
+      const sy=cy+(R()-.5)*4;
+      const grad=g.createLinearGradient(x,sy,x+dx,sy+dy);
+      const base=greens[(R()*greens.length)|0];
+      grad.addColorStop(0,base);grad.addColorStop(1,'#7ea672');
+      g.strokeStyle=grad;g.lineWidth=2.4+R()*1.2;
+      g.beginPath();g.moveTo(x,sy);g.lineTo(x+dx,sy+dy);g.stroke();
+    }
+  }
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;
+  return t;
+}
+const spruceNeedles=needleTexture();
+const spruceBark=new THREE.MeshStandardMaterial({color:0x30291f,roughness:1});
+const spruceTrunkGeo=new THREE.CylinderGeometry(.08,.36,13.5,7,1);
+spruceTrunkGeo.translate(0,6.75,0);
+// Build one reusable branch-whorl mesh, instanced across the forest. Needle cards
+// and uneven, drooping whorls follow the supplied mountain spruce reference.
+function makeSpruceBranchGeometry(){
+ const pos=[],uv=[],idx=[];let vertex=0;
+ const R=spruceRandom(1123);
+ function quad(a,b,c,d){
+  pos.push(...a,...b,...c,...d);uv.push(0,0,1,0,1,1,0,1);
+  idx.push(vertex,vertex+1,vertex+2,vertex,vertex+2,vertex+3);vertex+=4;
+ }
+ for(let tier=0;tier<13;tier++){
+  const f=tier/13,y=1.6+tier*.88;
+  const radius=4.15*Math.pow(1-f,1.18)+.18;
+  const n=7;
+  for(let k=0;k<n;k++){
+   const a=2*Math.PI*(k+(tier%2)*.45)/n+(R()-.5)*.15;
+   const cs=Math.cos(a),sn=Math.sin(a);
+   const length=radius*(.84+R()*.28);
+   const droop=.20+.40*(1-f);
+   const tip=[cs*length,y-droop,sn*length];
+   const half=.34+.25*(1-f);
+   // Branch needle card runs outward from the trunk; slightly raised tips.
+   const side=[-sn*half,0,cs*half];
+   quad([-side[0],y+.07,-side[2]], [side[0],y+.07,side[2]],
+        [tip[0]+side[0]*.65,tip[1]+.22,tip[2]+side[2]*.65],
+        [tip[0]-side[0]*.65,tip[1]-.20,tip[2]-side[2]*.65]);
+   // Additional downward-swept needles give each branch volume.
+   const mid=[cs*length*.65,y-droop*.5,sn*length*.65];
+   quad([mid[0]-side[0]*.85,mid[1]+.22,mid[2]-side[2]*.85],
+        [mid[0]+side[0]*.85,mid[1]+.22,mid[2]+side[2]*.85],
+        [tip[0]+side[0]*.35,tip[1]-.46,tip[2]+side[2]*.35],
+        [tip[0]-side[0]*.35,tip[1]-.46,tip[2]-side[2]*.35]);
+  }
+ }
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+ geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
+ geo.setIndex(idx);geo.computeVertexNormals();return geo;
+}
+const spruceBranches=makeSpruceBranchGeometry();
+
+const forestCount=2800,treeTrunks=new THREE.InstancedMesh(spruceTrunkGeo,spruceBark,forestCount);
+const spruceMats=[0x526b53,0x405d49,0x344f3f,0x60725a].map(color=>new THREE.MeshStandardMaterial({map:spruceNeedles,color,side:THREE.DoubleSide,alphaTest:.32,roughness:.95}));
+const crowns=spruceMats.map(m=>new THREE.InstancedMesh(spruceBranches,m,forestCount/4));
+let seed=93471;function rand(){seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/4294967296}const temp=new THREE.Object3D();const counts=[0,0,0,0];
+for(let i=0;i<forestCount;i++){
+ const z=102-rand()*500,side=rand()<.5?-1:1;
+ const x=pathX(z)+side*(17.5+Math.pow(rand(),1.6)*100);
+ if(z>-233&&z<-187&&x>campX-22&&x<campX+22)continue;
+ if(Math.abs(z-riverZ)<12&&Math.abs(x-bridgeX)<10)continue;
+ const scale=.78+rand()*1.15;temp.position.set(x,0,z);temp.rotation.y=rand()*Math.PI*2;temp.scale.setScalar(scale);temp.updateMatrix();treeTrunks.setMatrixAt(i,temp.matrix);
+ const k=i%4;crowns[k].setMatrixAt(counts[k]++,temp.matrix);
+}
+treeTrunks.instanceMatrix.needsUpdate=true;scene.add(treeTrunks);crowns.forEach((c,k)=>{c.count=counts[k];c.instanceMatrix.needsUpdate=true;scene.add(c)});
+let transitionStarted=false;const player={x:0,z:93,angle:Math.PI},keys={};let last=performance.now(),time='day',weather='mist';
+window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys[e.key.toLowerCase()]=true});window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+function atmosphere(){const presets={day:[0x899394,1.4,1.6],dawn:[0x918c8c,.95,.8],dusk:[0x4a505d,.55,.45],night:[0x101b28,.22,.15]};const p=presets[time];scene.background.setHex(p[0]);scene.fog.color.setHex(p[0]);scene.fog.density=weather==='fog'?.032:weather==='mist'?.016:.005;hemi.intensity=p[1];sun.intensity=p[2]}
+document.querySelector('#day').onchange=e=>{time=e.target.value;atmosphere()};document.querySelector('#weather').onchange=e=>{weather=e.target.value;atmosphere()};document.querySelector('#reset').onclick=()=>{player.x=0;player.z=93;player.angle=Math.PI;document.querySelector('#notice').style.display='none';transitionStarted=false;document.querySelector('#fade').classList.remove('active')};atmosphere();
+const map=document.querySelector('#map'),ctx=map.getContext('2d');function minimap(){ctx.fillStyle='#192725';ctx.fillRect(0,0,210,280);ctx.strokeStyle='#8c8370';ctx.lineWidth=5;ctx.beginPath();nodes.forEach((n,i)=>{const x=105+n[0]*.45,y=20+(105-n[1])*.49;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#456a80';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(0,20+(105-riverZ)*.49);ctx.lineTo(210,20+(105-riverZ)*.49);ctx.stroke();ctx.fillStyle='#e5ad70';ctx.fillRect(105+campX*.45-4,20+(105-campZ)*.49-4,8,8);ctx.fillStyle='#c6b6a1';ctx.fillRect(105+castleX*.45-4,20+(105-castleZ)*.49-4,8,8);ctx.fillStyle='#ffd36f';ctx.beginPath();ctx.arc(105+player.x*.45,20+(105-player.z)*.49,4,0,Math.PI*2);ctx.fill()}
+function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;const speed=(keys.shift?17:8)*dt;if(keys.arrowleft)player.angle+=1.8*dt;if(keys.arrowright)player.angle-=1.8*dt;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0);const nx=player.x+Math.sin(player.angle)*f*speed+Math.cos(player.angle)*side*speed,nz=player.z+Math.cos(player.angle)*f*speed-Math.sin(player.angle)*side*speed;
+if(Math.abs(nx-pathX(nz))<5.1||Math.abs(nz-riverZ)<12&&Math.abs(nx-bridgeX)<5.2||nz<campZ+22&&nz>campZ-22&&nx>campX-18&&nx<campX+18){player.x=nx;player.z=nz}
+camera.position.set(player.x,2.1,player.z);camera.rotation.set(0,0,0);camera.rotation.y=player.angle;const desc=document.querySelector('#description'),place=document.querySelector('#place');if(player.z>-75){place.textContent='The Old Svalich Road';desc.textContent='Ancient spruce trees close around the winding road.'}else if(player.z>-125){place.textContent='Bridge over the Tser River';desc.textContent='Cold dark water passes beneath the wooden bridge.'}else if(player.z>-250){place.textContent='Vistani Encampment';desc.textContent='Canvas tents and a campfire stand in a clearing beside the road.'}else{place.textContent='The Road to Castle Ravenloft';desc.textContent='The road winds through the fog. Castle Ravenloft stands faintly ahead.'}
+if(player.z<-352&&!transitionStarted){transitionStarted=true;document.querySelector('#fade').classList.add('active');setTimeout(()=>{window.location.href='ravenloft.html'},2400)}
+minimap();renderer.render(scene,camera);requestAnimationFrame(frame)}requestAnimationFrame(frame);
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+}catch(e){const box=document.querySelector('#error');box.style.display='block';box.textContent='Unable to start: '+e.message;console.error(e)}
+</script></body></html>

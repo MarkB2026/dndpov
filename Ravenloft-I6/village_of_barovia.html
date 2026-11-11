@@ -16,7 +16,7 @@
 #mapbox #keyOverlay{position:absolute!important;top:0!important;left:0!important;inset:auto!important;width:100%!important;height:calc(100% - 76px)!important;pointer-events:auto!important;cursor:pointer}
 #mapTools{margin-top:auto}
 #mapResizeGrip{position:absolute;bottom:0;left:0;width:28px;height:28px;cursor:sw-resize;z-index:30;color:#f0c98d;background:#433023;border:1px solid #b88e59;display:grid;place-items:center;user-select:none}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.54</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.58</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
 (function(){
  const panel=document.createElement('div');
  panel.id='startup-diagnostics';
@@ -1182,7 +1182,14 @@ let prev=performance.now();function loop(now){requestAnimationFrame(loop);const 
  const level=timeOfDay==='night'?1:timeOfDay==='dusk'?.8:timeOfDay==='dawn'?.35:0;
  lantern.light.intensity=level*(2.8+Math.sin(now*.007+lantern.phase)*.15);
  lantern.glass.material.emissiveIntensity=level*1.7;
-}updateStrahd(now);renderer.render(scene,camera);if(window.__baroviaReady){window.__baroviaReady();window.__baroviaReady=null}}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)};
+}updateStrahd(now);
+// Interior map visibility is temporary; retain the player's outdoor map preference.
+const inVillageBuilding=churchInside||pubInside||maryInside||shopInside||manorInside||guestInside;
+const villageMapBox=document.getElementById('mapbox');
+if(villageMapBox) villageMapBox.style.display=(!inVillageBuilding&&gameMap)?'':'none';
+const villageMapButton=document.getElementById('mapBtn');
+if(villageMapButton){villageMapButton.disabled=inVillageBuilding;villageMapButton.title=inVillageBuilding?'Map available outside buildings':'';}
+renderer.render(scene,camera);if(window.__baroviaReady){window.__baroviaReady();window.__baroviaReady=null}}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)};
 
 // DNDPOV scenery-first gameplay integration v3.8
 
@@ -2016,7 +2023,7 @@ churchBox(0,5.92,0,12.6,.55,24.6,new THREE.MeshBasicMaterial({color:0x302820,sid
 for(let z=-7;z<=7;z+=2.65){
  for(const x of [-3.05,3.05]){
   churchBox(x,.72,z,3.9,.24,.75,churchTimber);
-  churchBox(x,1.12,z-.34,3.9,.95,.18,churchTimber);
+  churchBox(x,1.12,z+.34,3.9,.95,.18,churchTimber);
   for(const dx of [-1.65,1.65])churchBox(x+dx,.36,z,.20,.7,.65,churchTimber);
  }
 }
@@ -2035,6 +2042,9 @@ function churchWorshipper(x,z,style,headDown=false){
  part(new THREE.CylinderGeometry(.29,.36,.72,12),mat,0,1.13,0);
  part(new THREE.SphereGeometry(.225,12,10),skin,0,1.78,headDown?-.08:0);
  part(new THREE.SphereGeometry(.232,12,9,0,Math.PI*2,0,Math.PI*.46),churchHair,0,1.84,headDown?-.08:0);
+ part(new THREE.SphereGeometry(.19,10,8),churchHair,0,1.76,.16);
+ // Visible face and knees point toward the altar (-Z), away from the pew backrest.
+ part(new THREE.SphereGeometry(.065,8,7),skin,0,1.72,headDown?-.28:-.22);
  for(const side of [-1,1]){
   const arm=part(new THREE.CylinderGeometry(.10,.12,.60,8),mat,side*.34,1.10,-.10);arm.rotation.z=side*.17;
   part(new THREE.CylinderGeometry(.13,.15,.54,8),mat,side*.16,.48,-.31);
@@ -2052,16 +2062,30 @@ const churchExitHint=document.createElement('div');
 churchExitHint.style.cssText='display:none;position:fixed;bottom:65px;left:50%;transform:translateX(-50%);background:#24201ded;border:1px solid #d0a76b;padding:10px 16px;z-index:45;color:#f6ddb0';
 churchExitHint.textContent='☛  E / Enter — Exit Church';
 document.body.appendChild(churchExitHint);
+// Quiet church ambience, independent of the tavern soundtrack.
+const churchAmbience=new Audio('sounds/church_ambience.mp3');
+churchAmbience.loop=true;
+churchAmbience.preload='auto';
+churchAmbience.volume=.09; // deliberately faint background level
+function churchAudioStart(){
+ try{churchAmbience.currentTime=0;}catch(e){}
+ const playing=churchAmbience.play();
+ if(playing&&playing.catch)playing.catch(err=>console.warn('Church ambience playback blocked:',err));
+}
+function churchAudioStop(){
+ churchAmbience.pause();
+ try{churchAmbience.currentTime=0;}catch(e){}
+}
 function churchEnter(){
  churchReturn={x:player.x,z:player.z,angle:player.angle};
- churchInside=true;player.x=churchCX;player.z=churchCZ+9.2;player.angle=0;
+ churchInside=true;churchAudioStart();player.x=churchCX;player.z=churchCZ+9.2;player.angle=0;
  churchExitHint.style.display='none';
  gameEl('gamePlace').textContent='E6 · Inside Village Church';
  gameEl('gameRead').textContent="Atop a slight rise, against the very roots of the castle's pillarstone, stands a gray, sagging edifice of stone and wood. This church has weathered the assaults of evil for centuries on end and is worn and weary. The bell tower hangs to one side, its sweet tone long silenced. Flickering light shines through holes burned through the roof shingles. The rafters strain feebly against their load.";
  gameEl('gameHint').textContent='Explore the church. Press E at the rear doorway to leave.';
 }
 function churchLeave(){
- churchInside=false;
+ churchAudioStop();churchInside=false;
  Object.assign(player,churchReturn);
  churchExitHint.style.display='none';
  gameUpdateLocation(player.x,player.z);
@@ -2428,14 +2452,29 @@ function updateStrahd(now){
 }
 strahd.visible=false;strahdLight.intensity=0;
 const pubLamp=new THREE.PointLight(0xffc17d,35,26);pubLamp.position.set(0,4.5,-2);pubInterior.add(pubLamp);
+// Blood of the Vine Tavern: local ambience starts only after entering E2.
+// Keep the audio file beside village_of_barovia.html under sounds/.
+const tavernAmbience=new Audio('sounds/tavern_ambience.mp3');
+tavernAmbience.loop=true;
+tavernAmbience.preload='auto';
+tavernAmbience.volume=.52;
+function tavernAudioStart(){
+ try{tavernAmbience.currentTime=0;}catch(e){}
+ const playing=tavernAmbience.play();
+ if(playing&&playing.catch)playing.catch(err=>console.warn('Tavern ambience playback blocked:',err));
+}
+function tavernAudioStop(){
+ tavernAmbience.pause();
+ try{tavernAmbience.currentTime=0;}catch(e){}
+}
 function pubEnter(){
  pubReturn={x:player.x,z:player.z,angle:player.angle};
- pubInside=true;resetStrahd();player.x=pubCX;player.z=pubCZ+8.2;player.angle=0;
+ pubInside=true;tavernAudioStart();resetStrahd();player.x=pubCX;player.z=pubCZ+8.2;player.angle=0;
  gameEl('gamePlace').textContent='E2 · Inside Blood of the Vine Tavern';
  gameEl('gameRead').textContent="A single shaft of light thrusts into the main square, its brightness like a solid pillar in the heavy fog. Above the gaping doorway, a sign hangs precariously askew proclaiming this the \"Blood on the Vine Tavern.\"";
  gameEl('gameHint').textContent='Explore the tavern. Return to the doorway and press E or Enter to exit.';
 }
-function pubLeave(){pubInside=false;Object.assign(player,pubReturn);gameUpdateLocation(player.x,player.z);}
+function pubLeave(){tavernAudioStop();pubInside=false;Object.assign(player,pubReturn);gameUpdateLocation(player.x,player.z);}
 const churchActionPrompt=document.createElement('div');
 churchActionPrompt.id='churchActionPrompt';
 churchActionPrompt.style.cssText='display:none;position:fixed;left:50%;top:63%;transform:translate(-50%,-50%);z-index:42;background:#1b1713e8;color:#f5d49c;border:1px solid #b9945e;padding:12px 20px;font:18px Georgia,serif;pointer-events:none;text-align:center;box-shadow:0 4px 18px #0009';

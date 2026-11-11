@@ -16,7 +16,7 @@
 #mapbox #keyOverlay{position:absolute!important;top:0!important;left:0!important;inset:auto!important;width:100%!important;height:calc(100% - 76px)!important;pointer-events:auto!important;cursor:pointer}
 #mapTools{margin-top:auto}
 #mapResizeGrip{position:absolute;bottom:0;left:0;width:28px;height:28px;cursor:sw-resize;z-index:30;color:#f0c98d;background:#433023;border:1px solid #b88e59;display:grid;place-items:center;user-select:none}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v3.99</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.05</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
 (function(){
  const panel=document.createElement('div');
  panel.id='startup-diagnostics';
@@ -325,39 +325,9 @@ const bushGeo=new THREE.IcosahedronGeometry(1,0);
 function decoMesh(geometry,material,x,y,z,sx=1,sy=1,sz=1){
  const o=new THREE.Mesh(geometry,material);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o;
 }
-function shrub(x,z,seed){
- const r=seededNoise(seed*73+9),size=.43+r()*.36;
- // Several overlapping rounded leafy clumps, not one angular green rock.
- const count=9+Math.floor(r()*5);
- for(let j=0;j<count;j++){
-  const a=j*2.399+r()*.35,spread=size*(.24+r()*.46);
-  const px=x+Math.cos(a)*spread,pz=z+Math.sin(a)*spread;
-  const sz=size*(.37+r()*.39);
-  decoMesh(leafSphere,leafMats[(seed+j)%leafMats.length],
-    px,sz*.92,pz,sz*1.25,sz*.98,sz*1.17);
- }
- // Taller leaf sprays break up the smooth round outline.
- for(let j=0;j<4;j++){
-  const a=j*1.57+r()*.3;
-  decoMesh(leafSphere,leafMats[(seed+j+3)%leafMats.length],
-   x+Math.cos(a)*size*.42,size*(.83+r()*.3),z+Math.sin(a)*size*.42,
-   size*.20,size*.40,size*.21);
- }
-}
-// Long hedgerows with dense overlapping foliage, a low woody spine.
-function longHedge(x,z,length,alongX,seed){
- const r=seededNoise(seed+991);
- const count=Math.ceil(length/.42);
- for(let j=0;j<=count;j++){
-  const t=j/count-.5;
-  const px=x+(alongX?t*length:0),pz=z+(alongX?0:t*length);
-  const radius=.36+r()*.12;
-  decoMesh(leafSphere,leafMats[(seed+j)%leafMats.length],
-   px,.39+r()*.12,pz,radius*1.13,.38+r()*.14,radius*1.13);
-  if(j%5===0)decoMesh(leafSphere,leafMats[(seed+j+2)%leafMats.length],
-   px,.67,pz,.25,.24,.26);
- }
-}
+// Shrubs and hedges intentionally disabled; trees, fences and village coordinates unchanged.
+function shrub(x,z,seed){}
+function longHedge(x,z,length,alongX,seed){}
 function tree(x,z,seed){
  const r=seededNoise(seed+1928),h=3.4+r()*2.0;
  decoMesh(trunkGeo,fenceDark,x,h*.30,z,1,h*.60,1);
@@ -700,10 +670,11 @@ function addTradeSign(group,index){
  const label=tradeTypes[Math.floor(index/10)%tradeTypes.length];
  const b=blocks[index],front=b.z+b.r+.2;
  // Put the board against the facade, above head height, without occupying roads.
- const bracket=decoMesh(new THREE.BoxGeometry(.09,.1,.7),fenceDark,b.x+b.r*.48,3.2,front+.34);
+ const bracket=decoMesh(new THREE.BoxGeometry(.09,.1,1.65),fenceDark,b.x+b.r*.48,3.2,front+.78);
  const board=new THREE.Mesh(new THREE.PlaneGeometry(1.85,.92),
    new THREE.MeshStandardMaterial({map:signTexture(label),side:THREE.DoubleSide,roughness:.8}));
- board.position.set(b.x+b.r*.48,2.75,front+.16);board.castShadow=false;scene.add(board);
+ // Hang the sign forward of timber trim and facade details so lettering stays visible.
+ board.position.set(b.x+b.r*.48,2.75,front+1.48);board.castShadow=false;scene.add(board);
  const a=group.facingAngle||0;
  if(a!==0){
   const c=Math.cos(a),sn=Math.sin(a);
@@ -1137,7 +1108,7 @@ document.querySelector('#map').addEventListener('click',e=>{
     player.angle=Math.atan2(gx-player.x,player.z-gz)+Math.PI;
     // E5 only: turn left to face the guest-house facade more squarely,
     // then step right along that view's lateral axis to align with the door.
-    player.angle-=0.23; // E5 only: rotate 0.30 radians left from v3.99 (about three taps).
+    player.angle-=0.23; // E5 only: rotate 0.30 radians left from v4.05 (about three taps).
     // E5 only: one additional step right and two steps forward.
     player.x+=Math.cos(player.angle)*3.5+Math.sin(player.angle)*2;
     player.z+=Math.sin(player.angle)*3.5-Math.cos(player.angle)*2;
@@ -1694,11 +1665,7 @@ function buildKeyedExteriors(){
    }
    box(g,0,.18,mf+2.0,3.8,.36,2.6,plinth);
    box(g,0,.12,mf+3.15,4.7,.24,1.1,plinth);
-   // Wrought iron perimeter fencing; leave the front gate visibly broken/open.
-   for(const x of [-mw*.72,mw*.72])for(let z=-md*.35;z<md*.86;z+=.7)
-     box(g,x,.9,z,.09,1.8,.09,iron);
-   for(let x=-mw*.72;x<=mw*.72;x+=.7)
-     if(Math.abs(x)>2.8)box(g,x,.9,md*.84,.09,1.8,.09,iron);
+   // Manor perimeter fence removed to keep the existing road unobstructed.
    // Charred scars from the attacks, low on the stucco and away from the entrance.
    const scorch=mat(0x777168);
    for(const x of [-mw*.32,mw*.34]){

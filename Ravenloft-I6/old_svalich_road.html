@@ -10,7 +10,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;
 #mapbox,#minimap{right:14px!important;top:12px!important;z-index:12!important;width:300px!important;box-sizing:border-box;border-radius:0!important;background:#1b191ced!important}#mapbox canvas,#minimap canvas{width:100%!important;height:auto!important;max-height:255px!important;object-fit:contain}#mapbox small,#minimap small{font-size:11px;color:#e2bd84}#mapTools{display:flex;gap:5px;justify-content:center;margin-top:5px}#mapTools button{font-size:11px}
 #help{left:360px!important;bottom:14px!important;transform:none!important;z-index:13!important;font-size:11px!important;white-space:normal!important;max-width:330px;border-radius:0!important}#loc{display:none!important}#controlDeck{position:fixed;right:14px;bottom:14px;z-index:18;width:350px;max-width:calc(100vw - 28px);background:#120e12f5;border:1px solid #9c784c;padding:9px;color:#e8c18b;font:12px Georgia,serif;box-sizing:border-box}#controlDeck .toolRow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px 0;border-bottom:1px solid #6d5037}#controlDeck .toolRow:last-child{border-bottom:0}#controlDeck .toolLabel{width:40px;flex:none;font-size:10px;color:#d7a766}#controlDeck button,#controlDeck select,#mapTools button{background:#34271d;border:1px solid #aa8757;color:#f0d6a9;padding:7px 6px;cursor:pointer;border-radius:2px;font:11px Georgia,serif}#controlDeck button:hover,#mapTools button:hover{background:#74502e}#controlDeck button.on{background:#805824;border-color:#efbc69}#controlDeck select{max-width:160px}#gameModal{z-index:70!important}#gameModal article{max-height:85vh}#gameModal .readaloud{white-space:pre-line}#keyOverlay{position:absolute;inset:8px;pointer-events:none;width:calc(100% - 16px);height:calc(100% - 16px)}
 @media(max-width:1050px){#help{left:14px!important;bottom:15px!important}#gamePanel{max-height:calc(100vh - 290px)!important}#controlDeck{bottom:100px}}@media(max-width:720px){#hud{width:240px!important}#gamePanel{width:220px!important;top:120px!important;max-height:35vh!important}#mapbox,#minimap{width:165px!important}#controlDeck{width:285px;bottom:8px}#help{display:none!important}}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.22</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.26</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
 try {
 let THREE;
 for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}
@@ -414,4 +414,138 @@ function gameEncounter(){let body='<p>DM reference · Lands of Barovia</p><butto
 const sceneTorch=torchLight;
 gameEl('torchBtn').onclick=()=>{torchOn=!torchOn;sceneTorch.intensity=torchOn?3.2:0;gameEl('torchBtn').textContent='🔥 Torch: '+(torchOn?'ON':'OFF');gameEl('torchBtn').classList.toggle('on',torchOn)};
 }catch(e){console.error(e);document.querySelector('#loading').textContent='Unable to start: '+(e.stack||e.message||e)}
-</script></body></html>
+</script>
+<!-- DNDPOV random daytime music: original time controls and all other sounds retained. -->
+<script>
+(()=>{
+  const timeSelect=document.getElementById('day');
+  const deck=document.querySelector('#controlDeck .toolRow');
+  const music=new Audio('sounds/barovia_day_ambience.mp3');
+  music.loop=false; music.preload='auto'; music.volume=0;
+  const btn=document.createElement('button'); btn.id='dayMusicToggle';
+  btn.textContent='♫ Music: ON';
+  btn.title='Music drifts in and out at random during Dawn and Day only';
+  if(deck)deck.appendChild(btn);
+  let enabled=true,unlocked=false,timer=null,fadeTimer=null,phase=0;
+  const isDay=()=>enabled&&(timeSelect.value==='dawn'||timeSelect.value==='day');
+  const random=(a,b)=>a+Math.random()*(b-a);
+  const clearTimers=()=>{clearTimeout(timer);clearInterval(fadeTimer);timer=null;fadeTimer=null;};
+  function fadeTo(target,seconds,done){
+    clearInterval(fadeTimer);
+    const from=music.volume,started=performance.now();
+    fadeTimer=setInterval(()=>{
+      const t=Math.min(1,(performance.now()-started)/(seconds*1000));
+      const smooth=t*t*(3-2*t);
+      music.volume=Math.max(0,Math.min(1,from+(target-from)*smooth));
+      if(t>=1){clearInterval(fadeTimer);fadeTimer=null;if(done)done();}
+    },60);
+  }
+  function stop(){phase++;clearTimers();fadeTo(0,2.5,()=>{if(!isDay())music.pause();});}
+  function schedule(){
+    if(!unlocked||!isDay())return;
+    const id=++phase;
+    // Between musical appearances, leave only the continuous environmental ambience for 7-22 seconds.
+    timer=setTimeout(async()=>{
+      if(id!==phase||!isDay())return;
+      // Random entry point makes consecutive appearances less recognizable.
+      const duration=Number.isFinite(music.duration)?music.duration:19.2;
+      const start=random(0,Math.max(0,duration-10));
+      music.currentTime=start;
+      music.volume=0;
+      try{await music.play();}catch(e){return;}
+      if(id!==phase||!isDay()){music.pause();return;}
+      fadeTo(random(.13,.23),random(2.5,4.5));
+      const available=Math.max(5,(duration-start)-1);
+      const playFor=Math.min(random(8,13),available);
+      timer=setTimeout(()=>{
+        if(id!==phase)return;
+        fadeTo(0,random(3,5),()=>{
+          if(id!==phase)return;
+          music.pause();schedule();
+        });
+      },Math.max(2,playFor-4)*1000);
+    },random(7,22)*1000);
+  }
+  function update(){
+    if(!unlocked)return;
+    if(isDay()){phase++;clearTimers();fadeTo(0,1.2,()=>{music.pause();schedule();});}
+    else stop();
+  }
+  function unlock(){if(unlocked)return;unlocked=true;update();}
+  document.addEventListener('pointerdown',unlock,{once:true});
+  document.addEventListener('keydown',unlock,{once:true});
+  timeSelect.addEventListener('change',update);
+  btn.addEventListener('click',()=>{enabled=!enabled;btn.textContent='♫ Music: '+(enabled?'ON':'OFF');update();});
+  music.addEventListener('ended',()=>{if(!isDay())return;music.volume=0;music.pause();clearTimers();schedule();});
+})();
+</script>
+<!-- DNDPOV layered environmental ambience: continuous wind, variable gusts, intermittent dawn/day birds. -->
+<script>
+(()=>{
+  const timeSelect=document.getElementById('day');
+  let ctx, windSource, windFilter, windGain, gustGain, birdBus, started=false;
+  const isDay=()=>timeSelect && (timeSelect.value==='dawn'||timeSelect.value==='day');
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  function ramp(param,value,seconds){
+    const t=ctx.currentTime;
+    param.cancelScheduledValues(t);
+    param.setValueAtTime(param.value,t);
+    param.linearRampToValueAtTime(value,t+seconds);
+  }
+  function makeWind(){
+    // A long, independently repeating filtered-noise bed avoids an audible musical loop.
+    const length=ctx.sampleRate*13, buffer=ctx.createBuffer(1,length,ctx.sampleRate), data=buffer.getChannelData(0);
+    let low=0;
+    for(let i=0;i<length;i++){
+      low=low*.985+(Math.random()*2-1)*.015;
+      data[i]=low*.85+(Math.random()*2-1)*.06;
+    }
+    windSource=ctx.createBufferSource();windSource.buffer=buffer;windSource.loop=true;
+    windFilter=ctx.createBiquadFilter();windFilter.type='lowpass';windFilter.frequency.value=430;
+    windGain=ctx.createGain();windGain.gain.value=.085;
+    gustGain=ctx.createGain();gustGain.gain.value=.75;
+    windSource.connect(windFilter).connect(windGain).connect(gustGain).connect(ctx.destination);
+    windSource.start();
+  }
+  function gust(){
+    if(!started)return;
+    ramp(gustGain.gain,rand(.8,1.65),rand(3,8));
+    ramp(windFilter.frequency,rand(300,760),rand(3,8));
+    setTimeout(gust,rand(7,19)*1000);
+  }
+  function birdCall(){
+    if(!started)return;
+    if(isDay()){
+      const count=Math.floor(rand(2,5));
+      const base=rand(1450,2600),t0=ctx.currentTime+.08;
+      for(let i=0;i<count;i++){
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.type='sine';
+        const start=t0+i*rand(.17,.26),duration=rand(.10,.23);
+        osc.frequency.setValueAtTime(base+rand(-160,160),start);
+        osc.frequency.exponentialRampToValueAtTime(base*rand(1.2,1.55),start+duration*.55);
+        osc.frequency.exponentialRampToValueAtTime(base*rand(.8,1.02),start+duration);
+        gain.gain.setValueAtTime(0,start);
+        gain.gain.linearRampToValueAtTime(rand(.008,.022),start+.025);
+        gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+        osc.connect(gain).connect(birdBus);
+        osc.start(start);osc.stop(start+duration+.01);
+      }
+    }
+    setTimeout(birdCall,rand(9,31)*1000);
+  }
+  function unlock(){
+    if(started){ctx?.resume();return;}
+    try{
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      makeWind();
+      birdBus=ctx.createGain();birdBus.gain.value=1;birdBus.connect(ctx.destination);
+      started=true;ctx.resume();
+      setTimeout(gust,3000);setTimeout(birdCall,rand(4,12)*1000);
+    }catch(err){console.warn('Environmental ambience unavailable',err);}
+  }
+  document.addEventListener('pointerdown',unlock,{once:true});
+  document.addEventListener('keydown',unlock,{once:true});
+})();
+</script>
+</body></html>

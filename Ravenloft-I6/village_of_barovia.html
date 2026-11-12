@@ -16,7 +16,7 @@
 #mapbox #keyOverlay{position:absolute!important;top:0!important;left:0!important;inset:auto!important;width:100%!important;height:calc(100% - 76px)!important;pointer-events:auto!important;cursor:pointer}
 #mapTools{margin-top:auto}
 #mapResizeGrip{position:absolute;bottom:0;left:0;width:28px;height:28px;cursor:sw-resize;z-index:30;color:#f0c98d;background:#433023;border:1px solid #b88e59;display:grid;place-items:center;user-select:none}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.65</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.70</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
 (function(){
  const panel=document.createElement('div');
  panel.id='startup-diagnostics';
@@ -1086,8 +1086,8 @@ const wolfAudio = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAf1RYWFgAAAASAAAD
 wolfAudio.preload='auto';
 let wolvesEnabled=true, wolvesUnlocked=false, wolfTimer=null, wolfFirst=true;
 const wolfRanges={
-  dusk:{clear:[110,175],mist:[78,125],fog:[55,95]},
-  night:{clear:[48,85],mist:[29,54],fog:[15,31]}
+  dusk:{clear:[110,175],mist:[75,120],fog:[40,78]},
+  night:{clear:[65,105],mist:[36,66],fog:[18,38]}
 };
 const wolfStatus=document.querySelector('#wolfStatus');
 wolfStatus.textContent='Click Test Howl to hear wolves';
@@ -1097,7 +1097,9 @@ function playWolf(){
   if(!wolvesEnabled)return;
   wolfAudio.pause();
   try{wolfAudio.currentTime=0;}catch(e){}
-  wolfAudio.volume=.52+Math.random()*.18;
+  // Clear: far-off howls; mist: approaching; fog: close, but never overpowering.
+  const wolfLevel={clear:[.16,.25],mist:[.30,.43],fog:[.48,.65]}[weatherMode]||[.16,.25];
+  wolfAudio.volume=wolfLevel[0]+Math.random()*(wolfLevel[1]-wolfLevel[0]);
   const result=wolfAudio.play();
   if(result&&result.then)result.then(()=>wolfMessage('🐺 Howling…')).catch(e=>wolfMessage('Sound blocked: '+e.message));
 }
@@ -2892,4 +2894,138 @@ function gameEncounter(){let body='<p>Village keyed locations E1–E7</p>';for(c
 }
 const sceneTorch=new THREE.PointLight(0xffae63,3.2,18,2);scene.add(sceneTorch);setInterval(()=>sceneTorch.position.set(player.x,2.6,player.z),50);
 gameEl('torchBtn').onclick=()=>{torchOn=!torchOn;sceneTorch.intensity=torchOn?3.2:0;gameEl('torchBtn').textContent='🔥 Torch: '+(torchOn?'ON':'OFF');gameEl('torchBtn').classList.toggle('on',torchOn)};
-</script></body></html>
+</script>
+<!-- DNDPOV random daytime music: original time controls and all other sounds retained. -->
+<script>
+(()=>{
+  const timeSelect=document.getElementById('day');
+  const deck=document.querySelector('#controlDeck .toolRow');
+  const music=new Audio('sounds/barovia_day_ambience.mp3');
+  music.loop=false; music.preload='auto'; music.volume=0;
+  const btn=document.createElement('button'); btn.id='dayMusicToggle';
+  btn.textContent='♫ Music: ON';
+  btn.title='Music drifts in and out at random during Dawn and Day only';
+  if(deck)deck.appendChild(btn);
+  let enabled=true,unlocked=false,timer=null,fadeTimer=null,phase=0;
+  const isDay=()=>enabled&&(timeSelect.value==='dawn'||timeSelect.value==='day');
+  const random=(a,b)=>a+Math.random()*(b-a);
+  const clearTimers=()=>{clearTimeout(timer);clearInterval(fadeTimer);timer=null;fadeTimer=null;};
+  function fadeTo(target,seconds,done){
+    clearInterval(fadeTimer);
+    const from=music.volume,started=performance.now();
+    fadeTimer=setInterval(()=>{
+      const t=Math.min(1,(performance.now()-started)/(seconds*1000));
+      const smooth=t*t*(3-2*t);
+      music.volume=Math.max(0,Math.min(1,from+(target-from)*smooth));
+      if(t>=1){clearInterval(fadeTimer);fadeTimer=null;if(done)done();}
+    },60);
+  }
+  function stop(){phase++;clearTimers();fadeTo(0,2.5,()=>{if(!isDay())music.pause();});}
+  function schedule(){
+    if(!unlocked||!isDay())return;
+    const id=++phase;
+    // Between musical appearances, leave only the continuous environmental ambience for 7-22 seconds.
+    timer=setTimeout(async()=>{
+      if(id!==phase||!isDay())return;
+      // Random entry point makes consecutive appearances less recognizable.
+      const duration=Number.isFinite(music.duration)?music.duration:19.2;
+      const start=random(0,Math.max(0,duration-10));
+      music.currentTime=start;
+      music.volume=0;
+      try{await music.play();}catch(e){return;}
+      if(id!==phase||!isDay()){music.pause();return;}
+      fadeTo(random(.13,.23),random(2.5,4.5));
+      const available=Math.max(5,(duration-start)-1);
+      const playFor=Math.min(random(8,13),available);
+      timer=setTimeout(()=>{
+        if(id!==phase)return;
+        fadeTo(0,random(3,5),()=>{
+          if(id!==phase)return;
+          music.pause();schedule();
+        });
+      },Math.max(2,playFor-4)*1000);
+    },random(7,22)*1000);
+  }
+  function update(){
+    if(!unlocked)return;
+    if(isDay()){phase++;clearTimers();fadeTo(0,1.2,()=>{music.pause();schedule();});}
+    else stop();
+  }
+  function unlock(){if(unlocked)return;unlocked=true;update();}
+  document.addEventListener('pointerdown',unlock,{once:true});
+  document.addEventListener('keydown',unlock,{once:true});
+  timeSelect.addEventListener('change',update);
+  btn.addEventListener('click',()=>{enabled=!enabled;btn.textContent='♫ Music: '+(enabled?'ON':'OFF');update();});
+  music.addEventListener('ended',()=>{if(!isDay())return;music.volume=0;music.pause();clearTimers();schedule();});
+})();
+</script>
+<!-- DNDPOV layered environmental ambience: continuous wind, variable gusts, intermittent dawn/day birds. -->
+<script>
+(()=>{
+  const timeSelect=document.getElementById('day');
+  let ctx, windSource, windFilter, windGain, gustGain, birdBus, started=false;
+  const isDay=()=>timeSelect && (timeSelect.value==='dawn'||timeSelect.value==='day');
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  function ramp(param,value,seconds){
+    const t=ctx.currentTime;
+    param.cancelScheduledValues(t);
+    param.setValueAtTime(param.value,t);
+    param.linearRampToValueAtTime(value,t+seconds);
+  }
+  function makeWind(){
+    // A long, independently repeating filtered-noise bed avoids an audible musical loop.
+    const length=ctx.sampleRate*13, buffer=ctx.createBuffer(1,length,ctx.sampleRate), data=buffer.getChannelData(0);
+    let low=0;
+    for(let i=0;i<length;i++){
+      low=low*.985+(Math.random()*2-1)*.015;
+      data[i]=low*.85+(Math.random()*2-1)*.06;
+    }
+    windSource=ctx.createBufferSource();windSource.buffer=buffer;windSource.loop=true;
+    windFilter=ctx.createBiquadFilter();windFilter.type='lowpass';windFilter.frequency.value=430;
+    windGain=ctx.createGain();windGain.gain.value=.085;
+    gustGain=ctx.createGain();gustGain.gain.value=.75;
+    windSource.connect(windFilter).connect(windGain).connect(gustGain).connect(ctx.destination);
+    windSource.start();
+  }
+  function gust(){
+    if(!started)return;
+    ramp(gustGain.gain,rand(.8,1.65),rand(3,8));
+    ramp(windFilter.frequency,rand(300,760),rand(3,8));
+    setTimeout(gust,rand(7,19)*1000);
+  }
+  function birdCall(){
+    if(!started)return;
+    if(isDay()){
+      const count=Math.floor(rand(2,5));
+      const base=rand(1450,2600),t0=ctx.currentTime+.08;
+      for(let i=0;i<count;i++){
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.type='sine';
+        const start=t0+i*rand(.17,.26),duration=rand(.10,.23);
+        osc.frequency.setValueAtTime(base+rand(-160,160),start);
+        osc.frequency.exponentialRampToValueAtTime(base*rand(1.2,1.55),start+duration*.55);
+        osc.frequency.exponentialRampToValueAtTime(base*rand(.8,1.02),start+duration);
+        gain.gain.setValueAtTime(0,start);
+        gain.gain.linearRampToValueAtTime(rand(.008,.022),start+.025);
+        gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+        osc.connect(gain).connect(birdBus);
+        osc.start(start);osc.stop(start+duration+.01);
+      }
+    }
+    setTimeout(birdCall,rand(9,31)*1000);
+  }
+  function unlock(){
+    if(started){ctx?.resume();return;}
+    try{
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      makeWind();
+      birdBus=ctx.createGain();birdBus.gain.value=1;birdBus.connect(ctx.destination);
+      started=true;ctx.resume();
+      setTimeout(gust,3000);setTimeout(birdCall,rand(4,12)*1000);
+    }catch(err){console.warn('Environmental ambience unavailable',err);}
+  }
+  document.addEventListener('pointerdown',unlock,{once:true});
+  document.addEventListener('keydown',unlock,{once:true});
+})();
+</script>
+</body></html>

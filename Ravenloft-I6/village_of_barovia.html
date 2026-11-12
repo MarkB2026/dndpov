@@ -16,7 +16,7 @@
 #mapbox #keyOverlay{position:absolute!important;top:0!important;left:0!important;inset:auto!important;width:100%!important;height:calc(100% - 76px)!important;pointer-events:auto!important;cursor:pointer}
 #mapTools{margin-top:auto}
 #mapResizeGrip{position:absolute;bottom:0;left:0;width:28px;height:28px;cursor:sw-resize;z-index:30;color:#f0c98d;background:#433023;border:1px solid #b88e59;display:grid;place-items:center;user-select:none}
-</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.58</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
+</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style></head><body><div id="hud"><b>DNDPOV · BAROVIA v4.65</b><p>Village of Barovia · seven repeating house styles.</p><button id="showcase">7 Houses</button> <label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day" selected>Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select>  <button id="quality">Quality: Balanced</button> <button id="roof">Toggle roofs</button><p id="position"></p></div><div id="mapbox"><canvas id="map" width="480" height="600"></canvas><small>Barovia · gold arrow = your location</small></div><div id="loc">Village of Barovia — southern entrance</div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="err"></div><script>
 (function(){
  const panel=document.createElement('div');
  panel.id='startup-diagnostics';
@@ -649,6 +649,128 @@ function baroviaLandmark(px,py,w,d,seed){
 // The E6 keyed stone church supplies the full building at this location; do not overlay a procedural timber-and-brick house.
 baroviaLandmark(226,551,47,34,5); // south church
 baroviaLandmark(413,112,33,30,0); // north-east outlying building
+// v4.59: ONLY clear the northeast approach. Keep every original house coordinate,
+// house array index, procedural seed, road, keyed location, and stable unchanged.
+// Suppression hides the row of houses left of the approach and the end blocker;
+// it does NOT move any building or re-run placement.
+const northeastClearedHouses=[];
+for(let i=0;i<houseGroups.length;i++){
+ const h=houseGroups[i],px=h.x*5+240,py=h.z*5+300;
+ const leftRow=(px>=283&&px<=387&&py>=55&&py<=205);
+ const endBlocker=(px>=397&&px<=433&&py>=90&&py<=135);
+ if(leftRow||endBlocker){
+  h.suppressed=true;
+  for(const obj of h.objects){obj.visible=false;}
+  northeastClearedHouses.push({index:i,px:+px.toFixed(2),py:+py.toFixed(2)});
+ }
+}
+console.info('Northeast clearance only; original coordinates preserved',northeastClearedHouses);
+
+// v4.63: ONLY the ordinary cottages to the right of the northeast exit approach.
+// No coordinates, seeds, roads, or protected/keyed buildings are modified.
+const assignedKeyHouses=new Set();
+const northeastRightRemoved=[];
+for(let i=0;i<houseGroups.length;i++){
+ if(assignedKeyHouses.has(i))continue;
+ const h=houseGroups[i],px=h.x*5+240,py=h.z*5+300;
+ if(px>=390&&px<=438&&py>=141&&py<=225){
+  h.suppressed=true;
+  for(const obj of h.objects)obj.visible=false;
+  northeastRightRemoved.push({index:i,px:+px.toFixed(2),py:+py.toFixed(2)});
+ }
+}
+console.info('Northeast right-side houses hidden only',northeastRightRemoved);
+
+// Standalone supply store on the right-side grass. Door faces diagonally
+// toward the incoming road; does not call house() or alter houseGroups.
+(function addNortheastSupplyStore(){
+ const shop=new THREE.Group();
+ shop.position.set(38.3,0,-34.7);
+ shop.rotation.y=-Math.PI/2+0.27;
+ scene.add(shop);
+ const wall=mat('#c8b89a'),base=mat('#867965'),timber=mat('#6a452e');
+ const roof=mat('#61402c'),door=mat('#765035'),window=mat('#73989a');
+ function part(x,y,z,w,h,d,m){
+  const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
+  o.position.set(x,y,z);shop.add(o);return o;
+ }
+ const W=6.6,D=6.2,H=4.1,front=D/2+.08;
+ part(0,.38,0,W+.2,.76,D+.2,base);
+ part(0,(H+.75)/2,0,W,H-.75,D,wall);
+ for(const x of [-W/2+.18,W/2-.18])part(x,H/2,front,.25,H,.26,timber);
+ part(0,1.12,front+.13,1.45,2.24,.18,door);
+ for(const x of [-.45,0,.45])part(x,1.12,front+.25,.045,2.1,.07,timber);
+ part(.52,1.12,front+.29,.10,.14,.09,mat('#bca36c'));
+ part(0,.14,front+.48,1.8,.28,.9,base);
+ for(const x of [-2.0,2.0]){
+  part(x,2.12,front+.12,.92,1.13,.16,window);
+  part(x,2.12,front+.24,.12,1.2,.14,timber);
+  part(x,2.12,front+.24,1.03,.11,.14,timber);
+ }
+ // Two sloped roof panels; no chimney or roof pillar.
+ for(const side of [-1,1]){
+  const edge=side*(W/2+.4),rise=1.5;
+  const arr=new Float32Array([0,H+rise,-D/2-.4,edge,H,-D/2-.4,edge,H,D/2+.4,
+    0,H+rise,-D/2-.4,edge,H,D/2+.4,0,H+rise,D/2+.4]);
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(arr,3));geo.computeVertexNormals();
+  const m=roof.clone();m.side=THREE.DoubleSide;
+  shop.add(new THREE.Mesh(geo,m));
+ }
+ const signCanvas=document.createElement('canvas');signCanvas.width=768;signCanvas.height=160;
+ const ctx=signCanvas.getContext('2d');ctx.fillStyle='#4d301d';ctx.fillRect(0,0,768,160);
+ ctx.strokeStyle='#e1c18c';ctx.lineWidth=8;ctx.strokeRect(8,8,752,144);
+ ctx.fillStyle='#f7e6c3';ctx.textAlign='center';ctx.font='bold 69px Georgia';
+ ctx.fillText('SUPPLY STORE',384,105);
+ const signTex=new THREE.CanvasTexture(signCanvas);signTex.colorSpace=THREE.SRGBColorSpace;
+ const sign=new THREE.Mesh(new THREE.PlaneGeometry(5.1,1.06),new THREE.MeshBasicMaterial({map:signTex,side:THREE.DoubleSide}));
+ sign.position.set(0,3.57,front+.20);shop.add(sign);
+})();
+
+
+// v4.62: standalone ranch-style EXIT gateway at the northeast road end.
+// All existing houses, stables, roads, seeds, and world coordinates remain untouched.
+(function addNortheastRanchGate(){
+ const gate=new THREE.Group();
+ const [gx,gz]=xy(399,98);
+ gate.position.set(gx,0,gz);
+ // Road tangent from map points (382,107) to (407,94).
+ gate.rotation.y=-Math.atan2(407-382,107-94);
+ scene.add(gate);
+ const postMat=mat('#654026'),beamMat=mat('#79502d'),ironMat=mat('#322a24');
+ function timber(x,y,z,w,h,d,material){
+  const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+  o.position.set(x,y,z);gate.add(o);return o;
+ }
+ // Posts outside the cobblestone route; full unobstructed walking clearance.
+ // The supply-store side is supported by the building itself: no freestanding post.
+ // Preserve the left ranch post and the complete existing crossbeam/sign.
+ for(const side of [-1]){
+  timber(side*4.55,2.15,0,.52,4.3,.52,postMat);
+  timber(side*4.55,4.35,0,.78,.34,.78,beamMat);
+  timber(side*4.55,3.55,0,.2,.6,.2,ironMat);
+ }
+ timber(0,4.2,0,9.7,.45,.53,beamMat);
+ // Clear legible sign on both sides (never mirrored).
+ const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;
+ const ctx=canvas.getContext('2d');
+ ctx.fillStyle='#4b2d1c';ctx.fillRect(0,0,1024,256);
+ ctx.strokeStyle='#c7a06b';ctx.lineWidth=13;ctx.strokeRect(12,12,1000,232);
+ ctx.textAlign='center';ctx.fillStyle='#f6e3bb';
+ ctx.font='bold 72px Georgia';ctx.fillText('LEAVING BAROVIA',512,105);
+ ctx.font='bold 42px Georgia';ctx.fillText('OLD SVALICH ROAD',512,184);
+ const tex=new THREE.CanvasTexture(canvas);tex.colorSpace=THREE.SRGBColorSpace;
+ const signMat=new THREE.MeshBasicMaterial({map:tex,side:THREE.FrontSide});
+ for(const side of [-1,1]){
+  const face=new THREE.Mesh(new THREE.PlaneGeometry(6.9,1.72),signMat);
+  face.position.set(0,5.48,side*.18);
+  if(side<0)face.rotation.y=Math.PI;
+  gate.add(face);
+ }
+ timber(0,5.48,0,7.1,1.82,.25,postMat);
+ // Sign faces sit in front of the backing board.
+ for(const face of gate.children.slice(-3).filter(o=>o.geometry?.type==='PlaneGeometry'))face.position.z=Math.sign(face.position.z)*.145;
+})();
+
 // Trade signs are deterministic, temporary locations: one for every ten houses.
 // Each entry records its house index and trade for later fixed geolocation assignment.
 const tradeTypes=['THE RED LION • PUB','THE IRON ANVIL • SMITH','THE OAKEN CUP • TAVERN',
@@ -667,6 +789,7 @@ function signTexture(label){
  const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return tex;
 }
 function addTradeSign(group,index){
+ if(group.suppressed)return;
  const label=tradeTypes[Math.floor(index/10)%tradeTypes.length];
  const b=blocks[index],front=b.z+b.r+.2;
  // Put the board against the facade, above head height, without occupying roads.
@@ -735,6 +858,29 @@ for(let i=0;i<175;i++){
 }
 detailStreet();
 buildGreenery();
+// ADDITIVE ONLY: Northeast grassy stable. Existing houses, roads, and coordinates are untouched.
+(function addNortheastStables(){
+ const stable=new THREE.Group();stable.position.set(21.8,0,-47.4);scene.add(stable);
+ const timber=mat('#654125'),roofing=mat('#49382b'),hay=mat('#bba065'),horseBrown=mat('#785139'),horseDark=mat('#382d26'),horseCream=mat('#b8a082');
+ function part(x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);stable.add(o);return o}
+ // Open-sided shelter entirely on the grassy plot, away from the road.
+ part(0,.16,0,7.6,.32,5.2,mat('#887352'));
+ for(const x of [-3.5,3.5])for(const z of [-2.3,2.3])part(x,2.05,z,.25,4.1,.25,timber);
+ for(const x of [-1,1]){const roof=part(x*1.9,4.15,0,4.4,.24,5.8,roofing);roof.rotation.z=x*.19;}
+ part(0,3.58,-2.3,7.4,.22,.18,timber);
+ for(const x of [-2.4,0,2.4]){
+   const root=new THREE.Group();root.position.set(x,0,.45);stable.add(root);
+   const coat=x===0?horseDark:x>0?horseCream:horseBrown;
+   function hbox(px,py,pz,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(px,py,pz);root.add(o);return o}
+   hbox(0,1.45,0,.95,1.0,1.65,coat);
+   for(const dx of [-.31,.31])for(const dz of [-.53,.53])hbox(dx,.58,dz,.20,1.1,.22,coat);
+   hbox(0,1.91,-.72,.48,.88,.46,coat);hbox(0,2.25,-.96,.50,.48,.62,coat);
+   for(const dx of [-.18,.18])hbox(dx,2.65,-.78,.14,.38,.15,coat);
+   hbox(0,1.7,1.02,.18,.78,.18,horseDark);
+ }
+ part(0,.48,-1.86,6.6,.65,.55,timber);
+ for(const x of [-2.2,0,2.2])part(x,.91,-1.85,1.6,.16,.45,hay);
+})();
 // Landmark silhouettes
 function tower(px,py,r=3.6,h=10){const [x,z]=xy(px,py);const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,9),stone);o.position.set(x,h/2,z);scene.add(o);blocks.push({x,z,r:r+1});const top=new THREE.Mesh(new THREE.ConeGeometry(r*1.2,4,9),roofs[0]);top.position.set(x,h+2,z);scene.add(top);roofMeshes.push(top)}// Decorative cylindrical towers removed in v1.3; no tower meshes or collision blocks created.
 const labels=[['Village of Barovia',240,340]];
@@ -1031,6 +1177,7 @@ function buildBaroviaMap(){
  const roofColors=['#766b60','#696d6e','#a26e4b','#5a595a','#8d8275','#a26b52','#60626a'];
  for(let i=0;i<houseGroups.length;i++){
   const h=houseGroups[i],b=blocks[i],x=h.x*5+240,y=h.z*5+300;
+  if(h.suppressed)continue;
   const size=Math.max(7,b.r*8.5);
   // Hide the obsolete grey building footprint on the southwest arrival map.
   if(x>205&&x<270&&y>530)continue;
@@ -1197,7 +1344,7 @@ renderer.render(scene,camera);if(window.__baroviaReady){window.__baroviaReady();
 
 // E1–E7: named signs mounted on the nearest building's street-facing wall.
 // No free-standing posts: nothing obstructs walking or the street sightline.
-const keyedSigns=[];const assignedKeyHouses=new Set();
+const keyedSigns=[];
 // Road-side entrance point: closest point on the actual rendered cobblestone network.
 function closestRoadEntrance(x,z){
  let best=null,dist=Infinity;

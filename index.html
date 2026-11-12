@@ -221,6 +221,7 @@ function mediaPath(folder,name){return folder+'/'+encodeURIComponent(name)}
    const f=document.createElement('figure');f.className='media-tile';
    const v=document.createElement('video');v.controls=true;v.preload='metadata';v.playsInline=true;
    v.src=mediaPath('Ravenloft-I6/videos',item.file);
+   if(item.file==='Road_to_Tser_Pool_Highlights.mp4') v.poster=mediaPath('Ravenloft-I6/videos','Road_to_Tser_Pool_Highlights.jpg');
    const c=document.createElement('figcaption');c.textContent=item.label;
    const link=document.createElement('a');link.href=item.href;link.textContent='Launch walkthrough';link.className='gallery-launch';
    v.addEventListener('error',()=>{c.textContent=item.label+' · Video unavailable (check upload path)'});

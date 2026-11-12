@@ -1,8 +1,7 @@
-DNDPOV v0.10.17 — floor layout cleanup
+DNDPOV v0.10.18 — Map 3 JavaScript syntax repair
 
-Upload ravenloft.html AND the complete maps/ folder together into Ravenloft-I6/.
-Map 2–12 layout code has been extracted from the latest v0.10.16 castle file into individual JS modules. Map 3 drawMainFloor and getMainFloorRooms are also external. Existing gameplay, DM, Oracle, multiplayer, audio, navigation, and arrival handling remain in ravenloft.html.
+Fixes the malformed export function declaration in maps/map3_main.js that prevented the 3D engine from starting. All 11 map modules now pass JavaScript module syntax validation.
 
-The HTML floor previews are NOT automatically imported: these JS modules are the geometry actually used by the Three.js engine. This package contains exact extracted geometry from the current working HTML, not older floor modules.
+Extract this ZIP and upload ravenloft.html plus the entire maps/ folder to Ravenloft-I6/. Do not upload the ZIP itself. Preserve existing images/, sounds/, videos/.
 
-Test via GitHub Pages or HTTP server, not file://. Test direct Map 3 launch, carriage Map 2 K1 arrival, and floor ribbon Map 2–12. Keep v0.10.16 backup.
+Test normal startup, carriage arrival (?arrival=carriage&floor=walls), and floor switching in browser.

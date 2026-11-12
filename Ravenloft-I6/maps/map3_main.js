@@ -1,37 +1,3 @@
-export function drawMainFloor({rect,poly,circle,grid,WW,HH,index}
-
-export function getMainFloorRooms(){
-const rooms=[
-{id:'K7',name:'Entry',box:[37,49,48,59],detail:'Heavy entrance doors, dim torches and four dragon figures overhead guard the passage inward.'},
-{id:'K8',name:'Great Entry',box:[50,47,68,64],detail:'A vaulted entrance with dusty columns, torch sconces, gargoyles above and aged ceiling artwork.'},
-{id:'K9',name:'Guests’ Hall',box:[54,64,64,81],detail:'A stone vaulted hall with torchlight, an armored display and a passage toward the stairs.'},
-{id:'K10',name:'Dining Hall',box:[29,65,51,83],detail:'A grand banquet chamber with chandeliers, a long dining table, mirrors and an organ.'},
-{id:'K14',name:'Hall of Faith',box:[68,50,108,60],detail:'A long dusty corridor with statues lining both sides.'},
-{id:'K15',name:'Chapel of Ravenloft',box:[111,27,137,88],detail:'Ruined pews, damaged stained glass, and an altar illuminated by a concentrated shaft of light.'},
-{id:'K11',name:'South Ground Archers Post',box:[20,65,29,82],detail:''},
-{id:'K12',name:'Turret Post',box:[8,14,26,32],detail:''},
-{id:'K13',name:'Turret Access Hall',box:[25,21,70,26],detail:''},
-{id:'K22',name:'Archers Post',box:[16, 21, 29, 34],detail:''},
-{id:'K83',name:'Spiral Stair',box:[35,39,47,51],detail:''},
-{id:'K19',name:'Tower Landing',box:[32,29,54,43],detail:''},
-{id:'K20',name:'Heart of Sorrow Tower',box:[64,20,92,49],detail:''},
-{id:'K20a',name:'Tower Stair Landing',box:[86, 25, 94, 37],detail:''},
-{id:'K29',name:'Tower Passage',box:[94,40,103,49],detail:''},
-{id:'K23',name:'Servants Entrance',box:[93,25,103,39],detail:''},
-{id:'K24',name:'Servants Quarters Stair',box:[84,13,104,22],detail:''},
-{id:'K16',name:'Chapel Passage',box:[102,30,110,45],detail:''},
-{id:'K17',name:'Court Passage',box:[111,70,128,83],detail:''},
-{id:'K18',name:'High Tower Stair',box:[82,60,106,84],detail:''},
-{id:'K18a',name:'Stair Landing',box:[82, 73, 95, 79],detail:''},
-{id:'K21',name:'South Tower',box:[70,69,82,81],detail:''},
-{id:'K31b',name:'Stair Landing',box:[68, 58, 82, 66],detail:''},
-{id:'K64',name:'Stair Shaft',box:[60,82,70,92],detail:''}
-,{id:'K31a',name:'Stair Landing',box:[68,62,81,69],detail:''}
-];
-
-return rooms;
-}
-
 export function drawMainFloor({rect,poly,circle,grid,WW,HH,index}) {
  // v0.10.09: architectural correction based on user-supplied Map03_Main_Floor.jpg.
  // The original map is the spatial authority. Geometry only: no gameplay code changes.
@@ -106,6 +72,7 @@ export function drawMainFloor({rect,poly,circle,grid,WW,HH,index}) {
  // Main entrance approach: outside K7, through its western gate.
  join(33,54,38,54);
 }
+
 
 export function getMainFloorRooms(){
 const rooms=[

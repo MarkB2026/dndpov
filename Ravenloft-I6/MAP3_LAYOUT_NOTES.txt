@@ -1,0 +1,6 @@
+v0.9.96 — Map 3 geometry-only correction
+Based on user-supplied Map03_Main_Floor.jpg.
+Restores separate upper K19/K83 region, western towers and galleries, eastern service rooms and chapel, stair clusters, and revised connecting corridors.
+The stable v0.9.95 engine, controls, descriptions, multiplayer, images and settings are retained.
+Map is a manually traced approximation pending visual walk-through; no claim of pixel-perfect fidelity.
+Use extracted folder, open ravenloft.html.

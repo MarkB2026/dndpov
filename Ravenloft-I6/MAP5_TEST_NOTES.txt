@@ -1,0 +1,1 @@
+v0.9.98 Map 5 Rooms of Weeping: floor geometry and room boxes only. Starts in K39. v0.9.97 Map 4 and accepted Map 3 unchanged. Existing gameplay and descriptions retained. Browser walkthrough not yet verified.

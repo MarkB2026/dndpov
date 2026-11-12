@@ -1,0 +1,6 @@
+DNDPOV v0.9.99 — Map 6 Lower Spires test.
+Based on accepted v0.9.98. Only Map 6 geometry and its spawn have been changed.
+Start: K21 lower tower, x78 y75.
+Reference: Map06_Lower_Spires_REFERENCE.jpg.
+Other floors, tools, multiplayer, room data, encounters and settings preserved.
+This is an approximate reconstruction pending visual walkthrough.

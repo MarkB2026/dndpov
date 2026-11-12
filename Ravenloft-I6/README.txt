@@ -1,7 +1,8 @@
-DNDPOV v0.10.18 — Map 3 JavaScript syntax repair
+DNDPOV v0.10.19 LOCKED EDITION
 
-Fixes the malformed export function declaration in maps/map3_main.js that prevented the 3D engine from starting. All 11 map modules now pass JavaScript module syntax validation.
-
-Extract this ZIP and upload ravenloft.html plus the entire maps/ folder to Ravenloft-I6/. Do not upload the ZIP itself. Preserve existing images/, sounds/, videos/.
-
-Test normal startup, carriage arrival (?arrival=carriage&floor=walls), and floor switching in browser.
+Only Map 3 Main Floor and Map 2 Walls of Ravenloft are available.
+Upload ravenloft_locked.html to Ravenloft-I6/ and maps/map2_walls.js + maps/map3_main.js to Ravenloft-I6/maps/.
+This separate file does NOT overwrite your full ravenloft.html.
+For carriage testing, use ravenloft_locked.html?arrival=carriage&floor=walls directly. To redirect the road to this edition, change its destination from ravenloft.html to ravenloft_locked.html.
+DM controls, room directory, audio, images, and multiplayer code remain in the page.
+Upper-floor geometry modules are intentionally excluded.

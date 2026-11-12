@@ -1,5 +1,6 @@
-// Map 5 — Rooms of Weeping. Architecture only; uses existing engine and room text.
-function makeRoomsOfWeepingLevel(){
+export function layout_makeRoomsOfWeepingLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const chamber=(id,x1,y1,x2,y2)=>{rect(x1,y1,x2,y2,0);const data=MODULE_ROOM_DATA[id]||{};const detail=data.readAloud?.join('\n\n')||'';rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});entryDescriptions[id]=detail;};
  const hall=(x1,y1,x2,y2,w=2)=>{if(x1===x2)rect(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2),0);else if(y1===y2)rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);else {rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);rect(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2),0)}};
@@ -31,4 +32,6 @@ function makeRoomsOfWeepingLevel(){
  hall(37,39,37,40);hall(40,42,43,46);hall(57,33,60,33);
  hall(60,33,60,47);hall(77,50,77,47);
  hall(93,60,93,64);hall(93,64,93,67);
+
+ return {rooms,entryDescriptions};
 }

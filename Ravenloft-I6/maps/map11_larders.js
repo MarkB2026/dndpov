@@ -1,6 +1,6 @@
-// Map 11 — Larders of Ill Omen. Walkable geometry traced from the supplied overhead reference.
-// No changes to shared controls, multiplayer, room art, encounters, or earlier floors.
-function makeLardersLevel(){
+export function layout_makeLardersLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const room=(id,x1,y1,x2,y2,shape='rect')=>{
   if(shape==='rect')rect(x1,y1,x2,y2,0);
@@ -56,4 +56,6 @@ function makeLardersLevel(){
  passage(40,43,46,43);
  passage(87,30,97,30);
  passage(97,30,97,39);
+
+ return {rooms,entryDescriptions};
 }

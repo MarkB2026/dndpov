@@ -1,6 +1,6 @@
-// Map 8 — Upper Spires. Geometry only, traced against Map08_Spires_Level3.jpg.
-// Do not change shared controls, encounters, multiplayer, or prior floors.
-function makeUpperSpiresLevel(){
+export function layout_makeUpperSpiresLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const add=(id,x1,y1,x2,y2)=>{
   const data=MODULE_ROOM_DATA[id]||{};
@@ -27,4 +27,6 @@ function makeUpperSpiresLevel(){
  add('K18',106,74,112,80);
  // Passage to K18 through the eastern edge of the parapet.
  carve(96,75,104,79);
+
+ return {rooms,entryDescriptions};
 }

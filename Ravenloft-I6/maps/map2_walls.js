@@ -1,6 +1,4 @@
-// Map 2 — Walls of Ravenloft v0.10.09: exterior courtyard plan.
-// Only Map 2 collision geometry is changed; central keep is solid.
-export function drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DATA}) {
+function drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DATA}) {
  grid.fill(1);
  const rooms=[],entryDescriptions={};
  const carve=(a,b,c,d)=>rect(a,b,c,d,0);
@@ -34,4 +32,13 @@ export function drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DA
  carve(116,38,122,67);
  // Explicit western arrival spawn, clear of the outer wall.
  return {rooms,entryDescriptions,spawn:{x:31,y:52,a:0,pitch:0}};
+}
+
+export function layout_makeWallsOfRavenloftLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
+ const result=drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DATA});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+
+ return {rooms,entryDescriptions};
 }

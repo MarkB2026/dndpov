@@ -1,6 +1,4 @@
-// Map 4 — Court of the Count. Spatial reconstruction from user-supplied overhead reference.
-// Floor-only geometry. All room descriptions, engine settings and multiplayer logic remain external.
-export function makeCourtModule({grid,roomsRef,entryDescriptionsRef,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA}) {
+function makeCourtModule({grid,roomsRef,entryDescriptionsRef,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA}) {
   grid.fill(1);
   const rooms=[],entryDescriptions={};
   const room=(id,x1,y1,x2,y2)=>{
@@ -59,4 +57,13 @@ export function makeCourtModule({grid,roomsRef,entryDescriptionsRef,rect,poly,ci
   hall(17,19,22,19);hall(17,88,22,88);
   hall(51,88,61,88);hall(68,90,73,90);
   return {rooms,entryDescriptions};
+}
+
+export function layout_makeCourtOfCountLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
+ const result=makeCourtModule({grid,roomsRef:rooms,entryDescriptionsRef:entryDescriptions,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+
+ return {rooms,entryDescriptions};
 }

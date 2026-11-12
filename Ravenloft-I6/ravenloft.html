@@ -152,8 +152,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.09 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.09 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.16 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.16 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -176,116 +176,75 @@ window.addEventListener('unhandledrejection',function(e){var el=document.getElem
 </script>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+// v0.10.17: floor geometry lives in maps/*.js; engine, DM and multiplayer remain here.
+import {drawMainFloor,getMainFloorRooms} from './maps/map3_main.js';
+import {layout_makeWallsOfRavenloftLevel} from './maps/map2_walls.js';
+function makeWallsOfRavenloftLevel(){
+ const result=layout_makeWallsOfRavenloftLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeCourtOfCountLevel} from './maps/map4_court.js';
+function makeCourtOfCountLevel(){
+ const result=layout_makeCourtOfCountLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeRoomsOfWeepingLevel} from './maps/map5_weeping.js';
+function makeRoomsOfWeepingLevel(){
+ const result=layout_makeRoomsOfWeepingLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeLowerSpiresLevel} from './maps/map6_lower_spires.js';
+function makeLowerSpiresLevel(){
+ const result=layout_makeLowerSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeMiddleSpiresLevel} from './maps/map7_middle_spires.js';
+function makeMiddleSpiresLevel(){
+ const result=layout_makeMiddleSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeUpperSpiresLevel} from './maps/map8_upper_spires.js';
+function makeUpperSpiresLevel(){
+ const result=layout_makeUpperSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeNorthTowerPeakLevel} from './maps/map9_north_peak.js';
+function makeNorthTowerPeakLevel(){
+ const result=layout_makeNorthTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeHighTowerPeakLevel} from './maps/map10_high_peak.js';
+function makeHighTowerPeakLevel(){
+ const result=layout_makeHighTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeLardersLevel} from './maps/map11_larders.js';
+function makeLardersLevel(){
+ const result=layout_makeLardersLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
+import {layout_makeCatacombsLevel} from './maps/map12_catacombs.js';
+function makeCatacombsLevel(){
+ const result=layout_makeCatacombsLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
+ rooms=result.rooms;entryDescriptions=result.entryDescriptions;
+}
+
 // Map 3 geometry bundled for reliable startup.
 // Map 3 reconstruction v0.9.91 from supplied labeled top-down reference.
 // Grid cells are interpretive and deliberately wide for first-person navigation.
 // This file ONLY defines Map 3 geometry; the shared engine retains all gameplay.
-function drawMainFloor({rect,poly,circle,grid,WW,HH,index}) {
- // v0.10.09: architectural correction based on user-supplied Map03_Main_Floor.jpg.
- // The original map is the spatial authority. Geometry only: no gameplay code changes.
- grid.fill(1);
- const room=(a,b,c,d)=>rect(a,b,c,d,0);
- const corridor=(a,b,c,d)=>rect(a,b,c,d,0);
- const oct=(cx,cy,rx,ry)=>poly([[cx-rx*.55,cy-ry],[cx+rx*.55,cy-ry],[cx+rx,cy-ry*.52],[cx+rx,cy+ry*.52],[cx+rx*.55,cy+ry],[cx-rx*.55,cy+ry],[cx-rx,cy+ry*.52],[cx-rx,cy-ry*.52]],0);
- const ring=(cx,cy,outer,inner)=>{circle(cx,cy,outer,0);circle(cx,cy,inner,1)};
- const join=(x1,y1,x2,y2,w=3)=>{
-  const r=Math.floor(w/2);
-  let x=x1,y=y1;
-  const carve=()=>rect(x-r,y-r,x+r,y+r,0);
-  carve();while(x!==x2){x+=Math.sign(x2-x);carve()}
-  while(y!==y2){y+=Math.sign(y2-y);carve()}
- };
- // Upper and lower K12 towers; K13 corridors connect to the main keep.
- oct(17,23,9,9);oct(17,85,9,9);
- corridor(24,21,70,26);corridor(24,86,67,91);
- // Upper left: K19 room, distinct K83 stair and landing.
- room(32,29,54,43);room(29,28,34,42);
- ring(41,45,6,2);
- room(30,42,39,48);
- // K7 entrance and K8 great entry; two separate rooms and doorways.
- room(37,49,48,59);oct(59,56,9,10);
- // K9 north-south guests hall, K10 dining hall and K11 adjacent post.
- room(54,64,64,81);
- room(29,65,51,83);room(20,65,29,82);
- // North K20 tower: annular staircase and interior stairwell.
- ring(78,35,15,5);
- // K24 north chamber, K23 eastern service passage, K29 landing.
- room(84,13,104,22);room(93,25,103,39);room(94,40,103,49);
- room(88,23,95,28);
- // K14 long east-west hall, K16 north entrance to the chapel.
- corridor(67,50,109,60);
- room(102,30,110,45);
- // Chapel K15, large irregular cruciform footprint with end altar.
- poly([[112,27],[117,22],[123,22],[129,28],[129,34],[135,38],
-       [137,45],[137,71],[133,77],[129,77],[128,83],[122,88],
-       [115,88],[110,82],[110,67],[108,60],[110,47],[110,35]],0);
- // K17 is the lower chapel wing, not a separate remote chamber.
- room(111,70,128,83);
- // Stair cluster below K14: K31a, K21, K18, K64.
- room(68,62,81,69);
- ring(76,75,6,2);
- ring(94,72,12,4);
- ring(65,87,5,2);
- // Narrow internal passages, preserving discrete rooms and walls.
- join(46,53,52,53); // K7 -> K8
- join(58,65,58,62); // K8 -> K9
- join(52,73,54,73); // K10 -> K9
- join(28,73,30,73); // K11 -> K10
- join(41,49,41,47); // K83 -> K7
- join(41,41,41,40); // K19 -> K83
- join(26,24,32,24); // upper K12 -> K13
- join(26,88,30,88); // lower K12 -> K13
- join(41,83,41,87); // K10 -> lower K13
- join(59,81,59,87); // K9 -> lower K13
- join(67,56,70,56); // K8 -> K14
- join(78,48,78,51); // K20 -> K14
- join(99,39,99,42); // K23 -> K29
- join(99,49,99,53); // K29 -> K14
- join(100,22,100,26); // K24 -> K23
- join(103,36,106,36); // K23 -> K16
- join(108,42,113,42); // K16 -> K15
- join(108,56,113,56); // K14 -> K15
- join(79,61,79,64); // K14 -> K31a
- join(76,69,76,70); // K31a -> K21
- join(83,66,86,66); // K31a -> K18
- join(103,73,112,73); // K18 -> K17
- join(65,82,65,84); // K9 -> K64
- join(63,76,70,76); // K9 -> K21
- // Main entrance approach: outside K7, through its western gate.
- join(33,54,38,54);
-}
 
-function getMainFloorRooms(){
-const rooms=[
-{id:'K7',name:'Entry',box:[37,49,48,59],detail:'Heavy entrance doors, dim torches and four dragon figures overhead guard the passage inward.'},
-{id:'K8',name:'Great Entry',box:[50,47,68,64],detail:'A vaulted entrance with dusty columns, torch sconces, gargoyles above and aged ceiling artwork.'},
-{id:'K9',name:'Guests’ Hall',box:[54,64,64,81],detail:'A stone vaulted hall with torchlight, an armored display and a passage toward the stairs.'},
-{id:'K10',name:'Dining Hall',box:[29,65,51,83],detail:'A grand banquet chamber with chandeliers, a long dining table, mirrors and an organ.'},
-{id:'K14',name:'Hall of Faith',box:[68,50,108,60],detail:'A long dusty corridor with statues lining both sides.'},
-{id:'K15',name:'Chapel of Ravenloft',box:[111,27,137,88],detail:'Ruined pews, damaged stained glass, and an altar illuminated by a concentrated shaft of light.'},
-{id:'K11',name:'South Ground Archers Post',box:[20,65,29,82],detail:''},
-{id:'K12',name:'Turret Post',box:[8,14,26,32],detail:''},
-{id:'K13',name:'Turret Access Hall',box:[25,21,70,26],detail:''},
-{id:'K22',name:'Archers Post',box:[16, 21, 29, 34],detail:''},
-{id:'K83',name:'Spiral Stair',box:[35,39,47,51],detail:''},
-{id:'K19',name:'Tower Landing',box:[32,29,54,43],detail:''},
-{id:'K20',name:'Heart of Sorrow Tower',box:[64,20,92,49],detail:''},
-{id:'K20a',name:'Tower Stair Landing',box:[86, 25, 94, 37],detail:''},
-{id:'K29',name:'Tower Passage',box:[94,40,103,49],detail:''},
-{id:'K23',name:'Servants Entrance',box:[93,25,103,39],detail:''},
-{id:'K24',name:'Servants Quarters Stair',box:[84,13,104,22],detail:''},
-{id:'K16',name:'Chapel Passage',box:[102,30,110,45],detail:''},
-{id:'K17',name:'Court Passage',box:[111,70,128,83],detail:''},
-{id:'K18',name:'High Tower Stair',box:[82,60,106,84],detail:''},
-{id:'K18a',name:'Stair Landing',box:[82, 73, 95, 79],detail:''},
-{id:'K21',name:'South Tower',box:[70,69,82,81],detail:''},
-{id:'K31b',name:'Stair Landing',box:[68, 58, 82, 66],detail:''},
-{id:'K64',name:'Stair Shaft',box:[60,82,70,92],detail:''}
-,{id:'K31a',name:'Stair Landing',box:[68,62,81,69],detail:''}
-];
 
-return rooms;
-}
+
 
 const $=id=>document.getElementById(id);
 $('popupImage').onerror=()=>{$('imageError').style.display='block'};$('popupImage').onload=()=>{$('imageError').style.display='none'};
@@ -584,46 +543,9 @@ const levelOverlay=new THREE.Group();scene.add(levelOverlay);
 // Schematic exterior geometry based on I6 room relationships; not a survey.
 // Map 2 — Walls of Ravenloft v0.10.09: exterior courtyard plan.
 // Only Map 2 collision geometry is changed; central keep is solid.
-function drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DATA}) {
- grid.fill(1);
- const rooms=[],entryDescriptions={};
- const carve=(a,b,c,d)=>rect(a,b,c,d,0);
- const zone=(id,a,b,c,d)=>{const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[a,b,c,d],detail});entryDescriptions[id]=detail;};
- // West approach, drawbridge, and K1: a single broad outdoor forecourt.
- carve(3,46,24,58);carve(24,39,38,65);
- circle(34,40,5,0);circle(34,64,5,0);
- carve(37,30,59,74);carve(38,25,55,80);
- zone('K1',34,40,56,64);
- // North and south outer wall walks: continuous around the inaccessible keep.
- carve(37,19,132,31);carve(37,73,132,85);
- carve(38,30,60,42);carve(38,63,60,75);
- zone('K2',72,19,90,29);
- // Castle mass is x~60..110, y~32..72: NEVER carve the center.
- // The western doorway is an approach, not a tunnel through the castle.
- carve(55,48,59,56);zone('K7',54,48,60,56);
- // North-east and south-east yards. Each links to the respective wall walk.
- carve(110,29,134,48);carve(110,29,120,37);
- zone('K3',115,32,132,45);
- carve(123,16,140,30);carve(127,28,135,35);
- zone('K4',125,17,139,28);
- carve(110,57,135,84);carve(110,68,120,78);
- zone('K5',115,63,132,82);
- // Eastern projecting overlook, with a clear north/south connecting route.
- carve(129,44,143,65);carve(136,47,145,60);
- carve(131,39,136,71);
- zone('K6',135,47,145,62);
- // Connect outer courts around the east side of the keep, without crossing it.
- carve(116,38,122,67);
- // Explicit western arrival spawn, clear of the outer wall.
- return {rooms,entryDescriptions,spawn:{x:31,y:52,a:0,pitch:0}};
-}
 
-function makeWallsOfRavenloftLevel(){
- const result=drawWallsOfRavenloft({grid,rect,poly,circle,WW,HH,MODULE_ROOM_DATA});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
+
+
 
 function makeProvisionalLevel(f){
  grid.fill(1);rooms=[];entryDescriptions={};
@@ -655,139 +577,24 @@ function makeProvisionalLevel(f){
 
 // Map 4 — Court of the Count. Spatial reconstruction from user-supplied overhead reference.
 // Floor-only geometry. All room descriptions, engine settings and multiplayer logic remain external.
-function makeCourtModule({grid,roomsRef,entryDescriptionsRef,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA}) {
-  grid.fill(1);
-  const rooms=[],entryDescriptions={};
-  const room=(id,x1,y1,x2,y2)=>{
-    rect(x1,y1,x2,y2,0);
-    const data=MODULE_ROOM_DATA[id]||{};
-    const detail=data.readAloud?.join('\n\n')||'';
-    rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-    if(!(id in entryDescriptions))entryDescriptions[id]=detail;
-  };
-  const hall=(x1,y1,x2,y2,w=2)=>{
-    if(Math.abs(x1-x2)<.1)rect(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2),0);
-    else if(Math.abs(y1-y2)<.1)rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);
-    else {rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);rect(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2),0)}
-  };
-  // Northwest tower, upper gallery and western chambers.
-  circle(13,19,8);room('K12',9,15,17,23);
-  room('K13',22,17,59,22);
-  room('K22',19,27,28,36);
-  room('K32',33,25,51,35);
-  circle(41,43,7);room('K83',39,41,43,45);
-  room('K26',30,49,51,56);
-  room('K25',30,56,51,82);
-  room('K22',19,71,29,79);
-  circle(13,88,8);room('K12',9,85,17,91);
-  room('K13',22,85,59,90);
-  // Great central circular staircase and surrounding galleries.
-  circle(78,32,17);circle(78,32,9,1);circle(78,32,5,0);room('K20',75,29,81,35);
-  room('K27',57,49,97,57);
-  room('K31',70,60,82,69);
-  room('K31a',70,70,82,77);
-  room('K30',54,71,68,83);
-  circle(63,90,5);room('K64',61,88,65,92);
-  circle(75,79,6);room('K21',72,77,78,81);
-  circle(92,74,13);circle(92,74,7,1);circle(92,74,4,0);room('K18',89,71,95,77);
-  // Northeast service chamber, east passage and eastern landing.
-  room('K34',83,9,106,18);
-  room('K29',96,35,104,45);
-  room('K28',106,48,115,59);
-  // Main corridors and deliberate connecting doorways.
-  hall(13,24,22,29);hall(27,20,62,20);hall(41,22,41,25);
-  hall(24,36,33,40);hall(33,40,34,49);hall(41,35,41,37);
-  hall(41,49,41,56);hall(41,82,41,85);hall(22,87,30,87);
-  hall(50,53,57,53);hall(51,70,57,70);hall(57,53,57,70);
-  hall(57,53,64,53);hall(64,53,97,53,3);
-  hall(78,48,78,49,3);hall(78,57,78,60);
-  hall(82,65,86,65);hall(86,65,86,74);
-  hall(68,77,70,77);hall(68,81,73,81);
-  hall(63,83,63,85);hall(63,90,63,92);
-  hall(96,53,106,53);hall(100,45,100,53);
-  hall(100,35,100,32);hall(100,32,94,32);
-  hall(92,18,92,20);hall(92,20,92,25);
-  hall(92,25,91,29);hall(94,74,106,74);hall(106,74,110,59);
-  // Small passage along eastern chapel-side wall, shown on reference.
-  hall(105,39,110,39);hall(110,39,110,48);
-  // Western tower-to-hall links and southern gallery.
-  hall(17,19,22,19);hall(17,88,22,88);
-  hall(51,88,61,88);hall(68,90,73,90);
-  return {rooms,entryDescriptions};
-}
+
 
 // Map 4 · Court of the Count (I6 pp. 17–18).
 // Purpose-built walkable reconstruction. Room positions are interpretive;
 // cardinal directions, stated doors, and documented vertical connections follow the module.
 // Only the Map 4 geometry and room-identification boxes are changed.
-function makeCourtOfCountLevel(){
- const result=makeCourtModule({grid,roomsRef:rooms,entryDescriptionsRef:entryDescriptions,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
+
 
 // Map 5 — Rooms of Weeping. Architecture only; uses existing engine and room text.
 // Map 6 — Spires of Ravenloft (Lower). Architectural data only.
 // Traced schematically from Map06_Spires_Level1.jpg; all descriptions come from MODULE_ROOM_DATA.
 // Map 7 — Middle Spires. Geometry-only reconstruction from Map07_Spires_Level2.jpg.
 // Shared engine, module descriptions, controls and encounter logic are unchanged.
-function makeMiddleSpiresLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const add=(id,x1,y1,x2,y2)=>{
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-  entryDescriptions[id]=detail;
- };
- const carve=(a,b,c,d)=>rect(a,b,c,d,0);
- // Northern K20 circular stair: same axis as Map 6.
- circle(78,28,17,0);circle(78,28,9,1);circle(78,28,5,0);
- add('K20',74,24,82,32);
- // Southern round tower, at the same footprint as the lower spires.
- circle(79,76,21,0);
- // K48 is the upper landing of the southern tower.
- carve(74,59,84,69);add('K48',74,59,84,69);
- // Three discrete chambers: K54 west, K56 central, K55 south.
- carve(60,72,72,85);add('K54',60,72,72,85);
- carve(74,72,85,84);add('K56',74,72,85,84);
- carve(73,86,87,94);add('K55',73,86,87,94);
- // K18 tower immediately east, same vertical axis as Map 6.
- circle(109,77,12,0);circle(109,77,6,1);circle(109,77,3,0);
- add('K18',106,74,112,80);
- // Narrow openings only; do not invent a passage between separated towers.
- carve(70,75,75,78);carve(77,68,81,73);
- carve(78,83,82,88);carve(85,76,99,79);carve(99,75,104,79);
-}
+
 
 // Map 8 — Upper Spires. Geometry only, traced against Map08_Spires_Level3.jpg.
 // Do not change shared controls, encounters, multiplayer, or prior floors.
-function makeUpperSpiresLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const add=(id,x1,y1,x2,y2)=>{
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-  entryDescriptions[id]=detail;
- };
- const carve=(a,b,c,d)=>rect(a,b,c,d,0);
- // North K20 tower, aligned to the lower spires.
- circle(78,28,17,0);circle(78,28,9,1);circle(78,28,5,0);
- add('K20',74,24,82,32);
- // Southern K57 parapet, open circular rooftop with solid parapet edge.
- circle(79,76,21,0);
- circle(79,76,17,0);
- add('K57',65,79,91,93);
- // K48 is the small offstair at the northern rim of K57.
- carve(74,59,84,70);add('K48',74,62,84,70);
- // K58 bridge from southern parapet to northern tower.
- carve(76,45,81,62);add('K58',76,46,81,58);
- // Keep north tower's access into the bridge open.
- carve(76,42,81,48);
- // K18 high tower staircase, east of the southern parapet.
- circle(109,77,12,0);circle(109,77,6,1);circle(109,77,3,0);
- add('K18',106,74,112,80);
- // Passage to K18 through the eastern edge of the parapet.
- carve(96,75,104,79);
-}
+
 
 // Map 9 — North Tower Peak. Geometry only, referenced to Map09_North_Tower_Peak.jpg.
 // K60 occupies the upper portion of the north tower; K20 is its spiral stair.
@@ -795,228 +602,21 @@ function makeUpperSpiresLevel(){
 // Map 10 — High Tower Peak. Schematic footprint based on supplied Map10 reference.
 // K60a north tower roof and K59 high tower peak remain at the same tower axes
 // as prior maps. No invented corridors between separate towers.
-function makeHighTowerPeakLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const add=(id,x1,y1,x2,y2)=>{
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-  entryDescriptions[id]=detail;
- };
- // Northern tower top K60a, centered over K20 on previous maps.
- circle(78,28,16,0);
- add('K60a',70,21,86,35);
- // High tower peak K59, centered above K18 on earlier maps.
- circle(109,77,12,0);
- // Stair entry on the south-eastern side, with a small inner landing.
- circle(109,77,5,0);
- add('K59',101,69,117,85);
-}
+
 
 // Map 11 — Larders of Ill Omen. Walkable geometry traced from the supplied overhead reference.
 // No changes to shared controls, multiplayer, room art, encounters, or earlier floors.
-function makeLardersLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const room=(id,x1,y1,x2,y2,shape='rect')=>{
-  if(shape==='rect')rect(x1,y1,x2,y2,0);
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\\n\\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-  entryDescriptions[id]=detail;
- };
- const passage=(x1,y1,x2,y2,w=2)=>{
-  if(x1===x2)rect(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2),0);
-  else if(y1===y2)rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);
-  else {rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);rect(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2),0)}
- };
- // Map axes: western dining/larders, eastern high tower stair.
- room('K72',47,13,62,22);
- room('K70',46,24,62,38);
- room('K71',64,24,73,38);
- room('K66',64,39,73,48);
- room('K65',74,39,94,48);
- room('K62',46,39,62,69);
- room('K61',64,49,99,59);
- room('K63',101,39,111,70);
- room('K67',65,60,77,69);
- // Western K69 cell block and southern K68/K64 stair approach.
- room('K69',24,70,57,85);
- room('K68',51,86,64,91);
- circle(65,86,6,0);room('K64',61,82,69,91,'circle');
- circle(74,72,7,0);room('K21',69,67,79,78,'circle');
- circle(91,70,12,0);circle(91,70,5,1);circle(91,70,3,0);
- room('K18',86,64,97,77,'circle');
- // Original reference's north-west spiral beside K70/K62.
- rect(35,28,45,47,0);
- // Eastern stair landing and north passage, joining the eastern K63 corridor.
- rect(94,30,100,54,0);
- rect(73,25,89,32,0);
- // Doors/passages only between adjacent chambers shown in reference.
- passage(54,22,54,24);
- passage(62,30,64,30);
- passage(62,44,64,44);
- passage(73,44,74,44);
- passage(54,38,54,39);
- passage(62,54,64,54);
- passage(73,53,74,53);
- passage(94,53,101,53);
- passage(69,59,69,60);
- passage(77,65,83,65);
- passage(77,70,81,70);
- passage(57,77,65,77);
- passage(57,83,57,86);
- passage(64,88,65,88);
- passage(65,69,69,69);
- passage(62,72,69,72);
- passage(40,43,46,43);
- passage(87,30,97,30);
- passage(97,30,97,39);
-}
+
 
 // Map 12 — Dungeon and Catacombs. Schematic walkable trace of supplied overhead reference.
 // Earlier floors, shared tools, room artwork, encounters and multiplayer are unchanged.
-function makeCatacombsLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const room=(id,x1,y1,x2,y2,shape='rect')=>{
-  if(shape==='rect')rect(x1,y1,x2,y2,0);
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});entryDescriptions[id]=detail;
- };
- const passage=(x1,y1,x2,y2,w=2)=>{
-  if(x1===x2)rect(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2),0);
-  else if(y1===y2)rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);
-  else {rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);rect(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2),0)}
- };
- // West wing: crypt approach, torture/dungeon rooms and descending stair.
- room('K79',9,16,23,22);room('K83',9,23,16,31);
- room('K80',16,27,25,35);room('K81',23,23,51,29);
- room('K82',27,30,38,39);room('K78',8,35,25,44);
- room('K77',8,45,25,54);room('K76',7,55,27,68);
- room('K74',27,40,40,55);room('K73',27,56,40,64);room('K75',27,65,40,79);
- // Central stair approach and huge crypt hall.
- circle(51,53,8,0);room('K18',45,47,56,59,'circle');
- circle(42,60,6,0);room('K21',38,55,46,65,'circle');
- // K84: outline of the sprawling catacombs, with offset side alcoves.
- poly([[59,20],[90,20],[90,24],[98,24],[98,34],[93,34],[93,39],[99,39],[99,47],[95,47],[95,59],[99,59],[99,68],[93,68],[93,77],[99,77],[99,83],[90,83],[90,88],[59,88],[59,83],[51,83],[51,77],[58,77],[58,68],[53,68],[53,59],[59,59],[59,46],[53,46],[53,39],[59,39]],0);
- room('K84',61,27,90,80,'open');
- // Northern/southern crypts accessed from the center of K84.
- room('K85',65,5,82,17);passage(73,17,73,20,2);
- room('K86',65,90,82,99);passage(73,88,73,90,2);
- // East landing, staircase and final overlook.
- room('K87',94,47,103,58);room('K88',104,43,119,62);
- passage(99,53,104,53,2);
- // West passages linking the dungeon to the catacombs.
- passage(23,26,53,26,2);passage(53,26,59,26,2);
- passage(15,22,15,23);passage(19,31,19,35);
- passage(19,35,19,45);passage(17,44,17,45);passage(17,54,17,55);
- passage(25,50,27,50);passage(33,39,33,40);
- passage(33,55,33,56);passage(33,64,33,65);
- passage(40,60,45,53,2);passage(51,53,59,53,2);
- passage(27,60,38,60,2);
- // Repeated crypts in K84 are represented by inset blocked stone sarcophagi,
- // keeping walkable aisles through the main chamber.
- for(const yy of [26,33,40,63,70,77]){
-  for(const xx of [63,71,79,87]){
-   if(yy===40 && xx===63)continue;
-   rect(xx,yy,xx+2,yy+2,1);
-  }
- }
- // Preserve a continuous central spine across the catacombs.
- rect(73,21,76,88,0);
- rect(59,50,99,55,0);
-}
 
-function makeNorthTowerPeakLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const add=(id,x1,y1,x2,y2)=>{
-  const data=MODULE_ROOM_DATA[id]||{};
-  const detail=data.readAloud?.join('\n\n')||'';
-  rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-  entryDescriptions[id]=detail;
- };
- // Keep the north tower's axis exactly aligned with Maps 6–8.
- circle(78,28,17,0);
- // The upper chamber K60, separated from the spiral stair by a curved partition.
- circle(78,26,10,0);
- // Spiral stair landing on the south-western side of the tower.
- circle(78,28,6,1);
- rect(70,28,86,37,0);
- // K60 chamber is north of the K20 stair.
- add('K60',73,17,83,26);
- add('K20',73,30,83,37);
-}
 
-function makeLowerSpiresLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const room=(id,x1,y1,x2,y2)=>{
-   const data=MODULE_ROOM_DATA[id]||{};
-   const detail=data.readAloud?.join('\n\n')||'';
-   rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});
-   entryDescriptions[id]=detail;
- };
- const carve=(x1,y1,x2,y2)=>rect(x1,y1,x2,y2,0);
- const hall=(x1,y1,x2,y2,w=2)=>{
-   if(x1===x2)carve(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2));
-   else if(y1===y2)carve(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w);
-   else {carve(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w);carve(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2));}
- };
- // K53 roof terrace to the west; tower K20 above, as on the reference.
- carve(12,32,59,57);room('K53',15,34,55,55);
- circle(78,28,17,0);circle(78,28,9,1);circle(78,28,5,0);room('K20',74,24,82,32);
- // Lower south tower: K48 landing, K49, K47, K50, K51 and K21.
- circle(79,76,21,0);
- // Room subdivisions leave narrow connecting doors rather than a single open disk.
- carve(61,69,71,81);room('K49',61,69,71,81);
- carve(73,70,84,79);room('K21',74,71,82,78);
- carve(70,60,84,68);room('K48',71,60,82,67);
- carve(84,78,95,87);room('K47',84,78,94,86);
- carve(73,85,83,94);room('K50',73,85,83,93);
- carve(85,87,97,94);room('K51',85,87,96,94);
- // Stair tower K18 on the east of the lower tower.
- circle(109,77,12,0);circle(109,77,6,1);circle(109,77,3,0);room('K18',106,74,112,80);
- // Doorways, internal landings, and a short roof-to-tower connection.
- hall(69,66,74,66,2);hall(70,75,74,75,2);
- hall(82,75,85,75,2);hall(79,79,79,85,2);
- hall(82,89,85,89,2);hall(95,82,99,82,2);
- hall(99,77,103,77,2);
- // Roof is visually below the northern tower; its outline is not a second invented room.
- hall(59,44,62,44,2);
-}
 
-function makeRoomsOfWeepingLevel(){
- grid.fill(1);rooms=[];entryDescriptions={};
- const chamber=(id,x1,y1,x2,y2)=>{rect(x1,y1,x2,y2,0);const data=MODULE_ROOM_DATA[id]||{};const detail=data.readAloud?.join('\n\n')||'';rooms.push({id,name:data.name||id,box:[x1,y1,x2,y2],detail});entryDescriptions[id]=detail;};
- const hall=(x1,y1,x2,y2,w=2)=>{if(x1===x2)rect(x1-w,Math.min(y1,y2),x1+w,Math.max(y1,y2),0);else if(y1===y2)rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);else {rect(Math.min(x1,x2),y1-w,Math.max(x1,x2),y1+w,0);rect(x2-w,Math.min(y1,y2),x2+w,Math.max(y1,y2),0)}};
- const oct=(cx,cy,rx,ry)=>poly([[cx-rx*.55,cy-ry],[cx+rx*.55,cy-ry],[cx+rx,cy-ry*.55],[cx+rx,cy+ry*.55],[cx+rx*.55,cy+ry],[cx-rx*.55,cy+ry],[cx-rx,cy+ry*.55],[cx-rx,cy-ry*.55]],0);
- // Western tower and K45 hall of heroes; stairs K83.
- oct(14,18,8,8);hall(19,20,60,20,3);
- chamber('K45',22,24,57,39);circle(37,42,6,0);chamber('K83',34,39,40,45);
- // West rooms: K46 is the balcony, K42 bedroom, K43 bath and K44 closet.
- chamber('K46',12,45,20,65);chamber('K42',21,45,42,65);
- chamber('K43',21,66,42,80);chamber('K44',23,81,41,88);
- chamber('K37',43,45,62,64);chamber('K36',43,67,55,86);
- // North tower, east corridor and treasury wing.
- circle(77,33,17,0);circle(77,33,9,1);circle(77,33,5,0);chamber('K20',74,30,80,36);
- oct(100,42,9,9);chamber('K41',96,39,104,45);
- chamber('K38',63,47,73,60);chamber('K39',74,47,96,60);
- chamber('K40',97,47,119,61);
- // Southern stair cluster and guard chambers.
- chamber('K35',57,69,68,82);chamber('K31a',68,64,79,70);
- circle(74,79,7,0);chamber('K21',71,76,77,82);
- circle(93,77,13,0);circle(93,77,6,1);circle(93,77,3,0);chamber('K18',90,74,96,80);
- circle(63,89,5,0);chamber('K64',60,86,66,92);
- // Access openings, based on the relative positions in the reference map.
- hall(20,53,22,53);hall(42,54,43,54);hall(62,54,63,54);
- hall(73,54,74,54);hall(96,54,97,54);hall(104,45,104,47);
- hall(34,65,34,66);hall(34,80,34,81);hall(48,64,48,67);
- hall(55,75,57,75);hall(68,75,71,75);hall(79,67,86,67);
- hall(86,67,86,76);hall(79,54,79,64);hall(77,50,77,47);
- hall(62,60,62,69);hall(62,82,62,86);
- hall(37,39,37,40);hall(40,42,43,46);hall(57,33,60,33);
- hall(60,33,60,47);hall(77,50,77,47);
- hall(93,60,93,64);hall(93,64,93,67);
-}
+
+
+
+
 
 function rebuildFloorInstances(){
  let a=0,b=0,c=0;
@@ -1084,7 +684,7 @@ function switchFloor(f){
  // Switch wall, floor, ceiling, ambient and fog consistently for the selected zone.
  applyFloorTheme(f);
  const title=floorNames[f];
- $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.10 · GPS Map + Complete Room Index'+(f===1?' · Walls of Ravenloft arrival layout test':f===10?' · Dungeon and Catacombs layout test':f===9?' · Larders of Ill Omen layout test':f===8?' · High Tower Peak layout test':f===7?' · North Tower Peak layout test':f===6?' · Upper Spires layout test':f===5?' · Middle Spires layout test':f===4?' · Lower Spires layout test':f===2?' · Court of the Count layout test':f?' · schematic walkable rooms':'');
+ $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.17 · GPS Map + Complete Room Index'+(f===1?' · Walls of Ravenloft arrival layout test':f===10?' · Dungeon and Catacombs layout test':f===9?' · Larders of Ill Omen layout test':f===8?' · High Tower Peak layout test':f===7?' · North Tower Peak layout test':f===6?' · Upper Spires layout test':f===5?' · Middle Spires layout test':f===4?' · Lower Spires layout test':f===2?' · Court of the Count layout test':f?' · schematic walkable rooms':'');
  // The minimap always draws our walkable dungeon geometry.
  document.querySelectorAll('.floorOption').forEach((b,i)=>{b.classList.toggle('active',i===f);b.setAttribute('aria-pressed',String(i===f))});
  prev=null;seenRooms.clear();$('popup').style.display='none';keys={};
@@ -1576,7 +1176,18 @@ $('mapBtn').onclick=()=>{
 mapVisible=!hardcoreMode;
 syncNavigationControls();
 $('mapModeToggle').onclick=()=>{mapOverview=!mapOverview;mapDraw()};$('zoomin').onclick=()=>{mapOverview=false;mapZoom=Math.min(5,mapZoom+.4);mapDraw()};$('zoomout').onclick=()=>{mapOverview=false;mapZoom=Math.max(.65,mapZoom-.4);mapDraw()};
-addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);addEventListener('mousemove',e=>{if(mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;renderer.domElement.onclick=()=>{if(mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
+addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);addEventListener('mousemove',e=>{if(mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;
+// v0.10.16: Process road/carriage arrival inside the Three.js module,
+// where switchFloor(), player, refresh() and mapDraw() are in scope.
+// Do this before Begin so the start overlay cannot leave the player on Map 3.
+const roadArrival=new URLSearchParams(window.location.search);
+if(roadArrival.get('arrival')==='carriage' && roadArrival.get('floor')==='walls'){
+  switchFloor(1); // Map 2 — Walls of Ravenloft
+  player={x:43,y:52,a:0,pitch:0}; // K1 courtyard, facing the keep
+  refresh();mapDraw();
+  history.replaceState(null,'',window.location.pathname+window.location.hash);
+}
+renderer.domElement.onclick=()=>{if(mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
 let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=$('popup').style.display!=='block' && $('start').style.display==='none' && ($('encounterShock').style.display!=='block'||$('encounterShock').classList.contains('monsterEncounterNotice')) && $('roomArtOverlay').style.display!=='flex';let forward=active?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=active?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
 // Explicit bridge from the Three.js ES module to the multiplayer controller.
 window.DNDPOV_CASTLE_BRIDGE={

@@ -1,7 +1,6 @@
-// Map 10 — High Tower Peak. Schematic footprint based on supplied Map10 reference.
-// K60a north tower roof and K59 high tower peak remain at the same tower axes
-// as prior maps. No invented corridors between separate towers.
-function makeHighTowerPeakLevel(){
+export function layout_makeHighTowerPeakLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const add=(id,x1,y1,x2,y2)=>{
   const data=MODULE_ROOM_DATA[id]||{};
@@ -17,4 +16,6 @@ function makeHighTowerPeakLevel(){
  // Stair entry on the south-eastern side, with a small inner landing.
  circle(109,77,5,0);
  add('K59',101,69,117,85);
+
+ return {rooms,entryDescriptions};
 }

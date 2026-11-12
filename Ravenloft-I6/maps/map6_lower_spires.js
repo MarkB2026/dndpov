@@ -1,6 +1,6 @@
-// Map 6 — Spires of Ravenloft (Lower). Architectural data only.
-// Traced schematically from Map06_Spires_Level1.jpg; all descriptions come from MODULE_ROOM_DATA.
-function makeLowerSpiresLevel(){
+export function layout_makeLowerSpiresLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const room=(id,x1,y1,x2,y2)=>{
    const data=MODULE_ROOM_DATA[id]||{};
@@ -35,4 +35,6 @@ function makeLowerSpiresLevel(){
  hall(99,77,103,77,2);
  // Roof is visually below the northern tower; its outline is not a second invented room.
  hall(59,44,62,44,2);
+
+ return {rooms,entryDescriptions};
 }

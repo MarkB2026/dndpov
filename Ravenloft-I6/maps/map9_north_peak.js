@@ -1,7 +1,6 @@
-// Map 9 — North Tower Peak. Geometry only, referenced to Map09_North_Tower_Peak.jpg.
-// K60 occupies the upper portion of the north tower; K20 is its spiral stair.
-// No extra chambers or invented connecting corridors.
-function makeNorthTowerPeakLevel(){
+export function layout_makeNorthTowerPeakLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const add=(id,x1,y1,x2,y2)=>{
   const data=MODULE_ROOM_DATA[id]||{};
@@ -19,4 +18,6 @@ function makeNorthTowerPeakLevel(){
  // K60 chamber is north of the K20 stair.
  add('K60',73,17,83,26);
  add('K20',73,30,83,37);
+
+ return {rooms,entryDescriptions};
 }

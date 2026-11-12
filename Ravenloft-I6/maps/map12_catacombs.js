@@ -1,6 +1,6 @@
-// Map 12 — Dungeon and Catacombs. Schematic walkable trace of supplied overhead reference.
-// Earlier floors, shared tools, room artwork, encounters and multiplayer are unchanged.
-function makeCatacombsLevel(){
+export function layout_makeCatacombsLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const room=(id,x1,y1,x2,y2,shape='rect')=>{
   if(shape==='rect')rect(x1,y1,x2,y2,0);
@@ -50,4 +50,6 @@ function makeCatacombsLevel(){
  // Preserve a continuous central spine across the catacombs.
  rect(73,21,76,88,0);
  rect(59,50,99,55,0);
+
+ return {rooms,entryDescriptions};
 }

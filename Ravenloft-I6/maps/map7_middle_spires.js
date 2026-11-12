@@ -1,6 +1,6 @@
-// Map 7 — Middle Spires. Geometry-only reconstruction from Map07_Spires_Level2.jpg.
-// Shared engine, module descriptions, controls and encounter logic are unchanged.
-function makeMiddleSpiresLevel(){
+export function layout_makeMiddleSpiresLevel(ctx){
+ let {grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions}=ctx;
+
  grid.fill(1);rooms=[];entryDescriptions={};
  const add=(id,x1,y1,x2,y2)=>{
   const data=MODULE_ROOM_DATA[id]||{};
@@ -26,5 +26,6 @@ function makeMiddleSpiresLevel(){
  // Narrow openings only; do not invent a passage between separated towers.
  carve(70,75,75,78);carve(77,68,81,73);
  carve(78,83,82,88);carve(85,76,99,79);carve(99,75,104,79);
-}
 
+ return {rooms,entryDescriptions};
+}

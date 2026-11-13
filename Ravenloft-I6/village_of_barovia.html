@@ -423,6 +423,39 @@ const clearSkyPalettes={
  dusk:{zenith:[23,38,87],horizon:[188,109,94]},
  night:{zenith:[6,12,27],horizon:[17,27,48]}
 };
+// v5.51 — thin, hand-shaped high cirrus, never a second cloud ceiling.
+// Kept in a panorama mask so weather changes can blend it away smoothly.
+const clearCirrusCanvas=document.createElement('canvas');
+clearCirrusCanvas.width=1024;clearCirrusCanvas.height=512;
+const cirrusCtx=clearCirrusCanvas.getContext('2d');
+for(let i=0;i<23;i++){
+ const half=i%2;
+ const x=stormHash(i+311,17)*1024;
+ const y=(half?322:74)+stormHash(i+93,51)*111;
+ const length=84+stormHash(i+271,43)*194;
+ const tilt=(stormHash(i+719,33)-.5)*23;
+ for(const wrap of [-1024,0,1024]){
+  const cx=x+wrap;
+  cirrusCtx.beginPath();cirrusCtx.moveTo(cx-length*.53,y+tilt*.4);
+  cirrusCtx.bezierCurveTo(cx-length*.20,y-11+tilt*.18,
+   cx+length*.16,y+12-tilt*.35,cx+length*.53,y-tilt*.4);
+  cirrusCtx.strokeStyle='rgba(255,255,255,.25)';
+  cirrusCtx.lineWidth=8+stormHash(i+18,71)*16;
+  cirrusCtx.lineCap='round';cirrusCtx.shadowColor='#ffffff';
+  cirrusCtx.shadowBlur=14;cirrusCtx.stroke();
+  cirrusCtx.beginPath();
+  cirrusCtx.moveTo(cx-length*.40,y+6+tilt*.36);
+  cirrusCtx.bezierCurveTo(cx-length*.10,y+10,
+   cx+length*.18,y+7-tilt*.18,cx+length*.45,y+5-tilt*.33);
+  cirrusCtx.strokeStyle='rgba(255,255,255,.14)';
+  cirrusCtx.lineWidth=2.1+stormHash(i+19,73)*4.5;
+  cirrusCtx.shadowBlur=5;cirrusCtx.stroke();
+ }
+}
+cirrusCtx.shadowBlur=0;
+const clearCirrusPixels=cirrusCtx.getImageData(0,0,1024,512).data;
+const clearCirrusTints={day:[239,245,248],dawn:[255,224,204],
+ dusk:[244,183,165]};
 // Thick fog is a lit, continuous atmosphere, even after dark. Match its sky
 // horizon to the distance-fog colour so no black/grey wall can form.
 const denseFogPalettes={
@@ -439,6 +472,7 @@ function skyPixelsFor(mode,phase){
  const p=timeProfiles[phase];
  if(mode==='clear'){
   const palette=clearSkyPalettes[phase];
+  const wispyTint=clearCirrusTints[phase];
   for(let y=0;y<512;y++){
    const horizon=Math.pow(Math.max(0,1-Math.abs(y/512-.5)*2),1.7);
    const r=mix(palette.zenith[0],palette.horizon[0],horizon);
@@ -446,7 +480,11 @@ function skyPixelsFor(mode,phase){
    const b=mix(palette.zenith[2],palette.horizon[2],horizon);
    for(let x=0;x<1024;x++){
     const i=(y*1024+x)*4;
-    result[i]=r;result[i+1]=g;result[i+2]=b;result[i+3]=255;
+    const w=wispyTint?clearCirrusPixels[i+3]/255:0;
+    result[i]=mix(r,wispyTint?.[0]||r,w);
+    result[i+1]=mix(g,wispyTint?.[1]||g,w);
+    result[i+2]=mix(b,wispyTint?.[2]||b,w);
+    result[i+3]=255;
    }
   }
   if(phase==='night')for(let s=0;s<340;s++){
@@ -574,7 +612,11 @@ const terrainPeaks=[
  {x:-148,z:-19,height:22,rx:47,rz:66},
  {x:127,z:111,height:30,rx:61,rz:58},
  {x:-29,z:153,height:25,rx:71,rz:52},
- {x:150,z:13,height:17,rx:50,rz:64}
+ {x:150,z:13,height:17,rx:50,rz:64},
+ // Summits continue beyond the map edge rather than ending as round mounds.
+ {x:-207,z:-97,height:24,rx:86,rz:72},
+ {x:32,z:-206,height:32,rx:96,rz:76},
+ {x:211,z:50,height:26,rx:83,rz:91}
 ];
 const terrainSmooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
 // v5.24 — remove the near southwest escarpment entirely. Keep only broad,
@@ -593,7 +635,9 @@ function terrainElevation(x,z){
   summits+=p.height*Math.exp(-1.3*(dx*dx+dz*dz));
  }
  const weathering=(1.2*Math.sin(x*.23+z*.09)+.85*Math.sin(z*.29-x*.13))*blend;
- return Math.max(0,blend*(rolling+summits+weathering));
+ const erodedFolds=3.7*(stormNoise((x+194)/39,(z-71)/44,19)-.5)+
+   1.35*Math.sin(x*.123+1.7*Math.sin(z*.046));
+ return Math.max(0,blend*(rolling+summits+weathering+erodedFolds));
 }
 const hillGeometry=new THREE.PlaneGeometry(350,350,192,192);
 const hillPositions=hillGeometry.getAttribute('position');
@@ -613,6 +657,60 @@ hillGeometry.setAttribute('color',new THREE.BufferAttribute(hillTint,3));
 hillGeometry.computeVertexNormals();
 ground.geometry.dispose();ground.geometry=hillGeometry;
 ground.material.vertexColors=true;ground.material.needsUpdate=true;
+// v5.51 — break the meadow's 7x repetition ONLY on the outlying hills.
+// The approved village grass is still the original untouched ground material.
+const hillPaintCanvas=document.createElement('canvas');
+hillPaintCanvas.width=hillPaintCanvas.height=1024;
+const hillPaintCtx=hillPaintCanvas.getContext('2d');
+const hillPaintData=hillPaintCtx.createImageData(1024,1024);
+function hillPaintHash(ix,iz){
+ let h=(Math.imul(ix,374761393)+Math.imul(iz,668265263))|0;
+ h=Math.imul(h^(h>>>13),1274126177);
+ return ((h^(h>>>16))>>>0)/4294967295;
+}
+function hillPaintNoise(x,z,size){
+ const xx=x/size,zz=z/size,ix=Math.floor(xx),iz=Math.floor(zz);
+ const tx=smooth(xx-ix),tz=smooth(zz-iz);
+ return mix(mix(hillPaintHash(ix,iz),hillPaintHash(ix+1,iz),tx),
+  mix(hillPaintHash(ix,iz+1),hillPaintHash(ix+1,iz+1),tx),tz);
+}
+for(let y=0;y<1024;y++){
+ const z=-175+(y+.5)*350/1024;
+ for(let x=0;x<1024;x++){
+  const wx=-175+(x+.5)*350/1024;
+  const outside=Math.hypot(Math.max(0,Math.abs(wx)-77),
+   Math.max(0,Math.abs(z)-87));
+  const fade=terrainSmooth((outside-8)/31);
+  const index=(y*1024+x)*4;
+  if(fade<.008){hillPaintData.data[index+3]=0;continue;}
+  // A single non-tiling palette: deep moss, muted meadow, dry patches and scree.
+  const broad=hillPaintNoise(wx+137,z-47,41);
+  const middle=hillPaintNoise(wx-91,z+213,14);
+  const small=hillPaintNoise(wx+41,z-167,3.8);
+  const grain=hillPaintNoise(wx+11,z+61,1.12);
+  const variation=(broad-.5)*40+(middle-.5)*24+
+   (small-.5)*12+(grain-.5)*5;
+  const scree=terrainSmooth((outside-31)/65)*
+   Math.max(0,(middle*.68+small*.32-.60)*2.4);
+  hillPaintData.data[index]=69+variation*.86+scree*45;
+  hillPaintData.data[index+1]=94+variation*.90-scree*6;
+  hillPaintData.data[index+2]=59+variation*.68+scree*32;
+  hillPaintData.data[index+3]=Math.round(255*fade);
+ }
+}
+hillPaintCtx.putImageData(hillPaintData,0,0);
+const hillPaintTexture=new THREE.CanvasTexture(hillPaintCanvas);
+hillPaintTexture.colorSpace=THREE.SRGBColorSpace;
+hillPaintTexture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+const hillPaintOverlay=new THREE.Mesh(hillGeometry,new THREE.MeshStandardMaterial({
+ map:hillPaintTexture,transparent:true,alphaTest:.012,roughness:1,
+ depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1,
+ polygonOffsetUnits:-1
+}));
+hillPaintOverlay.rotation.x=-Math.PI/2;
+hillPaintOverlay.position.y=.045;
+hillPaintOverlay.name='Non-repeating weathered hillside colour — outskirts only';
+scene.add(hillPaintOverlay);
 // Single flat road surface, generated from the same paths as the minimap.
 // Draw the complete network into one texture, avoiding seams, raised geometry,
 // overlapping coplanar polygons and disconnected junction disks.
@@ -721,6 +819,100 @@ function landmarkLantern(g,x,y,z){
  landmarkLanterns.push({light,glass,glow});
 }
 const seededNoise=seed=>{let v=seed>>>0;return ()=>{v=(Math.imul(v,1664525)+1013904223)>>>0;return v/4294967296}};
+// v5.51 — wooded silhouettes on the *far* hills, not trees in the village.
+// One instanced draw call, irregular overlapping spruce boughs and gaps between
+// copses. This shares the restrained, storybook look of Old Svalich Road.
+function makeDistantWoodland(){
+ const vertices=[],colors=[];
+ const tones=[new THREE.Color(0x344b3c),new THREE.Color(0x3b5040),
+  new THREE.Color(0x435744),new THREE.Color(0x2f4338)];
+ const addTriangle=(a,b,c,tone)=>{
+  for(const point of [a,b,c]){
+   vertices.push(...point);
+   colors.push(tone.r,tone.g,tone.b);
+  }
+ };
+ // Three interleaved foliage crowns produce uneven tree outlines; sparse
+ // branches give the silhouettes some air instead of making solid cones.
+ const layers=[
+  {bottom:1.65,top:5.1,r:2.55},
+  {bottom:3.4,top:7.1,r:2.10},
+  {bottom:5.3,top:9.0,r:1.53},
+  {bottom:7.2,top:10.6,r:.83}
+ ];
+ for(let layer=0;layer<layers.length;layer++){
+  const band=layers[layer];
+  for(let wedge=0;wedge<9;wedge++){
+   const a=wedge*Math.PI*2/9,step=Math.PI*2/9;
+   const tip=[Math.cos(a+.4)*.11,band.top+Math.sin(wedge*4+layer)*.16,
+    Math.sin(a+.4)*.11];
+   const r1=band.r*(.85+.12*Math.sin(wedge*7+layer*11));
+   const r2=band.r*(.88+.13*Math.cos(wedge*5-layer*3));
+   const rMid=band.r*(1.08+.14*Math.sin(wedge*3+layer*2));
+   const left=[Math.cos(a)*r1,band.bottom+.14*Math.sin(wedge*3),
+    Math.sin(a)*r1];
+   const middle=[Math.cos(a+step/2)*rMid,
+    band.bottom-.27-.13*Math.cos(wedge+layer),Math.sin(a+step/2)*rMid];
+   const right=[Math.cos(a+step)*r2,
+    band.bottom+.16*Math.cos(wedge*2),Math.sin(a+step)*r2];
+   addTriangle(tip,left,middle,tones[(wedge+layer)%tones.length]);
+   addTriangle(tip,middle,right,tones[(wedge+layer+1)%tones.length]);
+  }
+ }
+ // Just a suggestion of trunk shows beneath the lowest foliage.
+ for(let side=0;side<6;side++){
+  const a=side*Math.PI/3,b=(side+1)*Math.PI/3;
+  const lowA=[Math.cos(a)*.19,0,Math.sin(a)*.19];
+  const lowB=[Math.cos(b)*.19,0,Math.sin(b)*.19];
+  const highA=[Math.cos(a)*.12,2.6,Math.sin(a)*.12];
+  const highB=[Math.cos(b)*.12,2.6,Math.sin(b)*.12];
+  const trunk=new THREE.Color(side%2?0x312f28:0x39372e);
+  addTriangle(lowA,lowB,highA,trunk);
+  addTriangle(highA,lowB,highB,trunk);
+ }
+ const geometry=new THREE.BufferGeometry();
+ geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+ geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+ geometry.computeVertexNormals();
+ const random=seededNoise(515131);
+ const copseCentres=[
+  [-154,-136],[-153,-84],[-159,-27],[-155,48],[-153,109],
+  [-104,153],[-38,158],[47,155],[109,149],[155,105],
+  [160,34],[152,-42],[145,-112],[84,-154],[10,-159],[-77,-153]
+ ];
+ const pines=new THREE.InstancedMesh(geometry,new THREE.MeshLambertMaterial({
+  vertexColors:true,side:THREE.DoubleSide
+ }),448);
+ pines.name='Distant irregular Barovian spruce copses';
+ const dummy=new THREE.Object3D();let planted=0;
+ for(const [cx,cz] of copseCentres){
+  for(let j=0;j<28;j++){
+   const theta=random()*Math.PI*2,radius=Math.sqrt(random())*(15+random()*14);
+   const x=cx+Math.cos(theta)*radius,z=cz+Math.sin(theta)*radius;
+   if(Math.abs(x)>172||Math.abs(z)>172)continue;
+   const outskirts=Math.hypot(Math.max(0,Math.abs(x)-77),
+    Math.max(0,Math.abs(z)-87));
+   if(outskirts<32)continue;
+   // Leave the old southwest journey and Ravenloft sightline unobstructed.
+   if(x<-83&&z>77&&z>-x*.50-15&&z<-x*1.1+24)continue;
+   const scale=.60+random()*.77;
+   dummy.position.set(x,terrainElevation(x,z)-.25,z);
+   dummy.rotation.set(0,random()*Math.PI*2,0);
+   dummy.scale.set(scale*(.83+random()*.32),scale,scale*(.83+random()*.32));
+   dummy.updateMatrix();pines.setMatrixAt(planted,dummy.matrix);
+   pines.setColorAt(planted,new THREE.Color().setRGB(
+    .79+random()*.18,.82+random()*.15,.75+random()*.19));
+   planted++;
+  }
+ }
+ pines.count=planted;
+ pines.instanceMatrix.needsUpdate=true;
+ if(pines.instanceColor)pines.instanceColor.needsUpdate=true;
+ pines.computeBoundingSphere();
+ scene.add(pines);
+ return pines;
+}
+const distantWoodland=makeDistantWoodland();
 const box=(g,x,y,z,w,h,d,m)=>{const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.position.set(x,y,z);g.add(mesh);return mesh};
 function roofPair(g,w,d,h,m){const rise=2.05;for(const side of [-1,1]){const xx=side*w/2;const verts=[0,h+rise,-d/2,xx,h,-d/2,xx,h,d/2,0,h+rise,-d/2,xx,h,d/2,0,h+rise,d/2];const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.computeVertexNormals();const mesh=new THREE.Mesh(geo,m);mesh.material.side=THREE.DoubleSide;g.add(mesh)}}
 // v5.29 — at the last stretch of the southwest road, before the bridge.
@@ -1801,7 +1993,8 @@ for(let i=0;i<30;i++){
  scene.add(stone);
 }
 
-// v5.32 — E7 cemetery ambush. DNDPOV is a tabletop companion: this is a
+// v5.48 — E7 cemetery encounter rebuilt from the supplied face artwork.
+// The earlier multi-limbed 3D cadavers are removed entirely.
 // conditional visual encounter and initiative prompt, not automated combat.
 // The church, grave markers, arch, and every existing landmark remain intact.
 const cemeteryUndead=new THREE.Group();
@@ -1814,19 +2007,8 @@ scene.add(cemeteryUndead);
 // nocturnal fog without illuminating the whole village.
 const cemeteryUndeadGlow=new THREE.PointLight(0x9eac98,.52,10,2);
 cemeteryUndeadGlow.position.set(0,2.1,-.7);cemeteryUndead.add(cemeteryUndeadGlow);
-// Palette and silhouettes based on the supplied zombie artwork: jagged black
-// hair, ashen face, sunken eyes with red slits, exposed teeth and ruined coats.
-const undeadSkin=mat(0x4a4c45),undeadPale=mat(0x565950),
- undeadShadow=mat(0x211e1d),undeadHair=mat(0x292725),
- undeadCoat=mat(0x171918),undeadRags=mat(0x101311),
- undeadTrousers=mat(0x1a1c19),undeadBone=mat(0xb5aa93),
- undeadBlood=mat(0x342322),undeadBoot=mat(0x111412);
-const undeadEyes=new THREE.MeshStandardMaterial({color:0xb23c32,
- emissive:0x9b2720,emissiveIntensity:.7,roughness:1});
-const undeadFleshGeometry=new THREE.IcosahedronGeometry(1,1);
-// The actual face supplied by the user: dark silhouette, red eye slits,
-// crumbling grey skin and broken teeth. Reuse it on the moving zombies AND
-// in the instantaneous scare, so their design stays recognizably identical.
+// The supplied face is reused both on the graveyard apparitions and in the
+// full-screen jump scare. No separate 3D faces, legs, hands or feet.
 const cemeteryZombieFaceSvg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240">
 <path d="M61 240 Q69 176 83 146 Q91 125 115 124 L112 82 L125 69 L129 52 L147 64 L163 48 L178 69 L194 72 L210 96 L207 128 Q231 135 242 158 L259 240Z" fill="#292725"/>
 <path d="M105 131 Q88 139 82 159 L65 239 L114 239 L121 184 L131 239 L197 239 L207 184 L216 239 L258 239 L239 158 Q230 139 207 132" fill="#393632"/>
@@ -1847,157 +2029,51 @@ const cemeteryFaceMaterial=new THREE.MeshBasicMaterial({
  map:cemeteryFaceTexture,transparent:true,alphaTest:.035,
  side:THREE.DoubleSide,depthWrite:false
 });
-function zombieRag(group,x,y,z,w,h,material,lean=0){
- const shape=new THREE.BufferGeometry();
- // Five-sided, uneven hem: no regular cut-out rectangles or uniform coat tails.
- shape.setAttribute('position',new THREE.Float32BufferAttribute([
-  x-w/2,y+h/2,z,x+w/2,y+h/2,z,
-  x+w*.36,y-h*.48,z+.035,x-w*.19,y-h*.72,z+.07,
-  x-w*.54+lean,y-h*.24,z+.015
- ],3));
- shape.setIndex([0,1,4,1,2,4,2,3,4]);shape.computeVertexNormals();
- const cloth=new THREE.Mesh(shape,material);cloth.material.side=THREE.DoubleSide;
- group.add(cloth);return cloth;
-}
 const cemeteryZombies=[];
 function addCemeteryZombie(x,z,index){
  const root=new THREE.Group();root.position.set(x,0,z);
- root.scale.setScalar(.96+(index%3)*.05);cemeteryUndead.add(root);
- // The shadow remains on the soil as the cadaver climbs out of its grave.
- const shadow=new THREE.Mesh(new THREE.CircleGeometry(.68,18),
-  new THREE.MeshBasicMaterial({color:0x090b0a,transparent:true,
-   opacity:.40,depthWrite:false}));
- shadow.rotation.x=-Math.PI/2;shadow.position.y=.075;root.add(shadow);
- const model=new THREE.Group();model.position.y=-2.65;root.add(model);
- // Lean, uneven torso and a narrower exposed waist, with true depth.
- const chest=new THREE.Mesh(new THREE.CylinderGeometry(.39,.48,.93,7),
-  index%2?undeadCoat:undeadRags);
- chest.scale.z=.76;chest.position.set(0,1.41,0);chest.rotation.z=index%2?.085:-.055;
- model.add(chest);
- const hips=new THREE.Mesh(new THREE.CylinderGeometry(.35,.36,.37,7),undeadTrousers);
- hips.position.y=.87;hips.scale.z=.77;model.add(hips);
- const exposed=new THREE.Mesh(undeadFleshGeometry,undeadRags);
- exposed.scale.set(.30,.36,.12);exposed.position.set(.03,1.49,.315);model.add(exposed);
- for(let i=0;i<4;i++){
-  const rib=box(model,(i%2?1:-1)*(.08+.055*i),1.62-i*.105,.429,
-   .21,.055,.064,undeadShadow);
-  rib.rotation.z=(i%2?-.23:.23);
- }
- zombieRag(model,-.31,1.03,.28,.39,.46,undeadCoat,-.05);
- zombieRag(model,.16,1.04,.29,.47,.68,undeadRags,.06);
- zombieRag(model,-.05,.94,-.33,.56,.42,undeadCoat);
- box(model,-.20,1.30,.418,.08,.27,.054,undeadBlood).rotation.z=-.32;
- // An angular face with hollow sockets, crimson pinprick eyes, and a
- // broken row of bone-coloured teeth, matching the user's supplied SVG.
- const headPivot=new THREE.Group();headPivot.position.set(0,2.10,.04);
- headPivot.rotation.z=index%2?.13:-.09;model.add(headPivot);
- const skull=new THREE.Mesh(undeadFleshGeometry,undeadSkin);
- skull.scale.set(.40,.50,.35);skull.position.y=.20;headPivot.add(skull);
- const cheek=new THREE.Mesh(undeadFleshGeometry,undeadPale);
- cheek.scale.set(.34,.23,.30);cheek.position.set(0,-.03,.05);headPivot.add(cheek);
- for(const side of [-1,1]){
-  const socket=new THREE.Mesh(undeadFleshGeometry,undeadShadow);
-  socket.scale.set(.16,.14,.065);socket.position.set(side*.18,.27,.335);
-  headPivot.add(socket);
-  const slit=box(headPivot,side*.18,.26,.392,.115,.041,.027,undeadEyes);
-  slit.rotation.z=side*.17;
- }
- const nose=new THREE.Mesh(new THREE.ConeGeometry(.10,.28,4),undeadShadow);
- nose.rotation.x=Math.PI;nose.position.set(0,.045,.365);headPivot.add(nose);
- const mouth=new THREE.Mesh(undeadFleshGeometry,undeadShadow);
- mouth.scale.set(.255,.118,.055);mouth.position.set(0,-.16,.318);
- headPivot.add(mouth);
- for(let i=0;i<7;i++){
-  if(i===3&&index%2===0)continue; // several teeth are missing
-  const tooth=box(headPivot,-.21+i*.069,-.118-(i%3)*.016,.374,
-   .044,.071+(i%2)*.023,.026,undeadBone);
-  tooth.rotation.z=(i-3)*.06;
- }
- const hood=new THREE.Mesh(new THREE.SphereGeometry(.44,9,6,0,Math.PI*2,0,Math.PI*.53),
-  undeadHair);
- hood.position.y=.30;hood.scale.set(1.05,.77,.95);headPivot.add(hood);
- for(let i=0;i<7;i++){
-  const tuft=new THREE.Mesh(new THREE.ConeGeometry(.085+(i%2)*.027,
-   .25+(i%3)*.10,3),undeadHair);
-  tuft.position.set(-.36+i*.118,.57-(i%2)*.095,.03+(i%3)*.075);
-  tuft.rotation.z=(i-3)*.24;headPivot.add(tuft);
- }
- // A textured bust carries the exact SVG face on the visible front. The
- // articulated black body, arms, legs and feet still give the creature depth.
- const portrait=new THREE.Mesh(new THREE.PlaneGeometry(2.30,1.725),cemeteryFaceMaterial);
- portrait.position.set(0,2.06,.62);portrait.rotation.z=index%2?.035:-.025;
- model.add(portrait);
- // Long articulated arms reach forward and end in individual crooked claws.
- const arms=[],legs=[],knees=[];
- for(const side of [-1,1]){
-  const shoulder=new THREE.Group();shoulder.position.set(side*.47,1.83,.01);
-  shoulder.rotation.z=side*.20;model.add(shoulder);
-  const upper=new THREE.Mesh(new THREE.CylinderGeometry(.17,.12,.67,6),
-   index%2?undeadRags:undeadCoat);
-  upper.position.y=-.30;shoulder.add(upper);
-  const elbow=new THREE.Group();elbow.position.set(side*.03,-.63,.055);
-  elbow.rotation.x=-.30;shoulder.add(elbow);
-  const forearm=new THREE.Mesh(new THREE.CylinderGeometry(.117,.082,.53,6),undeadPale);
-  forearm.position.y=-.23;forearm.rotation.z=side*.12;elbow.add(forearm);
-  const hand=new THREE.Mesh(undeadFleshGeometry,undeadSkin);
-  hand.scale.set(.125,.17,.108);hand.position.set(0,-.53,.025);elbow.add(hand);
-  for(let finger=0;finger<4;finger++){
-   const claw=new THREE.Mesh(new THREE.ConeGeometry(.037,.30+(finger%2)*.085,4),
-    finger===3?undeadBone:undeadPale);
-   claw.position.set(-.105+finger*.07,-.78,.09);
-   claw.rotation.z=(-1.5+finger)*.18;claw.rotation.x=Math.PI-.18;
-   elbow.add(claw);
-  }
-  arms.push(shoulder);
-  // Two distinct thighs, shins, ankles, and projecting boots. The knee
-  // joints give a real stagger rather than moving trousers as one slab.
-  const hip=new THREE.Group();hip.position.set(side*.245,1.01,-.015);
-  model.add(hip);
-  const thigh=new THREE.Mesh(new THREE.CylinderGeometry(.205,.165,.49,7),
-   undeadTrousers);
-  thigh.position.y=-.23;hip.add(thigh);
-  const knee=new THREE.Group();knee.position.set(0,-.48,.015);hip.add(knee);
-  const shin=new THREE.Mesh(new THREE.CylinderGeometry(.158,.115,.40,7),
-   index===2&&side===-1?undeadSkin:undeadTrousers);
-  shin.position.y=-.18;knee.add(shin);
-  const ankle=new THREE.Mesh(undeadFleshGeometry,undeadBoot);
-  ankle.scale.set(.17,.13,.19);ankle.position.set(0,-.38,.02);knee.add(ankle);
-  const foot=new THREE.Mesh(new THREE.BoxGeometry(.34,.17,.57),undeadBoot);
-  foot.position.set(0,-.46,.21);foot.rotation.y=side*.08;knee.add(foot);
-  zombieRag(hip,side*.06,-.19,.18,.31,.29,undeadCoat);
-  legs.push(hip);knees.push(knee);
- }
- cemeteryZombies.push({root,model,headPivot,arms,legs,knees,x,z,delay:index*.35,
-  pace:.36+.085*(index%3),phase:index*1.7});
+ root.scale.setScalar(.96+(index%3)*.06);cemeteryUndead.add(root);
+ const shadow=new THREE.Mesh(new THREE.CircleGeometry(.72,28),
+  new THREE.MeshBasicMaterial({color:0x080a0b,transparent:true,
+   opacity:.34,depthWrite:false}));
+ shadow.rotation.x=-Math.PI/2;shadow.position.y=.078;root.add(shadow);
+ const model=new THREE.Group();model.position.y=-2.5;root.add(model);
+ // Only the supplied gaunt face emerges from the fog: no ghost body or veil.
+ const face=new THREE.Mesh(new THREE.PlaneGeometry(1.92,1.44),
+  cemeteryFaceMaterial);
+ face.position.set(0,1.89,.06);model.add(face);
+ cemeteryZombies.push({root,model,face,x,z,delay:index*.43,
+  pace:.19+.035*(index%3),phase:index*1.77});
 }
 [[-5.5,-4.2],[5.6,-3.4],[-5.0,1.6],[5.1,2.3]].forEach((p,i)=>
  addCemeteryZombie(p[0],p[1],i));
-const cemeteryAttackState={triggered:false,resolved:false,opened:false,startedAt:0};
+const cemeteryAttackState={triggered:false,resolved:false,opened:false,
+ startedAt:0,enteredAt:0};
 let cemeteryJumpTimer=null;
 const cemeteryAttackStyle=document.createElement('style');
 cemeteryAttackStyle.textContent=`
  #cemeteryAttackOverlay[hidden]{display:none!important}
- #cemeteryAttackOverlay{position:fixed;inset:0;z-index:80;display:grid;
+ #cemeteryAttackOverlay{position:fixed;inset:0;z-index:10040;display:grid;
   place-items:center;overflow:hidden;pointer-events:none;
-  background:radial-gradient(ellipse at center,#240c0eea 0%,#030303 66%)}
- #cemeteryScareFace{width:min(1500px,130vw);max-width:none;opacity:0;
-  filter:drop-shadow(0 0 35px #3d080b);transform-origin:50% 49%}
+  background:radial-gradient(ellipse at center,#23080bf5 0%,#010202 72%)}
+ #cemeteryScareFace{width:min(1640px,145vw);max-width:none;opacity:0;
+  filter:drop-shadow(0 0 40px #4c0910);transform-origin:50% 49%}
  #cemeteryScareFace svg{width:100%;height:auto;display:block}
  #cemeteryAttackOverlay.strike #cemeteryScareFace{
-  animation:cemeteryLunge 1.65s cubic-bezier(.17,.67,.2,1) both}
- #cemeteryAttackOverlay.strike{animation:cemeteryFlash 1.65s ease-out both}
+  animation:cemeteryLunge 2.75s cubic-bezier(.17,.67,.2,1) both}
+ #cemeteryAttackOverlay.strike{animation:cemeteryFlash 2.75s ease-out both}
  @keyframes cemeteryLunge{
-  0%{opacity:0;transform:scale(.12) translateY(110px) rotate(-8deg);filter:blur(14px)}
-  9%{opacity:1;transform:scale(1.48) translateY(-12px) rotate(4deg);filter:blur(0)}
-  19%{transform:scale(1.2) rotate(-3deg)}
-  30%{transform:scale(1.35) rotate(3deg)}
-  46%{transform:scale(1.27) rotate(-1deg)}
-  79%{opacity:1;transform:scale(1.33) rotate(1deg)}
-  100%{opacity:0;transform:scale(1.75) rotate(-2deg)}
+  0%{opacity:0;transform:scale(.12) translateY(130px) rotate(-7deg);filter:blur(15px)}
+  9%{opacity:1;transform:scale(1.62) translateY(-8px) rotate(3deg);filter:blur(0)}
+  18%{transform:scale(1.40) rotate(-2deg)}
+  37%{transform:scale(1.49) rotate(2deg)}
+  58%{opacity:1;transform:scale(1.43) rotate(-1deg)}
+  85%{opacity:1;transform:scale(1.53) rotate(1deg)}
+  100%{opacity:0;transform:scale(1.80) rotate(-2deg);filter:blur(5px)}
  }
  @keyframes cemeteryFlash{
-  0%{background-color:#010101}8%{background-color:#470b0b}
-  14%{background-color:#030303}24%{background-color:#260505}
+  0%{background-color:#010101}9%{background-color:#520608}
+  17%{background-color:#030303}28%{background-color:#280608}
   40%,100%{background-color:#010101}
  }
  #cemeteryEncounterToast[hidden]{display:none!important}
@@ -2052,7 +2128,7 @@ function playCemeteryZombieCue(){
 function triggerCemeteryAttack(now){
  cemeteryAttackState.triggered=true;cemeteryAttackState.startedAt=now;
  cemeteryAttackState.opened=true;
- cemeteryUndead.visible=true;
+ cemeteryUndead.visible=false; // The screaming face comes FIRST.
  cemeteryEncounterToast.hidden=true;
  cemeteryAttackOverlay.hidden=false;
  cemeteryAttackOverlay.classList.remove('strike');
@@ -2065,7 +2141,7 @@ function triggerCemeteryAttack(now){
   cemeteryAttackOverlay.hidden=true;
   cemeteryAttackState.opened=false;
   if(!cemeteryAttackState.resolved)cemeteryEncounterToast.hidden=false;
- },1660);
+ },2750);
 }
 let cemeteryZombieLastFrame=performance.now();
 function updateCemeteryZombieAttack(now){
@@ -2076,12 +2152,18 @@ function updateCemeteryZombieAttack(now){
  const local=cemeteryLocalPlayer();
  const inside=Math.abs(local.x)<7.6&&local.z<7.0&&local.z> -7.7;
  const conditions=cemeteryNightFog();
- if(!cemeteryAttackState.triggered&&!cemeteryAttackState.resolved&&
-  conditions&&inside&&locationPanel.hidden&&townExitOverlay.hidden){
+ const eligible=conditions&&inside&&locationPanel.hidden&&townExitOverlay.hidden;
+ if(eligible){
+  if(!cemeteryAttackState.enteredAt)cemeteryAttackState.enteredAt=now;
+ }else{
+  cemeteryAttackState.enteredAt=0;
+ }
+ if(!cemeteryAttackState.triggered&&!cemeteryAttackState.resolved&&eligible&&
+  now-cemeteryAttackState.enteredAt>=700){
   triggerCemeteryAttack(now);
  }
  cemeteryUndead.visible=cemeteryAttackState.triggered&&
-  !cemeteryAttackState.resolved&&conditions;
+  !cemeteryAttackState.resolved&&conditions&&!cemeteryAttackState.opened;
  if(cemeteryAttackState.triggered&&!cemeteryAttackState.opened)
   cemeteryEncounterToast.hidden=!cemeteryUndead.visible;
  if(!cemeteryUndead.visible)return;
@@ -2089,7 +2171,7 @@ function updateCemeteryZombieAttack(now){
  for(const z of cemeteryZombies){
   const rise=Math.max(0,Math.min(1,(seconds-z.delay)/1.8));
   const smooth=rise*rise*(3-2*rise);
-  z.model.position.y=-2.65*(1-smooth);
+  z.model.position.y=-2.5*(1-smooth)+Math.sin(now*.0017+z.phase)*.10*smooth;
   if(rise<=0)continue;
   const dx=local.x-z.root.position.x,dz=local.z-z.root.position.z;
   const dist=Math.hypot(dx,dz);
@@ -2101,30 +2183,22 @@ function updateCemeteryZombieAttack(now){
     z.root.position.z+dz/dist*step));
   }
   if(dist>.05)z.root.rotation.y=Math.atan2(dx,dz);
-  const gait=seconds*3.4+z.phase;
-  z.model.rotation.z=Math.sin(gait*.58)*.065;
-  z.model.rotation.x=.09+Math.sin(gait*.9)*.05;
-  z.headPivot.rotation.z=(z.phase===0?-.09:.12)+Math.sin(gait*.48)*.055;
-  z.arms.forEach((arm,i)=>{arm.rotation.x=-.62+
-   Math.sin(gait+i*Math.PI)*.25;arm.rotation.z=(i?-.22:.22);});
-  z.legs.forEach((leg,i)=>leg.rotation.x=Math.sin(gait+i*Math.PI)*.29);
-  z.knees.forEach((knee,i)=>{knee.rotation.x=.12+
-   Math.max(0,Math.sin(gait+i*Math.PI))*.35;});
+  z.model.rotation.z=Math.sin(now*.0012+z.phase)*.075;
+  z.model.rotation.x=Math.sin(now*.0015+z.phase)*.025;
+  z.face.scale.setScalar(1+Math.sin(now*.0021+z.phase)*.017);
  }
 }
 requestAnimationFrame(updateCemeteryZombieAttack);
 document.getElementById('reset').addEventListener('click',()=>{
  cemeteryAttackState.triggered=false;cemeteryAttackState.resolved=false;
+ cemeteryAttackState.enteredAt=0;
  clearTimeout(cemeteryJumpTimer);cemeteryJumpTimer=null;
  cemeteryAttackState.opened=false;cemeteryAttackOverlay.hidden=true;
  cemeteryEncounterToast.hidden=true;cemeteryScreamClip.pause();
  cemeteryUndead.visible=false;
  cemeteryZombies.forEach(z=>{z.root.position.set(z.x,0,z.z);
-  z.model.position.y=-2.65;z.root.rotation.y=0;
-  z.model.rotation.set(0,0,0);
-  z.arms.forEach(arm=>arm.rotation.x=0);
-  z.legs.forEach(leg=>leg.rotation.x=0);
-  z.knees.forEach(knee=>knee.rotation.x=0);});
+  z.model.position.y=-2.5;z.root.rotation.y=0;
+  z.model.rotation.set(0,0,0);z.face.scale.setScalar(1);});
 });
 
 
@@ -2820,7 +2894,8 @@ function syncBaroviaAudio(){
   clearTimeout(maryTimer);maryTimer=null;
   soundPlace=target;
   if(target==='E2')playClip(soundClips.tavern);
-  if(target==='E6')playClip(soundClips.church);
+  // The music cannot restart while the organist is gone.
+  if(target==='E6'&&churchOrganSecret.stage==='waiting')playClip(soundClips.church);
   if(target==='E3')playClip(soundClips.mary);
  }
  syncPrecipitationSound();
@@ -2841,6 +2916,529 @@ soundButton.addEventListener('click',()=>{
 });
 document.getElementById('timeofday').addEventListener('change',syncBaroviaAudio);
 document.getElementById('visibility').addEventListener('change',syncBaroviaAudio);
+// v5.47 — Barovian inhabitants are soft-shaped silhouettes with folds, hair,
+// actual limbs and separate clothing; deliberately no cube-head "LEGO" people.
+const interiorActors=[];
+function wovenMaterial(color){return new THREE.MeshStandardMaterial({
+ color,roughness:1,metalness:0,side:THREE.DoubleSide});}
+function drapedCloth(parent,profile,material,wrinkle=.05){
+ const geometry=new THREE.LatheGeometry(profile.map(([y,r])=>new THREE.Vector2(r,y)),32);
+ const points=geometry.attributes.position;
+ for(let i=0;i<points.count;i++){
+  const x=points.getX(i),y=points.getY(i),z=points.getZ(i);
+  const theta=Math.atan2(x,z);
+  const fold=1+wrinkle*(Math.sin(theta*9+y*2.1)+.45*Math.sin(theta*17-y*1.3));
+  points.setXYZ(i,x*fold,y,z*fold);
+ }
+ geometry.computeVertexNormals();
+ const mesh=new THREE.Mesh(geometry,material);parent.add(mesh);return mesh;
+}
+function organicLimb(parent,start,end,rTop,rBottom,material){
+ const a=new THREE.Vector3(...start),b=new THREE.Vector3(...end);
+ const dir=b.clone().sub(a),length=dir.length();
+ const limb=new THREE.Mesh(new THREE.CylinderGeometry(rTop,rBottom,length,14,3),material);
+ limb.position.copy(a.add(b).multiplyScalar(.5));
+ limb.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());
+ parent.add(limb);return limb;
+}
+function barovianActor(room,{role='villager',x=0,z=0,angle=0,seated=false,
+ robe=0x4f4139,skin=0xb3a18e,accent=0x736150,phase=0}={}){
+ const root=new THREE.Group();root.position.set(x,0,z);root.rotation.y=angle;
+ room.add(root);
+ const cloth=wovenMaterial(robe),trim=wovenMaterial(accent);
+ const skinMat=wovenMaterial(role==='orc'?0x71836a:skin);
+ const hairMat=wovenMaterial(role==='organist'?0x151219:
+  role==='wizard'?0x8b8b7d:role==='orc'?0x28332a:phase%2?0x30261f:0x57473a);
+ const metal=new THREE.MeshStandardMaterial({color:0x83868a,metalness:.30,roughness:.76});
+ const seatedLift=seated?-.29:0,shoulderY=1.49+seatedLift,headY=1.76+seatedLift;
+ const body=new THREE.Group();root.add(body);
+ const torso=new THREE.Mesh(new THREE.SphereGeometry(1,18,13),cloth);
+ torso.scale.set(role==='orc'?.43:.355,.52,.28);
+ torso.position.y=1.24+seatedLift;body.add(torso);
+ // Tunic or long robe follows the body's taper with wrinkled cloth edges.
+ const skirtTop=seated?.72:.49;
+ if(['wizard','organist','villager','elder','woman'].includes(role)){
+  const skirt=drapedCloth(body,[[skirtTop,.39],[skirtTop+.15,.36],
+   [1.21+seatedLift,.29],[1.34+seatedLift,.34],[1.51+seatedLift,.29]],cloth,.054);
+  skirt.rotation.y=phase*.39;
+ }
+ // Belts, layered coats, mail and shawls are material accents, not cubes.
+ const belt=new THREE.Mesh(new THREE.TorusGeometry(.30,.036,7,28),trim);
+ belt.rotation.x=Math.PI/2;belt.position.y=.94+seatedLift;body.add(belt);
+ if(role==='warrior'||role==='orc'){
+  const vest=new THREE.Mesh(new THREE.SphereGeometry(1,16,12),
+   role==='warrior'?metal:trim);
+  vest.position.set(0,1.31+seatedLift,.11);vest.scale.set(.32,.39,.21);
+  body.add(vest);
+  for(const side of [-1,1]){
+   const pauldron=new THREE.Mesh(new THREE.SphereGeometry(.20,12,8),
+    role==='warrior'?metal:trim);
+   pauldron.scale.set(1.18,.68,.85);
+   pauldron.position.set(side*.38,shoulderY-.01,0);body.add(pauldron);
+  }
+  if(role==='warrior'){
+   // A worn, sheathed sword at the hip; understated iron rather than toys.
+   const leather=wovenMaterial(0x30271f);
+   organicLimb(body,[.33,.90+seatedLift,-.13],
+    [.47,seated?.25:.27,-.18],.065,.047,leather);
+   organicLimb(body,[.34,1.02+seatedLift,-.13],
+    [.34,.83+seatedLift,-.13],.047,.047,metal);
+   organicLimb(body,[.19,.88+seatedLift,-.13],
+    [.50,.88+seatedLift,-.13],.032,.032,metal);
+  }
+ }
+ if(role==='woman'||role==='elder'){
+  const shawl=drapedCloth(body,[[1.06+seatedLift,.36],[1.17+seatedLift,.43],
+   [1.37+seatedLift,.43],[1.54+seatedLift,.25]],trim,.03);
+  shawl.scale.z=.89;
+ }
+ const headPivot=new THREE.Group();headPivot.position.set(0,headY,0);
+ body.add(headPivot);
+ const face=new THREE.Mesh(new THREE.SphereGeometry(.242,20,14),skinMat);
+ face.scale.set(role==='orc'?1.17:1,1.14,.91);headPivot.add(face);
+ const nose=new THREE.Mesh(new THREE.ConeGeometry(.052,.145,9),skinMat);
+ nose.rotation.x=Math.PI/2;nose.position.set(0,-.015,.245);headPivot.add(nose);
+ const features=wovenMaterial(role==='orc'?0x283323:0x39302b);
+ for(const side of [-1,1]){
+  const eye=new THREE.Mesh(new THREE.SphereGeometry(.017,9,7),features);
+  eye.position.set(side*.094,.065,.218);headPivot.add(eye);
+ }
+ if(role==='organist'){
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(.252,18,12,0,
+   Math.PI*2,0,Math.PI*.56),hairMat);headPivot.add(hair);
+  for(const side of [-1,1]){
+   const lock=new THREE.Mesh(new THREE.CapsuleGeometry(.074,.21,4,9),hairMat);
+   lock.position.set(side*.205,-.15,-.075);headPivot.add(lock);
+  }
+  // A high dark collar and crimson waistcoat: recognizably aristocratic.
+  for(const side of [-1,1]){
+   const collar=new THREE.Mesh(new THREE.ConeGeometry(.19,.51,12),cloth);
+   collar.position.set(side*.29,1.58+seatedLift,-.075);
+   collar.rotation.z=side*.27;body.add(collar);
+  }
+  const vest=new THREE.Mesh(new THREE.SphereGeometry(.20,12,8),wovenMaterial(0x511b2b));
+  vest.scale.set(1.0,1.65,.47);vest.position.set(0,1.26+seatedLift,.29);
+  body.add(vest);
+ }else if(role==='wizard'){
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(.255,14,10,0,Math.PI*2,0,Math.PI*.58),hairMat);
+  headPivot.add(hair);
+  const beard=new THREE.Mesh(new THREE.ConeGeometry(.15,.36,14),hairMat);
+  beard.rotation.z=Math.PI;beard.position.set(0,-.29,.14);headPivot.add(beard);
+  const hatBrim=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.055,28),trim);
+  hatBrim.position.y=.275;headPivot.add(hatBrim);
+  const hat=new THREE.Mesh(new THREE.ConeGeometry(.28,.60,22),cloth);
+  hat.position.set(-.07,.59,0);hat.rotation.z=-.16;headPivot.add(hat);
+ }else if(role==='orc'){
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(.265,16,10,0,Math.PI*2,0,Math.PI*.45),hairMat);
+  headPivot.add(hair);
+  for(const side of [-1,1]){
+   const ear=new THREE.Mesh(new THREE.ConeGeometry(.095,.26,9),skinMat);
+   ear.position.set(side*.28,.025,0);ear.rotation.z=-side*1.2;headPivot.add(ear);
+   const tusk=new THREE.Mesh(new THREE.ConeGeometry(.038,.155,9),wovenMaterial(0xd8cead));
+   tusk.position.set(side*.14,-.17,.23);headPivot.add(tusk);
+  }
+ }else{
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(.250,18,11,
+   0,Math.PI*2,0,Math.PI*.57),hairMat);headPivot.add(hair);
+  if(role==='woman')for(const side of [-1,1]){
+   const braid=new THREE.Mesh(new THREE.CapsuleGeometry(.065,.29,4,10),hairMat);
+   braid.position.set(side*.19,-.20,-.09);headPivot.add(braid);
+  }
+  if(role==='elder'){
+   const beard=new THREE.Mesh(new THREE.ConeGeometry(.13,.26,14),hairMat);
+   beard.rotation.z=Math.PI;beard.position.set(0,-.23,.14);headPivot.add(beard);
+  }
+ }
+ const hands=[];
+ for(const side of [-1,1]){
+  const shoulder=[side*(role==='orc'?.46:.35),shoulderY,0];
+  const elbow=role==='organist'?[side*.42,.98,.28]:
+   seated?[side*.44,.96,.12]:[side*.43,.99,.06];
+  const wrist=role==='organist'?[side*.24,.89,.77]:
+   seated?[side*.42,.79,.33]:[side*.40,.75,.17];
+  organicLimb(body,shoulder,elbow,role==='orc'?.155:.12,.105,cloth);
+  organicLimb(body,elbow,wrist,.103,.074,
+   role==='organist'?cloth:skinMat);
+  const hand=new THREE.Mesh(new THREE.SphereGeometry(.095,12,10),skinMat);
+  hand.scale.set(.82,1.14,.74);hand.position.set(...wrist);body.add(hand);
+  hands.push(hand);
+  const hipX=side*.18;
+  if(seated){
+   organicLimb(root,[hipX,.78,.07],[hipX,.64,.43],.17,.125,cloth);
+   organicLimb(root,[hipX,.64,.43],[hipX,.14,.46],.125,.087,cloth);
+  }else{
+   organicLimb(root,[hipX,.83,.0],[hipX+side*.04,.13,.02],.17,.10,cloth);
+  }
+  const boot=new THREE.Mesh(new THREE.SphereGeometry(.14,11,9),
+   wovenMaterial(0x272320));
+  boot.scale.set(1,.70,1.75);boot.position.set(hipX,.11,seated?.53:.12);
+  root.add(boot);
+ }
+ const actor={root,body,headPivot,hands,phase,role,room};
+ interiorActors.push(actor);return actor;
+}
+function makeInteriorShadowBat(room){
+ const bat=new THREE.Group(),wings=[];
+ const batDark=new THREE.MeshBasicMaterial({color:0x090b10,side:THREE.DoubleSide});
+ const body=new THREE.Mesh(new THREE.SphereGeometry(.14,10,7),batDark);
+ body.scale.set(.74,1.5,.68);bat.add(body);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.105,9,7),batDark);
+ head.position.y=.16;bat.add(head);
+ for(const sign of [-1,1]){
+  const ear=new THREE.Mesh(new THREE.ConeGeometry(.044,.17,5),batDark);
+  ear.position.set(sign*.077,.29,0);ear.rotation.z=-sign*.21;bat.add(ear);
+  const outline=[[.08,.08],[.28,.18],[.57,.28],[.46,.09],
+   [.80,-.01],[.55,-.09],[.63,-.26],[.33,-.15],[.10,-.07]];
+  const shape=new THREE.Shape();
+  outline.forEach(([x,y],i)=>{
+   if(i===0)shape.moveTo(sign*x,y);else shape.lineTo(sign*x,y);
+  });shape.closePath();
+  const wing=new THREE.Mesh(new THREE.ShapeGeometry(shape),batDark);
+  const pivot=new THREE.Group();pivot.add(wing);bat.add(pivot);
+  wings.push({pivot,sign});
+ }
+ bat.visible=false;room.add(bat);return {bat,wings};
+}
+// v5.47 — the Blood of the Vine's secret visitor: a long, draped hooded cloak.
+// No exposed skin or blocky head: only ice-blue eyes inside deep shadow.
+const tavernBatEgg={figure:null,eyes:[],bat:null,wings:[],smoke:null,
+ smokeParts:[],flash:null,stage:'unarmed',eligibleAt:0,poofAt:0};
+function buildTavernBatEgg(room){
+ const egg=tavernBatEgg,px=-5.32,pz=-6.35;
+ const pitch=wovenMaterial(0x090a10),capeShade=wovenMaterial(0x13151d);
+ const hoodBlack=new THREE.MeshBasicMaterial({color:0x01030a});
+ const figure=new THREE.Group();figure.position.set(px,0,pz);
+ // The eyes are angled toward the front doorway, not into the side wall.
+ figure.rotation.y=Math.atan2(-px,6.9-pz);
+ drapedCloth(figure,[[.035,.69],[.16,.64],[.42,.59],[.75,.47],
+  [1.12,.44],[1.45,.46],[1.71,.33]],pitch,.075);
+ // The over-cape falls in long uneven folds across his shoulders and arms.
+ drapedCloth(figure,[[.26,.63],[.51,.63],[.99,.55],[1.43,.58],
+  [1.73,.36]],capeShade,.085);
+ for(const side of [-1,1]){
+  organicLimb(figure,[side*.38,1.55,-.01],
+   [side*.53,.81,.10],.21,.18,pitch);
+  const hangingFold=new THREE.Mesh(new THREE.SphereGeometry(.20,12,9),pitch);
+  hangingFold.position.set(side*.52,.78,.10);
+  hangingFold.scale.set(.85,1.9,.72);figure.add(hangingFold);
+ }
+ // The cowl projects beyond the face. The dark recess has no modeled features.
+ const hood=new THREE.Mesh(new THREE.SphereGeometry(.405,24,17),pitch);
+ hood.position.set(0,1.81,-.075);hood.scale.set(1.10,1.15,1.16);
+ figure.add(hood);
+ const face=new THREE.Mesh(new THREE.SphereGeometry(.29,20,14),hoodBlack);
+ face.position.set(0,1.78,.323);face.scale.set(1,1.07,.53);
+ figure.add(face);
+ for(const side of [-1,1]){
+  const hoodDrape=new THREE.Mesh(new THREE.CapsuleGeometry(.12,.43,6,12),pitch);
+  hoodDrape.position.set(side*.33,1.61,.255);
+  hoodDrape.rotation.z=-side*.16;figure.add(hoodDrape);
+ }
+ const browCurve=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-.29,1.99,.325),new THREE.Vector3(-.14,2.083,.415),
+  new THREE.Vector3(0,2.105,.442),new THREE.Vector3(.14,2.083,.415),
+  new THREE.Vector3(.29,1.99,.325)]);
+ figure.add(new THREE.Mesh(new THREE.TubeGeometry(browCurve,18,.055,8,false),pitch));
+ const eyeMat=new THREE.MeshBasicMaterial({color:0x91cfff});
+ const haloMat=new THREE.MeshBasicMaterial({color:0x2977ed,transparent:true,
+  opacity:.27,depthWrite:false});
+ for(const sign of [-1,1]){
+  const halo=new THREE.Mesh(new THREE.SphereGeometry(.089,10,8),haloMat);
+  halo.position.set(sign*.112,1.858,.493);figure.add(halo);
+  const eye=new THREE.Mesh(new THREE.SphereGeometry(.038,10,8),eyeMat);
+  eye.position.set(sign*.112,1.858,.536);figure.add(eye);egg.eyes.push(eye);
+ }
+ const glint=new THREE.PointLight(0x5095ff,.31,2.4,2);
+ glint.position.set(0,1.86,.51);figure.add(glint);
+ figure.visible=false;room.add(figure);egg.figure=figure;
+
+ // Jagged, scalloped wings give the bat a clear silhouette in dim lamplight.
+ const {bat,wings}=makeInteriorShadowBat(room);
+ egg.bat=bat;egg.wings=wings;
+
+ // A localized puff of charcoal smoke; uneven particles avoid hard edges.
+ const smoke=new THREE.Group();smoke.position.set(px,1.32,pz);
+ const smokeGeo=new THREE.SphereGeometry(1,8,6);
+ const specs=[[-.28,.04,.05],[-.09,.39,-.18],[.24,.34,.12],[.41,.03,-.12],
+  [-.37,.57,.13],[.09,.66,-.08],[.03,-.30,.33],[.22,-.22,-.28],
+  [-.10,.08,.37],[-.26,-.22,-.25],[.37,.49,.29],[-.46,.22,-.31]];
+ specs.forEach(([x,y,z],i)=>{
+  const material=new THREE.MeshBasicMaterial({
+   color:i%3===0?0x303745:0x192028,transparent:true,opacity:.55,depthWrite:false});
+  const cloud=new THREE.Mesh(smokeGeo,material);
+  const size=.22+(i%4)*.067;
+  cloud.position.set(x,y,z);cloud.scale.setScalar(size);
+  smoke.add(cloud);
+  egg.smokeParts.push({cloud,x,y,z,size,
+   vx:x*(.70+i%3*.13),vy:.24+(i%5)*.09,vz:z*.65,opacity:.55});
+ });
+ const flash=new THREE.PointLight(0x5a93ff,0,5,2);
+ flash.position.set(0,.55,0);smoke.add(flash);egg.flash=flash;
+ smoke.visible=false;room.add(smoke);egg.smoke=smoke;
+}
+function resetTavernBatEgg(){
+ const egg=tavernBatEgg;
+ egg.stage='unarmed';egg.eligibleAt=0;egg.poofAt=0;
+ if(egg.figure)egg.figure.visible=false;
+ if(egg.bat)egg.bat.visible=false;
+ if(egg.smoke)egg.smoke.visible=false;
+}
+function playTavernBatPoof(){
+ if(!soundEnabled||!soundUnlocked||!environmentContext)return;
+ try{
+  const audio=environmentContext,t=audio.currentTime;
+  const length=Math.floor(audio.sampleRate*.72);
+  const hiss=audio.createBuffer(1,length,audio.sampleRate);
+  const samples=hiss.getChannelData(0);
+  for(let i=0;i<length;i++)samples[i]=Math.random()*2-1;
+  const source=audio.createBufferSource();source.buffer=hiss;
+  const lowpass=audio.createBiquadFilter();lowpass.type='lowpass';
+  lowpass.frequency.setValueAtTime(2800,t);
+  lowpass.frequency.exponentialRampToValueAtTime(240,t+.69);
+  const gain=audio.createGain();gain.gain.setValueAtTime(.001,t);
+  gain.gain.exponentialRampToValueAtTime(.12,t+.055);
+  gain.gain.exponentialRampToValueAtTime(.001,t+.71);
+  source.connect(lowpass);lowpass.connect(gain);gain.connect(audio.destination);
+  source.start(t);source.stop(t+.72);
+ }catch(err){/* Audio is optional; the visual event works without it. */}
+}
+function updateTavernBatEgg(now){
+ const egg=tavernBatEgg;
+ if(activeInterior!=='E2'||!egg.figure)return;
+ const fogbound=document.getElementById('timeofday').value==='night'&&
+  weatherWeight('fog')>.88;
+ if(!fogbound){resetTavernBatEgg();return;}
+ if(egg.stage==='unarmed'){
+  egg.stage='waiting';egg.eligibleAt=now;egg.figure.visible=true;
+ }
+ if(egg.stage==='waiting'){
+  const age=(now-egg.eligibleAt)/1000;
+  for(const eye of egg.eyes)eye.scale.setScalar(.93+Math.sin(now*.006)*.12);
+  const near=Math.hypot(insidePlayer.x+5.32,insidePlayer.z+6.35)<7.4;
+  if(age>1.8&&(near||age>11.5)){
+   egg.stage='burst';egg.poofAt=now;egg.figure.visible=false;
+   egg.smoke.visible=true;egg.bat.visible=false;
+   playTavernBatPoof();
+  }
+  return;
+ }
+ if(egg.stage!=='burst')return;
+ const t=(now-egg.poofAt)/1000;
+ egg.smoke.visible=t<1.9;
+ if(egg.smoke.visible){
+  for(const {cloud,x,y,z,size,vx,vy,vz,opacity} of egg.smokeParts){
+   cloud.position.set(x+vx*t,y+vy*t,z+vz*t);
+   cloud.scale.setScalar(size*(1+t*1.7));
+   cloud.material.opacity=opacity*Math.max(0,1-t/1.9);
+  }
+  egg.flash.intensity=5*Math.max(0,1-t/.18);
+ }
+ const flight=Math.max(0,Math.min(1,(t-.22)/4.5));
+ egg.bat.visible=t>.22&&flight<1;
+ if(egg.bat.visible){
+  const arc=flight*flight*(3-2*flight);
+  egg.bat.position.set(-5.32+5.32*arc,
+   1.9+Math.sin(flight*Math.PI)*.82+flight*.60,
+   -6.35+15.45*arc);
+  egg.bat.rotation.z=Math.sin(t*13)*.10;
+  egg.bat.rotation.y=Math.sin(t*2.7)*.16;
+  for(const {pivot,sign} of egg.wings)
+   pivot.rotation.z=sign*(.14+Math.sin(t*27)*.30);
+ }
+ if(t>4.9){egg.stage='gone';egg.smoke.visible=false;egg.bat.visible=false;}
+}
+// E6: a pipe organ in the shadow of the chancel, played by an unannounced
+// pale nobleman. When approached he becomes a bat instead of showing a popup.
+const churchOrganSecret={organist:null,bat:null,wings:[],smoke:null,
+ smokeParts:[],keys:[],flash:null,stage:'waiting',poofAt:0,
+ master:null,oscillators:[]};
+function buildChurchOrgan(room,add,furniture){
+ const state=churchOrganSecret,ox=-4.65,oz=-11.28;
+ const walnut=wovenMaterial(0x32241f),oldOak=wovenMaterial(0x614632),
+  pewter=new THREE.MeshStandardMaterial({color:0x8b8169,roughness:.76,
+   metalness:.36}),ivory=wovenMaterial(0xb9af91),darkKey=wovenMaterial(0x201c1a);
+ // An upright pipe organ: staggered pewter pipes, carved case, twin manuals,
+ // individual keys, a low wooden bench and a small music stand.
+ add(ox,1.27,oz,3.08,2.45,.96,walnut);
+ add(ox,2.58,oz-.23,3.16,.28,.78,oldOak);
+ const heights=[1.65,1.93,2.23,2.65,3.25,3.45,3.25,2.65,2.23,1.93,1.65];
+ heights.forEach((height,i)=>{
+  const pipe=new THREE.Mesh(new THREE.CylinderGeometry(.087,.094,height,16),pewter);
+  pipe.position.set(ox+(i-5)*.255,2.70+height/2,oz-.33);
+  room.add(pipe);
+  const lip=new THREE.Mesh(new THREE.TorusGeometry(.088,.016,6,16),oldOak);
+  lip.rotation.x=Math.PI/2;lip.position.set(pipe.position.x,
+   2.70+height,oz-.33);room.add(lip);
+ });
+ add(ox,1.21,oz+.60,2.67,.15,.62,oldOak);
+ for(let row=0;row<2;row++){
+  const z=oz+.74-row*.27;
+  for(let i=0;i<23;i++){
+   const key=new THREE.Mesh(new THREE.BoxGeometry(.094,.036,.29),ivory);
+   key.position.set(ox+(i-11)*.111,1.33+row*.10,z);
+   room.add(key);state.keys.push({key,home:key.position.y,phase:i*.65+row});
+  }
+  for(let i=0;i<15;i++){
+   const dark=new THREE.Mesh(new THREE.BoxGeometry(.064,.047,.17),darkKey);
+   dark.position.set(ox+(i-7)*.168,1.36+row*.10,z-.085);
+   room.add(dark);
+  }
+ }
+ add(ox,2.33,oz+.60,1.26,.90,.12,walnut);
+ add(ox,.55,-9.77,2.2,.16,.47,oldOak);
+ for(const side of [-1,1])add(ox+side*.86,.28,-9.77,.16,.53,.26,walnut);
+ furniture(ox,oz,1.68,.55);
+ const organist=barovianActor(room,{role:'organist',x:ox,z:-9.77,
+  seated:true,angle:Math.PI,robe:0x1b1a21,accent:0x4e2431,
+  skin:0xc7beb0,phase:29});
+ organist.root.name='Strahd — organist (E6 hidden Easter egg)';
+ // The player never sees his identity: conceal the pale head entirely under
+ // a deep, pointed cowl, and cover the hands with black playing gloves.
+ organist.headPivot.visible=false;
+ const hoodCloth=wovenMaterial(0x111119),hoodFolds=wovenMaterial(0x1b1921);
+ const hoodShell=new THREE.Mesh(new THREE.SphereGeometry(.40,24,16),hoodCloth);
+ hoodShell.position.set(0,1.49,-.08);hoodShell.scale.set(1.08,1.17,1.13);
+ organist.root.add(hoodShell);
+ const hoodBack=new THREE.Mesh(new THREE.ConeGeometry(.39,.72,24),hoodCloth);
+ hoodBack.position.set(0,1.24,-.24);hoodBack.rotation.x=-.17;
+ organist.root.add(hoodBack);
+ const blankFace=new THREE.Mesh(new THREE.SphereGeometry(.275,18,12),
+  new THREE.MeshBasicMaterial({color:0x010103}));
+ blankFace.position.set(0,1.46,.28);blankFace.scale.set(1,1.1,.51);
+ organist.root.add(blankFace);
+ for(const side of [-1,1]){
+  const fold=new THREE.Mesh(new THREE.CapsuleGeometry(.12,.36,6,12),hoodFolds);
+  fold.position.set(side*.30,1.24,.21);fold.rotation.z=-side*.16;
+  organist.root.add(fold);
+ }
+ const cowlEdge=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-.27,1.67,.29),new THREE.Vector3(0,1.80,.40),
+  new THREE.Vector3(.27,1.67,.29)]);
+ organist.root.add(new THREE.Mesh(new THREE.TubeGeometry(cowlEdge,16,.05,8,false),
+  hoodCloth));
+ const gloves=wovenMaterial(0x17151a);
+ organist.hands.forEach(hand=>hand.material=gloves);
+ // His floor-length coat trails from the narrow bench almost to the floor.
+ drapedCloth(organist.root,[[.08,.41],[.27,.46],[.48,.42],[.72,.34],
+  [1.01,.35]],wovenMaterial(0x17131b),.075);
+ state.organist=organist;
+ const {bat,wings}=makeInteriorShadowBat(room);
+ state.bat=bat;state.wings=wings;
+ const smoke=new THREE.Group();smoke.position.set(ox,1.23,-9.77);
+ const cloudGeo=new THREE.SphereGeometry(1,9,7);
+ for(let i=0;i<16;i++){
+  const theta=(i*2.3999632297),r=.16+(i%4)*.14;
+  const x=Math.cos(theta)*r,y=(i%6)*.13-.29,z=Math.sin(theta)*r;
+  const cloud=new THREE.Mesh(cloudGeo,new THREE.MeshBasicMaterial({
+   color:i%3?0x1a1823:0x41313b,transparent:true,
+   opacity:.52,depthWrite:false}));
+  cloud.position.set(x,y,z);cloud.scale.setScalar(.17+(i%5)*.053);
+  smoke.add(cloud);
+  state.smokeParts.push({cloud,x,y,z,size:.17+(i%5)*.053,
+   vx:x*.95,vy:.25+(i%4)*.11,vz:z*.85});
+ }
+ const flash=new THREE.PointLight(0x723452,0,6,2);
+ flash.position.y=.52;smoke.add(flash);state.flash=flash;
+ smoke.visible=false;room.add(smoke);state.smoke=smoke;
+}
+function resetChurchOrgan(){
+ const state=churchOrganSecret;
+ state.stage='waiting';state.poofAt=0;
+ if(state.organist)state.organist.root.visible=true;
+ if(state.bat)state.bat.visible=false;
+ if(state.smoke)state.smoke.visible=false;
+ stopChurchOrganNotes();
+}
+function startChurchOrganNotes(){
+ const state=churchOrganSecret;
+ if(state.master||!environmentContext)return;
+ try{
+  const audio=environmentContext,now=audio.currentTime;
+  const master=audio.createGain();master.gain.setValueAtTime(.0001,now);
+  master.gain.exponentialRampToValueAtTime(.017,now+1.8);
+  master.connect(audio.destination);state.master=master;
+  // An ominous F-minor chord with a low reedy tone, subtle under the ambience.
+  for(const frequency of [87.31,103.83,130.81]){
+   const oscillator=audio.createOscillator(),voice=audio.createGain();
+   oscillator.type='sawtooth';oscillator.frequency.value=frequency;
+   voice.gain.value=.18;
+   const filter=audio.createBiquadFilter();filter.type='lowpass';
+   filter.frequency.value=620;
+   oscillator.connect(filter);filter.connect(voice);voice.connect(master);
+   oscillator.start(now);state.oscillators.push(oscillator);
+  }
+ }catch(err){stopChurchOrganNotes();}
+}
+function stopChurchOrganNotes(){
+ const state=churchOrganSecret;
+ if(!state.master)return;
+ const now=environmentContext?.currentTime||0;
+ const oldMaster=state.master;
+ try{
+  state.master.gain.cancelScheduledValues(now);
+  state.master.gain.setTargetAtTime(.0001,now,.19);
+  for(const oscillator of state.oscillators)oscillator.stop(now+.72);
+ }catch(err){/* Preserve visual play when sound is unavailable. */}
+ setTimeout(()=>{try{oldMaster.disconnect();}catch(err){}},850);
+ state.oscillators=[];state.master=null;
+}
+function updateInteriorActors(now){
+ for(const actor of interiorActors){
+  if(actor.room!==activeRoom||!actor.root.visible)continue;
+  const t=now*.00065+actor.phase*.77;
+  actor.headPivot.rotation.y=Math.sin(t)*.075;
+  actor.body.rotation.z=Math.sin(t*.73)*.008;
+  if(actor.role==='organist'&&churchOrganSecret.stage==='waiting'){
+   actor.hands.forEach((hand,i)=>{
+    hand.position.y=.89+Math.sin(now*.010+i*2.4)*.034;
+   });
+  }
+ }
+}
+function updateChurchOrgan(now){
+ const state=churchOrganSecret;
+ if(activeInterior!=='E6'||!state.organist)return;
+ if(state.stage==='waiting'){
+  if(soundEnabled&&soundUnlocked)startChurchOrganNotes();
+  else stopChurchOrganNotes();
+  for(const {key,home,phase} of state.keys){
+   key.position.y=home-(Math.sin(now*.007+phase)> .66?.026:0);
+  }
+  if(locationPanel.hidden&&Math.hypot(
+   insidePlayer.x+4.65,insidePlayer.z+9.77)<3.05){
+   state.stage='burst';state.poofAt=now;
+   state.organist.root.visible=false;state.smoke.visible=true;
+   state.bat.visible=false;
+   stopChurchOrganNotes();stopClip(soundClips.church);
+   for(const {key,home} of state.keys)key.position.y=home;
+   playTavernBatPoof();
+  }
+  return;
+ }
+ if(state.stage!=='burst')return;
+ const t=(now-state.poofAt)/1000;
+ state.smoke.visible=t<1.7;
+ if(state.smoke.visible){
+  for(const {cloud,x,y,z,size,vx,vy,vz} of state.smokeParts){
+   cloud.position.set(x+vx*t,y+vy*t,z+vz*t);
+   cloud.scale.setScalar(size*(1+1.9*t));
+   cloud.material.opacity=.52*Math.max(0,1-t/1.7);
+  }
+  state.flash.intensity=4.8*Math.max(0,1-t/.18);
+ }
+ const flight=Math.max(0,Math.min(1,(t-.15)/4.35));
+ state.bat.visible=t>.15&&flight<1;
+ if(state.bat.visible){
+  const arc=flight*flight*(3-2*flight);
+  state.bat.position.set(-4.65+4.65*arc,
+   1.62+Math.sin(flight*Math.PI)*1.19+flight*.86,
+   -9.77+22.35*arc);
+  state.bat.rotation.z=Math.sin(t*14)*.12;
+  for(const {pivot,sign} of state.wings)
+   pivot.rotation.z=sign*(.12+Math.sin(t*28)*.32);
+ }
+ if(t>4.75){state.stage='gone';state.smoke.visible=false;state.bat.visible=false;}
+}
 function makeInteriorRoom(id){
  const dimensions={
   E1:[13,13,6],E2:[14,17,6.4],E3:[10,12,6.8],
@@ -2905,6 +3503,38 @@ function makeInteriorRoom(id){
   for(const p of [[-3.3,3.0],[-3.3,-2.8],[1.2,-3.5]])bench(...p,2.3);
   add(0,2.45,-d/2+.36,3.3,4.7,.65,oldStone);
   add(0,1.0,-d/2+.03,1.95,1.6,.11,candle);
+  buildTavernBatEgg(group);
+  // A varied collection of travelers. Keep the central aisle and door clear.
+  const pubPatrons=[
+   {role:'orc',x:3.27,z:-5.62,angle:Math.PI/2,robe:0x3e3930,
+    accent:0x67432c},
+   {role:'wizard',x:-3.33,z:3.07,angle:Math.PI,seated:true,
+    robe:0x343652,accent:0x65566b,skin:0xa99a8c},
+   {role:'warrior',x:1.22,z:-3.49,angle:Math.PI,seated:true,
+    robe:0x4a4340,accent:0x766454},
+   {role:'woman',x:-3.27,z:-2.77,angle:Math.PI,seated:true,
+    robe:0x675142,accent:0x3d453e},
+   {role:'warrior',x:3.50,z:2.20,angle:-Math.PI/2,
+    robe:0x4e4337,accent:0x735c4b},
+   {role:'elder',x:-5.30,z:.23,angle:Math.PI*.42,
+    robe:0x4e503e,accent:0x5a473b},
+   {role:'villager',x:5.47,z:4.30,angle:-Math.PI*.65,
+    robe:0x625341,accent:0x403c38},
+   {role:'woman',x:-5.05,z:5.28,angle:Math.PI*.34,
+    robe:0x494a42,accent:0x78634f},
+   {role:'villager',x:3.24,z:-1.57,angle:Math.PI/2,
+    robe:0x4e4a35,accent:0x6a5543}
+  ];
+  pubPatrons.forEach((patron,i)=>barovianActor(group,{...patron,phase:i+1}));
+  // Small drinking details make the seats feel occupied, not staged.
+  const pewter=wovenMaterial(0x8b8173);
+  for(const [x,z] of [[-3.9,1.25],[-2.95,-4.36],[1.65,-4.77]]){
+   const mug=new THREE.Mesh(new THREE.CylinderGeometry(.11,.095,.25,16),pewter);
+   mug.position.set(x,1.18,z);group.add(mug);
+   const handle=new THREE.Mesh(new THREE.TorusGeometry(.085,.021,6,14,
+    Math.PI*1.65),pewter);
+   handle.position.set(x+.13,1.17,z);group.add(handle);
+  }
  }else if(id==='E6'){ // Stone nave, two rows of pews and an altar.
   for(let z=-7;z<=7;z+=3.5)for(const x of [-3.25,3.25])bench(x,z,4.2,true);
   add(0,1.0,-d/2+2.0,5.1,1.8,2.3,oldStone);
@@ -2912,6 +3542,19 @@ function makeInteriorRoom(id){
   for(const x of [-1.6,1.6])add(x,2.4,-d/2+2.0,.17,.53,.17,candle);
   add(0,6.1,-d/2+.5,.45,4.2,.32,oldStone);
   add(0,7.4,-d/2+.5,2.0,.38,.32,oldStone);
+  const parishioners=[
+   {role:'woman',x:-4.08,z:6.82,robe:0x4d4c41,accent:0x696052},
+   {role:'elder',x:2.25,z:6.82,robe:0x565347,accent:0x726b61},
+   {role:'villager',x:-2.44,z:3.33,robe:0x605142,accent:0x373d37},
+   {role:'woman',x:4.10,z:3.33,robe:0x49443e,accent:0x66554a},
+   {role:'warrior',x:-4.10,z:-.17,robe:0x3d4145,accent:0x534b47},
+   {role:'elder',x:3.95,z:-.17,robe:0x575245,accent:0x393c36},
+   {role:'woman',x:-2.56,z:-3.67,robe:0x655345,accent:0x42392e},
+   {role:'villager',x:2.72,z:-6.92,robe:0x4e504a,accent:0x645747}
+  ];
+  parishioners.forEach((person,i)=>barovianActor(group,{...person,
+   z:person.z,angle:Math.PI,seated:true,phase:i+11}));
+  buildChurchOrgan(group,add,furniture);
  }else if(id==='E1'){ // Mercantile counters, shelves and stock.
   for(const x of [-w/2+1.2,w/2-1.2])for(const z of [-3.6,0,3.3])
    cupboard(x,z,2.15,3.7);
@@ -2967,6 +3610,8 @@ function enterBuilding(id){
  if(activeInterior||!locationPanel.hidden)return;
  activeRoom=roomCache.get(id)||makeInteriorRoom(id);
  activeRoom.visible=true;activeInterior=id;
+ if(id==='E2')resetTavernBatEgg();
+ if(id==='E6')resetChurchOrgan();
  insidePlayer.x=0;insidePlayer.z=activeRoom.userData.d/2-1.6;
  insidePlayer.heading=0;
  document.getElementById('mapbox').style.display='none';
@@ -2982,6 +3627,12 @@ function enterBuilding(id){
 }
 function leaveBuilding(){
  if(!activeInterior)return;
+ if(activeInterior==='E6')stopChurchOrganNotes();
+ // Exterior door positions are offset by (sin(angle), cos(angle)).
+ // Face along that outward vector on exit, irrespective of the direction
+ // the player happened to be looking inside the room.
+ const doorwayAngle=entryAngles[activeInterior];
+ if(Number.isFinite(doorwayAngle))player.heading=Math.PI-doorwayAngle;
  activeRoom.visible=false;activeRoom=null;activeInterior=null;
  document.getElementById('mapbox').style.display=mapShown?'block':'none';
  document.getElementById('overview').disabled=false;
@@ -3005,6 +3656,8 @@ function walkInterior(dt){
  const insideBounds=Math.abs(nx)<room.w/2-.65&&Math.abs(nz)<room.d/2-.55;
  const hitsFurniture=room.colliders.some(o=>Math.abs(nx-o.x)<o.rx+.38&&Math.abs(nz-o.z)<o.rz+.38);
  if(insideBounds&&!hitsFurniture){insidePlayer.x=nx;insidePlayer.z=nz;}
+ const now=performance.now();
+ updateTavernBatEgg(now);updateChurchOrgan(now);updateInteriorActors(now);
  camera.position.set(insidePlayer.x,1.72,insidePlayer.z);
  camera.lookAt(insidePlayer.x+Math.sin(insidePlayer.heading)*10,1.72,
                insidePlayer.z-Math.cos(insidePlayer.heading)*10);
@@ -3621,8 +4274,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title=document.title.replace('v5.38','v5.44');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.44';
+document.title=document.title.replace('v5.38','v5.51');
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.51';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->

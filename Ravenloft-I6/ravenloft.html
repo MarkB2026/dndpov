@@ -177,62 +177,62 @@ window.addEventListener('unhandledrejection',function(e){var el=document.getElem
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
 // v0.10.20 LOCKED: floor geometry lives in maps/*.js; engine, DM and multiplayer remain here.
-import {drawMainFloor,getMainFloorRooms} from './maps/map3_main.js';
-import {layout_makeWallsOfRavenloftLevel} from './maps/map2_walls.js';
+import {drawMainFloor,getMainFloorRooms} from './ravenloft/maps/map3_main.js';
+import {layout_makeWallsOfRavenloftLevel} from './ravenloft/maps/map2_walls.js';
 function makeWallsOfRavenloftLevel(){
  const result=layout_makeWallsOfRavenloftLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeCourtOfCountLevel} from './maps/map4_court.js';
+import {layout_makeCourtOfCountLevel} from './ravenloft/maps/map4_court.js';
 function makeCourtOfCountLevel(){
  const result=layout_makeCourtOfCountLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeRoomsOfWeepingLevel} from './maps/map5_weeping.js';
+import {layout_makeRoomsOfWeepingLevel} from './ravenloft/maps/map5_weeping.js';
 function makeRoomsOfWeepingLevel(){
  const result=layout_makeRoomsOfWeepingLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeLowerSpiresLevel} from './maps/map6_lower_spires.js';
+import {layout_makeLowerSpiresLevel} from './ravenloft/maps/map6_lower_spires.js';
 function makeLowerSpiresLevel(){
  const result=layout_makeLowerSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeMiddleSpiresLevel} from './maps/map7_middle_spires.js';
+import {layout_makeMiddleSpiresLevel} from './ravenloft/maps/map7_middle_spires.js';
 function makeMiddleSpiresLevel(){
  const result=layout_makeMiddleSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeUpperSpiresLevel} from './maps/map8_upper_spires.js';
+import {layout_makeUpperSpiresLevel} from './ravenloft/maps/map8_upper_spires.js';
 function makeUpperSpiresLevel(){
  const result=layout_makeUpperSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeNorthTowerPeakLevel} from './maps/map9_north_peak.js';
+import {layout_makeNorthTowerPeakLevel} from './ravenloft/maps/map9_north_peak.js';
 function makeNorthTowerPeakLevel(){
  const result=layout_makeNorthTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeHighTowerPeakLevel} from './maps/map10_high_peak.js';
+import {layout_makeHighTowerPeakLevel} from './ravenloft/maps/map10_high_peak.js';
 function makeHighTowerPeakLevel(){
  const result=layout_makeHighTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeLardersLevel} from './maps/map11_larders.js';
+import {layout_makeLardersLevel} from './ravenloft/maps/map11_larders.js';
 function makeLardersLevel(){
  const result=layout_makeLardersLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeCatacombsLevel} from './maps/map12_catacombs.js';
+import {layout_makeCatacombsLevel} from './ravenloft/maps/map12_catacombs.js';
 function makeCatacombsLevel(){
  const result=layout_makeCatacombsLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
@@ -301,7 +301,7 @@ function loadMonsterTexture(url, onReady, onError){
  image.onerror=err=>{console.warn('Monster SVG failed to load',url,err);if(onError)onError(err)};
  image.src=url;
 }
-const monsterAssetBase='monsters/';
+const monsterAssetBase='ravenloft/monsters/';
 // Explicit monster IDs, ordered from specific to general; never scan module prose to decide encounters.
 const MONSTER_ASSETS={
  animated_red_dragon:{eyes:true}, gargoyle:{eyes:true,legacy:true},
@@ -1218,7 +1218,7 @@ window.DNDPOV_CASTLE_BRIDGE={
 'use strict';
 const button=document.getElementById('ambientControl');
 if(!button)return;
-const audio=new Audio('dndpov_interior_ambience.mp3');
+const audio=new Audio('ravenloft/dndpov_interior_ambience.mp3');
 audio.loop=true;audio.preload='auto';audio.volume=0.45;
 let enabled=true,unlocked=false,lastFloor=-1;
 const floor=()=>typeof window.ravenFloor==='function'?window.ravenFloor():0;
@@ -1256,7 +1256,7 @@ label();
 </script>
 <script>
 // Exact paths bundled in the HTML to avoid JSON loading failures.
-const ROOM_ASSET_BASE='https://dndpov.com/Ravenloft-I6/';
+const ROOM_ASSET_BASE='https://dndpov.com/Ravenloft-I6/ravenloft/';
 function roomAssetUrl(path){return new URL(path,ROOM_ASSET_BASE).href;}
 const ROOM_SVG_FILENAMES='K01_Front_Courtyard.svg|K02_Center_Court_Gate.svg|K03_Servants_Court.svg|K04_Carriage_House.svg|K05_Chapel_Garden.svg|K06_Overlook.svg|K07_Entry.svg|K08_Great_Entry.svg|K09_Guests_Hall.svg|K10_Dining_Hall.svg|K11_South_Ground_Archers_Post.svg|K12_Turret_Post.svg|K13_Turret_Post_Access_Hall.svg|K14_Hall_of_Faith.svg|K15_Chapel_of_Ravenloft.svg|K16_North_Chapel_Alcoves.svg|K17_South_Chapel_Alcoves.svg|K18_High_Tower_Staircase.svg|K19_Grand_Landing.svg|K20_Tower_Hall_of_Honor.svg|K21_South_Tower_Stair.svg|K22_Archers_Post.svg|K23_Servants_Entrance.svg|K24_Servants_Quarters.svg|K25_Audience_Hall.svg|K26_Guard_s_Post.svg|K27_Hall_of_Grace.svg|K28_King_s_Worship_Place.svg|K29_Creaking_Landing.svg|K30_Office_of_the_King_s_Accountant.svg|K31_Trapworks.svg|K32_Maid_s_Hall.svg|K33_King_s_Apartment_Stair.svg|K34_Servants_Upper_Floor.svg|K35_Facing_Guardians.svg|K36_Dining_Hall_of_the_Count.svg|K37_Study.svg|K38_False_Treasury.svg|K39_Hall_of_Riches.svg|K40_Belfry.svg|K41_Treasury.svg|K42_Bedchamber.svg|K43_Bath_Chamber.svg|K44_Closet.svg|K45_Hall_of_Heroes.svg|K46_Courtyard_Overlook.svg|K47_The_Landing.svg|K48_Offstair.svg|K49_Lounge.svg|K50_Guestroom.svg|K51_Closet.svg|K52_Smokestack.svg|K53_Rooftop.svg|K54_Familiar_Room.svg|K55_Element_Room.svg|K56_Caldron.svg|K57_Parapet_Pentagram.svg|K58_Bridge.svg|K59_Hightower_Peak.svg|K60_Northtower_Peak.svg|K61_Hallway.svg|K62_Servants_Hall.svg|K63_Wine_Cellar.svg|K64_Guards_Stair.svg|K65_Kitchen.svg|K66_Butler_s_Quarters.svg|K67_Guards_Hall.svg|K68_Guards_Run.svg|K69_Guards_Quarters.svg|K70_Kingsman_Hall.svg|K71_Kingsmen_Quarters.svg|K72_Office_of_Vengeance.svg|K73_Dungeon_Hall.svg|K74_North_Dungeon.svg|K75_South_Dungeon.svg|K76_Torture_Room.svg|K77_Observation_Balcony.svg|K78_Brazier_Room.svg|K79_Western_Stair.svg|K80_Center_Stair.svg|K81_Tunnel.svg|K82_Marble_Slide.svg|K83_Western_Stair.svg|K84_The_Catacombs.svg|K85_Tomb_of_Sergei_Von_Zarovich.svg|K86_Tomb_of_Strahd_Von_Zarovich.svg|K87_Guardians.svg|K88_Tomb_of_Barov_and_Ravenovia.svg'.split("|");
 const GROUND_ROOM_IMAGES=Object.fromEntries(ROOM_SVG_FILENAMES.map((name,i)=>["K"+(i+1),"images/"+name]));

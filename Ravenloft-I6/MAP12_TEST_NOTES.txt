@@ -1,9 +1,0 @@
-v0.10.05 — Map 12 Dungeon and Catacombs
-
-Walkable schematic traced from supplied Map12 overhead reference:
-K73–K88, K18, K21, K83, central crypt hall K84, and east K87–K88.
-Start in K84. All previous maps and shared functions remain unchanged.
-The sarcophagi in K84 are simplified obstacles, not individually exact reproductions.
-
-Extract the entire ZIP before opening ravenloft.html.
-Browser walkthrough has not been independently tested.

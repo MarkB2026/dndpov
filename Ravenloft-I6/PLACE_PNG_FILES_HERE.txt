@@ -1,1 +1,0 @@
-Put the ten Castle Ravenloft screenshot .png files referenced by ravenloft.html in this folder.

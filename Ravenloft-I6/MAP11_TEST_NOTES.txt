@@ -1,1 +1,0 @@
-v0.10.04 — Map 11 Larders of Ill Omen. Walkable map traced schematically against supplied overhead reference. Rooms K61–K72 and staircases K18, K21, K64. Start near K61. Earlier maps, controls, multiplayer, encounters and room artwork unchanged. Browser walkthrough not independently tested. Extract complete ZIP before opening ravenloft.html.\n

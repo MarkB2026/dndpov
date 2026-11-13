@@ -1,1 +1,0 @@
-v0.9.94 startup recovery: Map 3 and Map 4 geometry modules embedded in ravenloft.html to eliminate local JavaScript import failures. Maps directory retained unchanged. Added visible startup error reporting. All gameplay settings preserved. Browser walkthrough not verified.

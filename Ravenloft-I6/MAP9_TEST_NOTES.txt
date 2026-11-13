@@ -1,1 +1,0 @@
-v0.10.02 — Map 9 North Tower Peak. Geometry and spawn only. K60 north chamber and K20 spiral stair, aligned with Maps 6–8. K60a is a higher roof level and not added to this floor. Previous floors, tools, multiplayer, encounters, and room images preserved. Extract ZIP before opening ravenloft.html. Browser walkthrough not yet verified.

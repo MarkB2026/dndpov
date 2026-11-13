@@ -1,1 +1,0 @@
-v0.9.97 Map 4 geometry-only revision. Preserves v0.9.96 Map 3, controls, multiplayer, descriptions and other floors. Map 4 has its own map module, also embedded in ravenloft.html for file:// ZIP extraction compatibility. Open the extracted ravenloft.html and select Map 4. Spawn is inside K27. This is an approximate geometry reconstruction, not a measured tracing.

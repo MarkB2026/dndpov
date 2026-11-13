@@ -1,1 +1,0 @@
-v0.10.00 — Map 7 Middle Spires. Only Map 7 geometry, spawn and version text changed. All earlier maps and shared functions preserved. Extract ZIP before opening ravenloft.html. Start K56; compare map to Map07_Middle_Spires_REFERENCE.jpg. Browser walkthrough not yet verified.

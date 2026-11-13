@@ -1,1 +1,0 @@
-v0.10.03 — Map 10 High Tower Peak. K59 high tower and K60a north tower roof are shown as separate, unconnected upper-level footprints, aligned with the prior floors. Spawn at K59. All previous floor geometry and systems retained. Schematic walkthrough not browser-tested. Extract the complete ZIP before opening ravenloft.html.

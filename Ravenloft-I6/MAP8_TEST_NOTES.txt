@@ -1,1 +1,0 @@
-v0.10.01 — Map 8 Upper Spires. Geometry and Map 8 spawn only. Start at K57. K20 north, K58 bridge, K48 offstair, K18 east. Prior floors and shared engine preserved. Extract ZIP before opening. Browser walkthrough not yet verified.

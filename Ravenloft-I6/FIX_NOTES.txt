@@ -1,1 +1,0 @@
-v0.9.93: Fixes fatal ReferenceError: circle is not defined in Map 3 floor-module initialization. Restores circle geometry rasterizer before drawMainFloor. No settings, controls, descriptions, room locations, or multiplayer code intentionally changed. Keep maps/ beside ravenloft.html. Requires HTTP(S) hosting, not file://.

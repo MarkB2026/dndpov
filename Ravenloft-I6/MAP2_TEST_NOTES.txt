@@ -1,1 +1,0 @@
-v0.10.08 — Map 2 only. Large central black void replaced with shaded castle-keep footprint on minimap; central keep remains a solid, non-walkable building. Courtyards and wall walks surround it. K1 spawn at 43,52. Other floors and systems unchanged. Test movement around north and south courts and compare K7 placement.

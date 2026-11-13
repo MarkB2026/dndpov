@@ -446,7 +446,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.29';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.32';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -499,11 +499,20 @@ const roadSkyPalette={
  dusk:{zenith:[23,38,87],horizon:[188,109,94],tint:[.95,.74,.72],light:.57},
  night:{zenith:[6,12,27],horizon:[17,27,48],tint:[.32,.42,.67],light:.25}
 };
+// Match the reference Tser v2.3: fog fades trees into an unbroken sky of
+// the SAME colour, without an ominous cloud ceiling behind pale silhouettes.
+const roadFogSkyColors={day:[137,147,148],dawn:[145,140,140],
+ dusk:[74,80,93],night:[16,27,40]};
 function skyForRoad(mode,phase){
  const key=phase+':'+mode;if(roadSkyCache.has(key))return roadSkyCache.get(key);
  const pixels=new Uint8ClampedArray(roadCloudOriginal.length);
  const palette=roadSkyPalette[phase];
- if(mode==='clear'){
+ if(mode==='fog'||mode==='mist'){
+  const [r,g,b]=roadFogSkyColors[phase];
+  for(let i=0;i<pixels.length;i+=4){
+   pixels[i]=r;pixels[i+1]=g;pixels[i+2]=b;pixels[i+3]=255;
+  }
+ }else if(mode==='clear'){
   for(let y=0;y<384;y++){
    const horizon=Math.pow(Math.max(0,1-Math.abs(y/384-.5)*2),1.7);
    const c=palette.zenith.map((v,i)=>interpolate(v,palette.horizon[i],horizon));
@@ -557,6 +566,7 @@ function setAtmosphere(){
   air==='cloudy'?(night?'#1a2433':'#879095'):p.sky;
  scene.background.copy(new THREE.Color(bg(b.from))
    .lerp(new THREE.Color(bg(b.to)),b.t));
+ // Natural exponential fog from the reference Tser road build.
  const fogDensity=air=>air==='fog'?.032:air==='mist'?.016:
   air==='thunderstorm'?.018:air==='rain'?.010:air==='cloudy'?.007:.005;
  scene.fog.density=w(fogDensity);
@@ -738,59 +748,8 @@ function renderRoadLightning(ctx,w,h,flash){
  }
  ctx.restore();
 }
-// Mist and fog drift around the traveller instead of appearing only as a
-// flat distant grey screen. Feathered, noisy shapes have no hard quad edges.
-const nearbyRoadMist=new THREE.Group();
-nearbyRoadMist.name='Low wandering Svalich mist';scene.add(nearbyRoadMist);
-const roadMistCanvas=document.createElement('canvas');
-roadMistCanvas.width=256;roadMistCanvas.height=128;
-const roadMistCtx=roadMistCanvas.getContext('2d');
-const mistPixels=roadMistCtx.createImageData(256,128);
-for(let y=0;y<128;y++)for(let x=0;x<256;x++){
- const u=(x-128)/128,v=(y-64)/64;
- const edge=Math.max(0,1-(u*u*.88+v*v*1.35));
- const feather=edge*edge*(3-2*edge);
- const fuzz=.79+.21*Math.sin(x*.077+y*.052)*Math.cos(y*.091-x*.029);
- const i=(y*256+x)*4;
- mistPixels.data[i]=205;mistPixels.data[i+1]=213;mistPixels.data[i+2]=216;
- mistPixels.data[i+3]=Math.max(0,Math.min(255,feather*fuzz*170));
-}
-roadMistCtx.putImageData(mistPixels,0,0);
-const roadMistTexture=new THREE.CanvasTexture(roadMistCanvas);
-const roadMistBanks=[];
-for(let i=0;i<25;i++){
- const r=5+(i%6)*3.2+roadSkyHash(i,42)*2.1;
- const a=i*2.399963+roadSkyHash(i,77)*.45;
- const width=9+roadSkyHash(i,84)*7,height=2.8+roadSkyHash(i,88)*2.4;
- const m=new THREE.SpriteMaterial({map:roadMistTexture,transparent:true,
-  depthWrite:false,fog:false,opacity:0});
- const sprite=new THREE.Sprite(m);sprite.scale.set(width,height,1);
- nearbyRoadMist.add(sprite);
- roadMistBanks.push({sprite,x:Math.cos(a)*r,z:Math.sin(a)*r,
-  y:height/2+.43,phase:a,speed:.65+roadSkyHash(i,92)*.7});
-}
-function updateRoadMist(now,b){
- const mist=roadWeatherWeight('mist',b),fog=roadWeatherWeight('fog',b);
- const strength=mist+fog;
- nearbyRoadMist.visible=strength>.015;
- if(!nearbyRoadMist.visible)return;
- const time=now*.001;
- const tint=timeOfDay==='night'?0x748296:timeOfDay==='dusk'?0xa9a9b2:
-   timeOfDay==='dawn'?0xc4bfbd:0xc4cbca;
- for(let i=0;i<roadMistBanks.length;i++){
-  const bank=roadMistBanks[i],s=bank.sprite;
-  s.visible=fog>mist||i%3!==0;
-  if(!s.visible)continue;
-  const t=time*bank.speed;
-  s.position.set(player.x+bank.x+Math.sin(t*.21+bank.phase)*2.35,
-   bank.y+.12*Math.sin(t*.27+bank.phase),
-   player.z+bank.z+Math.cos(t*.19+bank.phase)*2.6);
-  s.material.color.setHex(tint);
-  s.material.opacity=(.31*mist+.53*fog)*
-   (.82+.18*Math.sin(t*.31+bank.phase));
-  s.material.rotation=Math.sin(t*.16+bank.phase)*.012;
- }
-}
+// Deliberately no fog billboards: the original Tser road's FogExp2 rendering
+// blends buildings, trees and ground naturally without visible sprite edges.
 let lastRoadWeatherFrame=performance.now();
 function updateRoadWeather(now){
  updateRandomRoadWeather(now);
@@ -800,7 +759,6 @@ function updateRoadWeather(now){
  const storm=roadWeatherWeight('thunderstorm',b);
  const dt=Math.min(.05,(now-lastRoadWeatherFrame)/1000);
  lastRoadWeatherFrame=now;
- updateRoadMist(now,b);
  roadSkyDome.position.copy(camera.position);
  roadMoon.position.copy(camera.position).add(roadMoonOffset);
  if(now-weatherAudio.lastSync>650){weatherAudio.lastSync=now;syncRoadWeatherAudio();}

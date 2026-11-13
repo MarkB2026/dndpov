@@ -391,7 +391,29 @@ function woodArrowTexture(label,pointRight){
  const tex=new THREE.CanvasTexture(canvas);tex.colorSpace=THREE.SRGBColorSpace;
  return tex;
 }
-function routeSign(x,z,arms){
+function woodPlaqueTexture(label){
+ const c=document.createElement('canvas');c.width=1024;c.height=180;
+ const q=c.getContext('2d');
+ const grain=q.createLinearGradient(0,0,0,180);
+ grain.addColorStop(0,'#d0ae80');grain.addColorStop(.48,'#ba976b');
+ grain.addColorStop(1,'#976d46');q.fillStyle=grain;q.fillRect(0,0,1024,180);
+ for(let i=0;i<26;i++){
+  const y=i*7+Math.sin(i*3.1)*2;
+  q.strokeStyle=i%3===0?'rgba(72,42,22,.21)':'rgba(116,75,42,.10)';
+  q.lineWidth=i%4===0?3:1.3;q.beginPath();
+  q.moveTo(0,y);q.bezierCurveTo(300,y-3,720,y+4,1024,y+Math.sin(i)*3);q.stroke();
+ }
+ q.strokeStyle='#65462b';q.lineWidth=13;q.strokeRect(8,8,1008,164);
+ q.strokeStyle='rgba(239,205,152,.65)';q.lineWidth=3;q.strokeRect(19,19,986,142);
+ let size=100;const letters=label.toUpperCase();
+ do{q.font='bold '+size+'px Georgia';if(q.measureText(letters).width<800)break;size-=2;}while(size>42);
+ q.textAlign='center';q.textBaseline='middle';
+ q.lineWidth=5;q.strokeStyle='rgba(76,38,16,.7)';q.strokeText(letters,512,89,840);
+ q.fillStyle='#27180e';q.fillText(letters,512,88,840);
+ const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
+ return texture;
+}
+function routeSign(x,z,arms,{faceYaw=0,forwardYaw=Math.PI/2}={}){
  // Use the existing terrain height and precise position of every sign.
  const lateral=Math.abs(x-pathX(z));
  const signGround=z<-359?
@@ -400,9 +422,32 @@ function routeSign(x,z,arms){
  post.position.set(x,signGround+2.325,z);scene.add(post);
  const top=new THREE.Mesh(new THREE.ConeGeometry(.22,.34,7),roadSignOak);
  top.position.set(x,signGround+4.82,z);scene.add(top);
- arms.forEach(({text:label,direction},i)=>{
-  const pointRight=direction==='right';
-  const sign=pointRight?1:-1;
+ arms.forEach(({text:label,direction,yawOverride},i)=>{
+  // A shared junction post can address two differently approaching paths:
+  // the camp face and the forest-bypass face each need their own orientation.
+  const readableYaw=Number.isFinite(yawOverride)?yawOverride:faceYaw;
+  // Unpointed location boards identify a place; they are not arrows.
+  if(direction==='name'){
+   const board=new THREE.Group();
+   // Bring the board in front of the post so its woodburned name isn't hidden.
+   board.position.set(x+Math.sin(readableYaw)*.24,signGround+4.02-i*.94,
+    z+Math.cos(readableYaw)*.24);
+   board.rotation.y=readableYaw;scene.add(board);
+   const plank=new THREE.Mesh(new THREE.BoxGeometry(4.65,.85,.15),roadSignOak);
+   board.add(plank);
+   const face=new THREE.Mesh(new THREE.PlaneGeometry(4.65,.82),
+    new THREE.MeshBasicMaterial({map:woodPlaqueTexture(label),side:THREE.FrontSide}));
+   face.position.z=.083;board.add(face);
+   for(const px of [-2.1,2.1]){
+    const nail=new THREE.Mesh(new THREE.SphereGeometry(.05,8,6),roadSignIron);
+    nail.position.set(px,0,.115);board.add(nail);
+   }
+   return;
+  }
+  const pointRight=direction!=='left';
+  // The camp branch projects DOWN the trail, broadside to the traveller as
+  // they pass the left-hand post. It is not a sideways arrow into the trees.
+  const sign=direction==='left'?-1:1;
   const shape=new THREE.Shape();
   const outline=pointRight?
    [[.10,-.38],[4.46,-.38],[5.22,0],[4.46,.38],[.10,.38]]:
@@ -410,6 +455,7 @@ function routeSign(x,z,arms){
   outline.forEach(([px,py],j)=>j?shape.lineTo(px,py):shape.moveTo(px,py));shape.closePath();
   const arm=new THREE.Group();
   arm.position.set(x,signGround+4.14-i*.94,z);
+  arm.rotation.y=direction==='forward'?forwardYaw:readableYaw;
   arm.rotation.z=(i%2?.019:-.014);scene.add(arm);
   const plank=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{
    depth:.14,bevelEnabled:true,bevelSize:.025,bevelThickness:.018,bevelSegments:1
@@ -425,17 +471,17 @@ function routeSign(x,z,arms){
   }
  });
 }
-routeSign(pathX(-13)+8,-13,[{text:'RIVER IVLIS BRIDGE',direction:'right'}]);
+// Exactly four roadside signposts remain, from village to castle.
+// D: a simple nameboard at the first bridge, without a directional arrow.
+routeSign(pathX(-13)+8,-13,[{text:'RIVER IVLIS BRIDGE',direction:'name'}]);
+// F: both destinations on the same fork post. The camp arm follows the
+// nearly straight trail; the lower arm points left down the Tser Falls route.
+const campForkForwardX=(pathX(-119)+5)-pathX(-105);
+const campForkForwardYaw=Math.atan2(14,campForkForwardX);
 routeSign(pathX(-110)-9,-110,[
- {text:'VISTANI CAMP',direction:'right'},
- {text:'FOREST · TSER FALLS',direction:'left'}
-]);
-routeSign(pathX(-225)+9,-225,[{text:'TSER FALLS BRIDGE',direction:'right'}]);
-// Keep the carriage and its approach fully visible from the road.
-routeSign(pathX(-333)-11,-333,[
- {text:'BLACK CARRIAGE',direction:'right'},
- {text:'CASTLE RAVENLOFT',direction:'left'}
-]);
+ {text:'VISTANI CAMP',direction:'forward'},
+ {text:'TSER FALLS',direction:'left'}
+],{forwardYaw:campForkForwardYaw});
 // Camp clearing: canvas tents, central fire and benches off the road.
 // A true fork begins after D: straight stays on the forest road; the right-hand road
 // gradually curves east along the river, passes the camp, and continues to H.
@@ -504,12 +550,23 @@ for(const gravel of pebbleMeshes){
  }
  gravel.count=kept;gravel.instanceMatrix.needsUpdate=true;
 }
-// Place the camp sign beside the approach, not deep in the spruce thicket.
-const campSignX=campX-27,campSignZ=campZ+17;
-routeSign(campSignX,campSignZ,[{text:'MADAME EVA',direction:'right'},
- {text:'TSER FALLS BRIDGE',direction:'left'}]);
-routeSign(pathX(-262)-13,-262,[{text:'CASTLE RAVENLOFT',direction:'right'},
- {text:'VILLAGE OF BAROVIA',direction:'left'}]);
+// G: only a camp nameboard, beside the open trail rather than in the bushes.
+const campSignX=campX-13,campSignZ=campZ+17;
+routeSign(campSignX,campSignZ,[{text:'VISTANI CAMP',direction:'name'}]);
+// H: one shared post on the FAR (west) shoulder. Two arrows face the camp
+// trail head-on: right = Ravenloft, left = Barovia. The third arrow has its
+// own forest-road-facing side, pointing back east toward the Vistani camp.
+const secondBridgeSignZ=-262,secondBridgeSignX=pathX(secondBridgeSignZ)-8;
+const campApproachYaw=Math.atan2(pathX(-260)+12-secondBridgeSignX,
+ -260-secondBridgeSignZ);
+const campRouteX=pathX(-260)+12,campRouteZ=-260;
+const forestToCampYaw=Math.atan2(secondBridgeSignZ-campRouteZ,
+ campRouteX-secondBridgeSignX);
+routeSign(secondBridgeSignX,secondBridgeSignZ,[
+ {text:'CASTLE RAVENLOFT',direction:'right'},
+ {text:'VILLAGE OF BAROVIA',direction:'left'},
+ {text:'VISTANI CAMP',direction:'right',yawOverride:forestToCampYaw}
+],{faceYaw:campApproachYaw});
 // The clearing stops short of the eastern riverbank.
 box(campX,-.01,campZ,39,.07,37,mat(0x4d4b35));
 // The Vistani tents are embroidered heavy velvet rather than flat colored canvas.
@@ -1123,7 +1180,7 @@ function animateCampfire(now){
  }
  firelight.intensity=2.6+.55*Math.sin(t*9.7)+.28*Math.sin(t*17.3);
 }
-// I — Black Carriage. Stationary on the road by the existing signpost.
+// I — Black Carriage. The approach is deliberately free of extra signposts.
 // The horses, wheels, cabin, and lanterns are independent scenery, not a route obstruction.
 const carriageZ=-347,carriageX=pathX(carriageZ)+8;
 const carriageGroup=new THREE.Group();carriageGroup.position.set(carriageX,0,carriageZ);
@@ -1196,7 +1253,6 @@ for(let z=-359,i=0;z>=-625;z-=1.5,i++){
  if(i){const k=i*2;uphillIdx.push(k-2,k-1,k,k-1,k+1,k)}
 }
 const uphillGeo=new THREE.BufferGeometry();uphillGeo.setAttribute('position',new THREE.Float32BufferAttribute(uphillVerts,3));uphillGeo.setAttribute('uv',new THREE.Float32BufferAttribute(uphillUV,2));uphillGeo.setIndex(uphillIdx);uphillGeo.computeVertexNormals();scene.add(new THREE.Mesh(uphillGeo,roadmat));
-routeSign(pathX(-408)+9,-408,[{text:'RAVENLOFT',direction:'right'}]);
 // A grounded Gothic castle: central keep, two wings, gatehouse, crenellated ramparts,
 // tall lancet windows and steep roofs behind the existing towers.
 const castleZ=-648,castleX=pathX(-625),castleY=31;
@@ -1361,9 +1417,9 @@ for(let i=0;i<forestCount;i++){
  const z=102-rand()*500,side=rand()<.5?-1:1;
  const x=pathX(z)+side*(17.5+Math.pow(rand(),1.6)*100);
  if(Math.abs(x-campX)<27&&Math.abs(z-campZ)<24)continue;
- // Readable wayfinding: don't let foliage hide the two riverside signposts.
+ // Readable wayfinding: keep the camp nameboard and second bridge directions clear.
  if(Math.hypot(x-campSignX,z-campSignZ)<10||
-    Math.hypot(x-(pathX(-262)-13),z+262)<8)continue;
+    Math.hypot(x-secondBridgeSignX,z-secondBridgeSignZ)<11)continue;
  if(onFork(x,z,10))continue;
  if(inRiverWater(x,z))continue;
  // An extra shoreline margin keeps overhanging low spruce branches out of the flow.
@@ -1444,7 +1500,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.22';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.26';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2201,8 +2257,71 @@ window.addEventListener('keydown',event=>{
     insideEvaTent||event.target?.matches?.('input[type="text"],textarea'))return;
  event.preventDefault();event.stopImmediatePropagation();readRoadNearby();
 },true);
+// Match the village departure dialog: a return is a choice, never an
+// automatic teleport. The prompt appears only at the physical road end.
+const roadReturnStyle=document.createElement('style');
+roadReturnStyle.textContent=`
+ #roadReturnOverlay{position:fixed;inset:0;z-index:28;display:grid;
+  place-items:center;background:rgba(7,11,13,.76);font:15px Georgia,serif}
+ #roadReturnOverlay[hidden]{display:none}
+ #roadReturnCard{width:min(530px,calc(100vw - 36px));padding:24px 28px;
+  box-sizing:border-box;background:#202327f4;border:1px solid #b08b57;
+  box-shadow:0 18px 55px #0009;color:#f4e4c6;line-height:1.5}
+ #roadReturnCard h2{margin:0 0 11px;font-size:23px;color:#f4d39a}
+ #roadReturnCard p{margin:0 0 20px}
+ #roadReturnChoices{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+ #roadReturnChoices button{padding:10px 14px;background:#54422e;
+  border:1px solid #c09a64;color:#ffe0ac;font:13px Georgia,serif;cursor:pointer}
+ #roadReturnChoices #roadReturnYes{background:#725236;
+  border-color:#e7b66e;color:#fff2d7}
+ #roadReturnChoices button:hover{filter:brightness(1.2)}`;
+document.head.append(roadReturnStyle);
+const roadReturnOverlay=document.createElement('div');
+roadReturnOverlay.id='roadReturnOverlay';roadReturnOverlay.hidden=true;
+roadReturnOverlay.innerHTML=`
+ <div id="roadReturnCard" role="dialog" aria-modal="true"
+      aria-labelledby="roadReturnTitle">
+  <h2 id="roadReturnTitle">Return to the Village of Barovia?</h2>
+  <p>The trees part at the road's end. Beyond lies the village's southwest
+     gate, where you can rest, gather supplies, and return when ready.</p>
+  <div id="roadReturnChoices">
+   <button id="roadReturnStay" type="button">Stay on the road</button>
+   <button id="roadReturnYes" type="button">Return to the village →</button>
+  </div>
+ </div>`;
+document.body.append(roadReturnOverlay);
+let roadReturnPromptLatched=false;
+function clearRoadMovement(){for(const k of Object.keys(keys))keys[k]=false;}
+function closeRoadReturnPrompt(){roadReturnOverlay.hidden=true;clearRoadMovement();}
+function openRoadReturnPrompt(){
+ roadReturnPromptLatched=true;roadReturnOverlay.hidden=false;clearRoadMovement();
+ document.getElementById('roadReturnStay').focus({preventScroll:true});
+}
+document.getElementById('roadReturnStay').onclick=closeRoadReturnPrompt;
+document.getElementById('roadReturnYes').onclick=()=>{
+ if(transitionStarted)return;
+ transitionStarted=true;clearRoadMovement();
+ document.querySelector('#fade').classList.add('active');
+ setTimeout(()=>{
+  const villagePage=location.protocol==='file:'?
+   'village_of_barovia_v5_52.html':'village_of_barovia.html';
+  window.location.href=villagePage+'?arrival=west_exit';
+ },1300);
+};
+window.addEventListener('keydown',event=>{
+ if(roadReturnOverlay.hidden)return;
+ if(event.code==='Escape'){
+  event.preventDefault();event.stopImmediatePropagation();
+  closeRoadReturnPrompt();return;
+ }
+ if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyW','KeyA','KeyS',
+     'KeyD','KeyE','KeyR','KeyM','Space'].includes(event.code)){
+  event.preventDefault();event.stopImmediatePropagation();
+ }
+},true);
 const roadPreviousReset=document.querySelector('#reset').onclick;
 document.querySelector('#reset').onclick=()=>{
+ roadReturnPromptLatched=false;closeRoadReturnPrompt();
  closeRoadDescription();seenRoadDescriptions.clear();roadPreviousReset();
 };
 function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;animateRiverCurrent(dt);animateCampfire(now);updateRiverAmbience(dt);updateForestAmbience();updateOpeningRoadAmbience(dt);
@@ -2218,6 +2337,10 @@ if(roadDescriptionOpen()){
 if(carriageMode==='riding'){
  carriageFrame(dt);updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame);return;
 }
+if(!roadReturnOverlay.hidden){
+ updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();
+ renderer.render(scene,camera);requestAnimationFrame(frame);return;
+}
 const nearCarriage=Math.hypot(player.x-carriageX,player.z-carriageZ)<14;
 if(carriageMode==='walking'&&nearCarriage){carriageMode='offered';carriageOffer.style.display='block';}
 if(carriageMode==='declined'&&!nearCarriage){carriageMode='walking';carriageDeclined=false;}
@@ -2227,18 +2350,13 @@ if(carriageMode==='offered'){
 const speed=(keys.shift?17:8)*dt;if(keys.arrowleft)player.angle+=1.8*dt;if(keys.arrowright)player.angle-=1.8*dt;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0);const nx=player.x+Math.sin(player.angle)*f*speed+Math.cos(player.angle)*side*speed,nz=player.z+Math.cos(player.angle)*f*speed-Math.sin(player.angle)*side*speed;
 if(Math.abs(nx-pathX(nz))<5.1||Math.abs(nz-riverZ)<12&&Math.abs(nx-bridgeX)<5.2||onFork(nx,nz,4.2)||Math.abs(nz-campZ)<19&&Math.abs(nx-campX)<22){player.x=nx;player.z=nz}
 camera.position.set(player.x,2.1+hillHeight(player.z),player.z);camera.rotation.set(0,0,0);camera.rotation.y=player.angle+Math.PI;const desc=document.querySelector('#description'),place=document.querySelector('#place');if(player.z>-18){place.textContent='The Old Svalich Road';desc.textContent='Ancient spruce trees close around the winding road.'}else if(player.z>-62){place.textContent='Bridge over the Tser River';desc.textContent='Cold dark water passes beneath the wooden bridge.'}else if(player.z>-245){place.textContent=onFork(player.x,player.z,6)||Math.hypot(player.x-campX,player.z-campZ)<26?'Vistani Encampment':'The Road to the Vistani Camp';desc.textContent='After the River Ivlis bridge, continue to F. Straight follows the forest road; right follows the river past the Vistani camp. Both routes meet before Tser Falls Bridge.'}else{place.textContent='The Road to Castle Ravenloft';desc.textContent='The road winds through the fog. Castle Ravenloft stands faintly ahead.'}
-// Reversing all the way beyond the road's village end is a real return trip.
-// The matching village arrival places the traveller just inside the southwest
-// arch, looking toward the shops, instead of at its eastern start point.
-if(player.z>111&&!transitionStarted){
- transitionStarted=true;
- document.querySelector('#fade').classList.add('active');
- for(const k of Object.keys(keys))keys[k]=false;
- setTimeout(()=>{
-  const villagePage=location.protocol==='file:'?
-   'village_of_barovia_v5_52.html':'village_of_barovia.html';
-  window.location.href=villagePage+'?arrival=west_exit';
- },1300);
+// Keep the boundary at the actual last road waypoint (z=105). Declining the
+// prompt never lets the player wander beyond the map or triggers it repeatedly;
+// walking back 10+ metres rearms it for a later return.
+if(player.z<95)roadReturnPromptLatched=false;
+if(player.z>105){
+ player.z=105;
+ if(!roadReturnPromptLatched&&!transitionStarted)openRoadReturnPrompt();
 }
 if(player.z<-616&&!transitionStarted){transitionStarted=true;document.querySelector('#fade').classList.add('active');setTimeout(()=>{window.location.href='ravenloft.html?arrival=carriage&floor=walls'},2400)}
 updateEvaOutsidePrompt();

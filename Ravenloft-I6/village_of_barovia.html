@@ -919,6 +919,15 @@ function roofPair(g,w,d,h,m){const rise=2.05;for(const side of [-1,1]){const xx=
 // Gothic stone arch only; never alter the approved cobbles or street paths.
 const westernExitMap=westGateCenter;
 const [westernExitX,westernExitZ]=toWorld(westernExitMap);
+// The Tser road can now be walked in both directions. Start visitors returning
+// from it on the existing southwest cobbles, comfortably inside the arch,
+// facing northeast into the village. No scenery or gates are repositioned.
+if(new URLSearchParams(window.location.search).get('arrival')==='west_exit'){
+ const [entryX,entryZ]=toWorld([99,880]);
+ player.x=entryX;
+ player.z=entryZ;
+ player.heading=Math.atan2(275-westGateCenter[0],westGateCenter[1]-548);
+}
 function makeWesternExitArch(mapPosition=westGateCenter,angle=westGateAngle,
     name='Old Svalich Road — western departure arch'){
  const g=new THREE.Group();g.name=name;
@@ -4051,6 +4060,10 @@ townExitOverlay.innerHTML=`
   </div>
  </div>`;
 document.body.append(townExitOverlay);
+// Versioned downloads work as a round trip locally; published pages keep the
+// regular canonical road URL already linked in the departure dialog.
+if(location.protocol==='file:')
+ document.getElementById('townExitContinue').href='road_to_tser_pool_and_castle_v3_22.html';
 const townExitStay=document.getElementById('townExitStay');
 let townExitPromptLatched=false;
 function closeTownExitPrompt(){
@@ -4274,8 +4287,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title=document.title.replace('v5.38','v5.51');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.51';
+document.title=document.title.replace('v5.38','v5.52');
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.52';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->

@@ -141,7 +141,7 @@
 @media(max-width:850px){#encounterShock,#encounterShock.monsterEncounterNotice{
  right:12px!important;top:80px!important;width:min(270px,calc(100vw - 24px))!important;
  max-width:calc(100vw - 24px)!important}}
-</style><style id="lockedPreviewStyle">#lockedFloorNotice{position:fixed;left:50%;top:145px;transform:translateX(-50%);z-index:25;background:#17120ff2;border:2px solid #c29a61;border-radius:8px;color:#f2e4c8;padding:16px 20px;width:min(450px,calc(100vw - 35px));text-align:center;box-shadow:0 12px 35px #000c}#lockedFloorNotice[hidden]{display:none!important}#lockedFloorNotice strong{display:block;color:#ffda91;font-size:17px}#lockedFloorNotice p{line-height:1.5}#lockedFloorNotice button{margin-top:5px}body.locked-preview #mapbox{outline:3px solid #c29a61;z-index:27!important}body.locked-preview #maplabel:after{content:' · PREVIEW ONLY';color:#f3c47b}body.locked-preview #floorRibbon{z-index:28}</style></head><body><div id="edgeBrowserTip" role="note"><strong>Lag or graphics issues?</strong> Try Microsoft Edge — Castle Ravenloft runs smoothly there.<button type="button" aria-label="Dismiss browser tip" onclick="this.parentElement.remove()">×</button></div><div id="scene"></div><div id="lockedFloorNotice" hidden role="status"><strong>MAP PREVIEW ONLY</strong><p>This floor is locked in this edition. You can inspect its map and K-room index, but cannot walk through or play it.</p><button type="button" id="returnPlayableFloor">Return to Main Floor</button></div><div id="crosshair"></div><div id="heldTorch" aria-hidden="true"><svg viewBox="0 0 220 470" xmlns="http://www.w3.org/2000/svg">
+</style></head><body><div id="edgeBrowserTip" role="note"><strong>Lag or graphics issues?</strong> Try Microsoft Edge — Castle Ravenloft runs smoothly there.<button type="button" aria-label="Dismiss browser tip" onclick="this.parentElement.remove()">×</button></div><div id="scene"></div><div id="crosshair"></div><div id="heldTorch" aria-hidden="true"><svg viewBox="0 0 220 470" xmlns="http://www.w3.org/2000/svg">
 <defs><linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#29170f"/><stop offset=".2" stop-color="#6a3a20"/><stop offset=".53" stop-color="#9c5c2e"/><stop offset=".78" stop-color="#61361e"/><stop offset="1" stop-color="#29180f"/></linearGradient><linearGradient id="fire" x1="0" y1="1" x2=".25" y2="0"><stop stop-color="#b62c09"/><stop offset=".4" stop-color="#f26c0c"/><stop offset=".8" stop-color="#ffb32c"/><stop offset="1" stop-color="#ffe89b"/></linearGradient><linearGradient id="hot" x1="0" y1="1" x2=".6" y2="0"><stop stop-color="#ff7c0e"/><stop offset=".6" stop-color="#ffd44a"/><stop offset="1" stop-color="#fff7c7"/></linearGradient></defs>
 <!-- irregular carved wooden shaft -->
 <path d="M102 195 L130 197 L149 464 L117 477 Z" fill="#140e0b" stroke="#160d08" stroke-width="5"/><path d="M107 195 L128 195 L143 463 L122 467 Z" fill="url(#wood)" stroke="#311d12" stroke-width="3"/>
@@ -152,8 +152,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.20 LOCKED GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.20 LOCKED — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.18 GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.18 — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -176,63 +176,63 @@ window.addEventListener('unhandledrejection',function(e){var el=document.getElem
 </script>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
-// v0.10.20 LOCKED: floor geometry lives in maps/*.js; engine, DM and multiplayer remain here.
-import {drawMainFloor,getMainFloorRooms} from './ravenloft/maps/map3_main.js';
-import {layout_makeWallsOfRavenloftLevel} from './ravenloft/maps/map2_walls.js';
+// v0.10.18: floor geometry lives in maps/*.js; engine, DM and multiplayer remain here.
+import {drawMainFloor,getMainFloorRooms} from './maps/map3_main.js';
+import {layout_makeWallsOfRavenloftLevel} from './maps/map2_walls.js';
 function makeWallsOfRavenloftLevel(){
  const result=layout_makeWallsOfRavenloftLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeCourtOfCountLevel} from './ravenloft/maps/map4_court.js';
+import {layout_makeCourtOfCountLevel} from './maps/map4_court.js';
 function makeCourtOfCountLevel(){
  const result=layout_makeCourtOfCountLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeRoomsOfWeepingLevel} from './ravenloft/maps/map5_weeping.js';
+import {layout_makeRoomsOfWeepingLevel} from './maps/map5_weeping.js';
 function makeRoomsOfWeepingLevel(){
  const result=layout_makeRoomsOfWeepingLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeLowerSpiresLevel} from './ravenloft/maps/map6_lower_spires.js';
+import {layout_makeLowerSpiresLevel} from './maps/map6_lower_spires.js';
 function makeLowerSpiresLevel(){
  const result=layout_makeLowerSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeMiddleSpiresLevel} from './ravenloft/maps/map7_middle_spires.js';
+import {layout_makeMiddleSpiresLevel} from './maps/map7_middle_spires.js';
 function makeMiddleSpiresLevel(){
  const result=layout_makeMiddleSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeUpperSpiresLevel} from './ravenloft/maps/map8_upper_spires.js';
+import {layout_makeUpperSpiresLevel} from './maps/map8_upper_spires.js';
 function makeUpperSpiresLevel(){
  const result=layout_makeUpperSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeNorthTowerPeakLevel} from './ravenloft/maps/map9_north_peak.js';
+import {layout_makeNorthTowerPeakLevel} from './maps/map9_north_peak.js';
 function makeNorthTowerPeakLevel(){
  const result=layout_makeNorthTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeHighTowerPeakLevel} from './ravenloft/maps/map10_high_peak.js';
+import {layout_makeHighTowerPeakLevel} from './maps/map10_high_peak.js';
 function makeHighTowerPeakLevel(){
  const result=layout_makeHighTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeLardersLevel} from './ravenloft/maps/map11_larders.js';
+import {layout_makeLardersLevel} from './maps/map11_larders.js';
 function makeLardersLevel(){
  const result=layout_makeLardersLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeCatacombsLevel} from './ravenloft/maps/map12_catacombs.js';
+import {layout_makeCatacombsLevel} from './maps/map12_catacombs.js';
 function makeCatacombsLevel(){
  const result=layout_makeCatacombsLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
@@ -301,7 +301,7 @@ function loadMonsterTexture(url, onReady, onError){
  image.onerror=err=>{console.warn('Monster SVG failed to load',url,err);if(onError)onError(err)};
  image.src=url;
 }
-const monsterAssetBase='ravenloft/monsters/';
+const monsterAssetBase='monsters/';
 // Explicit monster IDs, ordered from specific to general; never scan module prose to decide encounters.
 const MONSTER_ASSETS={
  animated_red_dragon:{eyes:true}, gargoyle:{eyes:true,legacy:true},
@@ -670,7 +670,6 @@ function applyFloorTheme(f){
 }
 applyFloorTheme(0);
 function switchFloor(f){
- if(!Number.isInteger(f)||f<0||f>=floorNames.length)return;
  if(f===activeFloor)return;
  activeFloor=f;
  for(const o of groundOnlyObjects)o.visible=f===0;
@@ -687,33 +686,21 @@ function switchFloor(f){
  // Switch wall, floor, ceiling, ambient and fog consistently for the selected zone.
  applyFloorTheme(f);
  const title=floorNames[f];
- $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.20 LOCKED · GPS Map + Complete Room Index'+(f===1?' · Walls of Ravenloft arrival layout test':f===10?' · Dungeon and Catacombs layout test':f===9?' · Larders of Ill Omen layout test':f===8?' · High Tower Peak layout test':f===7?' · North Tower Peak layout test':f===6?' · Upper Spires layout test':f===5?' · Middle Spires layout test':f===4?' · Lower Spires layout test':f===2?' · Court of the Count layout test':f?' · schematic walkable rooms':'');
+ $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.18 · GPS Map + Complete Room Index'+(f===1?' · Walls of Ravenloft arrival layout test':f===10?' · Dungeon and Catacombs layout test':f===9?' · Larders of Ill Omen layout test':f===8?' · High Tower Peak layout test':f===7?' · North Tower Peak layout test':f===6?' · Upper Spires layout test':f===5?' · Middle Spires layout test':f===4?' · Lower Spires layout test':f===2?' · Court of the Count layout test':f?' · schematic walkable rooms':'');
  // The minimap always draws our walkable dungeon geometry.
  document.querySelectorAll('.floorOption').forEach((b,i)=>{b.classList.toggle('active',i===f);b.setAttribute('aria-pressed',String(i===f))});
  prev=null;seenRooms.clear();$('popup').style.display='none';keys={};
  $('notes').querySelector('small').textContent=f===2?'Court of the Count: module-based room connections; geometry is a navigable reconstruction.':f?'All listed K areas are indexed; walkable chamber positions are schematic, not traced from the original maps.':'Provisional room entrances are open from all sides; exterior walls remain solid.';
  refresh();mapDraw();renderRoomDirectory();
- updateLockedPreview();
 }
 const ribbon=$('floorRibbon');
 for(let i=0;i<floorNames.length;i++){
  const b=document.createElement('button');b.className='floorOption'+(i===0?' active':'');
  b.textContent=floorNames[i];b.title='Go to '+floorNames[i];b.setAttribute('aria-pressed',String(i===0));
- b.onclick=()=>switchFloor(i);if(i>1){b.title='Map preview only — exploration locked';b.textContent='🔒 '+floorNames[i];}ribbon.insertBefore(b,ribbon.querySelector('.hint'));
+ b.onclick=()=>switchFloor(i);ribbon.insertBefore(b,ribbon.querySelector('.hint'));
 }
-$('returnPlayableFloor').onclick=()=>switchFloor(0);
 $('floorCollapse').onclick=()=>{ribbon.classList.toggle('minimized');$('floorCollapse').textContent=ribbon.classList.contains('minimized')?'▶':'◀ Floors'};
 
-// Locked edition: upper levels remain selectable for MAP PREVIEW, but cannot be explored.
-const isLockedPreview=()=>activeFloor>1;
-function updateLockedPreview(){
- const locked=isLockedPreview();
- document.body.classList.toggle('locked-preview',locked);
- const notice=document.getElementById('lockedFloorNotice');
- if(notice){notice.hidden=!locked;if(locked)notice.querySelector('strong').textContent=floorNames[activeFloor]+' — MAP PREVIEW ONLY';}
- if(locked){keys={};document.exitPointerLock?.();mapOverview=true;}else{mapOverview=false;}
- mapDraw();
-}
 let mouseLookEnabled=false;let lanternOn=true;const lanternLight=new THREE.PointLight(0xffd39c,43,12,2);camera.add(lanternLight);lanternLight.position.set(.20,-.20,-.50);scene.add(camera);
 let player={x:60,y:52,a:Math.PI/2,pitch:0},keys={},prev=null,popupUntil=0,seenRooms=new Set(),dm=false,mapVisible=true,notesVisible=true,mapZoom=1.65,mapOverview=false;
 function room(){return [...rooms].reverse().find(r=>player.x>=r.box[0]&&player.x<=r.box[2]&&player.y>=r.box[1]&&player.y<=r.box[3])||null}
@@ -1147,7 +1134,7 @@ function openDoor(){
     grid[index(d.x,d.y)]=opening?0:2;
   }
 }
-function dismiss(){$('popup').style.display='none';keys={};if(mouseLookEnabled&&!isLockedPreview()&&$('start').style.display==='none'&&document.pointerLockElement!==renderer.domElement){renderer.domElement.requestPointerLock().catch(()=>{})}}$('dismiss').onclick=dismiss;$('mouseLook').onclick=()=>{mouseLookEnabled=!mouseLookEnabled;$('mouseLook').textContent='Mouse Look: '+(mouseLookEnabled?'ON':'OFF');if(mouseLookEnabled){renderer.domElement.requestPointerLock().catch(()=>{});}else if(document.pointerLockElement===renderer.domElement){document.exitPointerLock();}};$('lantern').onclick=()=>{lanternOn=!lanternOn;lanternLight.visible=lanternOn;$('heldTorch').classList.toggle('off',!lanternOn);$('lantern').textContent='Torch: '+(lanternOn?'ON':'OFF')};$('dmBtn').onclick=()=>{dm=!dm;document.body.classList.toggle('dm-visible',dm);$('dmBtn').textContent='DM: '+(dm?'ON':'OFF');$('dmEncounterPanel').style.display='none';if(!dm)$('oraclePanel').style.display='none';if(dm)renderDmEncounters();refresh()};$('reset').onclick=()=>{
+function dismiss(){$('popup').style.display='none';keys={};if(mouseLookEnabled&&$('start').style.display==='none'&&document.pointerLockElement!==renderer.domElement){renderer.domElement.requestPointerLock().catch(()=>{})}}$('dismiss').onclick=dismiss;$('mouseLook').onclick=()=>{mouseLookEnabled=!mouseLookEnabled;$('mouseLook').textContent='Mouse Look: '+(mouseLookEnabled?'ON':'OFF');if(mouseLookEnabled){renderer.domElement.requestPointerLock().catch(()=>{});}else if(document.pointerLockElement===renderer.domElement){document.exitPointerLock();}};$('lantern').onclick=()=>{lanternOn=!lanternOn;lanternLight.visible=lanternOn;$('heldTorch').classList.toggle('off',!lanternOn);$('lantern').textContent='Torch: '+(lanternOn?'ON':'OFF')};$('dmBtn').onclick=()=>{dm=!dm;document.body.classList.toggle('dm-visible',dm);$('dmBtn').textContent='DM: '+(dm?'ON':'OFF');$('dmEncounterPanel').style.display='none';if(!dm)$('oraclePanel').style.display='none';if(dm)renderDmEncounters();refresh()};$('reset').onclick=()=>{
  if(!confirm('Restart this floor? This clears its visited rooms, explored blue map and room-image history.'))return;
  exploredByFloor[activeFloor]=new Set();visitedRoomsByFloor[activeFloor]=new Set();
  delete previousExplorePosition[activeFloor];
@@ -1191,8 +1178,8 @@ $('mapBtn').onclick=()=>{
 mapVisible=!hardcoreMode;
 syncNavigationControls();
 $('mapModeToggle').onclick=()=>{mapOverview=!mapOverview;mapDraw()};$('zoomin').onclick=()=>{mapOverview=false;mapZoom=Math.min(5,mapZoom+.4);mapDraw()};$('zoomout').onclick=()=>{mapOverview=false;mapZoom=Math.max(.65,mapZoom-.4);mapDraw()};
-addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);addEventListener('mousemove',e=>{if(mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled&&!isLockedPreview())renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;
-// v0.10.20 LOCKED: Process road/carriage arrival inside the Three.js module,
+addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);addEventListener('mousemove',e=>{if(mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;
+// v0.10.18: Process road/carriage arrival inside the Three.js module,
 // where switchFloor(), player, refresh() and mapDraw() are in scope.
 // Do this before Begin so the start overlay cannot leave the player on Map 3.
 const roadArrival=new URLSearchParams(window.location.search);
@@ -1202,8 +1189,8 @@ if(roadArrival.get('arrival')==='carriage' && roadArrival.get('floor')==='walls'
   refresh();mapDraw();
   history.replaceState(null,'',window.location.pathname+window.location.hash);
 }
-renderer.domElement.onclick=()=>{if(mouseLookEnabled&&!isLockedPreview()&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
-let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=$('popup').style.display!=='block' && $('start').style.display==='none' && ($('encounterShock').style.display!=='block'||$('encounterShock').classList.contains('monsterEncounterNotice')) && $('roomArtOverlay').style.display!=='flex';let forward=(active&&!isLockedPreview())?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=(active&&!isLockedPreview())?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
+renderer.domElement.onclick=()=>{if(mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
+let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=$('popup').style.display!=='block' && $('start').style.display==='none' && ($('encounterShock').style.display!=='block'||$('encounterShock').classList.contains('monsterEncounterNotice')) && $('roomArtOverlay').style.display!=='flex';let forward=active?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=active?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
 // Explicit bridge from the Three.js ES module to the multiplayer controller.
 window.DNDPOV_CASTLE_BRIDGE={
  getPosition:()=>({x:player.x,y:player.y,a:player.a,floor:activeFloor,room:room()?.id||null}),
@@ -1218,7 +1205,7 @@ window.DNDPOV_CASTLE_BRIDGE={
 'use strict';
 const button=document.getElementById('ambientControl');
 if(!button)return;
-const audio=new Audio('ravenloft/dndpov_interior_ambience.mp3');
+const audio=new Audio('dndpov_interior_ambience.mp3');
 audio.loop=true;audio.preload='auto';audio.volume=0.45;
 let enabled=true,unlocked=false,lastFloor=-1;
 const floor=()=>typeof window.ravenFloor==='function'?window.ravenFloor():0;
@@ -1256,7 +1243,7 @@ label();
 </script>
 <script>
 // Exact paths bundled in the HTML to avoid JSON loading failures.
-const ROOM_ASSET_BASE='https://dndpov.com/Ravenloft-I6/ravenloft/';
+const ROOM_ASSET_BASE='https://dndpov.com/Ravenloft-I6/';
 function roomAssetUrl(path){return new URL(path,ROOM_ASSET_BASE).href;}
 const ROOM_SVG_FILENAMES='K01_Front_Courtyard.svg|K02_Center_Court_Gate.svg|K03_Servants_Court.svg|K04_Carriage_House.svg|K05_Chapel_Garden.svg|K06_Overlook.svg|K07_Entry.svg|K08_Great_Entry.svg|K09_Guests_Hall.svg|K10_Dining_Hall.svg|K11_South_Ground_Archers_Post.svg|K12_Turret_Post.svg|K13_Turret_Post_Access_Hall.svg|K14_Hall_of_Faith.svg|K15_Chapel_of_Ravenloft.svg|K16_North_Chapel_Alcoves.svg|K17_South_Chapel_Alcoves.svg|K18_High_Tower_Staircase.svg|K19_Grand_Landing.svg|K20_Tower_Hall_of_Honor.svg|K21_South_Tower_Stair.svg|K22_Archers_Post.svg|K23_Servants_Entrance.svg|K24_Servants_Quarters.svg|K25_Audience_Hall.svg|K26_Guard_s_Post.svg|K27_Hall_of_Grace.svg|K28_King_s_Worship_Place.svg|K29_Creaking_Landing.svg|K30_Office_of_the_King_s_Accountant.svg|K31_Trapworks.svg|K32_Maid_s_Hall.svg|K33_King_s_Apartment_Stair.svg|K34_Servants_Upper_Floor.svg|K35_Facing_Guardians.svg|K36_Dining_Hall_of_the_Count.svg|K37_Study.svg|K38_False_Treasury.svg|K39_Hall_of_Riches.svg|K40_Belfry.svg|K41_Treasury.svg|K42_Bedchamber.svg|K43_Bath_Chamber.svg|K44_Closet.svg|K45_Hall_of_Heroes.svg|K46_Courtyard_Overlook.svg|K47_The_Landing.svg|K48_Offstair.svg|K49_Lounge.svg|K50_Guestroom.svg|K51_Closet.svg|K52_Smokestack.svg|K53_Rooftop.svg|K54_Familiar_Room.svg|K55_Element_Room.svg|K56_Caldron.svg|K57_Parapet_Pentagram.svg|K58_Bridge.svg|K59_Hightower_Peak.svg|K60_Northtower_Peak.svg|K61_Hallway.svg|K62_Servants_Hall.svg|K63_Wine_Cellar.svg|K64_Guards_Stair.svg|K65_Kitchen.svg|K66_Butler_s_Quarters.svg|K67_Guards_Hall.svg|K68_Guards_Run.svg|K69_Guards_Quarters.svg|K70_Kingsman_Hall.svg|K71_Kingsmen_Quarters.svg|K72_Office_of_Vengeance.svg|K73_Dungeon_Hall.svg|K74_North_Dungeon.svg|K75_South_Dungeon.svg|K76_Torture_Room.svg|K77_Observation_Balcony.svg|K78_Brazier_Room.svg|K79_Western_Stair.svg|K80_Center_Stair.svg|K81_Tunnel.svg|K82_Marble_Slide.svg|K83_Western_Stair.svg|K84_The_Catacombs.svg|K85_Tomb_of_Sergei_Von_Zarovich.svg|K86_Tomb_of_Strahd_Von_Zarovich.svg|K87_Guardians.svg|K88_Tomb_of_Barov_and_Ravenovia.svg'.split("|");
 const GROUND_ROOM_IMAGES=Object.fromEntries(ROOM_SVG_FILENAMES.map((name,i)=>["K"+(i+1),"images/"+name]));
@@ -1501,6 +1488,20 @@ refreshAll();
 (()=>{
  const $mp=id=>document.getElementById(id), mp={connected:false,id:null,members:[],role:null,session:null,paused:false};window.DNDPOV_MP=mp;
  let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ // Carry the same LAN session between village, road, Tser and castle pages.
+ const sessionKey='dndpov_mp_session';
+ let savedSession=null;
+ try{savedSession=JSON.parse(sessionStorage.getItem(sessionKey)||'null')}catch{}
+ if(savedSession){
+  $mp('mpCode').value=savedSession.code||'';
+  $mp('mpName').value=savedSession.name||'';
+  $mp('mpColor').value=savedSession.color||'#58b8ff';
+  sessionSecret=savedSession.secret||null;
+ }
+ function keepSession(){try{sessionStorage.setItem(sessionKey,JSON.stringify({
+  code:mp.session,role:mp.role,name:$mp('mpName').value,
+  color:$mp('mpColor').value,secret:sessionSecret
+ }))}catch{}}
  const say=t=>{$mp('mpStatus').textContent=t};
  function send(o){if(ws?.readyState===WebSocket.OPEN){ws.send(JSON.stringify(o));if(o.type==='position')sent++}}
  function redraw(){const el=$mp('mpMembers');el.replaceChildren();for(const m of mp.members){const p=document.createElement('div');p.className='member';p.textContent=(m.online?'● ':'○ ')+m.name+' · '+(floorNames[m.floor]||m.floor)+' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'')+' · X:'+Number(m.x).toFixed(1)+' Y:'+Number(m.y).toFixed(1);p.style.color=m.color;el.append(p)}
@@ -1512,7 +1513,7 @@ refreshAll();
  ws.onmessage=e=>{let d;try{d=JSON.parse(e.data)}catch{return}
  if(d.type==='position_ack'){acked++;return}
  if(d.type==='error'){say(d.message);return}
- if(d.type==='welcome'){mp.connected=true;mp.id=d.id;mp.role=d.role;mp.session=d.code;sessionSecret=d.secret||sessionSecret;$mp('mpCode').value=d.code;$mp('mpDM').hidden=d.role!=='dm';say('Connected as '+d.role.toUpperCase()+' · session '+d.code);sendPosition(true);redraw();return}
+ if(d.type==='welcome'){mp.connected=true;mp.id=d.id;mp.role=d.role;mp.session=d.code;sessionSecret=d.secret||sessionSecret;$mp('mpCode').value=d.code;$mp('mpDM').hidden=d.role!=='dm';keepSession();say('Connected as '+d.role.toUpperCase()+' · session '+d.code);sendPosition(true);redraw();return}
  if(d.type==='state'){received++;mp.members=d.members||[];mp.paused=!!d.paused;redraw();window.DNDPOV_CASTLE_BRIDGE?.redrawMap?.();return}
  if(d.type==='log'&&mp.role==='dm'){const p=document.createElement('div');p.textContent=d.message;$mp('mpLog').prepend(p);return}
  if(d.type==='encounter'){if(!d.id)return;window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:d.id,count:d.count||1}}));
@@ -1533,12 +1534,41 @@ refreshAll();
  $mp('mpButton').onclick=()=>{$mp('mpPanel').style.display=$mp('mpPanel').style.display==='block'?'none':'block'};
  $mp('mpClose').onclick=()=>$mp('mpPanel').style.display='none';
  $mp('mpHost').onclick=()=>connect('dm');$mp('mpJoin').onclick=()=>connect('player');
- $mp('mpLeave').onclick=()=>{ws?.close();mp.connected=false;mp.members=[];redraw()};
+ $mp('mpLeave').onclick=()=>{ws?.close();mp.connected=false;mp.members=[];sessionSecret=null;try{sessionStorage.removeItem(sessionKey)}catch{}redraw()};
  $mp('mpTrigger').onclick=()=>send({type:'encounter',id:$mp('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),count:Number($mp('mpCount').value)||1,targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
  $mp('mpComplete').onclick=()=>send({type:'complete',targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
  $mp('mpPause').onclick=()=>send({type:'pause'});
  // DM-only notes are not sent by the server. Hide local DM toggle for joined players.
  const observer=new MutationObserver(()=>{if(mp.connected&&mp.role==='player'&&window.DNDPOV_CASTLE_BRIDGE?.isDM?.()){window.DNDPOV_CASTLE_BRIDGE?.toggleDM?.()}});
  observer.observe($mp('dmBtn'),{attributes:true,childList:true,subtree:true});
+ if(savedSession?.code)setTimeout(()=>connect(savedSession.role==='dm'?'dm':'player'),500);
+})();
+</script>
+<script id="dndpovMpDockFix">
+/* Dock the shared multiplayer controls outside the scene's options window. */
+(()=>{
+ const button=document.getElementById('mpButton');
+ const panel=document.getElementById('mpPanel');
+ const hud=document.getElementById('hud');
+ if(!button||!panel||!hud)return;
+ let scheduled=0;
+ function positionControls(){
+  const r=hud.getBoundingClientRect();
+  const panelWidth=Math.min(350,Math.max(220,innerWidth-24));
+  const beside=r.right+12+panelWidth+12<=innerWidth;
+  const left=beside?r.right+12:Math.max(12,Math.min(r.left,innerWidth-panelWidth-12));
+  const top=beside?Math.max(12,r.top):Math.max(12,Math.min(innerHeight-56,r.bottom+12));
+  button.style.left=Math.round(left)+'px';
+  button.style.top=Math.round(top)+'px';
+  const panelTop=top+button.getBoundingClientRect().height+9;
+  panel.style.left=Math.round(left)+'px';
+  panel.style.top=Math.round(panelTop)+'px';
+  panel.style.width=Math.min(350,innerWidth-left-12)+'px';
+  panel.style.maxHeight=Math.max(110,innerHeight-panelTop-12)+'px';
+ }
+ function schedule(){cancelAnimationFrame(scheduled);scheduled=requestAnimationFrame(positionControls)}
+ addEventListener('resize',schedule);
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(hud);
+ schedule();
 })();
 </script></body></html>

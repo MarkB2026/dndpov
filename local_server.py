@@ -7,11 +7,14 @@ never through file:// or dndpov.com when using local multiplayer.
 import asyncio
 import json
 import math
+import os
 import random
 import secrets
 import socket
 import string
+import webbrowser
 from pathlib import Path
+from urllib.parse import quote
 
 from aiohttp import WSMsgType, web
 
@@ -324,6 +327,14 @@ async def homepage(request):
     return web.FileResponse(BASE / "index.html")
 
 
+async def open_homepage_after_start(_app):
+    """The Windows launcher opens the ORIGINAL homepage on the local origin."""
+    if os.environ.get("DNDPOV_AUTO_OPEN") == "1":
+        asyncio.get_running_loop().call_later(
+            1.5, webbrowser.open, f"http://localhost:{PORT}/"
+        )
+
+
 async def old_castle_link(request):
     raise web.HTTPFound("/Ravenloft-I6/ravenloft.html")
 
@@ -337,7 +348,17 @@ async def health(request):
 async def asset(request):
     path = request.match_info["path"]
     candidate = (BASE / path).resolve()
-    if not candidate.is_relative_to(BASE) or not candidate.is_file():
+    if not candidate.is_relative_to(BASE):
+        raise web.HTTPNotFound()
+    if not candidate.is_file():
+        # The original landing page has a substantial screenshot/video gallery.
+        # Preserve it when media was not bundled: the PUBLIC site can serve
+        # images/audio/video without changing the adventure page's local origin.
+        if candidate.suffix.lower() in {
+            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg",
+            ".mp4", ".webm", ".mp3", ".ogg", ".wav",
+        }:
+            raise web.HTTPFound("https://dndpov.com/" + quote(path, safe="/"))
         raise web.HTTPNotFound()
     return web.FileResponse(candidate)
 
@@ -355,6 +376,7 @@ app.router.add_get("/health", health)
 app.router.add_get("/", homepage)
 app.router.add_get("/castle.html", old_castle_link)
 app.router.add_get("/{path:.*}", asset)
+app.on_startup.append(open_homepage_after_start)
 app.on_cleanup.append(clean_up)
 
 

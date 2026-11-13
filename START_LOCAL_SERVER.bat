@@ -14,8 +14,9 @@ if errorlevel 1 (
   )
 )
 echo.
-echo When the server is ready, open http://localhost:8765
+echo The original DNDPOV homepage will open at http://localhost:8765
 echo Keep this window open during the adventure.
 echo.
+set "DNDPOV_AUTO_OPEN=1"
 py -3 local_server.py
 pause

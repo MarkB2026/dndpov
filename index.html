@@ -1,43 +1,336 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DNDPOV — Local Adventure Hub</title>
-<style>
- :root{color-scheme:dark;font-family:Georgia,"Times New Roman",serif;background:#151914;color:#e7d0a1}
- *{box-sizing:border-box}
- body{margin:0;min-height:100vh;background:radial-gradient(circle at 52% 12%,#37453c,#151914 67%);padding:2rem 1rem}
- main{width:min(780px,100%);margin:3rem auto;background:#1c211fdc;border:1px solid #92734d;padding:clamp(1.2rem,5vw,3rem);box-shadow:0 20px 70px #0009}
- h1{font-size:clamp(1.75rem,4vw,2.8rem);margin:.2rem 0}.eyebrow{font-size:.85rem;letter-spacing:.2em;text-transform:uppercase;color:#8fcab6}
- p{line-height:1.65;color:#decfae}.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:2rem 0}
- a{display:block;color:#ffe9af;text-decoration:none;background:#2a2e2a;border:1px solid #9a8154;padding:1.1rem 1.2rem;border-radius:3px}
- a:hover,a:focus{background:#414237;outline:2px solid #e2c280;outline-offset:1px}
- small{display:block;color:#b5bba8;margin-top:.45rem}
- ol{line-height:1.8;padding-left:1.4rem;color:#e5d6b9}
- code{font-family:Consolas,monospace;font-size:.93em;color:#b7e5d0}
- .note{border-left:3px solid #b9a076;padding-left:1rem}
-</style>
-</head>
-<body>
-<main>
-<div class="eyebrow">DNDPOV · One computer hosts · Same LAN</div>
-<h1>Barovia Adventure Hub</h1>
-<p>Choose a phase to explore. All four pages share the same local multiplayer room while you travel between them.</p>
-<div class="links">
- <a href="Ravenloft-I6/old_svalich_road.html">Old Svalich Road<small>Approach through the Svalich Woods</small></a>
- <a href="Ravenloft-I6/village_of_barovia.html">Village of Barovia<small>Village v5.52</small></a>
- <a href="Ravenloft-I6/road_to_tser_pool_and_castle.html">Road to Tser Pool<small>Road v3.26 · Vistani encampment</small></a>
- <a href="Ravenloft-I6/ravenloft.html">Castle Ravenloft<small>Castle interior and dungeon</small></a>
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#0b0909" name="theme-color"/><title>DND POV — Step Inside the Adventure</title><meta content="Virtual, walkable maps of classic tabletop adventure modules. Explore your adventure in first person, solo or with your party." name="description"/><style>
+:root{color-scheme:dark;--gold:#d9a954;--muted:#c7b8a3;--bg:#0b0909}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 5%,#342018 0,#110e0d 44%,#080707 100%);color:#f5ebda;font:17px/1.65 Georgia,'Times New Roman',serif}a{color:inherit}header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px max(24px,calc((100vw - 1150px)/2));border-bottom:1px solid #61452b;background:#0c0909bd}header .brand{font-size:1.15rem;font-weight:bold;letter-spacing:.12em;color:var(--gold);text-decoration:none}nav{display:flex;gap:24px}nav a{text-decoration:none;font-size:.9rem;color:#e5d5bc}nav a:hover{color:#ffd58c}.hero{text-align:center;padding:35px 20px 65px;max-width:1080px;margin:auto}.hero img{width:min(840px,100%);height:auto;display:block;margin:auto;mix-blend-mode:screen}.eyebrow{text-transform:uppercase;letter-spacing:.22em;color:var(--gold);font:600 .78rem/1.5 system-ui;margin:16px 0}.hero h1{font-size:clamp(2.2rem,5vw,4.1rem);line-height:1.12;font-weight:normal;margin:10px 0 18px}.hero p{max-width:750px;margin:0 auto 30px;color:#e0d0ba;font-size:1.2rem}.btn{display:inline-block;background:linear-gradient(#edc67a,#b98436);color:#201309;padding:14px 29px;border:1px solid #f2d28f;border-radius:5px;text-decoration:none;font:700 .9rem system-ui;letter-spacing:.02em;box-shadow:0 8px 30px #0009}.btn:hover{filter:brightness(1.1)}.sub{display:block;font: .82rem system-ui;color:#aa9b88;margin-top:14px}.section{max-width:1120px;margin:0 auto;padding:58px 24px;border-top:1px solid #5c4029}.section h2{text-align:center;color:#f0c477;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:normal;margin:0 0 14px}.intro{text-align:center;max-width:750px;margin:0 auto 35px;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.card{background:linear-gradient(145deg,#231a16,#110e0c);border:1px solid #78552e;padding:30px;border-radius:7px;box-shadow:0 10px 40px #0006}.card h3{font-size:1.45rem;font-weight:normal;color:#f4cb86;margin:0 0 12px}.card p{color:#d9cab8;margin:0}.card ol{padding-left:22px;color:#d9cab8}.card li{margin:10px 0}.card a{color:#f2ca82}.foot{text-align:center;padding:32px 20px;color:#948676;border-top:1px solid #4a3527;font: .8rem system-ui}@media(max-width:650px){.cards{grid-template-columns:1fr}header{padding:16px}nav{gap:12px}.hero{padding-top:20px}.section{padding:42px 20px}}
+
+.media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.media-tile{border:1px solid #795633;background:#140f0d;border-radius:7px;overflow:hidden}.media-tile img,.media-tile video{display:block;width:100%;aspect-ratio:16/10;object-fit:contain;background:#090707}.media-tile figcaption{padding:10px 13px;color:#e9cf9f;font:13px system-ui}.media-tile{margin:0}.media-tile a{display:block}.media-tile video{object-fit:contain}.media-note{font:13px system-ui;color:#a99a88;text-align:center;margin:15px 0}.lightbox{position:fixed;inset:0;background:#000e;display:none;align-items:center;justify-content:center;z-index:999;padding:35px;cursor:zoom-out}.lightbox.open{display:flex}.lightbox img{max-width:95vw;max-height:90vh;object-fit:contain}.lightbox button{position:absolute;right:15px;top:12px;background:#24170e;color:#fff;border:1px solid #b48b51;font-size:25px;cursor:pointer}
+.browser-tip{margin:20px auto 0;max-width:730px;color:#cbb79b;font:13px/1.5 system-ui;text-align:center}
+#features ul{margin:10px 0 0;padding-left:22px;color:#d5c6b4}#features li{margin:7px 0}#features .panel p{margin-bottom:0}#features .two{margin-top:24px}
+
+#featured-video{margin:0 0 24px;border:1px solid #a37a43;background:#100c0a;border-radius:9px;overflow:hidden;box-shadow:0 12px 38px #0008}
+#featured-video video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#050404;max-height:calc(100vh - 100px)}
+#featured-video figcaption{color:#f0c477;padding:15px 18px;font:16px Georgia,serif}
+#video-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}#video-gallery video{width:100%;aspect-ratio:16/9;background:#050404;display:block}#video-gallery .media-tile{margin:0}#video-gallery figcaption{padding:12px 14px;color:#e6bd70}@media(max-width:700px){#video-gallery{grid-template-columns:1fr}}
+.explore-cards{grid-template-columns:repeat(4,minmax(0,1fr))}.explore-cards .card{display:flex;flex-direction:column}.explore-cards .card p{flex:1}.explore-cards .card .btn{margin-top:20px;text-align:center;padding:12px 10px;font-size:.8rem}.gallery-launch{display:block;margin:0 12px 13px;font:13px system-ui;color:#e9c27e;text-decoration:underline}@media(max-width:1000px){.explore-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.explore-cards{grid-template-columns:1fr}}
+
+ /* Landing-page priority: let visitors see demos without several screens of scrolling. */
+ .hero{padding:14px 20px 22px;max-width:1120px}
+ .hero img{width:min(440px,72vw);max-height:155px;object-fit:contain}
+ .hero .eyebrow{margin:4px 0}
+ .hero h1{font-size:clamp(1.8rem,3.3vw,3rem);margin:5px 0 9px}
+ .hero p{font-size:1rem;max-width:830px;margin:0 auto 15px}
+ .hero .btn{padding:10px 22px}
+ .hero .sub{margin-top:7px}
+ .hero .browser-tip{margin-top:7px}
+ #videos{padding-top:20px;padding-bottom:36px}
+ #videos h2{margin-bottom:5px;font-size:clamp(1.6rem,2.4vw,2.1rem)}
+ #videos .intro{margin-bottom:16px}
+ #featured-video{margin-bottom:16px}
+ #featured-video video{aspect-ratio:16/7;max-height:290px}
+ #featured-video figcaption{padding:9px 14px;font-size:14px}
+ #video-gallery{gap:14px}
+ #video-gallery .media-tile video{aspect-ratio:16/9}
+ @media(max-width:650px){.hero{padding:15px 16px 22px}.hero img{max-height:105px}.hero h1{font-size:1.7rem}.hero p{font-size:.94rem}#featured-video video{aspect-ratio:16/9;max-height:220px}}
+
+/* v2: Restore the original prominent logo and display the featured video edge-to-edge,
+   at its native aspect ratio, across the same content width as the gallery. */
+.hero img{width:min(840px,100%);height:auto;max-height:none;object-fit:contain}
+#videos{max-width:1120px;width:100%}
+#featured-video{display:block;width:100%;margin:0 0 24px;padding:0;overflow:hidden}
+#featured-video video{display:block;width:100%;height:auto;max-height:none;aspect-ratio:auto;object-fit:fill;background:transparent}
+@media(max-width:650px){.hero img{max-height:none;width:100%}#featured-video video{max-height:none;aspect-ratio:auto}}
+#explore{padding-top:28px;padding-bottom:36px}#explore .intro{margin-bottom:22px}
+.imagination-note{max-width:900px;margin:0 auto 22px;padding:18px 25px 16px;background:linear-gradient(105deg,#2d2119ed,#1b1512e8);border:1px solid #755438;border-left:4px solid #d9a954;border-radius:7px;box-shadow:0 8px 22px #0004;text-align:left}
+.imagination-note h3{margin:0 0 8px;color:#f0c477;font-size:1.28rem;font-weight:normal}
+.imagination-note p{margin:0;color:#e1d1bb;font-size:.98rem;line-height:1.65}
+@media(max-width:650px){.imagination-note{padding:16px 18px}.imagination-note h3{font-size:1.16rem}}
+
+.video-filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.video-filters button{background:#201710;color:#e6c58e;border:1px solid #7d5a32;border-radius:5px;padding:10px 16px;cursor:pointer;font:600 13px system-ui}
+.video-filters button:hover,.video-filters button[aria-pressed="true"]{background:#ad7a36;color:#160e08;border-color:#f0c477}
+#video-gallery .media-tile{min-width:0}
+
+/* Ensure gold exploration buttons retain readable dark text over the general card link rule. */
+.explore-cards .card a.btn,.explore-cards .card a.btn:visited{color:#201309;font-weight:800;text-shadow:none}
+.explore-cards .card a.btn:hover,.explore-cards .card a.btn:focus-visible{color:#140c05;filter:brightness(1.08)}
+
+/* Module purchase section and navigation anchor */
+html{scroll-behavior:smooth}#get-module{scroll-margin-top:24px}#get-module .module-cards{grid-template-columns:repeat(3,minmax(0,1fr))}#get-module .module-cards .card{display:flex;flex-direction:column;gap:12px;padding:24px}#get-module .module-cards .card p{flex:1;font-size:.96rem}#get-module .module-link{display:block;text-align:center;text-decoration:none;background:linear-gradient(#edc67a,#b98436);color:#201309!important;font:700 .85rem system-ui;padding:12px 8px;border:1px solid #f2d28f;border-radius:5px}#get-module .module-link:hover{filter:brightness(1.1)}#get-module .module-note{font:12px/1.5 system-ui;color:#bba991}#get-module .module-disclaimer{text-align:center;color:#bba991;font:12px/1.6 system-ui;margin:24px auto 0;max-width:850px}header nav{flex-wrap:wrap;justify-content:flex-end;gap:12px 19px}@media(max-width:850px){#get-module .module-cards{grid-template-columns:1fr}}@media(max-width:650px){header{flex-wrap:wrap}header nav{justify-content:flex-start}}
+ .explore-cards .card p.release-status{flex:0;color:#f0c477;font:700 12px/1.5 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+</style><style id="module-brand-banner-style">
+#get-module{padding-top:28px;padding-bottom:32px}
+.module-banner{background:linear-gradient(120deg,#241b33 0%,#322341 52%,#20192e 100%);color:#e9dff2;border-radius:16px;padding:28px 32px;text-align:center;box-shadow:0 12px 35px #0005;border:1px solid #6d4c88}
+.module-banner-eyebrow{display:block;font:700 11px/1.3 system-ui,sans-serif;letter-spacing:.18em;color:#bda3d6;margin-bottom:7px}
+.module-banner h2{font:700 clamp(22px,3vw,30px)/1.2 system-ui,sans-serif!important;color:#f1e5fb!important;margin:0 0 8px}
+.module-banner-intro p{font:14px/1.5 system-ui,sans-serif;color:#d2c2de;margin:0 auto 23px;max-width:640px}
+.module-brand-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.module-brand{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 10px;background:linear-gradient(135deg,#392c4b,#2a2239);border:1px solid #76558d;border-radius:10px;padding:18px 10px 14px;text-decoration:none!important;color:#f3e9fa!important;min-height:104px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.module-brand:hover,.module-brand:focus-visible{transform:translateY(-3px);border-color:#c29ae6;box-shadow:0 7px 22px #b78de733}
+.module-brand img{width:32px;height:32px;object-fit:contain}
+.module-brand-name{font:800 clamp(16px,2vw,23px)/1 system-ui,sans-serif;letter-spacing:-.045em}
+.module-brand-name span{color:#e45628}
+.module-brand-dmsguild .module-brand-name span{color:#d9a3ff}
+.module-brand small{flex:0 0 100%;font:12px/1.4 system-ui,sans-serif;color:#c8b7d5}
+.module-banner-disclaimer{font:11px/1.5 system-ui,sans-serif;color:#b5a4c2;margin:16px 0 0}
+@media(max-width:680px){.module-banner{padding:22px 14px}.module-brand-links{grid-template-columns:1fr}.module-brand{min-height:72px;padding:12px}.module-brand small{flex-basis:auto}}
+</style><style id="accuracy-modal-style">
+.accuracy-link{display:inline-block;margin:12px auto 0;background:transparent;border:1px solid #b88a4b;border-radius:6px;padding:10px 17px;color:#f0c477;font:600 14px system-ui;cursor:pointer}.accuracy-link:hover{background:#302115}.accuracy-overlay{position:fixed;inset:0;z-index:1200;background:#000c;display:none;align-items:center;justify-content:center;padding:20px}.accuracy-overlay.open{display:flex}.accuracy-dialog{position:relative;width:min(650px,100%);max-height:85vh;overflow:auto;background:linear-gradient(145deg,#2b2019,#120e0c);border:1px solid #b88a4b;border-radius:12px;padding:30px;color:#e9dcc9;box-shadow:0 20px 80px #000b;text-align:left}.accuracy-dialog h2{color:#f0c477;font-size:1.7rem;margin:0 35px 16px 0}.accuracy-dialog p{margin:12px 0;line-height:1.65}.accuracy-close{position:absolute;right:15px;top:12px;background:transparent;color:#f0c477;border:0;font-size:30px;cursor:pointer}
+
+/* Two compact featured videos, side by side on desktop. */
+#featured-videos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 22px}
+#featured-videos #featured-video,#featured-videos .featured-video-tile{margin:0;min-width:0;border:1px solid #a37a43;background:#100c0a;border-radius:9px;overflow:hidden;box-shadow:0 12px 38px #0008}
+#featured-videos video{display:block;width:100%;aspect-ratio:16/9;height:auto;max-height:none;object-fit:contain;background:#050404}
+#featured-videos figcaption{color:#f0c477;padding:10px 14px;font:14px Georgia,serif}
+@media(max-width:700px){#featured-videos{grid-template-columns:1fr}}
+/* Compact categorized video library; featured videos remain unchanged. */
+.video-library{max-width:850px;margin:0 auto;border:1px solid #795633;background:#160f0d;border-radius:9px;padding:18px}
+.video-library label{display:block;color:#f0c477;font:600 14px system-ui;margin-bottom:8px}
+#video-category-select{width:100%;background:#271c16;color:#f5e5ca;border:1px solid #ad8249;border-radius:5px;padding:12px;font:15px system-ui}
+#video-gallery{display:block!important;margin-top:12px}
+.video-list-row{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:#211812;color:#ead5b3;border:1px solid #5b422b;border-radius:5px;padding:11px 12px;margin:6px 0;cursor:pointer;font:14px system-ui}
+.video-list-row:hover,.video-list-row[aria-expanded="true"]{background:#4b3320;border-color:#d9a954;color:#fff0d2}
+.video-list-row .video-play-icon{color:#f0c477;font-size:20px;flex-shrink:0}
+.video-library-player{margin:12px 0 16px;padding:12px;background:#0b0909;border:1px solid #86623a;border-radius:6px}
+.video-library-player video{width:100%;aspect-ratio:16/9;display:block;background:#050404}
+.video-library-player figcaption{color:#f0c477;margin:8px 0;font:14px system-ui}
+.video-library-player .gallery-launch{margin:5px 0;font:13px system-ui}
+.video-library-player[hidden]{display:none}
+
+/* Adventure-card video previews: keep the existing adventure links and files. */
+.adventure-previews{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:15px 0 3px}
+.adventure-preview{position:relative;display:block;width:100%;padding:0;border:1px solid #956c39;border-radius:5px;overflow:hidden;background:#090707;color:#f5d89c;cursor:pointer;text-align:left}
+.adventure-preview video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;pointer-events:none}
+.adventure-preview .preview-play{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);background:#100b0bc9;border:1px solid #d9a954;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font:17px system-ui}
+.adventure-preview .preview-title{display:block;padding:5px 6px;font:11px/1.35 system-ui;background:#1a120e;min-height:40px}
+.adventure-preview:hover,.adventure-preview:focus-visible{border-color:#f0c477;outline:1px solid #f0c477}
+.adventure-modal{position:fixed;inset:0;z-index:2500;background:#000e;display:none;align-items:center;justify-content:center;padding:20px}
+.adventure-modal.open{display:flex}.adventure-modal-inner{width:min(960px,96vw);background:#17100d;border:1px solid #b78b51;border-radius:9px;padding:16px;position:relative}
+.adventure-modal video{display:block;width:100%;max-height:78vh;background:#050404}.adventure-modal-title{color:#f0c477;margin:0 45px 12px 0;font:17px Georgia,serif}
+.adventure-modal-close{position:absolute;right:12px;top:8px;background:#382517;color:#ffe0aa;border:1px solid #9d7847;border-radius:4px;font:23px system-ui;cursor:pointer}
+@media(max-width:650px){.adventure-previews{gap:6px}}
+</style><style id="accuracy-map-gallery-style">.accuracy-dialog{width:min(960px,100%)}.accuracy-map-section{margin-top:24px;padding-top:20px;border-top:1px solid #866441}.accuracy-map-section h3{color:#f0c477;font-size:1.2rem;margin:0 0 8px}.accuracy-map-section a{color:#f0c477}.accuracy-map-credit{font-size:.9rem}.accuracy-map-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-top:16px}.accuracy-map-tile{display:block;overflow:hidden;border:1px solid #66513b;border-radius:8px;background:#191512;text-decoration:none}.accuracy-map-tile:hover,.accuracy-map-tile:focus-visible{border-color:#f0c477;outline:1px solid #f0c477}.accuracy-map-tile img{display:block;width:100%;height:125px;object-fit:contain;background:#0b0b0b}.accuracy-map-tile span{display:block;padding:8px;color:#ead7b5;font-size:12px;line-height:1.3;text-align:center}@media(max-width:500px){.accuracy-dialog{padding:20px}.accuracy-map-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body><header><a class="brand" href="#home">DND POV</a><nav><a href="vision.html">The current disconnect in RPG</a><a href="#about">About</a><a href="#how-to-play">How to Play</a><a href="#explore">Explore</a><a href="#get-module">Get the Module</a><a href="#videos">Videos</a><a href="#screenshots">Screenshots</a></nav></header><main id="home"><section class="hero"><img alt="DND POV — gothic dungeon archway and first-person adventure logo" src="dndpov-logo.png"/><div class="eyebrow">We bring the maps to life. You play the adventure..</div>
+
+
+<div class="hero-message">
+  <br/><br/><p><h1>Step Inside Classic D&amp;D Adventures</h1></p>
+  <p>
+    Explore immersive, interactive first-person 3D maps
+    of legendary tabletop adventures.
+  </p>
+ <p style="font-size: 12px;">  You can focus on the fun! This is a companion mapping system to enhance (not replace) your table top game play or solo adventures!</p>
+ 
+<div style="
+  background:#123b24;
+  border:1px solid #4ca76b;
+  border-radius:10px;
+  padding:20px 24px;
+  margin:24px auto;
+  max-width:900px;
+  text-align:center;
+  color:#e5f5e9;
+  box-shadow:0 5px 24px rgba(0,0,0,.25);
+">
+  <a href="index.html#videos"
+     style="color:#a9f0b7;font-size:21px;
+            font-weight:bold;text-decoration:none;">
+    👥 Multiplayer Available — Play Together, Anywhere
+  </a>
+
+  <p style="margin:12px 0 8px;line-height:1.7;">
+    Play together at the same table or connect with friends
+    across the country. Each adventurer explores independently
+    in a shared 3D world while the Dungeon Master follows
+    everyone's movements.
+  </p>
+
+  <a href="Ravenloft-I6/videos/multiplayer_setup.mp4"
+     style="color:#a9f0b7;text-decoration:underline;">
+    Watch Multiplayer Setup Video
+  </a>
 </div>
-<h2>Start a session</h2>
-<ol>
- <li>The DM runs <code>START_LOCAL_SERVER.bat</code> on a Windows computer and opens this page at <code>http://localhost:8765</code>.</li>
- <li>The DM opens a phase, clicks <strong>Multiplayer</strong>, enters a name, and selects <strong>Host as DM</strong>.</li>
- <li>Players on the same network open <code>http://DM-COMPUTER-IP:8765</code>, choose a phase and enter the DM's six-character session code.</li>
- <li>Players select <strong>Join as Player</strong>. Keep the server window running during play.</li>
-</ol>
-<p class="note">Important: Opening pages directly as a file or through <strong>dndpov.com</strong> bypasses the local multiplayer server. Use the <code>:8765</code> address for every player.</p>
-</main>
-</body>
-</html>
+
+  
+</div>
+
+<style>
+.hero-message {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-message h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.hero-message p {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.hero-message .hero-tagline {
+  font-size: 19px;
+  font-weight: bold;
+  color: #d9bb83;
+  margin-top: 18px;
+}
+</style>
+
+
+
+
+
+</p></section><section class="section" id="explore"><h2>What better place to start than with the classic Ravenloft-I6! </h2>
+ <p style="font-size: 12px; line-height: 1.6; color: #c8b9a6;">
+  <strong>I6 Ravenloft (AD&amp;D 1st Edition)</strong> was written by
+  <strong>Tracy and Laura Hickman</strong> and published by
+  <strong>TSR, Inc. in 1983.</strong>
+  Designed for <strong>character levels 5–7</strong>, it became one of
+  the most iconic adventures in Dungeons &amp; Dragons history.
+</p>
+ <p class="intro">Choose a location to begin exploring Barovia.</p>
+ <div class="imagination-note">
+  <h3>Faithful to the Map. Open to Imagination.</h3>
+  <p>We take the original maps seriously: their roads, landmarks, rooms, and connections deserve painstaking care. But our visual world is deliberately stylized. The village, trees, swirling fog, and monsters offer enough detail to awaken a picture in your mind without deciding every detail for you. <strong>We build the world; your imagination completes it.</strong></p>
+ </div>
+ <div style="text-align:center;margin:-10px 0 24px"><button type="button" class="accuracy-link" id="accuracy-open" aria-haspopup="dialog">Map Accuracy &amp; Attention to Detail</button></div>
+<div class="cards explore-cards">
+<article class="card"><h3>Lands of Barovia</h3><p class="release-status">Pre-Beta Preview</p><p>Travel the Svalich Road, pass the gates.</p><a class="btn" href="Ravenloft-I6/old_svalich_road.html">Explore the Lands</a></article>
+<article class="card"><h3>Village of Barovia</h3><p class="release-status">Pre-Beta Preview</p><p>Explore torchlit streets, village houses, the tavern, mercantile and church.</p><a class="btn" href="Ravenloft-I6/village_of_barovia.html">Explore the Village</a></article>
+<article class="card"><h3>Road to Tser Pool &amp; Castle</h3><p class="release-status">Pre-Beta Preview</p><p>Cross the river bridge, visit the Vistani encampment, and follow the misty road toward Castle Ravenloft.</p><a class="btn" href="Ravenloft-I6/road_to_tser_pool_and_castle.html">Explore the Castle Road</a></article>
+<article class="card"><h3>Castle Ravenloft</h3><p class="release-status">Beta Release — Main Floor (Map 3) Only</p><p>Explore Castle Ravenloft’s main floor in this public testing release. The entire castle has already been mapped and is ready for gameplay in our full development build.</p><a class="btn" href="Ravenloft-I6/ravenloft.html">Explore the Castle</a></article>
+</div></section><section class="section" id="get-module">
+  <div class="module-banner">
+    <div class="module-banner-intro">
+      <span class="module-banner-eyebrow">OFFICIAL ADVENTURE SOURCES</span>
+      <h2>Get the Ravenloft Adventure</h2>
+      <p>Get the original I6 Ravenloft adventure module or PDF from either storefront.</p>
+    </div>
+    <div class="module-brand-links">
+      <a class="module-brand module-brand-dtrpg" href="https://www.drivethrurpg.com/en/product/17527/i6-ravenloft-1e" target="_blank" rel="noopener noreferrer" aria-label="Original I6 Ravenloft PDF on DriveThruRPG">
+        <img src="https://www.google.com/s2/favicons?domain=drivethrurpg.com&amp;sz=128" alt="DriveThruRPG icon" loading="lazy">
+        <span class="module-brand-name">DriveThru<span>RPG</span></span>
+        <small>Original I6 Ravenloft · PDF</small>
+      </a>
+      <a class="module-brand module-brand-dmsguild" href="https://www.dmsguild.com/en/product/17527/i6-ravenloft-1e?affiliate_id=50797" target="_blank" rel="noopener noreferrer" aria-label="Original I6 Ravenloft PDF on Dungeon Masters Guild">
+        <img src="https://www.google.com/s2/favicons?domain=dmsguild.com&amp;sz=128" alt="DMs Guild icon" loading="lazy">
+        <span class="module-brand-name">DMs <span>Guild</span></span>
+        <small>Original I6 Ravenloft · PDF</small>
+      </a>
+    </div>
+    <p class="module-banner-disclaimer">Independent project · Purchases are made through external storefronts.</p>
+  </div>
+</section><section class="section" id="videos"><h2>Other videos</h2><p class="intro">Browse walkthroughs by location, see multiplayer setup, watch dungeon encounters, or explore ChatGPT and Speechify narration.</p><div class="video-library"><label for="video-category-select">Browse videos by category</label><select id="video-category-select" aria-label="Video category"></select><div id="video-gallery" aria-live="polite"></div></div></section><section class="section" id="about"><h2>No setup. No subscriptions. No third party platform.</h2><p class="intro">Preserve traditional gameplay: keep your own dice, character sheets, rules, and Dungeon Master. No virtual tabletop configuration, character imports, or platform-specific module purchase is needed to launch the walkthrough. Open it in your browser and explore—or download the HTML for local use. Bring your own legally obtained adventure materials.</p><div class="cards"><article class="card"><h3>🧭 First-person exploration</h3><p>Walk the halls, discover rooms, follow passages, and orient yourself with a dungeon-style minimap.</p></article><article class="card"><h3>👥 Local multiplayer</h3><p>Host a local session, invite your party with a session code, and explore independently while the Dungeon Master sees everyone on the shared minimap. The original tabletop rules and combat remain yours.</p></article><article class="card"><h3>Traditional gameplay, preserved</h3><p>DNDPOV handles 3D exploration, location descriptions, conditional and random encounter checks, and surprise announcements. You keep character decisions, roleplaying, combat, initiative, attack and damage rolls at the table. No platform-specific module edition or complicated campaign setup is required.</p></article></div></section><section class="section" id="features"><h2>How DNDPOV works</h2><p class="intro">Your adventure. Your rules. Your point of view. DNDPOV is a first-person exploration companion—not a video game or a replacement for the original adventure module.</p><div class="two"><article class="panel"><h3>What DNDPOV handles</h3><ul><li>Walkable 3D environments, ambient sound, and interactive maps with visited-area tracking.</li><li>Location-based boxed descriptions and optional DM-only instructions.</li><li>Automatic location-based, conditional, and random encounter checks where implemented.</li><li>Surprise announcements identifying creatures or events and prompting players to roll initiative when appropriate.</li></ul></article><article class="panel"><h3>What stays at the table</h3><ul><li>Character choices, conversations, roleplaying, and storytelling.</li><li>Combat, initiative order, hit points, attacks, saving throws, and damage.</li><li>Your own dice, characters, rules, and Dungeon Master.</li><li>Your original adventure materials; DNDPOV is a companion, not a substitute for the module.</li></ul></article></div><div class="panel" style="margin-top:20px"><h3>Choose your experience</h3><p><strong>Text ON/OFF</strong> shows or hides room descriptions and inline DM notes. <strong>Encounters ON/OFF</strong> enables automatic encounter checks and surprise alerts. <strong>DM ON/OFF</strong> reveals or hides DM-only instructions and encounter summaries. <strong>Visited Map ON/OFF</strong> shows or hides explored-area highlights.</p><p style="margin-top:12px">No virtual tabletop campaign to configure and no platform-specific edition to purchase just to use the walkthrough. <strong>Launch in your browser and explore.</strong> You can also use a local copy with the required assets. Speechify narration is optional and controlled separately through Speechify.</p></div></section><section class="section" id="how-to-play"><h2>How to play</h2><p class="intro">Use DND POV on your own or bring it to your next group session.</p><div class="cards"><article class="card"><h3>Solo adventurers</h3><ol><li>Use <a href="https://chatgpt.com/" rel="noopener noreferrer" target="_blank">ChatGPT</a> as your Dungeon Master and upload the adventure module to your chat.</li><li>Use <a href="https://speechify.com/" rel="noopener noreferrer" target="_blank">Speechify</a> to listen to the narration if you prefer an audio experience.</li><li>Open DND POV and walk through the environment as the story unfolds.</li></ol><div style="margin-top:24px"><p class="media-note">Videos are loaded from the /videos folder.</p></div><p><strong>Recommended solo setup:</strong> ChatGPT Dungeon Master + uploaded module + Speechify + DND POV.</p></article><article class="card"><h3>Group adventures — multiplayer</h3><p>Start the local multiplayer server, host as DM, and have players join with the session code. Everyone moves independently and appears on the shared minimap.</p><p>Explore together while your Dungeon Master runs the session. DNDPOV can automatically check and announce encounters, but your group still controls decisions, roleplaying, dice rolls, and combat.</p><p style="margin-top:16px">Your group keeps control of the story, decisions, encounters, and dice rolls.</p></article></div></section><section class="section" id="screenshots"><h2>Inside the adventure</h2><p class="intro">Screenshots from our Castle Ravenloft first-person walkthrough. Select an image to enlarge it.</p><div class="media-grid" id="screenshot-gallery"></div><p class="media-note">Screenshots are loaded from the /screenshots folder.</p></section></main><footer class="foot">© DND POV • Independent fan-made virtual adventure maps. Not affiliated with or endorsed by Wizards of the Coast, OpenAI, or Speechify. Adventure materials should be used with appropriate rights or permissions.</footer><div aria-label="Screenshot preview" class="lightbox" id="lightbox" onclick="this.classList.remove('open')" role="dialog"><button aria-label="Close preview">×</button><img alt="Enlarged screenshot" id="lightbox-img"/></div><div class="accuracy-overlay" id="accuracy-overlay"><div class="accuracy-dialog" role="dialog" aria-modal="true" aria-labelledby="accuracy-title"><button type="button" class="accuracy-close" id="accuracy-close" aria-label="Close">&times;</button><h2 id="accuracy-title">Map Accuracy &amp; Attention to Detail</h2>
+<p><strong>Faithfulness to the original adventure maps is at the heart of DNDPOV.</strong> We are not simply creating settings inspired by classic Dungeons &amp; Dragons adventures. We are painstakingly recreating their maps as fully explorable, first-person 3D worlds.</p>
+<p>Every road, landmark, building, room, passage, staircase, and connection is carefully considered against the source material. Our attention to detail is intended to make these places instantly recognizable to veteran players while allowing new adventurers to experience them from ground level.</p>
+<p><strong>Village of Barovia:</strong> The village has been meticulously reconstructed from the original adventure map, closely preserving its streets, building placements, relative spacing, and important landmarks. The Blood of the Vine Tavern, Bildrath's Mercantile, Mad Mary's House, the Burgomaster's Mansion, church, and cemetery stand in their recognizable locations within a continuous, walkable village.</p>
+<p><strong>Lands of Barovia:</strong> The Old Svalich Road, Gates of Barovia, river crossings, journey to Tser Pool, and approach to Castle Ravenloft follow the original adventure's routes and geographical relationships with exceptional care. The aim is to let players travel the same legendary paths, rather than merely visit disconnected scenic recreations.</p>
+<p><strong>Castle Ravenloft:</strong> Our most intricate reconstruction follows the original floor plans with close attention to individual rooms, corridors, doors, staircases, and the complex connections between levels. The complete castle is mapped in our development build; the public beta currently offers the main floor.</p>
+<h3>Faithful Maps, Immersive Worlds</h3>
+<p>Translating a two-dimensional module map into a walkable three-dimensional environment requires decisions about heights, textures, terrain, lighting, vegetation, and atmosphere. <strong>Our artistic license is primarily in how these places look and feel—not in casually rearranging the maps that define them.</strong> Where practical adjustments are necessary, preserving the original layout and sense of place remains our priority.</p>
+<p>We want longtime fans to recognize the architecture and geography they remember, and new players to feel they have stepped into the adventure itself.</p>
+<h3>Accurate by Design. Abstract on Purpose.</h3>
+<p>Accuracy and photorealism are different goals. We pay close attention to the original adventure's geography and architecture while deliberately leaving room for interpretation in its appearance. Our trees, buildings, weather, and creatures suggest a world rather than supply one final, definitive image of it.</p>
+<p>Take the trees along the Old Svalich Road. They aren't photorealistic, but their layered branches and dark silhouettes <em>feel</em> like the woods of Barovia. That feeling is more important than rendering every leaf. We provide the forest's shape and mood; your imagination makes it a place.</p>
+<p>Think of a character you pictured while reading a novel. Seeing an actor or a portrait can replace that private image forever. A perfectly rendered monster can do much the same thing. But a suggestive, abstract creature gives you its silhouette, its movement, and its menace—and then your own imagination supplies the face in the darkness. That act of <em>filling in what isn't shown</em> is part of the magic of tabletop role-playing. We want DNDPOV to preserve it, not take it away.</p>
+<p><strong>We bring the maps to life. You play the adventure.</strong></p>
+<h3>Dungeon Design Inspiration &amp; Credits</h3>
+<p>Our Castle Ravenloft dungeon draws significant visual and architectural inspiration from the beautifully detailed maps created by <strong>DM Andy (Andy Maps)</strong>. His remarkable interpretations have been invaluable references in translating the castle's architecture into a first-person world.</p>
+<p>We have taken great care to preserve the rooms, corridors, staircases, floor layouts, and intricate relationships between the castle's levels while adding our own lighting, materials, environmental details, and atmosphere. This work is a tribute to the imagination and craftsmanship of the original adventure and the artists who have brought it to life.</p>
+<p><strong>Special thanks to DM Andy</strong> for his outstanding map artwork and contribution to the Dungeons &amp; Dragons community. Explore the reference maps below and visit his <a href="https://www.reddit.com/r/CurseofStrahd/comments/14wzogx/full_castle_ravenloft_map_pack_for_curse_of/" target="_blank" rel="noopener noreferrer">Castle Ravenloft map pack</a>.</p><section class="accuracy-map-section" aria-label="Castle Ravenloft reference map gallery"><h3>Castle Ravenloft — Reference Maps</h3><p>Compare the original floor layouts and numbered rooms with the DNDPOV walkthrough. Select any map to open the full-size image.</p><p class="accuracy-map-credit"><strong>Map artwork by DM Andy (Andy Maps).</strong> Credit and original map pack: <a href="https://www.reddit.com/r/CurseofStrahd/comments/14wzogx/full_castle_ravenloft_map_pack_for_curse_of/" target="_blank" rel="noopener noreferrer">Full Castle Ravenloft Map Pack for Curse of Strahd</a>. Used here as visual reference; DNDPOV is an independent project.</p><div class="accuracy-map-grid"><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map02_Walls_of_Ravenloft.jpg" target="_blank" rel="noopener" aria-label="View Walls of Ravenloft full size"><img src="Ravenloft-I6/andy/Map02_Walls_of_Ravenloft.jpg" loading="lazy" alt="DM Andy map: Walls of Ravenloft"><span>Walls of Ravenloft</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map03_Main_Floor.jpg" target="_blank" rel="noopener" aria-label="View Main Floor full size"><img src="Ravenloft-I6/andy/Map03_Main_Floor.jpg" loading="lazy" alt="DM Andy map: Main Floor"><span>Main Floor</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map04_Court_of_the_Count.jpg" target="_blank" rel="noopener" aria-label="View Court of the Count full size"><img src="Ravenloft-I6/andy/Map04_Court_of_the_Count.jpg" loading="lazy" alt="DM Andy map: Court of the Count"><span>Court of the Count</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map05_Rooms_of_Weeping.jpg" target="_blank" rel="noopener" aria-label="View Rooms of Weeping full size"><img src="Ravenloft-I6/andy/Map05_Rooms_of_Weeping.jpg" loading="lazy" alt="DM Andy map: Rooms of Weeping"><span>Rooms of Weeping</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map06_Spires_Level1.jpg" target="_blank" rel="noopener" aria-label="View Spires Level 1 full size"><img src="Ravenloft-I6/andy/Map06_Spires_Level1.jpg" loading="lazy" alt="DM Andy map: Spires Level 1"><span>Spires Level 1</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map07_Spires_Level2.jpg" target="_blank" rel="noopener" aria-label="View Spires Level 2 full size"><img src="Ravenloft-I6/andy/Map07_Spires_Level2.jpg" loading="lazy" alt="DM Andy map: Spires Level 2"><span>Spires Level 2</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map08_Spires_Level3.jpg" target="_blank" rel="noopener" aria-label="View Spires Level 3 full size"><img src="Ravenloft-I6/andy/Map08_Spires_Level3.jpg" loading="lazy" alt="DM Andy map: Spires Level 3"><span>Spires Level 3</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map09_North_Tower_Peak.jpg" target="_blank" rel="noopener" aria-label="View North Tower Peak full size"><img src="Ravenloft-I6/andy/Map09_North_Tower_Peak.jpg" loading="lazy" alt="DM Andy map: North Tower Peak"><span>North Tower Peak</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map09-10_Tower_Roofs_A.jpg" target="_blank" rel="noopener" aria-label="View Tower Roofs A full size"><img src="Ravenloft-I6/andy/Map09-10_Tower_Roofs_A.jpg" loading="lazy" alt="DM Andy map: Tower Roofs A"><span>Tower Roofs A</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map10_High_Tower_Peak.jpg" target="_blank" rel="noopener" aria-label="View High Tower Peak full size"><img src="Ravenloft-I6/andy/Map10_High_Tower_Peak.jpg" loading="lazy" alt="DM Andy map: High Tower Peak"><span>High Tower Peak</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map10_Tower_Roofs_B.jpg" target="_blank" rel="noopener" aria-label="View Tower Roofs B full size"><img src="Ravenloft-I6/andy/Map10_Tower_Roofs_B.jpg" loading="lazy" alt="DM Andy map: Tower Roofs B"><span>Tower Roofs B</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map11_Larders_of_Ill_Omen.jpg" target="_blank" rel="noopener" aria-label="View Larders of Ill Omen full size"><img src="Ravenloft-I6/andy/Map11_Larders_of_Ill_Omen.jpg" loading="lazy" alt="DM Andy map: Larders of Ill Omen"><span>Larders of Ill Omen</span></a><a class="accuracy-map-tile" href="Ravenloft-I6/andy/Map12_Dungeon_and_Catacombs.jpg" target="_blank" rel="noopener" aria-label="View Dungeon and Catacombs full size"><img src="Ravenloft-I6/andy/Map12_Dungeon_and_Catacombs.jpg" loading="lazy" alt="DM Andy map: Dungeon and Catacombs"><span>Dungeon and Catacombs</span></a></div></section></div></div><script>
+ const videoCategories=[
+  {id:'dungeon',label:'Dungeon'},
+  {id:'dm',label:'DM'},
+   {id:'multiplayer',label:'Multiplayer Setup'},
+  {id:'chatgpt',label:'ChatGPT / Speechify'}
+ ];
+ const videos=[
+   {file:'multiplayer_setup.mp4',label:'Multiplayer Setup — Hosting a DM Session and Joining a Player',href:'Ravenloft-I6/ravenloft.html',category:'multiplayer'},
+  {file:'dm_vid1.mp4',label:'DM — Triggering random encounter - Oracle',href:'Ravenloft-I6/ravenloft.html',category:'dm'},
+  {file:'dm_vid2.mp4',label:'DM — Viewing descriptions - monster data',href:'Ravenloft-I6/ravenloft.html',category:'dm'},
+  {file:'Encounter gargoyle.mp4',label:'Castle Ravenloft — Gargoyle Encounter',href:'Ravenloft-I6/ravenloft.html',category:'dungeon'},
+  {file:'Screen Recording 2026-11-08 090247.mp4',label:'Castle Ravenloft — Exploring the Halls with ChatGPT',href:'Ravenloft-I6/ravenloft.html',category:'chatgpt'},
+  {file:'Screen Recording 2026-11-08 090023.mp4',label:'Castle Ravenloft — Dungeon Exploration with ChatGPT',href:'Ravenloft-I6/ravenloft.html',category:'chatgpt'},
+  {file:'Screen Recording 2026-11-08 085719.mp4',label:'Castle Ravenloft — Interactive Adventure Walkthrough',href:'Ravenloft-I6/ravenloft.html',category:'chatgpt'},
+  {file:'Screen Recording 2026-11-08 154158.mp4',label:'Castle Ravenloft + Speechify — narrated exploration',href:'Ravenloft-I6/ravenloft.html',category:'chatgpt'}
+ ];
+
+const times=['8_52_57 AM','8_53_04 AM','8_53_10 AM','8_53_15 AM','8_53_20 AM','8_53_25 AM','8_53_30 AM','8_53_36 AM','8_53_41 AM','8_53_46 AM'];
+const screenshots=times.map(t=>'Castle Ravenloft v0.8 — Illustrated Exploration - WXY Trader - Microsoft Edge 2026-11-08 '+t+'.png');
+function mediaPath(folder,name){return folder+'/'+encodeURIComponent(name)}
+ const adventureVideoGroups={
+  'Lands of Barovia':[
+    ['old_svalich_road_slamming_gate_optimized.mp4','Slamming Gates']
+  ],
+  'Road to Tser Pool & Castle':[
+    ['Road_to_Tser_Pool_Highlights.mp4','Road to Tser Pool']
+  ],
+  'Village of Barovia':[
+    ['village_of_barovia_weather.mp4','Time of day and weather settings'],
+     ['village_of_barovia_walk_around_the_village.mp4','Walk around the village']
+  ],
+  'Castle Ravenloft':[
+    ['DNDPOV_Screen_Recording_Optimized.mp4','Dungeon level by level'],
+    ['DNDPOV_Screen_Recording_dungeon_walk.mp4','Dungeon Walkthrough']
+  ]
+ };
+ const adventureModal=document.createElement('div');adventureModal.className='adventure-modal';adventureModal.setAttribute('role','dialog');adventureModal.setAttribute('aria-modal','true');adventureModal.setAttribute('aria-label','Adventure video');
+ const modalInner=document.createElement('div');modalInner.className='adventure-modal-inner';
+ const modalTitle=document.createElement('div');modalTitle.className='adventure-modal-title';
+ const modalClose=document.createElement('button');modalClose.className='adventure-modal-close';modalClose.type='button';modalClose.textContent='×';modalClose.setAttribute('aria-label','Close video');
+ const modalVideo=document.createElement('video');modalVideo.controls=true;modalVideo.playsInline=true;modalVideo.preload='metadata';
+ modalInner.append(modalTitle,modalClose,modalVideo);adventureModal.append(modalInner);document.body.append(adventureModal);
+ let previousVideoFocus=null;
+ function closeAdventureVideo(){if(!adventureModal.classList.contains('open'))return;modalVideo.pause();modalVideo.removeAttribute('src');modalVideo.load();adventureModal.classList.remove('open');document.body.style.overflow='';if(previousVideoFocus)previousVideoFocus.focus()}
+ modalClose.addEventListener('click',closeAdventureVideo);
+ adventureModal.addEventListener('click',e=>{if(e.target===adventureModal)closeAdventureVideo()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdventureVideo()});
+ document.querySelectorAll('#explore .explore-cards .card').forEach(card=>{
+   const heading=card.querySelector('h3');if(!heading)return;
+   const entries=adventureVideoGroups[heading.textContent.trim()];if(!entries)return;
+   const grid=document.createElement('div');grid.className='adventure-previews';grid.setAttribute('aria-label',heading.textContent+' videos');
+   entries.forEach(([file,label])=>{
+     const btn=document.createElement('button');btn.type='button';btn.className='adventure-preview';btn.setAttribute('aria-label','Play '+heading.textContent+' — '+label);
+     const thumb=document.createElement('video');thumb.muted=true;thumb.preload='metadata';thumb.playsInline=true;thumb.src=mediaPath('Ravenloft-I6/videos',file);thumb.setAttribute('aria-hidden','true');
+     if(file==='Road_to_Tser_Pool_Highlights.mp4')thumb.poster=mediaPath('Ravenloft-I6/videos','Road_to_Tser_Pool_Highlights.jpg');
+     const play=document.createElement('span');play.className='preview-play';play.textContent='▶';play.setAttribute('aria-hidden','true');
+     const title=document.createElement('span');title.className='preview-title';title.textContent=label;
+     btn.append(thumb,play,title);btn.addEventListener('click',()=>{previousVideoFocus=btn;modalTitle.textContent=heading.textContent+' — '+label;modalVideo.src=mediaPath('Ravenloft-I6/videos',file);adventureModal.classList.add('open');document.body.style.overflow='hidden';modalVideo.load();modalClose.focus()});grid.append(btn);
+   });
+   const exploreButton=card.querySelector('a.btn');if(exploreButton)exploreButton.before(grid);else card.append(grid);
+ });
+ const vg=document.getElementById('video-gallery');
+ const categorySelect=document.getElementById('video-category-select');
+ const player=document.createElement('figure');player.className='video-library-player';player.hidden=true;
+ const playerVideo=document.createElement('video');playerVideo.controls=true;playerVideo.preload='metadata';playerVideo.playsInline=true;
+ const playerCaption=document.createElement('figcaption');
+ const playerLink=document.createElement('a');playerLink.className='gallery-launch';playerLink.textContent='Launch walkthrough';
+ player.append(playerVideo,playerCaption,playerLink);
+ videoCategories.forEach(cat=>{const option=document.createElement('option');option.value=cat.id;option.textContent=cat.label;categorySelect.append(option)});
+ categorySelect.value='multiplayer';
+ function closeVideo(){playerVideo.pause();playerVideo.removeAttribute('src');playerVideo.load();player.hidden=true;vg.querySelectorAll('.video-list-row').forEach(row=>row.setAttribute('aria-expanded','false'))}
+ function renderVideos(){
+   closeVideo();vg.replaceChildren();
+   videos.filter(item=>item.category===categorySelect.value).forEach(item=>{
+     const row=document.createElement('button');row.type='button';row.className='video-list-row';row.setAttribute('aria-expanded','false');
+     const icon=document.createElement('span');icon.className='video-play-icon';icon.textContent='▶';icon.setAttribute('aria-hidden','true');
+     const title=document.createElement('span');title.textContent=item.label;row.append(icon,title);
+     row.addEventListener('click',()=>{
+       if(!player.hidden && playerVideo.dataset.file===item.file){closeVideo();return}
+       closeVideo();row.setAttribute('aria-expanded','true');
+       playerVideo.dataset.file=item.file;playerVideo.src=mediaPath('Ravenloft-I6/videos',item.file);
+       if(item.file==='Road_to_Tser_Pool_Highlights.mp4')playerVideo.poster=mediaPath('Ravenloft-I6/videos','Road_to_Tser_Pool_Highlights.jpg');
+       else playerVideo.removeAttribute('poster');
+       playerCaption.textContent=item.label;playerLink.href=item.href;player.hidden=false;
+       row.after(player);playerVideo.load();
+     });vg.append(row);
+   });
+ }
+ categorySelect.addEventListener('change',renderVideos);
+ renderVideos();
+const sg=document.getElementById('screenshot-gallery');screenshots.forEach((name,i)=>{const f=document.createElement('figure');f.className='media-tile';const a=document.createElement('a');a.href=mediaPath('screenshots',name);a.title='View screenshot '+(i+1);a.addEventListener('click',e=>{e.preventDefault();document.getElementById('lightbox-img').src=a.href;document.getElementById('lightbox').classList.add('open')});const img=document.createElement('img');img.src=a.href;img.loading='lazy';img.alt='Castle Ravenloft screenshot '+(i+1);img.onerror=()=>{f.style.display='none'};const c=document.createElement('figcaption');c.textContent='Castle Ravenloft · '+(i+1);a.append(img);f.append(a,c);sg.append(f)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('open')});
+
+(function(){const overlay=document.getElementById('accuracy-overlay'),open=document.getElementById('accuracy-open'),close=document.getElementById('accuracy-close');let previous=null;function hide(){overlay.classList.remove('open');document.body.style.overflow='';(previous||open).focus()}open.addEventListener('click',()=>{previous=document.activeElement;overlay.classList.add('open');document.body.style.overflow='hidden';close.focus()});close.addEventListener('click',hide);overlay.addEventListener('click',e=>{if(e.target===overlay)hide()});document.addEventListener('keydown',e=>{if(!overlay.classList.contains('open'))return;if(e.key==='Escape')hide();if(e.key==='Tab'){const focusable=[close];e.preventDefault();focusable[0].focus()}})})();
+</script></body></html>

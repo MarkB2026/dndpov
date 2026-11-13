@@ -1,4 +1,4 @@
-DNDPOV LOCAL MULTIPLAYER — LAN HOST KIT v1.0
+DNDPOV LOCAL MULTIPLAYER — LAN HOST KIT v1.1
 Based on the WORKING DNDPOV Local Multiplayer v0.9.86 sync-fix package.
 
 This kit uses one computer as the host. There is NO online matchmaking,
@@ -7,7 +7,7 @@ external WebSocket service or multiplayer cloud dependency.
 CONTENTS
   START_LOCAL_SERVER.bat      Windows launcher
   local_server.py             Original aiohttp server, extended for all phases
-  index.html                  Local adventure hub
+  index.html                  Original full DNDPOV homepage restored
   Ravenloft-I6/
     old_svalich_road.html
     village_of_barovia.html            v5.52
@@ -19,7 +19,9 @@ START THE HOST (Windows)
   2. Install Python 3.10+ on the host computer, if needed.
      During installation, select "Add Python to PATH."
   3. Double-click START_LOCAL_SERVER.bat. Keep its window open.
-  4. The DM opens http://localhost:8765 on the SAME computer.
+     Your regular DNDPOV index.html homepage will open automatically at
+     http://localhost:8765 on the SAME computer.
+  4. If the browser does not open, type http://localhost:8765 manually.
   5. Choose an adventure phase. Click the Multiplayer button, enter your
      character name, and click Host as DM.
   6. Copy the room's six-character session code for your players.
@@ -48,7 +50,12 @@ WHAT HAS BEEN FIXED
     session secret. Other players stay connected in the meantime.
   * The village-to-Tser road link stays on the LAN host instead of
     jumping to dndpov.com and disconnecting.
-  * The local hub links directly to all four pages.
+  * The original DNDPOV index.html homepage is back, with adventure links
+    that lead to the pages hosted on your LAN computer.
+  * The Windows launcher automatically opens the original homepage at
+    http://localhost:8765 instead of showing a separate connection hub.
+  * Images, videos, and audio not included in the ZIP can load from the
+    public dndpov.com site while all multiplayer connections stay local.
 
 CHECKING MULTIPLAYER
   * Keep the server running and open two separate tabs at localhost:8765.
@@ -64,9 +71,10 @@ NOTES
     public Internet. Windows Firewall may ask permission for Python to
     accept private-network connections; allow it on Private networks only.
   * Existing external Three.js and/or media assets may still require
-    internet access. If the castle uses local monsters, images or sounds
-    from your project, copy those asset folders into Ravenloft-I6/ beside
-    these adventure HTML files using their normal relative paths.
+    internet access, including the original homepage logo, screenshots,
+    and videos. Missing media is redirected to dndpov.com automatically.
+    To play offline, copy your existing local media/monsters/sounds
+    asset folders into their usual locations beside these HTML files.
   * The original game HTML embeds DM/module information. It is not a
     cryptographically player-restricted build; technically skilled players
     can inspect source. Reserve secrets for a separate restricted build.

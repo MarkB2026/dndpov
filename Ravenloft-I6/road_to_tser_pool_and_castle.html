@@ -556,7 +556,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.11';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.12';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -1230,6 +1230,34 @@ minimap=function(){tserDrawBeforeMp();
  // sessionStorage travels with the browser tab between adventure HTML pages.
  // An explicit Disconnect clears it; changing scenes does not.
  if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
+})();
+</script>
+<script id="dndpovMpDockFix">
+/* Dock the shared multiplayer controls outside the scene's options window. */
+(()=>{
+ const button=document.getElementById('mpButton');
+ const panel=document.getElementById('mpPanel');
+ const hud=document.getElementById('hud');
+ if(!button||!panel||!hud)return;
+ let scheduled=0;
+ function positionControls(){
+  const r=hud.getBoundingClientRect();
+  const panelWidth=Math.min(350,Math.max(220,innerWidth-24));
+  const beside=r.right+12+panelWidth+12<=innerWidth;
+  const left=beside?r.right+12:Math.max(12,Math.min(r.left,innerWidth-panelWidth-12));
+  const top=beside?Math.max(12,r.top):Math.max(12,Math.min(innerHeight-56,r.bottom+12));
+  button.style.left=Math.round(left)+'px';
+  button.style.top=Math.round(top)+'px';
+  const panelTop=top+button.getBoundingClientRect().height+9;
+  panel.style.left=Math.round(left)+'px';
+  panel.style.top=Math.round(panelTop)+'px';
+  panel.style.width=Math.min(350,innerWidth-left-12)+'px';
+  panel.style.maxHeight=Math.max(110,innerHeight-panelTop-12)+'px';
+ }
+ function schedule(){cancelAnimationFrame(scheduled);scheduled=requestAnimationFrame(positionControls)}
+ addEventListener('resize',schedule);
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(hud);
+ schedule();
 })();
 </script>
 </body></html>

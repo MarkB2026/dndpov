@@ -101,6 +101,12 @@ const cemeteryWalkPath=[
  [CEMETERY_SITE[0]+Math.sin(.52)*87.5,CEMETERY_SITE[1]+Math.cos(.52)*87.5],
  [154,184],[207,204],[273,205],[340,197]
 ];
+// E4 stands farther back from the last houses, exactly on the southern
+// street's centreline. The public cobbles run straight to its iron gates;
+// a narrower straight walk continues through the forecourt to the front door.
+const MANOR_SITE=[548,1445];
+const MANOR_GATE=[MANOR_SITE[0],MANOR_SITE[1]-135.6];
+const manorWalkPath=[MANOR_GATE,[MANOR_SITE[0],1376]];
 const paths=[
  // Svalich Road: eastern gate through village, continuing southwest to bridge
  [[1332,548],[1000,548],[812,548],[548,548],[275,548],[0,1060]],
@@ -111,7 +117,7 @@ const paths=[
  // Eastern upper loop: returns to the main street
  [[670,347],[725,220],[810,190],[990,190],[990,548]],
  // Southern lane: the small U-shaped residential block
- [[548,548],[548,910],[548,1250]],[[548,910],[800,910],[800,695],[990,695],[990,548]]
+ [[548,548],[548,910],MANOR_GATE],[[548,910],[800,910],[800,695],[990,695],[990,548]]
 ];
 const WIDTH=1332,HEIGHT=1500, SCALE=10;const toWorld=p=>[(p[0]-WIDTH/2)/SCALE,(p[1]-HEIGHT/2)/SCALE];
 // The old boundary meets the actual stone gate piers, not the roadway.
@@ -180,6 +186,11 @@ function drawMap(){
   cemeteryWalkPath.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
   ctx.stroke();
  }
+ for(const [color,w] of [['#605d51',24],['#d2c4a9',17]]){
+  ctx.strokeStyle=color;ctx.lineWidth=w;ctx.beginPath();
+  manorWalkPath.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
+  ctx.stroke();
+ }
  ctx.restore();
  // Stone boundary deliberately stops at each side of BOTH entry arches.
  ctx.save();ctx.strokeStyle='#868c7e';ctx.lineWidth=13;
@@ -208,7 +219,7 @@ function hitsVillagePerimeter(x,z){
  return villagePerimeter.some(chain=>chain.some((point,i)=>
   i>0&&distToSegment(x,z,chain[i-1],point)<.83));
 }
-function onRoad(x,z){return paths.some(path=>path.some((p,i)=>i&&distToSegment(x,z,path[i-1],p)<width*1.3))||cemeteryWalkPath.some((p,i)=>i&&distToSegment(x,z,cemeteryWalkPath[i-1],p)<1.8)||Math.hypot(x-toWorld([548,548])[0],z-toWorld([548,548])[1])<7.2}
+function onRoad(x,z){return paths.some(path=>path.some((p,i)=>i&&distToSegment(x,z,path[i-1],p)<width*1.3))||cemeteryWalkPath.some((p,i)=>i&&distToSegment(x,z,cemeteryWalkPath[i-1],p)<1.8)||manorWalkPath.some((p,i)=>i&&distToSegment(x,z,manorWalkPath[i-1],p)<1.55)||Math.hypot(x-toWorld([548,548])[0],z-toWorld([548,548])[1])<7.2}
 let THREE;try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js')}catch(e){document.getElementById('error').style.display='block';document.getElementById('error').textContent='Three.js could not load. Check internet connection. '+e;throw e}
 const scene=new THREE.Scene();scene.background=new THREE.Color('#777e82');scene.fog=new THREE.Fog('#858b8a',72,175);
 // v5.2 — self-contained procedural storm sky. No image files or network assets.
@@ -613,6 +624,12 @@ rc.lineCap='round';rc.lineJoin='round';
 for(const [color,roadWidth] of [['#655742',39],['#d8bd91',30]]){
   rc.strokeStyle=color;rc.lineWidth=roadWidth;
   for(const path of paths){rc.beginPath();path.forEach(([x,y],i)=>i?rc.lineTo(x,y):rc.moveTo(x,y));rc.stroke();}
+}
+// A smaller forecourt walk continues straight from the extended street through
+// the open gates, without introducing a bend or a new street branch.
+for(const [color,pathWidth] of [['#655742',25],['#d8bd91',19]]){
+ rc.strokeStyle=color;rc.lineWidth=pathWidth;
+ rc.beginPath();manorWalkPath.forEach(([x,y],i)=>i?rc.lineTo(x,y):rc.moveTo(x,y));rc.stroke();
 }
 // Small central plaza, exactly at the central junction.
 rc.fillStyle='#655742';rc.beginPath();rc.arc(548,548,70,0,Math.PI*2);rc.fill();
@@ -1364,12 +1381,28 @@ function makeMaryHouse(){
  // Heavy exposed timber posts and two horizontal storey beams.
  for(const xx of [-W*.47,0,W*.47])box(g,xx,H/2,front,.19,H-.25,.2,timber);
  for(const yy of [2.9,H-.13])box(g,0,yy,front,W*.97,.2,.23,timber);
- // Four broad windows with aged shutters, two upstairs and two downstairs.
+ // Four broad windows with heavy, tightly closed shutters: Mary's house
+ // should look deliberately sealed, never like an ordinary occupied cottage.
+ const shutterPlank=mat(0x4e3a2b),shutterBat=mat(0x70533a),shutterHardware=mat(0x302d28);
  for(const yy of [1.85,4.42])for(const xx of [-W*.31,W*.31]){
   box(g,xx,yy,front+.08,1.3,1.38,.15,timber);
   box(g,xx,yy,front+.18,1.06,1.15,.09,darkGlass);
-  for(const side of [-1,1])box(g,xx+side*.77,yy,front+.21,.32,1.43,.15,oak);
-  box(g,xx,yy,front+.26,1.4,.13,.2,stone);
+  // Two closed, individual plank leaves cover the glass from edge to edge.
+  for(const side of [-1,1]){
+   const sx=xx+side*.295;
+   box(g,sx,yy,front+.34,.60,1.38,.17,shutterPlank);
+   for(const seam of [-.205,0,.205])
+    box(g,sx+seam,yy,front+.442,.025,1.34,.032,shutterBat);
+   for(const band of [-.47,.47]){
+    box(g,sx,yy+band,front+.458,.57,.082,.055,shutterHardware);
+    for(const nail of [-.22,.22]){
+     const head=new THREE.Mesh(new THREE.SphereGeometry(.028,6,5),shutterBat);
+     head.position.set(sx+nail,yy+band,front+.497);g.add(head);
+    }
+   }
+   box(g,xx+side*.66,yy,front+.32,.12,1.49,.20,timber);
+  }
+  box(g,xx,yy-0.72,front+.32,1.42,.14,.21,stone);
  }
  // Door is slightly inset and framed by a small protective porch.
  box(g,0,1.36,front+.21,1.55,2.72,.22,oak);
@@ -1379,6 +1412,56 @@ function makeMaryHouse(){
  box(g,0,.18,front+.8,2.1,.36,1.15,stone);
  box(g,0,2.98,front+.64,2.6,.18,1.25,roof);
  for(const xx of [-1.16,1.16])box(g,xx,1.53,front+1.18,.15,2.88,.15,timber);
+ // Mary's hand-lettered warning, nailed to the door rather than a shop sign.
+ const warningCanvas=document.createElement('canvas');warningCanvas.width=640;warningCanvas.height=300;
+ const wc=warningCanvas.getContext('2d');
+ wc.fillStyle='#95744f';wc.fillRect(0,0,640,300);
+ for(let i=0;i<28;i++){
+  wc.strokeStyle=`rgba(65,42,25,${.045+(i%4)*.014})`;
+  wc.lineWidth=2+(i%3);wc.beginPath();
+  const y=(i*57)%300;wc.moveTo(7,y);wc.bezierCurveTo(155,y-8,420,y+7,632,y-3);wc.stroke();
+ }
+ wc.strokeStyle='#4a3424';wc.lineWidth=12;wc.strokeRect(13,13,614,274);
+ wc.fillStyle='#392719';wc.font='bold 69px Georgia';wc.textAlign='center';wc.textBaseline='middle';
+ wc.fillText('DO NOT',320,115);wc.fillText('DISTURB',320,202);
+ const warningTexture=new THREE.CanvasTexture(warningCanvas);warningTexture.colorSpace=THREE.SRGBColorSpace;
+ const warningSign=new THREE.Mesh(new THREE.PlaneGeometry(.94,.45),
+  new THREE.MeshStandardMaterial({map:warningTexture,roughness:1,side:THREE.DoubleSide}));
+ warningSign.position.set(-.02,1.70,front+.428);warningSign.rotation.z=-.065;g.add(warningSign);
+ // A simple protective wooden cross, weather-worn and slightly crooked.
+ const crossWood=mat(0x70513b);
+ const crossPost=box(g,1.38,2.14,front+.36,.13,.91,.11,crossWood);
+ crossPost.rotation.z=-.06;
+ const crossArm=box(g,1.38,2.30,front+.38,.62,.13,.11,crossWood);
+ crossArm.rotation.z=-.06;
+ // Strings of dried garlic and protective herbs hang beside the door.
+ const twine=mat(0x8c7755),garlic=mat(0xbeb7a0),leaf=mat(0x555b3c);
+ for(let k=0;k<5;k++){
+  const gx=-1.34+(k-2)*.075,gy=2.58-k*.095;
+  const string=box(g,gx,gy,front+.42,.023,.42,.024,twine);
+  string.rotation.z=(k-2)*.15;
+  const bulb=new THREE.Mesh(new THREE.SphereGeometry(.088+(k%2)*.025,8,7),garlic);
+  bulb.scale.y=1.17;bulb.position.set(gx,gy-.25,front+.46);g.add(bulb);
+  const herb=box(g,gx+.045,gy-.13,front+.48,.07,.24,.055,leaf);
+  herb.rotation.z=.25+(k%2)*.35;
+ }
+ // Two unkempt pots of fading wildflowers at the doorstep.
+ const flowerPot=mat(0x80634a),soil=mat(0x443a31),stems=mat(0x576044);
+ const fadedPetals=[mat(0x806b85),mat(0xa09278),mat(0x6b7484)];
+ for(const side of [-1,1]){
+  const potX=side*1.80,potZ=front+1.19;
+  const pot=new THREE.Mesh(new THREE.CylinderGeometry(.23,.16,.35,9),flowerPot);
+  pot.position.set(potX,.21,potZ);g.add(pot);
+  const dirt=new THREE.Mesh(new THREE.CylinderGeometry(.218,.218,.025,9),soil);
+  dirt.position.set(potX,.39,potZ);g.add(dirt);
+  for(let k=0;k<5;k++){
+   const dx=Math.sin(k*2.5)*.115,dz=Math.cos(k*2.5)*.10;
+   const stem=box(g,potX+dx*.5,.65+(k%3)*.035,potZ+dz*.5,.024,.55,.024,stems);
+   stem.rotation.z=(k-2)*.12;
+   const bloom=new THREE.Mesh(new THREE.SphereGeometry(.082,7,6),fadedPetals[k%3]);
+   bloom.position.set(potX+dx*1.5,.87+(k%3)*.07,potZ+dz*1.6);g.add(bloom);
+  }
+ }
  // Side chimney makes the silhouette recognizable from the road.
  box(g,W*.30,H+.3,-D*.19,.76,2.4,.8,stone);
  box(g,W*.30,H+1.56,-D*.19,.99,.17,1.03,stone);
@@ -1435,14 +1518,34 @@ function makeGuestHouse(){
  box(g,0,.17,front+.92,2.8,.34,1.55,foundation);
  box(g,0,3.03,front+1.02,3.8,.24,2.12,shingles);
  for(const xx of [-1.62,1.62])box(g,xx,1.52,front+1.95,.18,3.02,.18,beam);
- // Small guest-house sign suspended from the porch fascia.
- const signCanvas=document.createElement('canvas');signCanvas.width=700;signCanvas.height=190;
- const c=signCanvas.getContext('2d');c.fillStyle='#443326';c.fillRect(0,0,700,190);
- c.strokeStyle='#cba978';c.lineWidth=12;c.strokeRect(8,8,684,174);
- c.fillStyle='#f5deb2';c.font='bold 65px Georgia';c.textAlign='center';c.textBaseline='middle';c.fillText('GUEST HOUSE',350,98);
+ // Light honey-oak sign, with dark wood-burned lettering rather than paint.
+ const signCanvas=document.createElement('canvas');signCanvas.width=1024;signCanvas.height=340;
+ const c=signCanvas.getContext('2d');
+ const woodWash=c.createLinearGradient(0,0,0,340);
+ woodWash.addColorStop(0,'#d3ad77');woodWash.addColorStop(.5,'#bf945f');woodWash.addColorStop(1,'#cba570');
+ c.fillStyle=woodWash;c.fillRect(0,0,1024,340);
+ for(let i=0;i<55;i++){
+  const sy=(i*83)%340;
+  c.strokeStyle=`rgba(94,56,28,${.045+(i%5)*.012})`;c.lineWidth=1+(i%4);
+  c.beginPath();c.moveTo(7,sy);
+  c.bezierCurveTo(240,sy+Math.sin(i)*8,700,sy-7,1018,sy+3);c.stroke();
+ }
+ c.strokeStyle='#78512f';c.lineWidth=15;c.strokeRect(13,13,998,314);
+ c.strokeStyle='rgba(78,44,22,.28)';c.lineWidth=5;c.strokeRect(29,29,966,282);
+ c.textAlign='center';c.textBaseline='middle';
+ c.shadowColor='rgba(45,25,13,.45)';c.shadowBlur=6;c.shadowOffsetY=2;
+ c.fillStyle='#4b2c18';c.font='bold 73px Georgia';c.fillText('Welcome weary',512,132);
+ c.font='bold 88px Georgia';c.fillText('travellers',512,240);
+ c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetY=0;
  const tex=new THREE.CanvasTexture(signCanvas);tex.colorSpace=THREE.SRGBColorSpace;
- const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.65,.72),new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide}));
- sign.position.set(0,3.32,front+2.10);g.add(sign);
+ const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.28,1.09),
+  new THREE.MeshStandardMaterial({map:tex,roughness:1,side:THREE.DoubleSide}));
+ sign.position.set(0,3.57,front+2.13);g.add(sign);
+ for(const xx of [-1.37,1.37]){
+  box(g,xx,4.20,front+2.14,.07,.30,.08,iron);
+  const nail=new THREE.Mesh(new THREE.SphereGeometry(.055,8,6),iron);
+  nail.position.set(xx,3.95,front+2.20);g.add(nail);
+ }
  // Brick chimney and a little warm lantern on either side of the door.
  box(g,-W*.31,H+.28,-D*.18,.94,2.35,.95,foundation);
  box(g,-W*.31,H+1.48,-D*.18,1.16,.20,1.17,foundation);
@@ -1487,11 +1590,11 @@ function makeResidentialHouse(){
 const residentialHouse=makeResidentialHouse();
 
 
-// E4 Burgomaster's Mansion — at the very end of the southern street, facing north
-// toward the approaching player. Broad, fortified manor, not a narrow townhouse.
+// E4 Burgomaster's Mansion — set back at the end of the straight southern
+// street. Keep its north-facing design and existing iron gate intact.
 function makeBurgomasterMansion(){
  const g=new THREE.Group();scene.add(g);
- const [x,z]=toWorld([548,1370]);g.position.set(x,0,z);
+ const [x,z]=toWorld(MANOR_SITE);g.position.set(x,0,z);
  g.rotation.y=Math.PI; // local front (+Z) points north, up the terminating street
  const W=15.8,D=10.8,H=7.3,F=D/2+.16;
  const stone=mat(0x686b64),plaster=mat(0xa69b84),timber=mat(0x40352c),slate=mat(0x383d42),
@@ -1561,7 +1664,7 @@ function makeBurgomasterMansion(){
  c.fillStyle='#d8c18c';c.font='bold 155px Georgia';c.textAlign='center';c.fillText('B',160,218);
  const crest=new THREE.Mesh(new THREE.PlaneGeometry(1.42,1.6),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shieldCanvas),transparent:true,side:THREE.DoubleSide}));
  crest.position.set(0,5.72,F+.22);g.add(crest);
- // Damaged boundary fencing and gate opening aligned with the street.
+ // Damaged boundary fencing and gate opening aligned with the private approach.
  const fenceZ=F+8.0;
  for(const side of [-1,1]){
   for(let i=0;i<6;i++){
@@ -1572,7 +1675,7 @@ function makeBurgomasterMansion(){
   box(g,side*7.65,1.25,fenceZ,7.9,.14,.16,timber);
   box(g,side*3.2,1.03,fenceZ,.72,2.06,.72,stone);
  }
- // Wide iron entrance gate at the end of the extended approach.
+ // Wide iron entrance gate at the end of the walk-up, clear of the main street.
  // Its two open leaves sit between the original stone pillars, facing the street.
  const gateIron=mat(0x252722),gateAccent=mat(0x796847);
  for(const side of [-1,1]){
@@ -2174,6 +2277,8 @@ function roomForInfill(px,py,radius=infillRadius){
    distToSegment(x,z,path[i-1],p)<radius+(j===2?1.9:1.2))))return false;
  if(cemeteryWalkPath.some((p,i)=>i&&
    distToSegment(x,z,cemeteryWalkPath[i-1],p)<radius+1.1))return false;
+ if(manorWalkPath.some((p,i)=>i&&
+   distToSegment(x,z,manorWalkPath[i-1],p)<radius+1.2))return false;
  if(landmarkBlocks.some(b=>Math.hypot(x-b.x,z-b.z)<radius+b.r+.5))return false;
  if(acceptedLots.some(b=>Math.hypot(x-b.x,z-b.z)<radius+b.r+.22))return false;
  return true;
@@ -2308,7 +2413,7 @@ function cartProp(x,z,angle=0){
  for(const xx of [-.72,.72])box(g,xx,.83,1.65,.10,.12,2.0,propOak);
  // A few loose crates in the bed.
  box(g,-.52,1.29,-.20,.72,.40,.63,propRim);box(g,.48,1.24,.25,.66,.32,.65,propDark);
- props.push({x,z,r:2.1});
+ props.push({x,z,r:2.55});
 }
 function freeProp(px,py,rad){
  const [x,z]=toWorld([px,py]);
@@ -2318,22 +2423,68 @@ function freeProp(px,py,rad){
     distToSegment(x,z,churchCircleConnector[i-1],point)<rad+39/(2*SCALE)+.85))return false;
  if(cemeteryWalkPath.some((point,i)=>i&&
     distToSegment(x,z,cemeteryWalkPath[i-1],point)<rad+1.75))return false;
+ if(manorWalkPath.some((point,i)=>i&&
+    distToSegment(x,z,manorWalkPath[i-1],point)<rad+1.25))return false;
  if(landmarkBlocks.some(b=>Math.hypot(x-b.x,z-b.z)<b.r+rad+2.5))return false;
  if(villageHomes.some(h=>Math.hypot(x-h.x,z-h.z)<h.r+rad+1.2))return false;
  if(props.some(h=>Math.hypot(x-h.x,z-h.z)<h.r+rad+1.3))return false;
  return true;
 }
+// v5.44 — the historic infill houses eliminated almost all the fixed cart and
+// barrel sites. Search a few metres around each original position instead of
+// silently deleting the prop. Use realistic object clearance, with a clear
+// walking strip along the cobbles and no encroachment on keyed entrances.
+function clearStreetFurniture(px,py,radius){
+ if(px<80||px>1270||py<110||py>1440)return false;
+ const [x,z]=toWorld([px,py]);
+ if(Math.hypot(px-548,py-548)<90)return false;
+ let roadDistance=Infinity;
+ for(const lane of paths)for(let i=1;i<lane.length;i++)
+  roadDistance=Math.min(roadDistance,distToSegment(x,z,lane[i-1],lane[i]));
+ // Barrels may sit near the kerb; broad carts need more room. No item
+ // blocks the centre of a street or disappears far behind the houses.
+ if(roadDistance<1.8+radius*.9||roadDistance>12.5)return false;
+ if(churchCircleConnector.some((p,i)=>i&&
+    distToSegment(x,z,churchCircleConnector[i-1],p)<radius+3.1))return false;
+ if(cemeteryWalkPath.some((p,i)=>i&&
+    distToSegment(x,z,cemeteryWalkPath[i-1],p)<radius+1.6))return false;
+ if(manorWalkPath.some((p,i)=>i&&
+    distToSegment(x,z,manorWalkPath[i-1],p)<radius+1.6))return false;
+ if(villagePerimeter.some(chain=>chain.some((p,i)=>i&&
+    distToSegment(x,z,chain[i-1],p)<radius+.8)))return false;
+ if(landmarkBlocks.some(b=>Math.hypot(x-b.x,z-b.z)<b.r+radius+.65))return false;
+ if(villageHomes.some(h=>Math.hypot(x-h.x,z-h.z)<h.r+radius+.72))return false;
+ if(props.some(p=>Math.hypot(x-p.x,z-p.z)<p.r+radius+.45))return false;
+ return true;
+}
+function findStreetFurnitureSite(px,py,radius,seed){
+ // Preserve a successful original placement exactly; relocate only the ones
+ // that the additional houses made impossible.
+ if(freeProp(px,py,radius))return [px,py];
+ if(clearStreetFurniture(px,py,radius))return [px,py];
+ for(const ring of [18,32,48,65,83,105,130,155]){
+  for(let i=0;i<20;i++){
+   const angle=(i+(seed%7)*.23)*Math.PI/10;
+   const tx=px+ring*Math.cos(angle),ty=py+ring*Math.sin(angle);
+   if(clearStreetFurniture(tx,ty,radius))return [tx,ty];
+  }
+ }
+ return null;
+}
 const cartSites=[[395,520],[940,505],[1015,755],[605,845],[365,680],[810,320],[1140,515],[780,840],[490,410],[1000,300],[370,450],[790,600],[960,675],[1150,885],[350,835],[700,930],[1030,1020],[460,1080],[1190,640],[850,1050]];
+let restoredCartCount=0,restoredBarrelCount=0,restoredBarrowCount=0,restoredCrateCount=0;
 for(let i=0;i<cartSites.length;i++){
- const [px,py]=cartSites[i];if(!freeProp(px,py,2.1))continue;
- const [x,z]=toWorld([px,py]);cartProp(x,z,(i%4)*Math.PI/2+.18);
+ const [px,py]=cartSites[i],spot=findStreetFurnitureSite(px,py,2.55,i);
+ if(!spot)continue;
+ const [x,z]=toWorld(spot);cartProp(x,z,(i%4)*Math.PI/2+.18);restoredCartCount++;
 }
 const barrelSites=[[385,575],[445,535],[935,585],[1040,510],[1060,795],[600,790],[770,700],[300,680],[745,380],[1020,420],[895,890],[480,860],[1120,680],[390,360],[830,990],[980,980],[625,375],[1110,295],[410,990],[810,590],[570,1070],[910,280],[1150,760],[285,790],[300,440],[520,475],[640,600],[755,545],[980,365],[1150,400],[1060,930],[760,940],[560,1010],[930,1110],[380,1120],[830,1120],[490,270],[1010,245]];
 for(let i=0;i<barrelSites.length;i++){
- const [px,py]=barrelSites[i];if(!freeProp(px,py,.55))continue;
- const [x,z]=toWorld([px,py]);const group=new THREE.Group();group.position.set(x,0,z);scene.add(group);
+ const [px,py]=barrelSites[i],radius=i%3===0?1.45:.62;
+ const spot=findStreetFurnitureSite(px,py,radius,i+31);if(!spot)continue;
+ const [x,z]=toWorld(spot);const group=new THREE.Group();group.position.set(x,0,z);scene.add(group);
  barrelProp(group,0,0,0);if(i%3===0)barrelProp(group,1.02,.28,0);
- props.push({x,z,r:1.4});
+ props.push({x,z,r:radius});restoredBarrelCount++;
 }
 
 // Rustic village handbarrows, broken wagon wheels, timber crates and scattered casks.
@@ -2347,7 +2498,7 @@ function wheelbarrowProp(x,z,angle){
  const hub=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.17,10),propRim);hub.rotation.z=Math.PI/2;hub.position.set(0,.4,-1);g.add(hub);
  for(const xx of [-.4,.4])box(g,xx,.35,.45,.09,.68,.10,propDark);
  box(g,-.18,1.04,-.16,.48,.24,.46,propRim);
- props.push({x,z,r:1.6});
+ props.push({x,z,r:1.95});
 }
 function cratePile(x,z,angle){
  const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=angle;scene.add(g);
@@ -2358,9 +2509,21 @@ function cratePile(x,z,angle){
  props.push({x,z,r:1.25});
 }
 const barrowSites=[[450,520],[910,525],[1110,700],[640,850],[400,860],[1000,850],[780,320],[580,1080],[1170,980],[340,750],[920,1010],[600,360]];
-for(let i=0;i<barrowSites.length;i++){const [px,py]=barrowSites[i];if(!freeProp(px,py,1.6))continue;const [x,z]=toWorld([px,py]);wheelbarrowProp(x,z,i*.81);}
+for(let i=0;i<barrowSites.length;i++){
+ const [px,py]=barrowSites[i],spot=findStreetFurnitureSite(px,py,1.95,i+73);
+ if(!spot)continue;
+ const [x,z]=toWorld(spot);wheelbarrowProp(x,z,i*.81);restoredBarrowCount++;
+}
 const crateSites=[[380,490],[870,560],[1080,530],[520,840],[710,920],[950,915],[1100,1040],[350,1040],[760,220],[1060,310],[580,670],[480,1150],[1180,780]];
-for(let i=0;i<crateSites.length;i++){const [px,py]=crateSites[i];if(!freeProp(px,py,1.25))continue;const [x,z]=toWorld([px,py]);cratePile(x,z,i*.47);}
+for(let i=0;i<crateSites.length;i++){
+ const [px,py]=crateSites[i],spot=findStreetFurnitureSite(px,py,1.25,i+101);
+ if(!spot)continue;
+ const [x,z]=toWorld(spot);cratePile(x,z,i*.47);restoredCrateCount++;
+}
+console.info('Barovia street furniture restored:',{
+ carts:restoredCartCount,barrels:restoredBarrelCount,
+ wheelbarrows:restoredBarrowCount,crates:restoredCrateCount
+});
 
 // v5.2: Visibly substantial, irregular roadside thickets rather than tiny ornamental shrubs.
 // Broad leaf masses with uneven crowns and darker interior foliage. No trees or spikes.
@@ -2415,7 +2578,7 @@ const keyedPlaces=[
  {id:'E1',name:'Bildrath’s Mercantile',p:[655,650]},
  {id:'E2',name:'Blood of the Vine Tavern',p:TAVERN_SITE},
  {id:'E3',name:'Mad Mary’s House',p:[450,700]},
- {id:'E4',name:'Burgomaster’s Mansion',p:[548,1370]},
+ {id:'E4',name:'Burgomaster’s Mansion',p:MANOR_SITE},
  {id:'E5',name:'Guest House',p:[450,930]},
  {id:'E6',name:'Church',p:CHURCH_SITE},
  {id:'E7',name:'Cemetery',p:CEMETERY_SITE}
@@ -3458,8 +3621,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title=document.title.replace('v5.38','v5.40');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.40';
+document.title=document.title.replace('v5.38','v5.44');
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.44';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->

@@ -1488,6 +1488,20 @@ refreshAll();
 (()=>{
  const $mp=id=>document.getElementById(id), mp={connected:false,id:null,members:[],role:null,session:null,paused:false};window.DNDPOV_MP=mp;
  let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ // Carry the same LAN session between village, road, Tser and castle pages.
+ const sessionKey='dndpov_mp_session';
+ let savedSession=null;
+ try{savedSession=JSON.parse(sessionStorage.getItem(sessionKey)||'null')}catch{}
+ if(savedSession){
+  $mp('mpCode').value=savedSession.code||'';
+  $mp('mpName').value=savedSession.name||'';
+  $mp('mpColor').value=savedSession.color||'#58b8ff';
+  sessionSecret=savedSession.secret||null;
+ }
+ function keepSession(){try{sessionStorage.setItem(sessionKey,JSON.stringify({
+  code:mp.session,role:mp.role,name:$mp('mpName').value,
+  color:$mp('mpColor').value,secret:sessionSecret
+ }))}catch{}}
  const say=t=>{$mp('mpStatus').textContent=t};
  function send(o){if(ws?.readyState===WebSocket.OPEN){ws.send(JSON.stringify(o));if(o.type==='position')sent++}}
  function redraw(){const el=$mp('mpMembers');el.replaceChildren();for(const m of mp.members){const p=document.createElement('div');p.className='member';p.textContent=(m.online?'● ':'○ ')+m.name+' · '+(floorNames[m.floor]||m.floor)+' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'')+' · X:'+Number(m.x).toFixed(1)+' Y:'+Number(m.y).toFixed(1);p.style.color=m.color;el.append(p)}
@@ -1499,7 +1513,7 @@ refreshAll();
  ws.onmessage=e=>{let d;try{d=JSON.parse(e.data)}catch{return}
  if(d.type==='position_ack'){acked++;return}
  if(d.type==='error'){say(d.message);return}
- if(d.type==='welcome'){mp.connected=true;mp.id=d.id;mp.role=d.role;mp.session=d.code;sessionSecret=d.secret||sessionSecret;$mp('mpCode').value=d.code;$mp('mpDM').hidden=d.role!=='dm';say('Connected as '+d.role.toUpperCase()+' · session '+d.code);sendPosition(true);redraw();return}
+ if(d.type==='welcome'){mp.connected=true;mp.id=d.id;mp.role=d.role;mp.session=d.code;sessionSecret=d.secret||sessionSecret;$mp('mpCode').value=d.code;$mp('mpDM').hidden=d.role!=='dm';keepSession();say('Connected as '+d.role.toUpperCase()+' · session '+d.code);sendPosition(true);redraw();return}
  if(d.type==='state'){received++;mp.members=d.members||[];mp.paused=!!d.paused;redraw();window.DNDPOV_CASTLE_BRIDGE?.redrawMap?.();return}
  if(d.type==='log'&&mp.role==='dm'){const p=document.createElement('div');p.textContent=d.message;$mp('mpLog').prepend(p);return}
  if(d.type==='encounter'){if(!d.id)return;window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:d.id,count:d.count||1}}));
@@ -1520,12 +1534,13 @@ refreshAll();
  $mp('mpButton').onclick=()=>{$mp('mpPanel').style.display=$mp('mpPanel').style.display==='block'?'none':'block'};
  $mp('mpClose').onclick=()=>$mp('mpPanel').style.display='none';
  $mp('mpHost').onclick=()=>connect('dm');$mp('mpJoin').onclick=()=>connect('player');
- $mp('mpLeave').onclick=()=>{ws?.close();mp.connected=false;mp.members=[];redraw()};
+ $mp('mpLeave').onclick=()=>{ws?.close();mp.connected=false;mp.members=[];sessionSecret=null;try{sessionStorage.removeItem(sessionKey)}catch{}redraw()};
  $mp('mpTrigger').onclick=()=>send({type:'encounter',id:$mp('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),count:Number($mp('mpCount').value)||1,targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
  $mp('mpComplete').onclick=()=>send({type:'complete',targets:$mp('mpTargets').value,room:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.room||null,floor:window.DNDPOV_CASTLE_BRIDGE?.getPosition?.()?.floor??0});
  $mp('mpPause').onclick=()=>send({type:'pause'});
  // DM-only notes are not sent by the server. Hide local DM toggle for joined players.
  const observer=new MutationObserver(()=>{if(mp.connected&&mp.role==='player'&&window.DNDPOV_CASTLE_BRIDGE?.isDM?.()){window.DNDPOV_CASTLE_BRIDGE?.toggleDM?.()}});
  observer.observe($mp('dmBtn'),{attributes:true,childList:true,subtree:true});
+ if(savedSession?.code)setTimeout(()=>connect(savedSession.role==='dm'?'dm':'player'),500);
 })();
 </script></body></html>

@@ -556,7 +556,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.10';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.11';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -1073,4 +1073,163 @@ if(player.z<-616&&!transitionStarted){transitionStarted=true;document.querySelec
 updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame)}requestAnimationFrame(frame);
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()});
 }catch(e){const box=document.querySelector('#error');box.style.display='block';box.textContent='Unable to start: '+e.message;console.error(e)}
-</script><div id="carriageOffer" style="display:none;position:fixed;z-index:1000;left:50%;top:45%;transform:translate(-50%,-50%);width:min(420px,90vw);padding:23px;background:rgba(20,22,23,.96);border:2px solid #b58b51;color:#f0d8ad;font-family:Georgia,serif;box-shadow:0 8px 40px #000a;text-align:center"><div style="font-size:22px;font-weight:bold;margin-bottom:12px">The Black Carriage</div><p>A driverless black carriage waits beside the road. Will you take the carriage to Castle Ravenloft?</p><button id="carriageYes" style="padding:9px 25px;margin:7px;background:#49301e;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">Yes — Board</button><button id="carriageNo" style="padding:9px 25px;margin:7px;background:#282828;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">No — Walk</button></div></body></html>
+
+// Local multiplayer bridge — road, carriage and Tser scenes stay untouched.
+window.DNDPOV_ZONE_BRIDGE={getPosition:()=>({x:player.x,y:player.z,
+ a:player.angle,floor:102,room:'Road to Tser Pool'}),redrawMap:()=>minimap()};
+const tserDrawBeforeMp=minimap;
+minimap=function(){tserDrawBeforeMp();
+ 
+ const mp=window.DNDPOV_MP;
+ if(mp?.members?.length){
+  ctx.save();
+  for(const member of mp.members){
+   if(member.id===mp.id||!member.online||Number(member.floor)!==102)continue;
+   const mx=105+Number(member.x)*.45,my=20+(105-Number(member.y))*.34;
+   ctx.fillStyle=member.color||'#58b8ff';
+   ctx.strokeStyle='#131313';ctx.lineWidth=3;
+   ctx.beginPath();ctx.arc(mx,my,10,0,Math.PI*2);
+   ctx.fill();ctx.stroke();
+   ctx.font='bold 18px sans-serif';ctx.textAlign='center';
+   ctx.strokeStyle='#101010';ctx.lineWidth=4;
+   ctx.strokeText(String(member.name).slice(0,15),mx,my-17);
+   ctx.fillStyle='#ffffff';ctx.fillText(String(member.name).slice(0,15),mx,my-17);
+  }
+  ctx.restore();
+ }
+ 
+};
+
+</script><div id="carriageOffer" style="display:none;position:fixed;z-index:1000;left:50%;top:45%;transform:translate(-50%,-50%);width:min(420px,90vw);padding:23px;background:rgba(20,22,23,.96);border:2px solid #b58b51;color:#f0d8ad;font-family:Georgia,serif;box-shadow:0 8px 40px #000a;text-align:center"><div style="font-size:22px;font-weight:bold;margin-bottom:12px">The Black Carriage</div><p>A driverless black carriage waits beside the road. Will you take the carriage to Castle Ravenloft?</p><button id="carriageYes" style="padding:9px 25px;margin:7px;background:#49301e;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">Yes — Board</button><button id="carriageNo" style="padding:9px 25px;margin:7px;background:#282828;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">No — Walk</button></div>
+<!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
+<style id="dndpovMpStyle">
+#mpButton{position:fixed;top:12px;left:12px;z-index:10005;background:#193326;color:#b8f5c6;border:1px solid #60a77a;border-radius:7px;padding:8px 13px;font:700 12px system-ui;cursor:pointer}
+#mpPanel{position:fixed;z-index:10006;top:48px;left:12px;width:min(350px,calc(100vw - 24px));max-height:85vh;overflow:auto;background:#151b17;color:#eee9da;border:1px solid #6caa7d;border-radius:10px;box-shadow:0 12px 50px #000b;padding:16px;font:13px/1.5 system-ui;display:none}
+#mpPanel h3{margin:0 0 10px;color:#b7e9bd;font:700 18px system-ui}
+#mpPanel input,#mpPanel select{width:100%;padding:8px;margin:4px 0 10px;color:#fff;background:#202c25;border:1px solid #6b8c75;border-radius:5px}
+#mpPanel button{background:#2e6643;color:white;border:1px solid #6aab7a;border-radius:5px;padding:8px 10px;margin:3px;cursor:pointer}
+#mpPanel button:disabled{opacity:.45}#mpPanel .muted{color:#b7bdb5;font-size:11px}#mpPanel .member{padding:5px;border-bottom:1px solid #45564b}
+#mpEncounterToast{position:fixed;z-index:10007;top:28%;left:50%;transform:translateX(-50%);width:min(420px,90vw);padding:24px;background:#180f0df2;color:#f7ddbd;border:2px solid #b65d4b;border-radius:8px;box-shadow:0 15px 60px #000d;text-align:center;font:18px Georgia,serif}
+#mpEncounterToast[hidden]{display:none!important}#mpEncounterToast button{cursor:pointer;background:#44241e;color:#f4e2c8;border:1px solid #b65d4b;padding:7px 14px;margin-top:12px}
+</style>
+<button id="mpButton" type="button">♟ Multiplayer: OFF</button>
+<section id="mpPanel" aria-label="Local multiplayer"><h3>Local Multiplayer · Road to Tser Pool</h3>
+<p class="muted">Use the same local multiplayer server as Castle Ravenloft. Host or join by session code; party membership can follow you between adventure pages on this server.</p>
+<label>Character name<input id="mpName" maxlength="24" placeholder="Alaric"></label>
+<label>Marker color<select id="mpColor"><option value="#58b8ff">Blue</option><option value="#67d9a0">Green</option><option value="#f5c25c">Gold</option><option value="#ce8dff">Purple</option></select></label>
+<label>Session code<input id="mpCode" maxlength="8" placeholder="Leave blank to host"></label>
+<button id="mpHost" type="button">Host as DM</button><button id="mpJoin" type="button">Join as Player</button><button id="mpLeave" type="button">Disconnect</button><button id="mpClose" type="button">Close ×</button>
+<div id="mpStatus" class="muted">Not connected.</div><div id="mpTransport" class="muted">Network: waiting</div><div id="mpMembers"></div>
+<div id="mpDM" hidden><h3>DM Encounter Control</h3>
+<p class="muted">Send the reveal to adventurers nearby, or to everyone.</p>
+<label>Monster ID<input id="mpMonster" placeholder="zombie"></label>
+<label>Quantity<input id="mpCount" type="number" value="1" min="1" max="99"></label>
+<label>Recipients<select id="mpTargets"><option value="room">Players at my location</option><option value="all">All connected players</option></select></label>
+<button id="mpTrigger" type="button">Trigger monster</button><button id="mpComplete" type="button">Battle complete</button><button id="mpPause" type="button">Pause / resume movement</button>
+<h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
+</section>
+<aside id="mpEncounterToast" hidden role="alert"><strong id="mpEncounterTitle">ENCOUNTER</strong><p id="mpEncounterMessage"></p><button id="mpEncounterDismiss" type="button">Close</button></aside>
+<script id="dndpovMpController">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const mp={connected:false,id:null,members:[],role:null,session:null,paused:false};
+ window.DNDPOV_MP=mp;
+ const storageKey='dndpov_mp_session',zoneLabel='Road to Tser Pool';
+ let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ function load(){try{return JSON.parse(sessionStorage.getItem(storageKey)||'null')}catch{return null}}
+ function store(){try{sessionStorage.setItem(storageKey,JSON.stringify({
+  role:mp.role||'player',code:mp.session||$('mpCode').value.trim().toUpperCase(),
+  name:$('mpName').value,color:$('mpColor').value,secret:sessionSecret
+ }))}catch{}}
+ const prior=load();
+ if(prior){$('mpName').value=prior.name||'';$('mpColor').value=prior.color||'#58b8ff';
+  $('mpCode').value=prior.code||'';sessionSecret=prior.secret||null;}
+ function say(message){$('mpStatus').textContent=message}
+ function send(message){if(ws&&ws.readyState===WebSocket.OPEN){
+  ws.send(JSON.stringify(message));if(message.type==='position')sent++;}}
+ const zoneNames={100:'Village of Barovia',101:'Old Svalich Road',
+  102:'Road to Tser Pool'};
+ function displayMembers(){const box=$('mpMembers');box.replaceChildren();
+  for(const m of mp.members){const line=document.createElement('div');line.className='member';
+   const zone=zoneNames[m.floor]||('Castle floor '+m.floor);
+   line.textContent=(m.online?'● ':'○ ')+(m.name||'Adventurer')+' · '+zone+
+    ' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'');
+   line.style.color=m.color||'#b8f5c6';box.append(line);}
+  $('mpButton').textContent=mp.connected?'♟ '+mp.session+' · '+mp.members.length+' connected':'♟ Multiplayer: OFF';
+ }
+ function connect(role){
+  if(!location.host){say('Open this HTML through the local multiplayer server, not file://.');
+   $('mpPanel').style.display='block';return;}
+  if(ws)ws.close();mp.connected=false;mp.role=role;
+  const protocol=location.protocol==='https:'?'wss:':'ws:';
+  ws=new WebSocket(protocol+'//'+location.host+'/ws');
+  ws.onopen=()=>send({type:'join',role,code:$('mpCode').value.trim().toUpperCase(),
+   name:$('mpName').value.trim()||'Adventurer',color:$('mpColor').value,
+   secret:role==='dm'?sessionSecret:null});
+  ws.onclose=()=>{if(ws){mp.connected=false;say('Disconnected. Rejoin when ready.');displayMembers()}};
+  ws.onerror=()=>say('Connection failed. Start the local multiplayer launcher and open its server URL.');
+  ws.onmessage=event=>{let data;try{data=JSON.parse(event.data)}catch{return}
+   if(data.type==='position_ack'){acked++;return}
+   if(data.type==='error'){say(data.message||'Multiplayer server error');return}
+   if(data.type==='welcome'){
+    mp.connected=true;mp.id=data.id;mp.role=data.role;mp.session=data.code;
+    sessionSecret=data.secret||sessionSecret;$('mpCode').value=data.code;
+    $('mpDM').hidden=data.role!=='dm';store();
+    say('Connected as '+String(data.role).toUpperCase()+' · session '+data.code+
+     ' · '+zoneLabel);sendPosition(true);displayMembers();return;
+   }
+   if(data.type==='state'){
+    received++;mp.members=data.members||[];mp.paused=!!data.paused;
+    displayMembers();window.DNDPOV_ZONE_BRIDGE?.redrawMap?.();return;
+   }
+   if(data.type==='log'&&mp.role==='dm'){
+    const line=document.createElement('div');line.textContent=data.message||'';
+    $('mpLog').prepend(line);return;
+   }
+   if(data.type==='encounter'&&data.id){
+    $('mpEncounterTitle').textContent='ENCOUNTER · '+String(data.id).replaceAll('_',' ').toUpperCase();
+    $('mpEncounterMessage').textContent=(data.count||1)+' × '+String(data.id).replaceAll('_',' ');
+    $('mpEncounterToast').hidden=false;
+    window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:data.id,count:data.count||1}}));
+    return;
+   }
+   if(data.type==='complete'){$('mpEncounterToast').hidden=true;return}
+  };
+ }
+ function sendPosition(force=false){if(!mp.connected)return;
+  const now=Date.now();if(!force&&now-lastSent<170)return;lastSent=now;
+  const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
+  if(position)send({type:'position',...position});
+ }
+ setInterval(()=>sendPosition(),180);
+ setInterval(()=>{
+  const remote=mp.members.filter(m=>m.id!==mp.id);
+  $('mpTransport').textContent='Network: '+(ws?.readyState===1?'connected':'disconnected')+
+   ' · sent '+sent+' · ACK '+acked+' · updates '+received+' · remote '+remote.length;
+ },1000);
+ document.addEventListener('keydown',event=>{
+  if(mp.connected&&mp.paused&&mp.role!=='dm'&&
+   ['ArrowUp','ArrowDown','KeyW','KeyS'].includes(event.code)){
+   event.stopImmediatePropagation();event.preventDefault();}
+ },true);
+ $('mpButton').onclick=()=>{$('mpPanel').style.display=$('mpPanel').style.display==='block'?'none':'block'};
+ $('mpClose').onclick=()=>{$('mpPanel').style.display='none'};
+ $('mpHost').onclick=()=>connect('dm');$('mpJoin').onclick=()=>connect('player');
+ $('mpLeave').onclick=()=>{ws?.close();ws=null;mp.connected=false;mp.members=[];
+  sessionSecret=null;try{sessionStorage.removeItem(storageKey)}catch{}
+  say('Disconnected.');displayMembers();};
+ $('mpEncounterDismiss').onclick=()=>{$('mpEncounterToast').hidden=true};
+ function encounter(type){const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.()||{};
+  send({type,id:$('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),
+   count:Math.max(1,Number($('mpCount').value)||1),
+   targets:$('mpTargets').value,room:position.room||null,floor:position.floor??100});}
+ $('mpTrigger').onclick=()=>encounter('encounter');
+ $('mpComplete').onclick=()=>encounter('complete');
+ $('mpPause').onclick=()=>send({type:'pause'});
+ // sessionStorage travels with the browser tab between adventure HTML pages.
+ // An explicit Disconnect clears it; changing scenes does not.
+ if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
+})();
+</script>
+</body></html>

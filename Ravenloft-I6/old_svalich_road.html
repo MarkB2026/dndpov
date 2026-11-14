@@ -496,7 +496,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.34';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.35';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -1137,4 +1137,31 @@ drawMap=function(){svalichDrawBeforeMp();
 })();
 </script>
 
+<style id="dndpov-window-spacing">
+/* Align the notes with the title/weather window, leaving space between them. */
+#gamePanel{
+ width:350px!important;
+ max-width:calc(100vw - 24px)!important;
+ box-sizing:border-box!important;
+}
+#help{left:380px!important}
+@media(max-width:1050px){#help{left:14px!important}}
+</style>
+<script id="dndpov-window-spacing-controller">
+(()=>{
+ const hud=document.getElementById('hud');
+ const notes=document.getElementById('gamePanel');
+ if(!hud||!notes)return;
+ let scheduled=0;
+ function positionNotes(){
+  const top=Math.ceil(hud.getBoundingClientRect().bottom)+14;
+  notes.style.setProperty('top',top+'px','important');
+  notes.style.setProperty('max-height',Math.max(60,innerHeight-top-14)+'px','important');
+ }
+ function schedule(){cancelAnimationFrame(scheduled);scheduled=requestAnimationFrame(positionNotes)}
+ addEventListener('resize',schedule);
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(hud);
+ schedule();
+})();
+</script>
 </body></html>

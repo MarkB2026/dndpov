@@ -1541,7 +1541,21 @@ function updateEyes(t){
   e.pair.lookAt(camera.position);
  }
 }
-let transitionStarted=false;const player={x:0,z:93,angle:Math.PI},keys={};let last=performance.now(),time='day',weather='mist';
+let transitionStarted=false;
+// Public preview: both walking and carriage arrivals enter Map 02 (Walls of Ravenloft).
+// The existing castle page recognizes arrival=carriage&floor=walls and places the
+// visitor in K1 on Map 02; no castle geometry or floor data is changed here.
+const CASTLE_ENTRY_URL='ravenloft.html?arrival=carriage&floor=walls';
+function enterCastle(){
+ if(transitionStarted)return;
+ transitionStarted=true;
+ stopCarriageSoundtrack();
+ stopRiverAmbience();
+ for(const key of Object.keys(keys))keys[key]=false;
+ document.querySelector('#fade').classList.add('active');
+ setTimeout(()=>{window.location.href=CASTLE_ENTRY_URL;},1500);
+}
+const player={x:0,z:93,angle:Math.PI},keys={};let last=performance.now(),time='day',weather='mist';
 // Honor time/weather passed by the village if the scenes are chained together.
 const incomingRoadSettings=new URLSearchParams(window.location.search);
 const suppliedTime=incomingRoadSettings.get('time');
@@ -1550,7 +1564,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.26';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.27';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2197,7 +2211,7 @@ function carriageFrame(dt){
  player.x=carriageGroup.position.x;player.z=rideZ;
  document.querySelector('#place').textContent='Inside the Black Carriage';
  document.querySelector('#description').textContent='The carriage sets off without a driver. Through the front window, the dirt road winds uphill toward Castle Ravenloft.';
- if(rideZ<=-613&&!transitionStarted){stopCarriageSoundtrack();transitionStarted=true;document.querySelector('#fade').classList.add('active');setTimeout(()=>{document.querySelector('#fade').classList.remove('active');carriageMode='declined';player.x=pathX(-590);player.z=-590;window.dndpovPreviewGate('Castle Ravenloft');},900)}
+ if(rideZ<=-613&&!transitionStarted)enterCastle();
 }
 // Village-style optional read-aloud: the landmark panel opens once on approach,
 // with manual R reading and a complete location index always available.
@@ -2409,7 +2423,7 @@ if(player.z>105){
  player.z=105;
  if(!roadReturnPromptLatched&&!transitionStarted)openRoadReturnPrompt();
 }
-if(player.z<-616&&!transitionStarted){transitionStarted=true;player.z=-615;window.dndpovPreviewGate('Castle Ravenloft')}
+if(player.z<-616&&!transitionStarted){player.z=-615;enterCastle()}
 updateEvaOutsidePrompt();
 updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame)}requestAnimationFrame(frame);
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()});

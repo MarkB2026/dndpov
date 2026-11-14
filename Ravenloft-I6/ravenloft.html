@@ -152,8 +152,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.20 LOCKED GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.20 LOCKED — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.21 PUBLIC GPS Map</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Select any level</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.21 PUBLIC — GPS Map + Room Images</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -184,59 +184,14 @@ function makeWallsOfRavenloftLevel(){
  rooms=result.rooms;entryDescriptions=result.entryDescriptions;
 }
 
-import {layout_makeCourtOfCountLevel} from './ravenloft/maps/map4_court.js';
-function makeCourtOfCountLevel(){
- const result=layout_makeCourtOfCountLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeRoomsOfWeepingLevel} from './ravenloft/maps/map5_weeping.js';
-function makeRoomsOfWeepingLevel(){
- const result=layout_makeRoomsOfWeepingLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeLowerSpiresLevel} from './ravenloft/maps/map6_lower_spires.js';
-function makeLowerSpiresLevel(){
- const result=layout_makeLowerSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeMiddleSpiresLevel} from './ravenloft/maps/map7_middle_spires.js';
-function makeMiddleSpiresLevel(){
- const result=layout_makeMiddleSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeUpperSpiresLevel} from './ravenloft/maps/map8_upper_spires.js';
-function makeUpperSpiresLevel(){
- const result=layout_makeUpperSpiresLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeNorthTowerPeakLevel} from './ravenloft/maps/map9_north_peak.js';
-function makeNorthTowerPeakLevel(){
- const result=layout_makeNorthTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeHighTowerPeakLevel} from './ravenloft/maps/map10_high_peak.js';
-function makeHighTowerPeakLevel(){
- const result=layout_makeHighTowerPeakLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeLardersLevel} from './ravenloft/maps/map11_larders.js';
-function makeLardersLevel(){
- const result=layout_makeLardersLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
-import {layout_makeCatacombsLevel} from './ravenloft/maps/map12_catacombs.js';
-function makeCatacombsLevel(){
- const result=layout_makeCatacombsLevel({grid,rect,poly,circle,WW,HH,index,MODULE_ROOM_DATA,floorRoomRoster,rooms,entryDescriptions});
- rooms=result.rooms;entryDescriptions=result.entryDescriptions;
-}
 
 // Map 3 geometry bundled for reliable startup.
 // Map 3 reconstruction v0.9.91 from supplied labeled top-down reference.
@@ -523,7 +478,8 @@ function wallTorch(x,z,i){
 // exact floor assignments, room footprints, doors, and stair links remain unverified.
 // Corrected location index from the supplied Map 2–12 room assignments.
 // Map 1 is a vertical elevation (50–360 ft) and contains no rooms.
-const floorNames=["Map 3 · Main Floor", "Map 2 · Walls of Ravenloft", "Map 4 · Court of the Count", "Map 5 · Rooms of Weeping", "Map 6 · Spires (Lower)", "Map 7 · Spires (Middle)", "Map 8 · Spires (Upper)", "Map 9 · North Tower Peak", "Map 10 · High Tower Peak", "Map 11 · Larders of Ill Omen", "Map 12 · Dungeon and Catacombs"];
+// Public edition: only the two deployed walkable maps are selectable.
+const floorNames=["Map 3 · Main Floor", "Map 2 · Walls of Ravenloft"];
 const floorRoomRoster={"0": ["K7", "K8", "K9", "K10", "K11", "K12", "K13", "K14", "K15", "K16", "K17", "K19", "K20", "K20a", "K23", "K24", "K29", "K18", "K18a", "K21", "K31a", "K64", "K83"], "1": ["K1", "K2", "K3", "K4", "K5", "K6"], "2": ["K12", "K13", "K22", "K25", "K26", "K27", "K28", "K29", "K30", "K31", "K31a", "K32", "K33", "K34", "K18", "K18a", "K20", "K21", "K64", "K83"], "3": ["K35", "K36", "K37", "K38", "K39", "K40", "K41", "K42", "K43", "K44", "K45", "K46", "K31b", "K18", "K18a", "K20", "K21", "K31a", "K64", "K83"], "4": ["K47", "K49", "K50", "K51", "K52", "K53", "K18", "K18a", "K20", "K21"], "5": ["K48", "K54", "K55", "K56", "K18", "K18a", "K20"], "6": ["K57", "K58", "K18", "K18a", "K20"], "7": ["K60", "K60a", "K20"], "8": ["K59", "K18", "K18a"], "9": ["K61", "K62", "K63", "K65", "K66", "K67", "K68", "K69", "K70", "K71", "K72", "K18", "K18a", "K21", "K64"], "10": ["K73", "K74", "K75", "K76", "K77", "K78", "K79", "K80", "K81", "K82", "K83a", "K84", "K85", "K86", "K87", "K88", "K18", "K18a", "K21", "K74a", "K74b", "K74c", "K74d", "K74e", "K74f", "K74g", "K74h", "K75a", "K75b", "K75c", "K75d", "K75e", "K75f", "K75g", "K75h", "K84:1", "K84:2", "K84:3", "K84:4", "K84:5", "K84:6", "K84:7", "K84:8", "K84:9", "K84:10", "K84:11", "K84:12", "K84:13", "K84:14", "K84:15", "K84:16", "K84:17", "K84:18", "K84:19", "K84:20", "K84:21", "K84:22", "K84:23", "K84:24", "K84:25", "K84:26", "K84:27", "K84:28", "K84:29", "K84:30", "K84:31", "K84:32", "K84:33", "K84:34", "K84:35", "K84:36", "K84:37", "K84:38", "K84:39", "K84:40"]};
 const floorMapSources=[]; // No map overlays: geometry is schematic, not a print-map reproduction.
 let activeFloor=0;
@@ -682,12 +638,15 @@ function switchFloor(f){
   wallMesh.instanceMatrix.needsUpdate=true;floorMesh.instanceMatrix.needsUpdate=true;ceilingMesh.instanceMatrix.needsUpdate=true;
   player={x:60,y:52,a:Math.PI/2,pitch:0};
  }else{
-  if(f===1)makeWallsOfRavenloftLevel();else if(f===2)makeCourtOfCountLevel();else if(f===3)makeRoomsOfWeepingLevel();else if(f===4)makeLowerSpiresLevel();else if(f===5)makeMiddleSpiresLevel();else if(f===6)makeUpperSpiresLevel();else if(f===7)makeNorthTowerPeakLevel();else if(f===8)makeHighTowerPeakLevel();else if(f===9)makeLardersLevel();else if(f===10)makeCatacombsLevel();else makeProvisionalLevel(f);rebuildFloorInstances();player=f===1?{x:43,y:52,a:0,pitch:0}:f===2?{x:77,y:53,a:Math.PI/2,pitch:0}:f===3?{x:84,y:54,a:Math.PI/2,pitch:0}:f===4?{x:78,y:75,a:Math.PI/2,pitch:0}:f===5?{x:79,y:77,a:Math.PI/2,pitch:0}:f===6?{x:79,y:83,a:Math.PI/2,pitch:0}:f===7?{x:78,y:21,a:Math.PI/2,pitch:0}:f===8?{x:109,y:77,a:Math.PI/2,pitch:0}:f===9?{x:79,y:54,a:Math.PI/2,pitch:0}:f===10?{x:73,y:52,a:Math.PI/2,pitch:0}:{x:15,y:14,a:Math.PI/2,pitch:0};
+  // Map 02 — Walls of Ravenloft. Map 03 remains the default at index 0.
+  makeWallsOfRavenloftLevel();
+  rebuildFloorInstances();
+  player={x:43,y:52,a:0,pitch:0}; // K1 courtyard; road/carriage arrival
  }
  // Switch wall, floor, ceiling, ambient and fog consistently for the selected zone.
  applyFloorTheme(f);
  const title=floorNames[f];
- $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.20 LOCKED · GPS Map + Complete Room Index'+(f===1?' · Walls of Ravenloft arrival layout test':f===10?' · Dungeon and Catacombs layout test':f===9?' · Larders of Ill Omen layout test':f===8?' · High Tower Peak layout test':f===7?' · North Tower Peak layout test':f===6?' · Upper Spires layout test':f===5?' · Middle Spires layout test':f===4?' · Lower Spires layout test':f===2?' · Court of the Count layout test':f?' · schematic walkable rooms':'');
+ $('hud').querySelector('div').textContent=title+' · Illustrated Exploration · v0.10.21 PUBLIC · GPS Map + Room Index'+(f===1?' · Walls of Ravenloft':'');
  // The minimap always draws our walkable dungeon geometry.
  document.querySelectorAll('.floorOption').forEach((b,i)=>{b.classList.toggle('active',i===f);b.setAttribute('aria-pressed',String(i===f))});
  prev=null;seenRooms.clear();$('popup').style.display='none';keys={};
@@ -699,12 +658,12 @@ const ribbon=$('floorRibbon');
 for(let i=0;i<floorNames.length;i++){
  const b=document.createElement('button');b.className='floorOption'+(i===0?' active':'');
  b.textContent=floorNames[i];b.title='Go to '+floorNames[i];b.setAttribute('aria-pressed',String(i===0));
- b.onclick=()=>switchFloor(i);if(i>1){b.title='Map preview only — exploration locked';b.textContent='🔒 '+floorNames[i];}ribbon.insertBefore(b,ribbon.querySelector('.hint'));
+ b.onclick=()=>switchFloor(i);ribbon.insertBefore(b,ribbon.querySelector('.hint'));
 }
 $('returnPlayableFloor').onclick=()=>switchFloor(0);
 $('floorCollapse').onclick=()=>{ribbon.classList.toggle('minimized');$('floorCollapse').textContent=ribbon.classList.contains('minimized')?'▶':'◀ Floors'};
 
-// Locked edition: upper levels remain selectable for MAP PREVIEW, but cannot be explored.
+// Public two-map edition: neither deployed map is a locked preview.
 const isLockedPreview=()=>activeFloor>1;
 function updateLockedPreview(){
  const locked=isLockedPreview();

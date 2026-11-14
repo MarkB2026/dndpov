@@ -21,7 +21,8 @@
   .topright{display:flex;align-items:center;gap:20px;font-family:system-ui,sans-serif;font-size:12px}
   .beta{color:#e6c888;border:1px solid #a88e55;border-radius:100px;padding:7px 12px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
   .topright a{text-decoration:none;color:#d4d5c8}
-  .hero{text-align:center;padding:76px 0 44px}
+  .hero{text-align:center;padding:44px 0 44px}
+  .hero-logo{display:block;width:min(230px,55vw);height:auto;margin:0 auto 18px;mix-blend-mode:lighten}
   .eyebrow{font:600 12px system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#c6d2c2}
   h1{font-size:clamp(38px,6vw,66px);font-weight:500;line-height:1.12;margin:16px 0 16px;letter-spacing:-.035em}
   h1 em{font-style:normal;color:var(--gold)}
@@ -70,25 +71,26 @@
 </header>
 <main class="wrap">
   <section class="hero" aria-labelledby="hero-title">
-    <div class="eyebrow">Ravenloft I6 · First-person companion map</div>
+    <img class="hero-logo" src="assets/dndpov_logo.webp" alt="DNDPOV castle arch and dragon-banner logo" width="230" height="153">
+    <div class="eyebrow">Ravenloft I6 · First-person companion map · Restricted public beta</div>
     <h1 id="hero-title">Enter the mists<br>of <em>Barovia.</em></h1>
     <p class="sub">Walk through the classic AD&amp;D Ravenloft adventure in first person. Explore the roads, village, encampment and castle at your own pace—or use the map alongside a Dungeon Master.</p>
     <p class="clarifier">A map, not a game · Made for tabletop adventures</p>
     <a class="btn" href="Ravenloft-I6/old_svalich_road.html">Begin the adventure <span aria-hidden="true">→</span></a>
-    <div class="hero-note">Play the public beta in your desktop browser. No download required.</div>
+    <div class="hero-note">Play the restricted public beta in your desktop browser. No download required. Some interiors and castle levels are reserved for the full edition.</div>
   </section>
 
   <section id="locations" aria-labelledby="locations-title">
-    <div class="section-heading"><h2 id="locations-title">Choose where to explore</h2><span>Four connected adventure legs</span></div>
+    <div class="section-heading"><h2 id="locations-title">Choose where to explore</h2><span>Four adventure legs · Restricted beta access</span></div>
     <div class="cards">
-      <a class="card" href="Ravenloft-I6/old_svalich_road.html"><img class="card-shot" src="assets/screenshots/old_svalich_road.jpg" alt="First-person view of Old Svalich Road winding through spruce forest" loading="lazy"><span class="num">01 · Begin here</span><h3>Old Svalich Road</h3><p>Enter Barovia through the Eastern Gates and travel the misty forest road.</p><span class="enter">Explore this map →</span></a>
-      <a class="card" href="Ravenloft-I6/village_of_barovia.html"><img class="card-shot" src="assets/screenshots/village_of_barovia.jpg" alt="First-person view of the cobblestone streets of Barovia" loading="lazy"><span class="num">02 · The village</span><h3>Village of Barovia</h3><p>Walk the streets and visit the tavern, mercantile, church and other village locations.</p><span class="enter">Explore this map →</span></a>
-      <a class="card" href="Ravenloft-I6/road_to_tser_pool_and_castle.html"><img class="card-shot" src="assets/screenshots/road_to_tser_pool.jpg" alt="Misty forest road toward Tser Pool and Castle Ravenloft" loading="lazy"><span class="num">03 · The journey</span><h3>Tser Pool &amp; Castle Road</h3><p>Follow the road toward the Vistani encampment and the approach to Castle Ravenloft.</p><span class="enter">Explore this map →</span></a>
-      <a class="card" href="Ravenloft-I6/ravenloft.html"><img class="card-shot" src="assets/screenshots/castle_ravenloft.jpg" alt="Castle Ravenloft first-person hall with an annotated dungeon map" loading="lazy"><span class="num">04 · Public castle preview</span><h3>Castle Ravenloft</h3><p>Explore Map 02: Walls of Ravenloft and Map 03: Main Floor in the restricted public beta.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/old_svalich_road.html"><img class="card-shot" src="assets/screenshots/old_svalich_road.jpg" alt="First-person view of Old Svalich Road winding through spruce forest" loading="lazy"><span class="num">01 · Begin here</span><h3>Old Svalich Road</h3><p>Explore the Eastern Gates, the Old Svalich Road, spruce woods and the Last Chance Inn exterior. The road is walkable in this beta.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/village_of_barovia.html"><img class="card-shot" src="assets/screenshots/village_of_barovia.jpg" alt="First-person view of the cobblestone streets of Barovia" loading="lazy"><span class="num">02 · The village</span><h3>Village of Barovia</h3><p>Walk the entire village street map. Enter selected locations including the Blood of the Vine Tavern, Bildrath’s Mercantile, the church and Mad Mary’s House; not every building has an interior.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/road_to_tser_pool_and_castle.html"><img class="card-shot" src="assets/screenshots/road_to_tser_pool.jpg" alt="Misty forest road toward Tser Pool and Castle Ravenloft" loading="lazy"><span class="num">03 · The journey</span><h3>Tser Pool &amp; Castle Road</h3><p>Walk the forest road, explore the Tser Pool encampment and follow the route toward Castle Ravenloft. Some interiors and interactions are restricted.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/ravenloft.html"><img class="card-shot" src="assets/screenshots/castle_ravenloft.jpg" alt="Castle Ravenloft first-person hall with an annotated dungeon map" loading="lazy"><span class="num">04 · Public castle preview</span><h3>Castle Ravenloft</h3><p>Explore 2 of the 12 fully mapped castle levels: Map 02 — Walls of Ravenloft and Map 03 — Main Floor. The other 10 levels are not included in this beta.</p><span class="enter">Explore this map →</span></a>
     </div>
   </section>
 
-  <section class="accuracy" aria-labelledby="accuracy-title"><h2 id="accuracy-title">Faithful to the original Ravenloft I6 maps</h2><p>DNDPOV recreates the original adventure’s geography and mapped dungeon locations as a walkable first-person companion, with artistic adaptations for 3D exploration. The full project maps the castle’s dungeon levels; the browser beta opens a limited public selection. Explore with location descriptions, map guidance and encounter prompts. <strong>It does not resolve battles or replace tabletop combat rules.</strong></p></section>
+  <section class="accuracy" aria-labelledby="accuracy-title"><h2 id="accuracy-title">Faithful to the original Ravenloft I6 maps</h2><p>DNDPOV recreates the original adventure’s geography and mapped dungeon locations as a walkable first-person companion, with artistic adaptations for 3D exploration. All 12 castle levels have been mapped in the full project; this restricted browser beta includes 2 complete levels. Explore with location descriptions, map guidance and encounter prompts. <strong>It does not resolve battles or replace tabletop combat rules.</strong></p></section>
 
   <div class="feature-row">
     <section class="feature" id="solo" aria-labelledby="solo-title">

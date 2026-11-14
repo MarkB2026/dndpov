@@ -496,7 +496,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.35';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.36';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -1164,4 +1164,10 @@ drawMap=function(){svalichDrawBeforeMp();
  schedule();
 })();
 </script>
+<style id="dndpovPublicMultiplayerBadge">
+#mpButton{position:fixed;top:12px;left:380px;z-index:10005;background:#84262b;color:#fff0ee;border:1px solid #e97878;border-radius:7px;padding:8px 13px;font:700 12px system-ui;opacity:1;cursor:default;pointer-events:none}
+#mpButton.mp-connected{background:#176a40;color:#e6ffef;border-color:#6fe0a1}
+@media(max-width:680px){#mpButton{top:auto;bottom:58px;left:12px}}
+</style>
+<button id="mpButton" type="button" disabled title="Multiplayer is available in the downloadable desktop edition">♟ Multiplayer: OFF</button>
 </body></html>

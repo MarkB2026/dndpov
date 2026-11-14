@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121715">
+<meta name="description" content="DNDPOV: a walkable first-person 3D companion map for the original AD&D Ravenloft I6 adventure. Explore the public beta in your browser.">
+<title>DNDPOV | Ravenloft I6 — Public Beta Adventure Hub</title>
+<style>
+  :root{color-scheme:dark;--bg:#111714;--panel:#1b2420;--panel2:#222b25;--gold:#dfbd7c;--light:#f5e7c9;--muted:#b3bcb0;--line:#6e654a;--green:#a7c8ad}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;background:radial-gradient(ellipse 75% 50% at 50% -8%,#33473c 0%,#1b2822 43%,#111714 100%);color:var(--light);font-family:Georgia,'Times New Roman',serif}
+  a{color:inherit}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  header{border-bottom:1px solid #81705255;background:#101713aa}
+  .top{min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .brand{font-family:Georgia,serif;font-weight:700;letter-spacing:.13em;font-size:clamp(23px,3.2vw,33px);color:#f5dca3;text-decoration:none}
+  .brand small{display:block;color:#b3c5b8;letter-spacing:.18em;font-family:system-ui,sans-serif;font-size:9px;font-weight:500;margin-top:4px}
+  .topright{display:flex;align-items:center;gap:20px;font-family:system-ui,sans-serif;font-size:12px}
+  .beta{color:#e6c888;border:1px solid #a88e55;border-radius:100px;padding:7px 12px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+  .topright a{text-decoration:none;color:#d4d5c8}
+  .hero{text-align:center;padding:76px 0 44px}
+  .eyebrow{font:600 12px system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#c6d2c2}
+  h1{font-size:clamp(38px,6vw,66px);font-weight:500;line-height:1.12;margin:16px 0 16px;letter-spacing:-.035em}
+  h1 em{font-style:normal;color:var(--gold)}
+  .sub{font-size:clamp(16px,2.2vw,20px);line-height:1.55;color:#d7dacd;max-width:730px;margin:0 auto 22px}
+  .clarifier{font:600 12px system-ui,sans-serif;color:#d5e3d5;letter-spacing:.09em;text-transform:uppercase;margin:0 auto 29px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:13px 24px;background:var(--gold);color:#161c16;border:1px solid #f1d9a7;border-radius:5px;text-decoration:none;font:700 13px system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:transform .15s,background .15s}
+  .btn:hover{background:#f2d69d;transform:translateY(-2px)}
+  .hero-note{font:12px system-ui,sans-serif;color:var(--muted);margin-top:15px}
+  .section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:15px 0 20px}
+  h2{font-weight:500;font-size:clamp(24px,3vw,31px);margin:0}
+  .section-heading span{font:12px system-ui,sans-serif;color:#a9b4a8}
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .card{display:flex;flex-direction:column;min-height:196px;padding:25px 25px 22px;background:linear-gradient(145deg,#26332b,#1a2420 75%);border:1px solid #6e654a88;border-radius:7px;text-decoration:none;transition:background .15s,border-color .15s,transform .15s}
+  .card:hover{border-color:#d4b778;background:linear-gradient(145deg,#344538,#222e27);transform:translateY(-3px)}
+  .card-shot{display:block;width:calc(100% + 50px);max-width:none;margin:-25px -25px 20px;aspect-ratio:16/8.5;object-fit:cover;object-position:center;border-radius:6px 6px 0 0;border-bottom:1px solid #6e654a88}
+  .num{font:700 11px system-ui,sans-serif;letter-spacing:.19em;color:var(--gold);text-transform:uppercase}
+  h3{font-size:25px;font-weight:500;margin:13px 0 8px;line-height:1.2}
+  .card p{color:#bec8b9;font:14px/1.55 system-ui,sans-serif;margin:0 0 18px}
+  .enter{margin-top:auto;color:#f2d49b;font:700 12px system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+  .accuracy{margin:26px 0 0;padding:24px 28px;border:1px solid #82734e;border-radius:7px;background:#202a22}
+  .accuracy h2{font-size:25px;margin:0 0 9px}.accuracy p{font:14px/1.7 system-ui,sans-serif;color:#c8d0c4;margin:0}
+  .feature-row{display:grid;grid-template-columns:1.18fr 1fr;gap:16px;margin:28px 0 24px}
+  .feature{border:1px solid #6e654a88;border-radius:7px;background:#1b2520;padding:28px}
+  .feature h2{font-size:26px;margin:12px 0}
+  .feature p{color:#c2c9bd;font:14px/1.65 system-ui,sans-serif;margin:0 0 14px}
+  .feature strong{color:#f0e1bd}
+  .feature .kicker{color:#ddbf80;font:700 11px system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+  .feature .small{font:12px/1.55 system-ui,sans-serif;color:#aeb9ad}
+  .feature .text-link{display:inline-block;color:#efd092;font:700 12px system-ui,sans-serif;text-underline-offset:4px;margin-top:3px}
+  .soon{display:inline-block;border:1px solid #9b8556;color:#ddc590;border-radius:4px;padding:9px 12px;font:700 12px system-ui,sans-serif;margin-top:6px}
+  details{border-top:1px solid #766e5680;padding:17px 0 12px;margin:6px 0 34px}
+  summary{cursor:pointer;font:700 13px system-ui,sans-serif;color:#e2c98f}
+  details p{font:13px/1.65 system-ui,sans-serif;color:#b7c2b7;max-width:780px}
+  footer{border-top:1px solid #81705255;text-align:center;padding:25px 18px 35px;font:11px/1.7 system-ui,sans-serif;color:#a4aea2}
+  footer strong{color:#d4b981;font-weight:600}
+  @media(max-width:700px){.wrap{padding:0 16px}.top{min-height:70px}.topright a{display:none}.hero{padding:55px 0 36px}.cards,.feature-row{grid-template-columns:1fr}.card{min-height:170px}.feature{padding:23px}.section-heading{align-items:flex-start;flex-direction:column}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.card{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <a class="brand" href="./index.html">DNDPOV<small>DUNGEONS &amp; DRAGONS POINT OF VIEW</small></a>
+    <div class="topright"><a href="#solo">Solo with AI</a><a href="#multiplayer">Multiplayer</a><span class="beta">Public Beta</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="eyebrow">Ravenloft I6 · First-person companion map</div>
+    <h1 id="hero-title">Enter the mists<br>of <em>Barovia.</em></h1>
+    <p class="sub">Walk through the classic AD&amp;D Ravenloft adventure in first person. Explore the roads, village, encampment and castle at your own pace—or use the map alongside a Dungeon Master.</p>
+    <p class="clarifier">A map, not a game · Made for tabletop adventures</p>
+    <a class="btn" href="Ravenloft-I6/old_svalich_road.html">Begin the adventure <span aria-hidden="true">→</span></a>
+    <div class="hero-note">Play the public beta in your desktop browser. No download required.</div>
+  </section>
+
+  <section id="locations" aria-labelledby="locations-title">
+    <div class="section-heading"><h2 id="locations-title">Choose where to explore</h2><span>Four connected adventure legs</span></div>
+    <div class="cards">
+      <a class="card" href="Ravenloft-I6/old_svalich_road.html"><img class="card-shot" src="assets/screenshots/old_svalich_road.jpg" alt="First-person view of Old Svalich Road winding through spruce forest" loading="lazy"><span class="num">01 · Begin here</span><h3>Old Svalich Road</h3><p>Enter Barovia through the Eastern Gates and travel the misty forest road.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/village_of_barovia.html"><img class="card-shot" src="assets/screenshots/village_of_barovia.jpg" alt="First-person view of the cobblestone streets of Barovia" loading="lazy"><span class="num">02 · The village</span><h3>Village of Barovia</h3><p>Walk the streets and visit the tavern, mercantile, church and other village locations.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/road_to_tser_pool_and_castle.html"><img class="card-shot" src="assets/screenshots/road_to_tser_pool.jpg" alt="Misty forest road toward Tser Pool and Castle Ravenloft" loading="lazy"><span class="num">03 · The journey</span><h3>Tser Pool &amp; Castle Road</h3><p>Follow the road toward the Vistani encampment and the approach to Castle Ravenloft.</p><span class="enter">Explore this map →</span></a>
+      <a class="card" href="Ravenloft-I6/ravenloft.html"><img class="card-shot" src="assets/screenshots/castle_ravenloft.jpg" alt="Castle Ravenloft first-person hall with an annotated dungeon map" loading="lazy"><span class="num">04 · Public castle preview</span><h3>Castle Ravenloft</h3><p>Explore Map 02: Walls of Ravenloft and Map 03: Main Floor in the restricted public beta.</p><span class="enter">Explore this map →</span></a>
+    </div>
+  </section>
+
+  <section class="accuracy" aria-labelledby="accuracy-title"><h2 id="accuracy-title">Faithful to the original Ravenloft I6 maps</h2><p>DNDPOV recreates the original adventure’s geography and mapped dungeon locations as a walkable first-person companion, with artistic adaptations for 3D exploration. The full project maps the castle’s dungeon levels; the browser beta opens a limited public selection. Explore with location descriptions, map guidance and encounter prompts. <strong>It does not resolve battles or replace tabletop combat rules.</strong></p></section>
+
+  <div class="feature-row">
+    <section class="feature" id="solo" aria-labelledby="solo-title">
+      <span class="kicker">Solo adventurers · A new way to explore</span>
+      <h2 id="solo-title">No group? Adventure with an AI Dungeon Master.</h2>
+      <p>You don't need to wait for your next D&amp;D session. Open DNDPOV as your <strong>visual companion map</strong> and use an AI chat in a separate tab as your Dungeon Master to narrate encounters, portray characters, guide exploration and adjudicate your adventure. The map gives you a place to stand, look around and choose your path.</p>
+      <p class="small">AI is not built into the browser map; you choose and run your own AI Dungeon Master separately. Bring your own adventure rules and materials.</p>
+      <a class="text-link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Open ChatGPT in a new tab ↗</a>
+    </section>
+    <section class="feature" id="multiplayer" aria-labelledby="multiplayer-title">
+      <span class="kicker">Desktop download · Coming soon</span>
+      <h2 id="multiplayer-title">Explore together in multiplayer.</h2>
+      <p>Share the same first-person map during tabletop sessions. The multiplayer desktop edition is in testing and will have a simpler launch and hosting experience.</p>
+      <span class="soon">Download version — Coming soon</span>
+      <p class="small" style="margin-top:14px">Quick Setup Video — Coming Soon</p>
+    </section>
+  </div>
+
+  <details><summary>What is DNDPOV? · Controls &amp; beta information</summary>
+    <p>DNDPOV (Dungeons &amp; Dragons Point of View) is a stylized, first-person 3D companion map—not a standalone video game. The public beta is intended for desktop browsers. The map provides mapped locations, room descriptions and encounter guidance, but does not run or resolve battles. The environments include atmospheric effects such as changing weather, fog, day/night settings and ambient audio. Use the on-screen controls and instructions within each adventure area. Browser multiplayer is not part of this beta; the downloadable multiplayer edition is being prepared separately.</p>
+  </details>
+</main>
+<footer><strong>DNDPOV — Public Beta</strong> · An unofficial fan-made companion map inspired by Ravenloft I6.<br>Not affiliated with or endorsed by Wizards of the Coast.</footer>
+</body>
+</html>

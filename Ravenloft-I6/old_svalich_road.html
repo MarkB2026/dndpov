@@ -10,57 +10,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;
 #mapbox,#minimap{right:14px!important;top:12px!important;z-index:12!important;width:300px!important;box-sizing:border-box;border-radius:0!important;background:#1b191ced!important}#mapbox canvas,#minimap canvas{width:100%!important;height:auto!important;max-height:255px!important;object-fit:contain}#mapbox small,#minimap small{font-size:11px;color:#e2bd84}#mapTools{display:flex;gap:5px;justify-content:center;margin-top:5px}#mapTools button{font-size:11px}
 #help{left:360px!important;bottom:14px!important;transform:none!important;z-index:13!important;font-size:11px!important;white-space:normal!important;max-width:330px;border-radius:0!important}#loc{display:none!important}#controlDeck{position:fixed;right:14px;bottom:14px;z-index:18;width:350px;max-width:calc(100vw - 28px);background:#120e12f5;border:1px solid #9c784c;padding:9px;color:#e8c18b;font:12px Georgia,serif;box-sizing:border-box}#controlDeck .toolRow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px 0;border-bottom:1px solid #6d5037}#controlDeck .toolRow:last-child{border-bottom:0}#controlDeck .toolLabel{width:40px;flex:none;font-size:10px;color:#d7a766}#controlDeck button,#controlDeck select,#mapTools button{background:#34271d;border:1px solid #aa8757;color:#f0d6a9;padding:7px 6px;cursor:pointer;border-radius:2px;font:11px Georgia,serif}#controlDeck button:hover,#mapTools button:hover{background:#74502e}#controlDeck button.on{background:#805824;border-color:#efbc69}#controlDeck select{max-width:160px}#gameModal{z-index:70!important}#gameModal article{max-height:85vh}#gameModal .readaloud{white-space:pre-line}#keyOverlay{position:absolute;inset:8px;pointer-events:none;width:calc(100% - 16px);height:calc(100% - 16px)}
 @media(max-width:1050px){#help{left:14px!important;bottom:15px!important}#gamePanel{max-height:calc(100vh - 290px)!important}#controlDeck{bottom:100px}}@media(max-width:720px){#hud{width:240px!important}#gamePanel{width:220px!important;top:120px!important;max-height:35vh!important}#mapbox,#minimap{width:165px!important}#controlDeck{width:285px;bottom:8px}#help{display:none!important}}
-</style><style id="inn-interior-style">.innInterior{height:230px;position:relative;overflow:hidden;border:2px solid #86643e;background:linear-gradient(160deg,#39291e 0%,#60412b 52%,#21170f 100%);color:#ffe0a5;text-align:center}.innRafters{padding:16px;background:repeating-linear-gradient(90deg,#2b1c13 0 24px,#513520 24px 29px);font-size:20px;letter-spacing:3px}.innHearth{position:absolute;left:6%;top:80px;font-size:58px;text-shadow:0 0 28px #ff9d25}.innPatrons{position:absolute;right:8%;top:92px;font-size:32px}.innTable{position:absolute;left:30%;right:30%;bottom:10px;padding:10px;background:#4a2a18;border:3px solid #9b6b3c;font-size:25px}.innInterior small{display:block;font-size:11px;color:#f5d4a2}</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style></head><body>
-<style id="dndpovWebsitePreviewStyle">
-#dndpovPreviewBadge{position:fixed;top:13px;left:50%;transform:translateX(-50%);z-index:29;
-  max-width:min(330px,35vw);box-sizing:border-box;padding:9px 14px;background:#181b1bea;
-  border:1px solid #ba955e;color:#edcd91;font:12px Georgia,serif;text-align:center;
-  box-shadow:0 5px 22px #0006;pointer-events:none}
-#dndpovPreviewGate[hidden]{display:none!important}
-#dndpovPreviewGate{position:fixed;inset:0;z-index:11000;display:flex;align-items:center;
-  justify-content:center;padding:20px;background:#090d0dbb;box-sizing:border-box}
-#dndpovPreviewGate article{width:min(465px,94vw);box-sizing:border-box;background:#202321;
-  border:2px solid #b9935b;box-shadow:0 20px 80px #000c;padding:24px;
-  color:#e9d8b6;font:15px/1.55 Georgia,serif}
-#dndpovPreviewGate h2{color:#eac287;font:24px Georgia,serif;margin:0 0 12px}
-#dndpovPreviewGate p{margin:0 0 16px}
-#dndpovPreviewGate .previewActions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-#dndpovPreviewGate a,#dndpovPreviewGate button{color:#f5ddb0;background:#493527;
-  border:1px solid #b9935b;text-decoration:none;padding:10px 13px;font:13px Georgia,serif;cursor:pointer}
-#dndpovPreviewGate a:hover,#dndpovPreviewGate button:hover{background:#68472e}
-@media(max-width:1150px){#dndpovPreviewBadge{top:auto;bottom:56px;max-width:min(330px,60vw)}}
-@media(max-width:650px){#dndpovPreviewBadge{left:50%;bottom:54px;max-width:85vw;font-size:10px;padding:6px 9px}}
-/* DM-only controls are removed from the public preview, without disturbing the 3D scene. */
-#dmBtn,#encBtn,#gameNotes,#dmMode,#locationDM{display:none!important}
-</style>
-<div id="dndpovPreviewBadge">WEBSITE PREVIEW · The full adventure is available for local play</div>
-<div id="dndpovPreviewGate" hidden role="dialog" aria-modal="true" aria-labelledby="dndpovPreviewHeading">
- <article><h2 id="dndpovPreviewHeading">The adventure continues offline</h2>
- <p id="dndpovPreviewMessage"></p>
- <p>This website edition offers a taste of Barovia's scenery and atmosphere.
- The complete adventure, keyed encounters, additional interiors and local multiplayer
- belong to the free local edition.</p>
- <div class="previewActions"><button id="dndpovPreviewClose" type="button">Keep exploring</button>
- <a href="https://github.com/MarkB2026/dndpov" target="_blank" rel="noopener noreferrer">DNDPOV project &amp; downloads ↗</a></div>
- </article>
-</div>
-<script id="dndpovPreviewController">
-(()=>{
- const dialog=document.getElementById('dndpovPreviewGate');
- const message=document.getElementById('dndpovPreviewMessage');
- window.dndpovPreviewGate=(place)=>{
-  message.textContent=(place||'This location')+' is part of the complete local adventure.';
-  dialog.hidden=false;
- };
- document.getElementById('dndpovPreviewClose').onclick=()=>dialog.hidden=true;
- document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&!dialog.hidden){e.preventDefault();e.stopImmediatePropagation();dialog.hidden=true}
- },true);
- dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.hidden=true});
- document.title+=' · Website Preview';
-})();
-</script>
-<div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.28</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
+</style><style id="inn-interior-style">.innInterior{height:230px;position:relative;overflow:hidden;border:2px solid #86643e;background:linear-gradient(160deg,#39291e 0%,#60412b 52%,#21170f 100%);color:#ffe0a5;text-align:center}.innRafters{padding:16px;background:repeating-linear-gradient(90deg,#2b1c13 0 24px,#513520 24px 29px);font-size:20px;letter-spacing:3px}.innHearth{position:absolute;left:6%;top:80px;font-size:58px;text-shadow:0 0 28px #ff9d25}.innPatrons{position:absolute;right:8%;top:92px;font-size:32px}.innTable{position:absolute;left:30%;right:30%;bottom:10px;padding:10px;background:#4a2a18;border:3px solid #9b6b3c;font-size:25px}.innInterior small{display:block;font-size:11px;color:#f5d4a2}</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.28</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
 try {
 let THREE;
 for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}
@@ -279,7 +229,7 @@ for(let i=0;i<forestCount;i++){
 trunks.instanceMatrix.needsUpdate=true;scene.add(trunks);
 crowns.forEach(c=>{c.instanceMatrix.needsUpdate=true;scene.add(c)});
 // v1.18: Village-of-Barovia-inspired timber-framed, white-stucco gabled inn.
-const innWood=material('#352418'),innPlaster=material('#ded8c3'),innRoof=material('#46301e'),innTrim=material('#241b16');
+const innWood=material('#352418'),innPlaster=material('#785338'),innRoof=material('#46301e'),innTrim=material('#241b16');
 const innGlow=new THREE.MeshStandardMaterial({color:'#f5cf91',emissive:'#e99d3c',emissiveIntensity:.9});
 const inn=new THREE.Group();inn.position.set(-39,0,154);scene.add(inn);
 // Front faces positive Z, toward the road and its connecting walkway.
@@ -287,11 +237,28 @@ box(0,3.65,0,18,7.3,13,innPlaster,inn);box(0,.43,0,19,.86,14,stone,inn);
 // Proper solid triangular gable walls seal both roof ends (no open lodge rafters).
 for(const frontZ of [-6.53,6.53]){
  const shape=new THREE.Shape();shape.moveTo(-9.05,0);shape.lineTo(9.05,0);shape.lineTo(0,5.1);shape.closePath();
- const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),new THREE.MeshStandardMaterial({color:'#ded8c3',roughness:.95,side:THREE.DoubleSide}));
+ const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),new THREE.MeshStandardMaterial({color:'#785338',roughness:.95,side:THREE.DoubleSide}));
  mesh.position.set(0,7.3,frontZ);inn.add(mesh);
 }
 // Solid ceiling under the roof, closing the eaves on all four sides.
 box(0,7.35,0,18.4,.24,13.8,innPlaster,inn);
+// v1.45: exterior log-lodge cladding; leave door and lit windows unobstructed.
+const outerLog=new THREE.MeshStandardMaterial({color:'#765034',roughness:1,flatShading:true});
+const outerLogDark=new THREE.MeshStandardMaterial({color:'#5b3a27',roughness:1,flatShading:true});
+function exteriorTimber(x,y,z,len,axis,dark=false){
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,len,9),dark?outerLogDark:outerLog);
+ if(axis==='x')m.rotation.z=Math.PI/2;else m.rotation.x=Math.PI/2;
+ m.position.set(x,y,z);inn.add(m);
+}
+for(let row=0;row<16;row++){
+ const y=.35+row*.43, dark=row%4===0;
+ for(const x of [-9.25,9.25])exteriorTimber(x,y,0,13.15,'z',dark);
+ // Front face: gaps around the door and glowing windows.
+ if(y<2.25){for(const x of [-8.2,-3.9,3.9,8.2])exteriorTimber(x,y,6.79,x===-8.2||x===8.2?1.65:2.6,'x',dark);}
+ else if(y<5.4){for(const x of [-8.2,-3.85,3.85,8.2])exteriorTimber(x,y,6.79,x===-8.2||x===8.2?1.65:2.5,'x',dark);}
+ else exteriorTimber(0,y,6.79,18.1,'x',dark);
+ exteriorTimber(0,y,-6.79,18.1,'x',dark);
+}
 // Strong oak corner framing and broad horizontal crossbeams.
 for(const z of [-6.7,6.7]){
  for(const x of [-9,9])box(x,3.9,z,.63,7.8,.65,innWood,inn);
@@ -331,18 +298,25 @@ box(0,1.86,7.1,2.65,3.72,.12,innWood,inn);
 for(const x of [-.75,0,.75])box(x,1.86,7.2,.09,3.6,.12,innTrim,inn);
 box(.95,1.8,7.29,.19,.2,.14,innGlow,inn);
 box(0,.18,8.1,4.7,.35,2.3,stone,inn);
-// Large burgundy-and-gold hanging shield, echoing the village tavern's sign.
-const signCanvas=document.createElement('canvas');signCanvas.width=512;signCanvas.height=640;
-const sg=signCanvas.getContext('2d');sg.clearRect(0,0,512,640);
-sg.beginPath();sg.moveTo(55,30);sg.lineTo(457,30);sg.lineTo(457,460);sg.quadraticCurveTo(450,520,256,608);sg.quadraticCurveTo(62,520,55,460);sg.closePath();
-sg.fillStyle='#571c20';sg.fill();sg.strokeStyle='#e9c27c';sg.lineWidth=18;sg.stroke();
-sg.textAlign='center';sg.fillStyle='#f9e6b9';sg.font='bold 55px Georgia';sg.fillText('THE LAST',256,250);sg.fillText('CHANCE',256,326);sg.font='bold 78px Georgia';sg.fillText('INN',256,435);
-sg.strokeStyle='#f0cf8b';sg.lineWidth=10;sg.beginPath();sg.moveTo(256,72);sg.lineTo(256,140);sg.moveTo(215,105);sg.lineTo(297,105);sg.stroke();
-const signMat=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(signCanvas),transparent:true,side:THREE.DoubleSide,depthWrite:false});
-// Sign suspended in front of the upper facade, visible from the main road.
-box(0,8.1,7.1,3.5,.24,.34,innTrim,inn);
-for(const x of [-1.25,1.25])box(x,7.55,7.2,.12,1.0,.13,innTrim,inn);
-const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.25,5.3),signMat);sign.position.set(0,5.65,7.48);inn.add(sign);
+// Raised, wood-burned tavern sign mounted high in the gable, above the door.
+const signCanvas=document.createElement('canvas');signCanvas.width=768;signCanvas.height=420;
+const sg=signCanvas.getContext('2d');
+sg.fillStyle='#9b7047';sg.fillRect(0,0,768,420);
+for(let i=0;i<75;i++){
+ const y=(i*71)%420;sg.strokeStyle=i%3?'rgba(48,24,10,.14)':'rgba(235,185,118,.20)';
+ sg.lineWidth=1+(i%3);sg.beginPath();sg.moveTo(0,y);sg.bezierCurveTo(230,y-5,520,y+7,768,y);sg.stroke();
+}
+sg.strokeStyle='#432617';sg.lineWidth=22;sg.strokeRect(15,15,738,390);
+sg.strokeStyle='#654026';sg.lineWidth=5;sg.strokeRect(35,35,698,350);
+sg.textAlign='center';sg.textBaseline='middle';sg.fillStyle='#352015';
+sg.shadowColor='rgba(35,13,4,.6)';sg.shadowBlur=7;sg.font='bold 77px Georgia';
+sg.fillText('THE LAST CHANCE',384,155);sg.font='bold 112px Georgia';sg.fillText('INN',384,285);
+const signMat=new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(signCanvas),roughness:1,side:THREE.DoubleSide});
+// A broad wooden board sits on the upper gable, no longer covering the doorway.
+box(0,9.15,7.03,7.6,3.7,.25,innWood,inn);
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(7.15,3.25),signMat);
+sign.position.set(0,9.15,7.19);inn.add(sign);
+for(const x of [-3.65,3.65])box(x,9.15,7.2,.18,3.7,.2,innTrim,inn);
 // Wide cart driveway winds off the main road into a clearing in the trees.
 const innPathMat=material('#827762');
 const driveNodes=[[-1,180],[-12,178],[-23,174],[-32,169],[-39,165]];
@@ -496,7 +470,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.37';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.46';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -926,14 +900,14 @@ function travelToVillage(){
  target.searchParams.set('weather',effectiveRoadWeather());
  setTimeout(()=>{window.location.assign(target.href)},1700);
 }
-let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(keys.arrowleft)player.angle-=t;if(keys.arrowright)player.angle+=t;const f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
-if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';
-camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;drawMap();renderer.render(scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
+let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(keys.arrowleft)player.angle-=t;if(keys.arrowright)player.angle+=t;const f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
+if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
+camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
 
 // DNDPOV scenery-first gameplay integration v1.5
 const GAME_MAP=document.querySelector('#map')?.parentElement;
-const gameLocations=[{"id":"INN","name":"The Last Chance Inn","player":"The Last Chance Inn lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":-18,"z":167,"r":21},{"id":"CART","name":"The Messenger's Cart","player":"The Messenger's Cart lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","inside":"","dm":"","x":10,"z":112,"r":16},{"id":"A","name":"The Old Svalich Road","player":"The Old Svalich Road lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":0,"z":53,"r":15},{"id":"B","name":"The Gates of Barovia","player":"The Gates of Barovia lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":0,"z":0,"r":13},{"id":"C","name":"The Svalich Woods","player":"The Svalich Woods lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":0,"z":-68,"r":27},{"id":"D","name":"The River Ivlis","player":"The River Ivlis lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"E","name":"Village of Barovia","player":"Village of Barovia lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"F","name":"Road Junction","player":"Road Junction lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"G","name":"Tser Pool Encampment","player":"Tser Pool Encampment lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"G1","name":"Madam Eva's Tent","player":"Madam Eva's Tent lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"H","name":"Tser Falls","player":"Tser Falls lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"I","name":"The Carriage","player":"The Carriage lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0},{"id":"J","name":"The Gates of Ravenloft","player":"The Gates of Ravenloft lies along this lonely road through the Svalich Woods. Discover its story in the complete local adventure.","dm":"","x":1000,"z":1000,"r":0}];
-const gameEncounterTable=[];
+const gameLocations=[{"id": "INN", "name": "The Last Chance Inn", "player": "To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.\n\nOutside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.\n\nYet inside these tavern walls the food is hearty and the ale is warm and frothy. A fire blazes in the hearth and the tavern is alive with the tumbling voices of country folk.\n\nSuddenly, a hush falls over the tavern. Even the flagons of\nale seem to silence themselves. The tavern door swings open.\nFramed by the lamp-lit fog, a form strides into the room. His\nheavy, booted footfalls and the jingle of his coins shatter the\nsilence. His brightly colored clothes are draped in loose folds\nabout him and his hat hangs askew, hiding his eyes in shadows.\nWithout hesitation, he walks directly up to your table and\nstands proudly in a wide stance with folded arms.\nHis accented voice speaks, \"I have been sent to you to deliver\nthis messagel If you be creatures of honor, you will come to my\nmaster's aid at first light. It is not advisable to travel the Svalich\nwoods at night!\" He pulls from his tunic a sealed letter,\naddressed to all of you in beautiful flowing script. He drops the\nletter on the table. \"Take the west road from here some five\nhours march down through the Svalich woods. There you will\nfind my master in Barovia.\"\nAmid the continued silent stares of the patronage, the gypsy\nstrides to the bar and says to the wary barkeeper, \"Fill the\nglasses, one and all. Their throats are obviously parched.\" He\ndrops a purse heavy with gold on the bar. With that, he leaves.\nThe babble of tavern voices resumes, although somewhat\nsubdued. The letter is lying before you. Dated yesterday, the ink\nis still not dry and the parchment is crisp. The seal is of a crest\nyou don't recognize.", "dm": "Planned Encounters, opening inn: the PCs begin at an old inn east of Barovia. A messenger arrives with a sealed invitation supposedly from the Burgomaster. Present the letter from the original module. The players can make preparations before setting out. The tavern building is a walk-up exterior landmark. Press E nearby to present the opening invitation and scene; the inn interior is represented in the text panel.", "x": -18, "z": 167, "r": 21}, {"id": "CART", "name": "The Messenger's Cart", "player": "A battered wooden cart rests among the spruce trees beside the road. Its wheels are motionless, and no horses are in sight. A cloaked figure lies slumped across the boards. A folded letter is visible among the folds of the cloak.", "inside": "On closer inspection, the traveler is dead. The letter bears a message warning visitors to stay away from Barovia. Its contents contradict the invitation that brought you here.", "dm": "DNDPOV adaptation: the original I6 places the dead messenger in Svalich Woods, not in a cart. This roadside cart makes the discovery visible in first person. The deceased is the messenger, not Burgomaster Kolyan Indirovich. Reveal the genuine warning only when the party examines the body; use the original module handout for exact letter text.", "x": 10, "z": 112, "r": 16}, {"id": "A", "name": "The Old Svalich Road", "player": "Black pools of water stand like dark mirrors about the muddy roadway. Thick, cold mists spread a pallor over the road. Giant tree trunks stand on both sides of the road, their branches clawing into the mists. In every direction the mists grow thicker and the forest grows more oppressive.", "dm": "The journey from the opening inn to B, Gates of Barovia, takes five hours on the road.", "x": 0, "z": 53, "r": 15}, {"id": "B", "name": "The Gates of Barovia", "player": "Jutting from the impenetrable woods on both sides of the road, high stone buttresses loom up gray in the fog. Huge iron gates hang on the stonework. Dew clings with cold tenacity to the rusted bars. Two statues of armed guardians silently flank the gate. Their heads, missing from their shoulders, now lie among the weeds at their feet. They greet you only with silence.", "dm": "When PCs approach within 50 feet, the gates open and then close after they pass. They will not open for PCs from within Barovia; crossing the border brings the magical fog's choking effect. See the Lands of Barovia rules.", "x": 0, "z": 0, "r": 13}, {"id": "C", "name": "The Svalich Woods", "player": "Towering trees, whose tops are lost in heavy gray mist, block out all save a death-gray light. The tree trunks almost touch. The thick, damp undergrowth presses in on you, making it impossible even to see one another at all times. The woods have the silence of a forgotten grave, yet exude the feeling of an unsounded scream.", "dm": "After three turns in the woods, PCs find a dead villager with an envelope bearing the Burgomaster's genuine warning. The module also prescribes wolf howling checks and attacks while in the woods. Use the original text and statistics for timing and resolution.", "x": 0, "z": -68, "r": 27}, {"id": "D", "name": "The River Ivlis", "player": "The river Ivlis flows as clear as a blue winter sky through the valley.", "dm": "A geographic landmark on Map 1. The bridge in this prototype represents the river crossing; the precise bridge shape is interpretive.", "x": 1000, "z": 1000, "r": 0}, {"id": "E", "name": "Village of Barovia", "player": "Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing that echoes through the streets from a distance.", "dm": "The village's E1–E7 keyed locations are represented in the separate Village of Barovia walkthrough. Most shops are abandoned, with exceptions E1 and E2. See the original module for home occupancy and encounter rules.", "x": 1000, "z": 1000, "r": 0}, {"id": "F", "name": "Road Junction", "player": "Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves.", "dm": "The northern fork leads to G, the Tser Pool encampment. The southern road leads toward I, the carriage.", "x": 1000, "z": 1000, "r": 0}, {"id": "G", "name": "Tser Pool Encampment", "player": "The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp.", "dm": "There are ten Vistani at the camp, who invite PCs to join them. A member of the troupe leads them to Madam Eva at G1. Use the original module for reactions, character statistics and the Fortunes of Ravenloft reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "G1", "name": "Madam Eva's Tent", "player": "Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. \"At last you have arrived!\" Her sudden cackling laughter bursts like mad lightning from her withered lips.", "dm": "Madam Eva offers to read the PCs' fortunes. The DM should perform the Fortunes of Ravenloft procedure from the original module; a new reading supersedes the previous results. Madam Eva is a level-10 cleric, neutral, and cunning. This prototype does not automatically generate the fortune reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "H", "name": "Tser Falls", "player": "This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead.", "dm": "The stone bridge above the waterfall is described as nearly one thousand feet overhead. In this alpha its scale and terrain are intentionally condensed.", "x": 1000, "z": 1000, "r": 0}, {"id": "I", "name": "The Carriage", "player": "Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently.", "dm": "The carriage is controlled by Strahd. Once PCs enter it, the horses travel to J, the Gates of Ravenloft, and cannot be discouraged. The carriage journey is represented by the road in this prototype; no automatic carriage ride yet.", "x": 1000, "z": 1000, "r": 0}, {"id": "J", "name": "The Gates of Ravenloft", "player": "After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below.", "dm": "A lowered drawbridge crosses the precipice between the approach and the castle. Continue using the original J boxed text for the drawbridge, gargoyles and gate tunnel. The castle's K1–K88 rooms are represented in the separate Castle Ravenloft walkthrough.", "x": 1000, "z": 1000, "r": 0}];
+const gameEncounterTable=[["Opening Inn", "A messenger arrives with a forged Burgomaster letter; the adventure begins here."], ["A · Old Svalich Road", "Five-hour journey toward the gates; the dangerous fog and the forest set the scene."], ["B · Gates of Barovia", "The gates open for arrivals, close behind the party and will not open again until Strahd is destroyed. Two such gates exist in I6."], ["C · Svalich Woods", "After three turns, the party finds a dead villager carrying a genuine warning letter. Each turn in the woods, roll 1d6; 4–6 begins wolf howling, increasing by one wolf each round. After five rounds of howling, 5 worg wolves attack if entering Barovia, or 25 if trying to leave. They cease pursuit at the village. Worg wolves: AC 6; HD 4+4; damage 2–8."], ["D · River Ivlis", "River crossing and geographic landmark; use its module location text."], ["E · Village", "Village homes, closed shops, and E1–E7 encounters are in the separate village walkthrough."], ["F · Road Junction", "Fork toward the Tser Pool camp or the castle approach."], ["G · Tser Pool camp", "Vistani at the camp invite the party to join them; a guide leads them to Madam Eva."], ["G1 · Madam Eva", "The fortune reading determines important information and castle objectives; run the original Fortunes of Ravenloft procedure at the table."], ["H · Tser Falls", "Waterfall and bridge; dramatic terrain, no invented encounter added."], ["I · Carriage", "Strahd’s waiting carriage takes passengers toward the castle."], ["J · Gates of Ravenloft", "Guardhouses, chasm, drawbridge and approach to K1."]];
 
 const MAP_X=l=>80+l.x*1.1,MAP_Y=l=>18+(195-l.z)*.52;
 
@@ -941,9 +915,9 @@ let gameDM=false,gameDesc=true,gameMap=true,gameKeys=true,gameIndex=0,gameLast=-
 const gameEl=id=>document.getElementById(id);
 const gameEscape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function gameShowModal(title,body){gameEl('gameModalTitle').textContent=title;gameEl('gameModalBody').innerHTML=body;gameEl('gameModal').style.display='flex'}
-function gameClose(){gameEl('gameModal').style.display='none';innInside=false}
+function gameClose(){gameEl('gameModal').style.display='none'}
 gameEl('gameClose').onclick=gameClose;gameEl('gameModal').onclick=e=>{if(e.target.id==='gameModal')gameClose()};
-function gameRender(){const l=gameLocations[gameIndex];gameEl('gamePlace').textContent=l.id+' · '+l.name;gameEl('gameRead').textContent=l.player||'';gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=!gameDM;gameEl('gameNotes').textContent=gameDM?(l.dm||'No DM notes provided.'):'';if(gameEl('jumpSelect'))gameEl('jumpSelect').value=String(gameIndex)}
+function gameRender(){if(innInside){gameEl('gamePlace').textContent='INN · The Last Chance Inn';gameEl('gameRead').textContent=innReadAloud;gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=true;return;}const l=gameLocations[gameIndex];gameEl('gamePlace').textContent=l.id+' · '+l.name;gameEl('gameRead').textContent=l.player||'';gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=!gameDM;gameEl('gameNotes').textContent=gameDM?(l.dm||'No DM notes provided.'):'';if(gameEl('jumpSelect'))gameEl('jumpSelect').value=String(gameIndex)}
 const innReadAloud=`To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.
 
 Outside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.
@@ -959,17 +933,145 @@ His accented voice speaks, "I have been sent to you to deliver this message! If 
 Amid the continued silent stares of the patronage, the gypsy strides to the bar and says to the wary barkeeper, "Fill the glasses, one and all. Their throats are obviously parched." He drops a purse heavy with gold on the bar. With that, he leaves.
 
 The babble of tavern voices resumes, although somewhat subdued. The letter is lying before you. Dated yesterday, the ink is still not dry and the parchment is crisp. The seal is of a crest you don't recognize.`;
-let innInside=false;
-function enterInn(){
- innInside=true;
- const body='<div class="innInterior" aria-label="Warm medieval tavern interior"><div class="innRafters">THE LAST CHANCE INN</div><div class="innHearth">🔥<small>Blazing hearth</small></div><div class="innPatrons">♟ &nbsp; ♟ &nbsp; ♟ &nbsp; ♟<small>Country folk and travelers</small></div><div class="innTable">🍺 &nbsp; ✉ &nbsp; 🍺<small>A sealed letter rests on the table</small></div></div><p class="readaloud">'+gameEscape(innReadAloud)+'</p><button id="innLetter" type="button">Examine sealed letter</button> <button id="innLeave" type="button">Exit to Old Svalich Road</button>';
- gameShowModal('Inside · The Last Chance Inn',body);
- gameEl('innLetter').onclick=()=>gameShowModal('The Sealed Letter','<div class="readaloud">The letter is addressed to your party in beautiful flowing script. It is dated yesterday, yet its ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.</div><button id="innBack" type="button">Return to tavern</button>');
- gameEl('innLetter').onclick=()=>{gameShowModal('The Sealed Letter','<div class="readaloud">The letter is addressed to your party in beautiful flowing script. It is dated yesterday, yet its ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.</div><button id="innBack" type="button">Return to tavern</button>');gameEl('innBack').onclick=enterInn;};
- gameEl('innLeave').onclick=()=>{innInside=false;gameClose();player.x=-39;player.z=165;player.angle=0;};
+// v1.39: a true, walkable Three.js room, rendered separately from the forest.
+const innScene=new THREE.Scene();innScene.background=new THREE.Color('#24180f');
+innScene.add(new THREE.HemisphereLight('#f9d6a0','#24140d',1.45));
+const innFireLight=new THREE.PointLight('#ff9b39',55,22,2);innFireLight.position.set(-6,2.8,-3.8);innScene.add(innFireLight);
+const innRoomWood=new THREE.MeshStandardMaterial({color:'#493020',roughness:1});
+const innRoomWall=new THREE.MeshStandardMaterial({color:'#94816a',roughness:1});
+const innRoomFloor=new THREE.MeshStandardMaterial({color:'#5c3c25',roughness:1});
+const innRoomDark=new THREE.MeshStandardMaterial({color:'#271910',roughness:1});
+function innBox(x,y,z,w,h,d,mat=innRoomWood){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);innScene.add(m);return m;}
+innBox(0,-.15,0,17,.3,13,innRoomFloor);innBox(0,5.5,0,17,.35,13,innRoomDark);
+for(const x of [-8.5,8.5])innBox(x,2.7,0,.3,5.4,13,innRoomWall);
+for(const z of [-6.5,6.5])innBox(0,2.7,z,17,5.4,.3,innRoomWall);
+for(const x of [-8,0,8])for(const z of [-6.2,6.2])innBox(x,2.8,z,.35,5.6,.4);
+for(const x of [-7.9,7.9])for(const z of [-5.8,5.8])innBox(x,2.8,z,.4,5.6,.4);
+for(const z of [-5,0,5])innBox(0,5.1,z,17,.5,.45);
+// v1.44: rustic log-lodge interior. Rounded horizontal timbers line the walls,
+// with dark chinking, heavy roof beams and visible oak floorboards.
+const lodgeLog=new THREE.MeshStandardMaterial({color:'#765033',roughness:1,flatShading:true});
+const lodgeLogAlt=new THREE.MeshStandardMaterial({color:'#60402b',roughness:1,flatShading:true});
+const lodgeChink=new THREE.MeshStandardMaterial({color:'#30231b',roughness:1});
+function lodgeTimber(x,y,z,length,radius,axis,mat=lodgeLog){
+ const mesh=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,length,9),mat);
+ mesh.rotation[axis==='x'?'z':'x']=Math.PI/2;mesh.position.set(x,y,z);innScene.add(mesh);return mesh;
 }
-function gameOpen(){const l=gameLocations[gameIndex];if(l.id==='INN'){if(Math.hypot(player.x+39,player.z-162)<11){enterInn();return;}gameShowModal('The Last Chance Inn','<div class="readaloud">A warm glow spills from the inn windows. Approach the front door to enter.</div>');return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
-function gameUpdateLocation(x,z){let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender()}}
+// Side walls: logs run front to back. Keep them flush with the existing walls.
+for(let row=0;row<12;row++){
+ const y=.27+row*.43;
+ for(const x of [-8.25,8.25]){
+  lodgeTimber(x,y,0,12.65,.235,'z',row%3===0?lodgeLogAlt:lodgeLog);
+ }
+ // Front and rear walls. Leave the exit-door opening clear at the rear.
+ lodgeTimber(0,y,6.22,16.25,.235,'x',row%3===1?lodgeLogAlt:lodgeLog);
+ for(const x of [-5.05,5.05])lodgeTimber(x,y,-6.22,6.15,.235,'x',row%3===2?lodgeLogAlt:lodgeLog);
+}
+// Above the exit lintel, complete the rear log wall without covering the door.
+for(let row=10;row<12;row++)lodgeTimber(0,.27+row*.43,-6.22,16.25,.235,'x',lodgeLog);
+// Solid timber posts, ceiling joists and diagonal knee braces.
+for(const x of [-7.85,7.85])for(const z of [-5.8,5.8])innBox(x,2.75,z,.62,5.5,.62,lodgeLogAlt);
+for(const z of [-5.1,-2.5,.1,2.7,5.3])innBox(0,5.12,z,16.4,.55,.48,lodgeLogAlt);
+for(const x of [-6.5,-3.25,0,3.25,6.5])innBox(x,5.27,0,.22,.23,12.7,lodgeLog);
+for(let i=0;i<17;i++)innBox(-8+i,0.012,0,.92,.065,12.7,i%4===0?lodgeLogAlt:innRoomFloor);
+// Low, unobtrusive log benches along the wall, leaving the central aisle open.
+for(const z of [1.3,3.7]){
+ lodgeTimber(-7.15,.58,z,1.8,.25,'z',lodgeLogAlt);
+ lodgeTimber(7.15,.58,z,1.8,.25,'z',lodgeLogAlt);
+}
+// Clearly visible tavern exit on the far wall: raised frame, panels, lintel, handle, and floor runner.
+const exitOak=new THREE.MeshStandardMaterial({color:'#704528',roughness:.91});
+const exitEdge=new THREE.MeshStandardMaterial({color:'#24150e',roughness:1});
+const exitBrass=new THREE.MeshStandardMaterial({color:'#edc16b',metalness:.5,roughness:.35,emissive:'#4b2c08',emissiveIntensity:.3});
+innBox(0,2,-6.26,3.5,4.55,.28,exitEdge);
+innBox(0,1.99,-6.01,2.9,3.92,.20,exitOak);
+for(const x of [-.94,-.31,.31,.94])innBox(x,2,-5.89,.065,3.72,.075,innRoomDark);
+for(const y of [.35,1.35,2.45,3.55])innBox(0,y,-5.83,2.77,.09,.09,exitEdge);
+for(const x of [-1.68,1.68])innBox(x,2.25,-5.76,.30,4.65,.38,innRoomWood);
+innBox(0,4.48,-5.76,3.75,.4,.42,innRoomWood);
+const latch=new THREE.Mesh(new THREE.SphereGeometry(.14,12,8),exitBrass);latch.position.set(.95,1.85,-5.70);innScene.add(latch);
+innBox(0,.025,-4.75,2.7,.045,1.25,new THREE.MeshStandardMaterial({color:'#6f2924',roughness:1}));
+const exitSignCanvas=document.createElement('canvas');exitSignCanvas.width=512;exitSignCanvas.height=128;
+const exitCtx=exitSignCanvas.getContext('2d');exitCtx.fillStyle='#2c1b13';exitCtx.fillRect(0,0,512,128);exitCtx.strokeStyle='#d5aa6a';exitCtx.lineWidth=9;exitCtx.strokeRect(5,5,502,118);exitCtx.font='bold 62px Georgia';exitCtx.fillStyle='#f4d9a0';exitCtx.textAlign='center';exitCtx.fillText('TO THE ROAD',256,86);
+const exitSign=new THREE.Mesh(new THREE.PlaneGeometry(2.9,.72),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(exitSignCanvas),side:THREE.DoubleSide}));exitSign.position.set(0,4.88,-5.65);innScene.add(exitSign);
+const exitLamp=new THREE.PointLight('#ffcb7c',3,8);exitLamp.position.set(0,4.5,-4.8);innScene.add(exitLamp);
+// Hearth and animated flame glow.
+innBox(-7.95,1.6,-3.5,.5,3.2,3.5,innRoomDark);
+innBox(-7.5,.55,-3.5,.55,1.1,2.2,new THREE.MeshStandardMaterial({color:'#a64821',emissive:'#e24a09',emissiveIntensity:1.3}));
+for(const z of [-4.5,-2.5])innBox(-7.45,2.9,z,.8,.45,.6,innRoomWood);
+// Bar, benches, tankards and tables.
+innBox(5.5,1.15,2.2,1.8,2.3,6.2);innBox(4.4,2.25,2.2,.7,.25,6.8,innRoomFloor);
+for(const [x,z] of [[-3,2.7],[1.6,3.0],[-3.8,-1.3]]){
+ innBox(x,1.25,z,2.5,.22,1.8,innRoomFloor);
+ for(const dx of [-.9,.9])for(const dz of [-.5,.5])innBox(x+dx,.6,z+dz,.18,1.2,.18);
+ for(const dx of [-1.65,1.65])innBox(x+dx,.65,z, .6,1.3,1.6,innRoomWood);
+ const mug=new THREE.Mesh(new THREE.CylinderGeometry(.16,.14,.36,8),new THREE.MeshStandardMaterial({color:'#b18b51'}));mug.position.set(x+.45,1.58,z);innScene.add(mug);
+}
+// Individually dressed low-poly patrons: heads, hair, facial details, arms, legs and boots.
+const patronSkin=['#b98c69','#d2a782','#a77758','#c39a78','#987357','#d6b08b'];
+const patronClothes=['#455640','#5d4337','#374d59','#6b4c38','#4c465b','#70614b'];
+const patronHair=['#2b201b','#5b3b27','#302824','#765136','#49382c','#b09a76'];
+function innPerson(x,z,idx,rotation=0){
+ const group=new THREE.Group();group.position.set(x,0,z);group.rotation.y=rotation;innScene.add(group);
+ const fabric=new THREE.MeshStandardMaterial({color:patronClothes[idx%6],roughness:1});
+ const skin=new THREE.MeshStandardMaterial({color:patronSkin[idx%6],roughness:1});
+ const hair=new THREE.MeshStandardMaterial({color:patronHair[idx%6],roughness:1});
+ const boot=new THREE.MeshStandardMaterial({color:'#2b211c',roughness:1});
+ function part(geometry,mat,x,y,z,rx=0,rz=0){const m=new THREE.Mesh(geometry,mat);m.position.set(x,y,z);m.rotation.x=rx;m.rotation.z=rz;group.add(m);return m;}
+ const torso=part(new THREE.CylinderGeometry(.31,.43,1.04,9),fabric,0,1.38,0);torso.scale.z=.83;
+ part(new THREE.SphereGeometry(.27,12,9),skin,0,2.16,0);
+ part(new THREE.SphereGeometry(.282,12,9,0,Math.PI*2,0,Math.PI*.50),hair,0,2.28,0);
+ for(const side of [-1,1]){
+  part(new THREE.CylinderGeometry(.12,.16,.72,8),fabric,side*.42,1.45,.06,.16,side*.27);
+  part(new THREE.SphereGeometry(.115,8,7),skin,side*.51,1.08,.14);
+  part(new THREE.CylinderGeometry(.17,.15,.64,8),fabric,side*.19,.62,0);
+  part(new THREE.BoxGeometry(.34,.20,.51),boot,side*.19,.17,-.11);
+ }
+ // Eyes and nose face forward; small features stay consistent with the stylized world.
+ for(const side of [-1,1])part(new THREE.SphereGeometry(.025,6,6),boot,side*.105,2.17,-.245);
+ part(new THREE.ConeGeometry(.065,.12,5),skin,0,2.08,-.26,Math.PI/2);
+ if(idx%3===0){ // cloak
+  part(new THREE.ConeGeometry(.47,.75,10),fabric,0,1.0,.22,Math.PI);
+ }
+ if(idx%4===1){ // broad-brimmed travel hat
+  part(new THREE.CylinderGeometry(.43,.43,.055,12),hair,0,2.42,0);
+  part(new THREE.CylinderGeometry(.25,.28,.29,10),hair,0,2.58,0);
+ }
+ return group;
+}
+innPerson(-3.6,2.2,0,-.55);innPerson(2.95,2.65,1,.6);
+innPerson(-5.9,-1.6,2,-.35);innPerson(6.3,4.15,3,-.7);
+innPerson(-5.7,3.6,4,.4);innPerson(3.5,-3.6,5,.25);
+// v1.42: replace the blocky red messenger with a detailed patron model.
+// Keep the doorway and central aisle clear for the arriving player.
+const innMessenger=innPerson(3.2,.2,3,-.6);
+const messengerCloak=new THREE.Mesh(new THREE.ConeGeometry(.49,1.25,12),new THREE.MeshStandardMaterial({color:'#8a3533',roughness:1}));
+messengerCloak.position.set(0,1.18,.12);innMessenger.add(messengerCloak);
+innBox(-3.4,1.41,-1.3,.48,.035,.36,new THREE.MeshStandardMaterial({color:'#d6c19a'}));
+const innInteriorPrompt=document.createElement('div');innInteriorPrompt.id='innInteriorPrompt';innInteriorPrompt.style.cssText='display:none;position:fixed;bottom:55px;left:50%;transform:translateX(-50%);z-index:25;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;pointer-events:none';document.body.append(innInteriorPrompt);
+let innInside=false;
+const innDoorX=-39,innDoorZ=162.5;
+const innDoorPrompt=document.createElement('div');
+innDoorPrompt.id='innDoorPrompt';innDoorPrompt.textContent='The Last Chance Inn — press E or Enter to enter';
+innDoorPrompt.style.cssText='display:none;position:fixed;bottom:52px;left:50%;transform:translateX(-50%);z-index:24;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;text-align:center;pointer-events:none';
+document.body.append(innDoorPrompt);
+function atInnDoor(){return Math.hypot(player.x-innDoorX,player.z-innDoorZ)<7.5;}
+function leaveInn(){gameClose();innInside=false;player.x=innDoorX;player.z=166.4;player.angle=Math.PI;gameLast=-1;gameUpdateLocation(player.x,player.z);gameRender();innInteriorPrompt.style.display='none';}
+setInterval(()=>{const near=atInnDoor()&&!innInside&&gameEl('gameModal').style.display!=='flex';innDoorPrompt.style.display=near?'block':'none';},100);
+function enterInn(){
+ innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;gameRender();
+ gameShowModal('The Last Chance Inn · Opening Encounter','<p class="readaloud">'+gameEscape(innReadAloud)+'</p><button id="innReadClose" type="button">Explore the tavern</button>');
+ gameEl('innReadClose').onclick=gameClose;
+}
+setInterval(()=>{
+ if(!innInside){innInteriorPrompt.style.display='none';return;}
+ const nearExit=Math.hypot(player.x,player.z+5.6)<2.6;
+ const nearLetter=Math.hypot(player.x+3.4,player.z+1.3)<2.1;
+ innInteriorPrompt.style.display=gameEl('gameModal').style.display==='flex'?'none':'block';
+ innInteriorPrompt.textContent=nearExit?'Exit tavern — E or Enter':nearLetter?'Examine sealed letter — E or Enter':'Walk around the tavern · approach the door to leave';
+},120);
+function gameOpen(){if(atInnDoor()){enterInn();return;}const l=gameLocations[gameIndex];if(l.id==='INN'){gameShowModal('The Last Chance Inn','<div class="readaloud">A warm glow spills from the inn windows. Approach the front door to enter.</div>');return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
+function gameUpdateLocation(x,z){if(innInside)return;let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender()}}
 gameEl('dmBtn').onclick=()=>{gameDM=!gameDM;gameEl('dmBtn').textContent='DM: '+(gameDM?'ON':'OFF');gameEl('dmBtn').classList.toggle('on',gameDM);gameRender()};
 gameEl('descBtn').onclick=()=>{gameDesc=!gameDesc;gameEl('descBtn').textContent=gameDesc?'Hide Descriptions':'Show Descriptions';gameRender()};
 gameEl('mapBtn').onclick=()=>{gameMap=!gameMap;gameEl('mapBtn').textContent=gameMap?'Hide Map':'Show Map';GAME_MAP.style.display=gameMap?'':'none'};
@@ -981,10 +1083,23 @@ if(gameEl('detailBtn'))gameEl('detailBtn').onclick=gameOpen;
 const heldTurn={left:false,right:false};
 for(const [id,side] of [['turnLeft','left'],['turnRight','right']]){const b=gameEl(id);b.addEventListener('pointerdown',e=>{heldTurn[side]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>heldTurn[side]=false)}
 function gameTurnStep(){if(heldTurn.left)player.angle-=.045;if(heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
-window.addEventListener('keydown',e=>{if(e.key==='Escape')gameClose();if(e.key.toLowerCase()==='e'&&!e.repeat&&gameEl('gameModal').style.display!=='flex')gameOpen()});
+window.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&gameEl('gameModal').style.display==='flex'){gameClose();return;}
+ if((e.key.toLowerCase()==='e'||e.key==='Enter')&&!e.repeat){
+  if(gameEl('gameModal').style.display==='flex')return;
+  if(innInside){
+   e.preventDefault();
+   if(Math.hypot(player.x,player.z+5.6)<2.6){leaveInn();return;}
+   if(Math.hypot(player.x+3.4,player.z+1.3)<2.1){gameShowModal('The Sealed Letter','<div class="readaloud">The letter is addressed to your party in beautiful flowing script. Dated yesterday, the ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.</div>');return;}
+   return;
+  }
+  if(atInnDoor()){e.preventDefault();enterInn();return;}
+  gameOpen();
+ }
+});
 const keyOverlay=document.createElement('canvas');keyOverlay.id='keyOverlay';keyOverlay.width=480;keyOverlay.height=600;GAME_MAP.style.position='absolute';GAME_MAP.append(keyOverlay);
 function drawKeys(){const c=keyOverlay.getContext('2d');c.clearRect(0,0,480,600);c.font='bold 14px Georgia';c.textAlign='center';for(const l of gameLocations){if(!l.r)continue;const x=MAP_X(l),y=MAP_Y(l);if(x<10||x>470||y<10||y>590)continue;c.fillStyle='#f4cf8a';c.fillRect(x-15,y-12,30,19);c.fillStyle='#3c2b1d';c.fillText(l.id,x,y+2)}}drawKeys();
-function gameNav(path){window.dndpovPreviewGate('Castle Ravenloft')}
+function gameNav(path){window.location.href=path}
 gameEl('castleBtn').onclick=()=>gameNav('ravenloft.html');
 gameEl('encBtn').onclick=gameEncounter;
 gameRender();setInterval(()=>gameUpdateLocation(player.x,player.z),250);
@@ -1161,17 +1276,181 @@ drawMap=function(){svalichDrawBeforeMp();
 })();
 </script>
 
+<!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
+<style id="dndpovMpStyle">
+#mpButton{position:fixed;top:12px;left:12px;z-index:10005;background:#193326;color:#b8f5c6;border:1px solid #60a77a;border-radius:7px;padding:8px 13px;font:700 12px system-ui;cursor:pointer}
+#mpButton{background:#84262b;color:#fff0ee;border-color:#e97878}
+#mpButton.mp-connected{background:#176a40;color:#e6ffef;border-color:#6fe0a1}
+#mpPanel{position:fixed;z-index:10006;top:48px;left:12px;width:min(350px,calc(100vw - 24px));max-height:85vh;overflow:auto;background:#151b17;color:#eee9da;border:1px solid #6caa7d;border-radius:10px;box-shadow:0 12px 50px #000b;padding:16px;font:13px/1.5 system-ui;display:none}
+#mpPanel h3{margin:0 0 10px;color:#b7e9bd;font:700 18px system-ui}
+#mpPanel input,#mpPanel select{width:100%;padding:8px;margin:4px 0 10px;color:#fff;background:#202c25;border:1px solid #6b8c75;border-radius:5px}
+#mpPanel button{background:#2e6643;color:white;border:1px solid #6aab7a;border-radius:5px;padding:8px 10px;margin:3px;cursor:pointer}
+#mpPanel button:disabled{opacity:.45}#mpPanel .muted{color:#b7bdb5;font-size:11px}#mpPanel .member{padding:5px;border-bottom:1px solid #45564b}
+#mpEncounterToast{position:fixed;z-index:10007;top:28%;left:50%;transform:translateX(-50%);width:min(420px,90vw);padding:24px;background:#180f0df2;color:#f7ddbd;border:2px solid #b65d4b;border-radius:8px;box-shadow:0 15px 60px #000d;text-align:center;font:18px Georgia,serif}
+#mpEncounterToast[hidden]{display:none!important}#mpEncounterToast button{cursor:pointer;background:#44241e;color:#f4e2c8;border:1px solid #b65d4b;padding:7px 14px;margin-top:12px}
+</style>
+<button id="mpButton" type="button">♟ Multiplayer: OFF</button>
+<section id="mpPanel" aria-label="Local multiplayer"><h3>Local Multiplayer · Old Svalich Road</h3>
+<p class="muted">Use the same local multiplayer server as Castle Ravenloft. Host or join by session code; party membership can follow you between adventure pages on this server.</p>
+<label>Character name<input id="mpName" maxlength="24" placeholder="Alaric"></label>
+<label>Marker color<select id="mpColor"><option value="#58b8ff">Blue</option><option value="#67d9a0">Green</option><option value="#f5c25c">Gold</option><option value="#ce8dff">Purple</option></select></label>
+<label>Session code<input id="mpCode" maxlength="8" placeholder="Leave blank to host"></label>
+<button id="mpHost" type="button">Host as DM</button><button id="mpJoin" type="button">Join as Player</button><button id="mpLeave" type="button">Disconnect</button><button id="mpClose" type="button">Close ×</button>
+<div id="mpStatus" class="muted">Not connected.</div><div id="mpTransport" class="muted">Network: waiting</div><div id="mpMembers"></div>
+<div id="mpDM" hidden><h3>DM Encounter Control</h3>
+<p class="muted">Send the reveal to adventurers nearby, or to everyone.</p>
+<label>Monster ID<input id="mpMonster" placeholder="zombie"></label>
+<label>Quantity<input id="mpCount" type="number" value="1" min="1" max="99"></label>
+<label>Recipients<select id="mpTargets"><option value="room">Players at my location</option><option value="all">All connected players</option></select></label>
+<button id="mpTrigger" type="button">Trigger monster</button><button id="mpComplete" type="button">Battle complete</button><button id="mpPause" type="button">Pause / resume movement</button>
+<h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
+</section>
+<aside id="mpEncounterToast" hidden role="alert"><strong id="mpEncounterTitle">ENCOUNTER</strong><p id="mpEncounterMessage"></p><button id="mpEncounterDismiss" type="button">Close</button></aside>
+<script id="dndpovMpController">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const mp={connected:false,id:null,members:[],role:null,session:null,paused:false};
+ window.DNDPOV_MP=mp;
+ const storageKey='dndpov_mp_session',zoneLabel='Old Svalich Road';
+ let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ function load(){try{return JSON.parse(sessionStorage.getItem(storageKey)||'null')}catch{return null}}
+ function store(){try{sessionStorage.setItem(storageKey,JSON.stringify({
+  role:mp.role||'player',code:mp.session||$('mpCode').value.trim().toUpperCase(),
+  name:$('mpName').value,color:$('mpColor').value,secret:sessionSecret
+ }))}catch{}}
+ const prior=load();
+ if(prior){$('mpName').value=prior.name||'';$('mpColor').value=prior.color||'#58b8ff';
+  $('mpCode').value=prior.code||'';sessionSecret=prior.secret||null;}
+ function say(message){$('mpStatus').textContent=message}
+ function send(message){if(ws&&ws.readyState===WebSocket.OPEN){
+  ws.send(JSON.stringify(message));if(message.type==='position')sent++;}}
+ const zoneNames={100:'Village of Barovia',101:'Old Svalich Road',
+  102:'Road to Tser Pool'};
+ function displayMembers(){const box=$('mpMembers');box.replaceChildren();
+  for(const m of mp.members){const line=document.createElement('div');line.className='member';
+   const zone=zoneNames[m.floor]||('Castle floor '+m.floor);
+   line.textContent=(m.online?'● ':'○ ')+(m.name||'Adventurer')+' · '+zone+
+    ' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'');
+   line.style.color=m.color||'#b8f5c6';box.append(line);}
+  $('mpButton').textContent=mp.connected?'♟ '+mp.session+' · '+mp.members.length+' connected':'♟ Multiplayer: OFF';
+  $('mpButton').classList.toggle('mp-connected',mp.connected);
+ }
+ function connect(role){
+  if(!location.host){say('Open this HTML through the local multiplayer server, not file://.');
+   $('mpPanel').style.display='block';return;}
+  if(ws)ws.close();mp.connected=false;mp.role=role;displayMembers();
+  const protocol=location.protocol==='https:'?'wss:':'ws:';
+  ws=new WebSocket(protocol+'//'+location.host+'/ws');
+  ws.onopen=()=>send({type:'join',role,code:$('mpCode').value.trim().toUpperCase(),
+   name:$('mpName').value.trim()||'Adventurer',color:$('mpColor').value,
+   secret:role==='dm'?sessionSecret:null});
+  ws.onclose=()=>{if(ws){mp.connected=false;say('Disconnected. Rejoin when ready.');displayMembers()}};
+  ws.onerror=()=>say('Connection failed. Start the local multiplayer launcher and open its server URL.');
+  ws.onmessage=event=>{let data;try{data=JSON.parse(event.data)}catch{return}
+   if(data.type==='position_ack'){acked++;return}
+   if(data.type==='error'){say(data.message||'Multiplayer server error');return}
+   if(data.type==='welcome'){
+    mp.connected=true;mp.id=data.id;mp.role=data.role;mp.session=data.code;
+    sessionSecret=data.secret||sessionSecret;$('mpCode').value=data.code;
+    $('mpDM').hidden=data.role!=='dm';store();
+    say('Connected as '+String(data.role).toUpperCase()+' · session '+data.code+
+     ' · '+zoneLabel);sendPosition(true);displayMembers();return;
+   }
+   if(data.type==='state'){
+    received++;mp.members=data.members||[];mp.paused=!!data.paused;
+    displayMembers();window.DNDPOV_ZONE_BRIDGE?.redrawMap?.();return;
+   }
+   if(data.type==='log'&&mp.role==='dm'){
+    const line=document.createElement('div');line.textContent=data.message||'';
+    $('mpLog').prepend(line);return;
+   }
+   if(data.type==='encounter'&&data.id){
+    $('mpEncounterTitle').textContent='ENCOUNTER · '+String(data.id).replaceAll('_',' ').toUpperCase();
+    $('mpEncounterMessage').textContent=(data.count||1)+' × '+String(data.id).replaceAll('_',' ');
+    $('mpEncounterToast').hidden=false;
+    window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:data.id,count:data.count||1}}));
+    return;
+   }
+   if(data.type==='complete'){$('mpEncounterToast').hidden=true;return}
+  };
+ }
+ function sendPosition(force=false){if(!mp.connected)return;
+  const now=Date.now();if(!force&&now-lastSent<170)return;lastSent=now;
+  const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
+  if(position)send({type:'position',...position});
+ }
+ setInterval(()=>sendPosition(),180);
+ setInterval(()=>{
+  const remote=mp.members.filter(m=>m.id!==mp.id);
+  $('mpTransport').textContent='Network: '+(ws?.readyState===1?'connected':'disconnected')+
+   ' · sent '+sent+' · ACK '+acked+' · updates '+received+' · remote '+remote.length;
+ },1000);
+ document.addEventListener('keydown',event=>{
+  if(mp.connected&&mp.paused&&mp.role!=='dm'&&
+   ['ArrowUp','ArrowDown','KeyW','KeyS'].includes(event.code)){
+   event.stopImmediatePropagation();event.preventDefault();}
+ },true);
+ $('mpButton').onclick=()=>{$('mpPanel').style.display=$('mpPanel').style.display==='block'?'none':'block'};
+ $('mpClose').onclick=()=>{$('mpPanel').style.display='none'};
+ $('mpHost').onclick=()=>connect('dm');$('mpJoin').onclick=()=>connect('player');
+ $('mpLeave').onclick=()=>{ws?.close();ws=null;mp.connected=false;mp.members=[];
+  sessionSecret=null;try{sessionStorage.removeItem(storageKey)}catch{}
+  say('Disconnected.');displayMembers();};
+ $('mpEncounterDismiss').onclick=()=>{$('mpEncounterToast').hidden=true};
+ function encounter(type){const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.()||{};
+  send({type,id:$('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),
+   count:Math.max(1,Number($('mpCount').value)||1),
+   targets:$('mpTargets').value,room:position.room||null,floor:position.floor??100});}
+ $('mpTrigger').onclick=()=>encounter('encounter');
+ $('mpComplete').onclick=()=>encounter('complete');
+ $('mpPause').onclick=()=>send({type:'pause'});
+ // sessionStorage travels with the browser tab between adventure HTML pages.
+ // An explicit Disconnect clears it; changing scenes does not.
+ if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
+})();
+</script>
+<script id="dndpovMpDockFix">
+/* Dock the shared multiplayer controls outside the scene's options window. */
+(()=>{
+ const button=document.getElementById('mpButton');
+ const panel=document.getElementById('mpPanel');
+ const hud=document.getElementById('hud');
+ if(!button||!panel||!hud)return;
+ let scheduled=0;
+ function positionControls(){
+  const r=hud.getBoundingClientRect();
+  const panelWidth=Math.min(350,Math.max(220,innerWidth-24));
+  const beside=r.right+12+panelWidth+12<=innerWidth;
+  const left=beside?r.right+12:Math.max(12,Math.min(r.left,innerWidth-panelWidth-12));
+  const top=beside?Math.max(12,r.top):Math.max(12,Math.min(innerHeight-56,r.bottom+12));
+  button.style.left=Math.round(left)+'px';
+  button.style.top=Math.round(top)+'px';
+  const panelTop=top+button.getBoundingClientRect().height+9;
+  panel.style.left=Math.round(left)+'px';
+  panel.style.top=Math.round(panelTop)+'px';
+  panel.style.width=Math.min(350,innerWidth-left-12)+'px';
+  panel.style.maxHeight=Math.max(110,innerHeight-panelTop-12)+'px';
+ }
+ function schedule(){cancelAnimationFrame(scheduled);scheduled=requestAnimationFrame(positionControls)}
+ addEventListener('resize',schedule);
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(hud);
+ schedule();
+})();
+</script>
 <style id="dndpov-window-spacing">
-/* Align the notes with the title/weather window, leaving space between them. */
+/* Keep the adventure notes aligned with the title/weather window. */
 #gamePanel{
  width:350px!important;
  max-width:calc(100vw - 24px)!important;
  box-sizing:border-box!important;
 }
+/* Leave a gap between the notes window and the movement hint. */
 #help{left:380px!important}
 @media(max-width:1050px){#help{left:14px!important}}
 </style>
 <script id="dndpov-window-spacing-controller">
+/* Position the notes below the HUD even when the HUD wraps or is resized. */
 (()=>{
  const hud=document.getElementById('hud');
  const notes=document.getElementById('gamePanel');
@@ -1188,10 +1467,4 @@ drawMap=function(){svalichDrawBeforeMp();
  schedule();
 })();
 </script>
-<style id="dndpovPublicMultiplayerBadge">
-#mpButton{position:fixed;top:12px;left:380px;z-index:10005;background:#84262b;color:#fff0ee;border:1px solid #e97878;border-radius:7px;padding:8px 13px;font:700 12px system-ui;opacity:1;cursor:default;pointer-events:none}
-#mpButton.mp-connected{background:#176a40;color:#e6ffef;border-color:#6fe0a1}
-@media(max-width:680px){#mpButton{top:auto;bottom:58px;left:12px}}
-</style>
-<button id="mpButton" type="button" disabled title="Multiplayer is available in the downloadable desktop edition">♟ Multiplayer: OFF</button>
 </body></html>

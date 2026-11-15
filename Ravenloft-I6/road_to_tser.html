@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.29 · Multiplayer + AI DM</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.30 · Multiplayer + AI DM</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
 #fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style><meta name="dndpov-edition" content="restricted-public-beta"></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.6</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
@@ -1190,8 +1190,30 @@ const blackPaint=mat(0x101114),blackTrim=mat(0x302b2a),wheelMat=mat(0x171515),la
 function carriageBox(x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);carriageGroup.add(o);return o}
 // Hollow carriage cabin: the passenger can see through the windscreen.
 // Side and rear panels replace the old solid box that blocked the camera.
-carriageBox(-1.84,2.65,0,.16,2.8,5.5,blackPaint);
+// The roadside passenger door is a real hinged part of the carriage.
+// Break up the near wall so the door actually reveals the dark cabin as it swings open.
+carriageBox(-1.84,2.65,-1.83,.16,2.8,1.84,blackPaint);
+carriageBox(-1.84,2.65,1.83,.16,2.8,1.84,blackPaint);
+carriageBox(-1.84,3.90,0,.18,.30,1.86,blackTrim);
+carriageBox(-1.84,1.34,0,.18,.20,1.86,blackTrim);
 carriageBox(1.84,2.65,0,.16,2.8,5.5,blackPaint);
+const carriageDoorHinge=new THREE.Group();
+carriageDoorHinge.position.set(-1.86,1.45,.91);
+carriageGroup.add(carriageDoorHinge);
+function carriageDoorDetail(x,y,z,w,h,d,material){
+ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+ mesh.position.set(x,y,z);carriageDoorHinge.add(mesh);return mesh;
+}
+carriageDoorDetail(0,1.19,-.91,.17,2.38,1.82,blackPaint);
+const carriageDoorPanel=mat(0x302521);
+const carriageDoorWindow=mat(0x151a20);
+carriageDoorDetail(-.105,.62,-.91,.045,.88,1.52,carriageDoorPanel);
+carriageDoorDetail(-.105,1.70,-.91,.047,.72,1.44,carriageDoorWindow);
+carriageDoorDetail(-.15,1.70,-.91,.045,.075,1.52,blackTrim);
+carriageDoorDetail(-.15,1.70,-.91,.05,.80,.065,blackTrim);
+carriageDoorDetail(-.15,1.70,-1.65,.05,.80,.065,blackTrim);
+const carriageLatch=mat(0xb28d59);
+carriageDoorDetail(-.19,1.12,-1.59,.11,.11,.18,carriageLatch);
 carriageBox(0,2.65,2.70,3.8,2.8,.16,blackPaint);
 carriageBox(0,2.03,-2.70,3.8,1.55,.16,blackPaint); // low front panel
 carriageBox(0,3.91,-2.70,3.8,.28,.16,blackPaint); // header above windscreen
@@ -1500,7 +1522,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.29 · PUBLIC BETA';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.30 · PUBLIC BETA';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2119,6 +2141,26 @@ function updateRiverAmbience(dt){
 }
 function stopRiverAmbience(){riverAmbience.pause();riverAmbience.currentTime=0;riverAmbience.volume=0;riverVolume=0;}
 let carriageMode='walking',carriageDeclined=false,rideZ=carriageZ;
+let carriageDoorOpen=0;
+function updateCarriageDoor(dt){
+ const shouldOpen=carriageMode==='opening'||carriageMode==='offered'||carriageMode==='declined';
+ const target=shouldOpen?1:0;
+ const step=dt/(shouldOpen?1.8:1.0);
+ carriageDoorOpen=THREE.MathUtils.clamp(carriageDoorOpen+(target>carriageDoorOpen?step:-step),0,1);
+ // Ease the hinge from a crack to a full, silent outward swing.
+ carriageDoorHinge.rotation.y=Math.sin(carriageDoorOpen*Math.PI/2)*1.28;
+ if(carriageMode==='opening'&&carriageDoorOpen>=.999){
+  carriageDoorOpen=1;carriageMode='offered';
+  carriageOffer.style.display='block';
+  for(const k of Object.keys(keys))keys[k]=false;
+ }
+}
+function watchCarriageDoor(dt){
+ const angle=Math.atan2(carriageX-player.x,carriageZ-player.z);
+ const turn=Math.atan2(Math.sin(angle-player.angle),Math.cos(angle-player.angle));
+ player.angle+=turn*Math.min(1,dt*2.1);
+ camera.rotation.y=player.angle+Math.PI;
+}
 const rideView=new THREE.Vector3();
 function carriageAt(z){
  // Pull out from the roadside pickup point, then follow the CENTER of the winding road.
@@ -2323,9 +2365,12 @@ window.addEventListener('keydown',event=>{
 const roadPreviousReset=document.querySelector('#reset').onclick;
 document.querySelector('#reset').onclick=()=>{
  roadReturnPromptLatched=false;closeRoadReturnPrompt();
- closeRoadDescription();seenRoadDescriptions.clear();roadPreviousReset();
+ closeRoadDescription();seenRoadDescriptions.clear();
+ carriageMode='walking';carriageDeclined=false;carriageOffer.style.display='none';
+ carriageDoorOpen=0;carriageDoorHinge.rotation.y=0;carriageAt(carriageZ);
+ roadPreviousReset();
 };
-function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;animateRiverCurrent(dt);animateCampfire(now);updateRiverAmbience(dt);updateForestAmbience();updateOpeningRoadAmbience(dt);
+function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;animateRiverCurrent(dt);animateCampfire(now);updateCarriageDoor(dt);updateRiverAmbience(dt);updateForestAmbience();updateOpeningRoadAmbience(dt);
 if(insideEvaTent){
  evaInteriorFrame(dt);updateMoon();updateRoadWeather(now);updateCastleApproach();
  renderer.render(scene,camera);requestAnimationFrame(frame);return;
@@ -2343,9 +2388,10 @@ if(!roadReturnOverlay.hidden){
  renderer.render(scene,camera);requestAnimationFrame(frame);return;
 }
 const nearCarriage=Math.hypot(player.x-carriageX,player.z-carriageZ)<14;
-if(carriageMode==='walking'&&nearCarriage){carriageMode='offered';carriageOffer.style.display='block';}
+if(carriageMode==='walking'&&nearCarriage){carriageMode='opening';for(const k of Object.keys(keys))keys[k]=false;}
 if(carriageMode==='declined'&&!nearCarriage){carriageMode='walking';carriageDeclined=false;}
-if(carriageMode==='offered'){
+if(carriageMode==='opening'||carriageMode==='offered'){
+ if(carriageMode==='opening')watchCarriageDoor(dt);
  updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame);return;
 }
 const speed=(keys.shift?17:8)*dt;if(keys.arrowleft)player.angle+=1.8*dt;if(keys.arrowright)player.angle-=1.8*dt;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0);const nx=player.x+Math.sin(player.angle)*f*speed+Math.cos(player.angle)*side*speed,nz=player.z+Math.cos(player.angle)*f*speed-Math.sin(player.angle)*side*speed;
@@ -2364,13 +2410,16 @@ updateEvaOutsidePrompt();
 updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame)}requestAnimationFrame(frame);
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()});
 
-// v3.29 — live road landmark context, shared by Adventure Journal and map party.
+// v3.30 — live road landmark context, shared by Adventure Journal and map party.
 const evaSceneDescription='Embroidered curtains hush the outside world. Candlelight flickers across ancient cards, small charms, and a pale crystal sphere. Madame Eva watches silently from behind the table, as if she has been expecting you.';
 const carriageSceneDescription='The carriage sets off without a driver. Through the front window, the dirt road winds uphill toward Castle Ravenloft.';
 function roadCurrentSite(){
  if(insideEvaTent)return {location:'G',position:'inside',roomName:'G · Inside Madame Eva’s Tent'};
  if(carriageMode==='riding')return {location:'I',position:'inside',roomName:'I · Black Carriage'};
  const site=nearestRoadDescription();
+ // The I-location scroll must wait until the carriage's door has opened.
+ if(site?.id==='I'&&(carriageMode==='walking'||carriageMode==='opening'))
+  return {location:'ROAD',position:'outside',roomName:'Old Svalich Road to Tser Pool'};
  if(site)return {location:site.id,position:'outside',roomName:(site.id==='CASTLE'?'':site.id+' · ')+site.name};
  return player.z>72?{location:'ARRIVAL',position:'outside',roomName:'Leaving the Village of Barovia'}:
   {location:'ROAD',position:'outside',roomName:'Old Svalich Road to Tser Pool'};

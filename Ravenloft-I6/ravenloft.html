@@ -1608,7 +1608,8 @@ refreshAll();
   const text=document.createElement('div');text.className='aiDmVerbatim';text.textContent=body;
   const source=document.createElement('small');source.textContent=label;
   card.append(heading,text,source);log.append(card);log.scrollTop=log.scrollHeight;
-  panel.hidden=false;button.classList.remove('has-new');
+  // New descriptions are recorded silently; only the player opens the journal.
+  if(panel.hidden)button.classList.add('has-new');
  }
  function showLocation(c=context(),force=false){
   const key=keyOf(c);

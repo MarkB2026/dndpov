@@ -4866,12 +4866,12 @@ setInterval(checkLocation,350);checkLocation();
   if(b)localDm=/\bON\b/.test(b.textContent)&&!/\bOFF\b/.test(b.textContent);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
-  $('localOracle').disabled=false;$('localEncounters').disabled=false;
+  autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
- autoButton.onclick=()=>{state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
- $('localOracle').onclick=()=>{renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
- $('localEncounters').onclick=()=>{renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
+ $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
@@ -4882,7 +4882,7 @@ setInterval(checkLocation,350);checkLocation();
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
- renderOracle();renderEncounters();sync();setInterval(scan,450);setInterval(sync,1200);
+ renderOracle();renderEncounters();sync();setInterval(()=>{if(localDm)scan()},450);setInterval(sync,1200);
 })();
 
 </script>
@@ -4952,7 +4952,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     '<div id="dndpovContextDockBody"><div id="dndpovContextWhere">Finding your location…</div><p id="dndpovContextExcerpt">Explore to discover room and landmark descriptions.</p>'+
     '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button></div>'+
     '<div id="dndpovContextDmInfo" aria-live="off">DM notes hidden. Enable them only if you are running the adventure.</div>'+
-    '<small class="contextEdition">'+(publicBeta?'Public beta · DM and multiplayer features available in the full edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
+    '<small class="contextEdition">'+(publicBeta?'Public beta · Local DM tools available. AI chat and multiplayer require the local edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
   document.body.append(dock);
 
   const fold=$('dndpovContextFold');
@@ -4966,18 +4966,11 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     if(typeof window.DNDPOV_AI_READ_NEARBY==='function')window.DNDPOV_AI_READ_NEARBY();
     else $('localRead')?.click();
   };
-  if(!publicBeta){
-    $('dndpovContextDm').onclick=()=>$('localDmMode')?.click();
-    $('dndpovContextAuto').onclick=()=>$('localAutoDm')?.click();
-    $('dndpovContextOracle').onclick=()=>$('localOracle')?.click();
-    $('dndpovContextEncounters').onclick=()=>$('localEncounters')?.click();
-  }else{
-    for(const id of ['dndpovContextDm','dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters']){
-      $(id).disabled=true;$(id).title='Available in the full downloadable edition';
-    }
-    $('dndpovContextAuto').textContent='Auto DM: Full only';
-    $('dndpovContextDmInfo').textContent='DM notes and encounter controls are unavailable in the public beta.';
-  }
+  // Public beta retains local DM tools; only network AI chat and multiplayer are unavailable.
+  $('dndpovContextDm').onclick=()=>$('localDmMode')?.click();
+  $('dndpovContextAuto').onclick=()=>$('localAutoDm')?.click();
+  $('dndpovContextOracle').onclick=()=>$('localOracle')?.click();
+  $('dndpovContextEncounters').onclick=()=>$('localEncounters')?.click();
 
   const truncate=(str,length)=>str.length>length?str.slice(0,length).trimEnd()+'…':str;
   let lastKey='';
@@ -5001,9 +4994,8 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
       'You are exploring '+label+'. The journal will show any available original room description when you reach its location.';
     updateDmInfo();
   }
-  function dmEnabled(){return !publicBeta&&/\bON\b/.test($('localDmMode')?.textContent||'')&&!/\bOFF\b/.test($('localDmMode')?.textContent||'')}
+  function dmEnabled(){return /\bON\b/.test($('localDmMode')?.textContent||'')&&!/\bOFF\b/.test($('localDmMode')?.textContent||'')}
   function updateDmInfo(){
-    if(publicBeta)return;
     const info=$('dndpovContextDmInfo');
     if(!dmEnabled()){info.textContent='DM notes hidden. Toggle DM notes to reveal module guidance for this location.';return;}
     const c=current();
@@ -5016,10 +5008,10 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
       'DM notes on · No keyed DM guidance for this location.';
   }
   function syncControls(){
-    if(publicBeta)return;
     const notes=dmEnabled();
     $('dndpovContextDm').textContent='DM notes: '+(notes?'ON':'OFF');
     $('dndpovContextDm').classList.toggle('active',notes);
+    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters'])$(id).disabled=!notes;
     const auto=window.DNDPOV_AUTO_DM_TOOLS?.getState?.()?.enabled;
     $('dndpovContextAuto').textContent='Auto DM: '+(auto?'ON':'OFF');
     $('dndpovContextAuto').classList.toggle('active',Boolean(auto));

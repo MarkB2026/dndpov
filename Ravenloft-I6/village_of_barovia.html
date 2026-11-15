@@ -4290,8 +4290,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title='DNDPOV — Village of Barovia v5.65 · Multiplayer + AI DM';
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.65 · PUBLIC BETA';
+document.title='DNDPOV — Village of Barovia v5.66 · Multiplayer + AI DM';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.66 · PUBLIC BETA';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
@@ -4470,6 +4470,9 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.65 · PUBLIC 
  const $=id=>panel.querySelector('#'+id);
  const log=$('aiDmLog'),place=$('aiDmPlace'),next=$('aiDmNextPassage');
  let currentKey='',currentScroll=null,passageIndex=0;
+ // Approach radii can overlap or fluctuate near village buildings. A scene
+ // is narrated automatically once per page visit; Read Again remains manual.
+ const narratedScenes=new Set();
  const context=()=>window.DNDPOV_AI_CONTEXT?.()||{location:'ARRIVAL',position:'unknown'};
  const keyOf=c=>String(c.floor??'')+'|'+String(c.location)+'|'+String(c.position);
  function updatePlace(c){
@@ -4488,6 +4491,8 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.65 · PUBLIC 
   const key=keyOf(c);
   if(!force&&key===currentKey)return;
   currentKey=key;currentScroll=null;passageIndex=0;next.hidden=true;updatePlace(c);
+  if(!force&&(narratedScenes.has(key)||
+    (c.location==='ARRIVAL'&&narratedScenes.size>0)))return;
   const entry=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
   if(!entry)return;
   const passages=Array.isArray(entry.passages)&&entry.passages.length?
@@ -4497,6 +4502,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.65 · PUBLIC 
   const label=entry.label||(String(c.location).startsWith('K')?
    'I6 PLAYER READ-ALOUD · PUBLIC BETA':'DNDPOV SCENE / MODULE REFERENCE · PUBLIC BETA');
   currentScroll={title,passages,label};
+  narratedScenes.add(key);
   addScroll(title,passages[0],label);
   next.hidden=passages.length<2;
  }

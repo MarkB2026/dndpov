@@ -222,7 +222,7 @@ function hitsVillagePerimeter(x,z){
 }
 function onRoad(x,z){return paths.some(path=>path.some((p,i)=>i&&distToSegment(x,z,path[i-1],p)<width*1.3))||cemeteryWalkPath.some((p,i)=>i&&distToSegment(x,z,cemeteryWalkPath[i-1],p)<1.8)||manorWalkPath.some((p,i)=>i&&distToSegment(x,z,manorWalkPath[i-1],p)<1.55)||Math.hypot(x-toWorld([548,548])[0],z-toWorld([548,548])[1])<7.2}
 let THREE;try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js')}catch(e){document.getElementById('error').style.display='block';document.getElementById('error').textContent='Three.js could not load. Check internet connection. '+e;throw e}
-const scene=new THREE.Scene();scene.background=new THREE.Color('#777e82');scene.fog=new THREE.Fog('#858b8a',72,175);
+const scene=new THREE.Scene();scene.background=new THREE.Color('#777e82');scene.fog=new THREE.Fog('#858b8a',72,175);const villageRoadFog={color:{value:scene.fog.color.clone().convertLinearToSRGB()},near:{value:scene.fog.near},far:{value:scene.fog.far}};
 // v5.2 — self-contained procedural storm sky. No image files or network assets.
 // An equirectangular panorama keeps clouds overhead while retaining a misty horizon.
 const stormSky=document.createElement('canvas');stormSky.width=1024;stormSky.height=512;
@@ -556,7 +556,7 @@ function applyAtmosphere(){
  // Distance fog provides a continuous soft reveal; irregular nearby clouds
  // supply the dense, moving layers without a geometric horizon cutoff.
  // Former Fog remains Mist; dense Fog reveals only the nearest houses.
- const range=air=>air==='fog'?[.8,32]:air==='mist'?[14,78]:
+ const range=air=>air==='fog'?[0.6,23]:air==='mist'?[9,90]:
    air==='thunderstorm'?[24,92]:air==='rain'?[42,135]:
    air==='cloudy'?(phase==='night'?[88,210]:[110,235]):
    phase==='night'?[88,210]:[115,255];
@@ -568,7 +568,7 @@ function applyAtmosphere(){
  const a=range(from),b=range(to);
  const blendedFog=new THREE.Color(fogColor(from))
   .lerp(new THREE.Color(fogColor(to)),t);
- scene.fog=new THREE.Fog(blendedFog,mix(a[0],b[0],t),mix(a[1],b[1],t));
+ const fogNear=mix(a[0],b[0],t),fogFar=mix(a[1],b[1],t);scene.fog=new THREE.Fog(blendedFog,fogNear,fogFar);villageRoadFog.color.value.copy(blendedFog).convertLinearToSRGB();villageRoadFog.near.value=fogNear;villageRoadFog.far.value=fogFar;
 }
 document.getElementById('timeofday').addEventListener('change',applyAtmosphere);
 weatherSelect.addEventListener('change',()=>{
@@ -742,14 +742,18 @@ roadMask.minFilter=THREE.LinearFilter;
 roadMask.magFilter=THREE.LinearFilter;
 roadMask.generateMipmaps=false;
 const roadMaterial=new THREE.ShaderMaterial({
- uniforms:{roadMask:{value:roadMask},roadBrightness:roadLighting,lanternRoadGlow:{value:lampRoadGlow}},
+ uniforms:{roadMask:{value:roadMask},roadBrightness:roadLighting,lanternRoadGlow:{value:lampRoadGlow},roadFogColor:villageRoadFog.color,roadFogNear:villageRoadFog.near,roadFogFar:villageRoadFog.far},
  transparent:true,depthWrite:false,side:THREE.DoubleSide,
- vertexShader:`varying vec2 vRoadUv;varying vec2 vRoadXZ;
- void main(){vRoadUv=uv;vRoadXZ=(modelMatrix*vec4(position,1.0)).xz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,
+ vertexShader:`varying vec2 vRoadUv;varying vec2 vRoadXZ;varying float vRoadFogDepth;
+ void main(){vRoadUv=uv;vRoadXZ=(modelMatrix*vec4(position,1.0)).xz;vec4 viewPosition=modelViewMatrix*vec4(position,1.0);vRoadFogDepth=-viewPosition.z;gl_Position=projectionMatrix*viewPosition;}`,
  fragmentShader:`
  uniform sampler2D roadMask;
  uniform float roadBrightness;
  uniform vec3 lanternRoadGlow[14];
+ uniform vec3 roadFogColor;
+ uniform float roadFogNear;
+ uniform float roadFogFar;
+ varying float vRoadFogDepth;
  varying vec2 vRoadUv;
  varying vec2 vRoadXZ;
  float hash21(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
@@ -790,6 +794,9 @@ const roadMaterial=new THREE.ShaderMaterial({
    }
    vec3 cobble=mix(mortar,stone,stoneMask)*roadBrightness;
    cobble+=vec3(0.29,0.115,0.028)*min(amber,1.0);
+   // Fog comes AFTER lantern light; lamps illuminate the fog, not through it.
+   float fogBlend=clamp((vRoadFogDepth-roadFogNear)/max(roadFogFar-roadFogNear,0.001),0.0,1.0);
+   cobble=mix(cobble,roadFogColor,fogBlend);
    gl_FragColor=vec4(cobble,roadAlpha);
  }`
 });
@@ -4290,8 +4297,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title='DNDPOV — Village of Barovia v5.66 · Multiplayer + AI DM';
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.66 · PUBLIC BETA';
+document.title='DNDPOV — Village of Barovia v5.67 · Multiplayer + AI DM';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67 · PUBLIC BETA';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
@@ -4491,18 +4498,21 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.66 · PUBLIC 
   const key=keyOf(c);
   if(!force&&key===currentKey)return;
   currentKey=key;currentScroll=null;passageIndex=0;next.hidden=true;updatePlace(c);
-  if(!force&&(narratedScenes.has(key)||
-    (c.location==='ARRIVAL'&&narratedScenes.size>0)))return;
+  if(!force&&c.location==='ARRIVAL'&&narratedScenes.size>0)return;
   const entry=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
   if(!entry)return;
   const passages=Array.isArray(entry.passages)&&entry.passages.length?
    entry.passages.filter(t=>typeof t==='string'&&t.trim()):[entry.boxed].filter(Boolean);
   if(!passages.length)return;
+  // Outside and inside can have identical boxed text (E2, E3). Deduplicate
+  // the actual passage, not the position, while allowing distinct E4 interiors.
+  const sceneIdentity=String(c.location)+'|'+passages.join('\u001f');
+  if(!force&&narratedScenes.has(sceneIdentity))return;
   const title=(c.location==='CASTLE'||String(c.location).includes(' ')?'':c.location+' · ')+(entry.title||c.roomName||'Location');
   const label=entry.label||(String(c.location).startsWith('K')?
    'I6 PLAYER READ-ALOUD · PUBLIC BETA':'DNDPOV SCENE / MODULE REFERENCE · PUBLIC BETA');
   currentScroll={title,passages,label};
-  narratedScenes.add(key);
+  narratedScenes.add(sceneIdentity);
   addScroll(title,passages[0],label);
   next.hidden=passages.length<2;
  }

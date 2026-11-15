@@ -1,0 +1,116 @@
+{
+  "version": "v0.10.30",
+  "source": "ADV_DnD_I6_FULL_rooms(3).html; embedded Castle Ravenloft K-room module data",
+  "rooms": {
+    "K7": [
+      "4 red dragons: AC -1; MV 9\"/24\"; HD 9; hp 18, 18, 18, 18; #AT 3; Dmg 1-8 / 1-8 / 3-30; AL CE."
+    ],
+    "K8": [
+      "8 gargoyles: AC5;MV9\"/15\";HD4+4;hp31, 27, 26, 23, 22, 18, 12, 10; #AT 4; Dmg 1-3 / 1-3 / 1-6 / 1-4; AL CE."
+    ],
+    "K20": [
+      "The Gardian of Sorrow: AC 8; MV 0\"; HD 3; hp 10; #AT 6; Dmg 1-10; AL NE."
+    ],
+    "K28": [
+      "2 Strahd zombies: AC 8; MV 6\"; HD 4; hp 12, 10; #AT variable; Dmg 1-6; AL NE; single hit of 5 points or more dismembers, dismembered limbs attack; turn as mummies."
+    ],
+    "K30": [
+      "Lief Lipsiege, human accountant, F-0: AC 10; MV 9\"; HD 2; hp 5; #AT 1; Dmg 1-4; AL CE."
+    ],
+    "K32": [
+      "Helga, vampire: AC 1; MV 12\"/18\"; HD 8+3; hp 36; #AT 1; Dmg 5-10 (ld6+4) + drain 2 levels; AL CE; SD +1 weapons or better needed to hit her."
+    ],
+    "K35": [
+      "2 wraiths: AC 4; MV 12\"/24\"; HD 5+3; hp 22, 20; #AT 1; Dmg 1-8 + drain 1 level; AL LE."
+    ],
+    "K40": [
+      "5 giant spiders: AC 4; MV 3\"/*12\"; HD 4+4; hp 24, 22, 22, 17, 12; #AT 1; Dmg 2-8 (2d4) + poison; AL CE."
+    ],
+    "K42": [
+      "Gertruda, Barovian, F-0: AC 10; MV 12\"; hp 4; #AT 1; Dmg 1-4; AL NG, S 8, I 8, W 4, D 16, Con 13, Ch 16."
+    ],
+    "K56": [
+      "7 witches, human: AC 8; M V 9\"; HD 2; hp 13, 12, 8, 8, 7, 6, 2; #AT 1; Dmg 1-4; AL CE; SA see spells below."
+    ],
+    "K62": [
+      "Cyrus Belview, human, F-0: AC 8; MV 12\"; HD 2; hp 8; #AT 1; Dmg 1-4; AL CN."
+    ],
+    "K65": [
+      "3 (normal) zombies: AC 8; MV 6\"; HD 2; hp 5, 4, 2; #AT 1; Dmg 1-8; AL N."
+    ],
+    "K69": [
+      "10 skeletons: AC 7; MV 12\"; HD 1; hp 7, 7, 7, 6, 6, 5, 3, 3, 1, 1; #AT 1; Dmg 1-6; AL N."
+    ],
+    "K72": [
+      "1 shadow demon: AC 1; MV 12\"; HD 7+3; hp 35; #AT 3; Dmg 1-8/1-6/1-6; AL CE; SA +2 to hit, can cast darkness 10' radius, fear once per day; SD takes half damage in darkness or torchlight, immune to fire, cold, and lightning, turn as \"special\" undead, 50% chance of going undetected."
+    ],
+    "K75": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K76": [
+      "6 Strahd zombies: AC 8; MV 9\"; HD 4; hp 18, 16, 15, 13, 12, 10; #AT 1; Dmg 1-8; AL N; single hit of 5 or more points dismembers, dismembered limbs attack; turn as mummies."
+    ],
+    "K78": [
+      "2 iron golems: AC 3; MV 6\"; HD 10; hp 80, 80; #AT 1; Dmg 4d10; AL N; SD immune to all spells except electrical attacks, which slow them to 50% movement; magical fire-based attacks repair instead of damage."
+    ],
+    "K47": [
+      "The Guardian Portrait: AC 8; MV 0\"; HD 5; hp 15; #AT 1; Dmg 1-6 + levitate and hypnotic pattern; AL CE."
+    ],
+    "K54": [
+      "3 black cat familiars: AC 7; MV 12\"; HD 1; hp 4, 2, 1; #AT 2; Dmg 1-4; CE. AL"
+    ],
+    "K84": [
+      "3,000 bats: AC 6; MV 4\"/18\"; HD Id4; #AT 0; Dmg 0; AL N.",
+      "1 ghost: AC 0/8; M V 9\"; HD 10; hp 40; #AT 1; Dmg age 10-40 years; AL LE.",
+      "1 spectre: AC 2; MV 15\"/30\"; HD 7+3; hp 40; #AT 1; Dmg 1d8 + drain 2 energy levels; AL LE; SD +1 or better weapon to hit.",
+      "15 wights: AC 5; MV 12\"; HD 4+3; #AT 1; Dmg 1d4 + drain 1 energy level; AL LE.",
+      "1 vampire: AC 2; M V 12\"/18\"; HD 8+3; hp 47; #AT 2; Dmg 1d6+4 + drain 2 energy levels; AL CE.",
+      "1 banshee: AC 0; MV 15\"; HD 7; hp 47; #AT 2; Dmg 1d6 +2 with 2 levels energy drain; AL CE; SA keening, save vs. spells or die.",
+      "3 huge spiders: AC 6; MV 18\"; HD 2+2; hp 16, 16, 11; #AT 1; Dmg 1-6 + poison; AL N.",
+      "1 trapper: AC 3; MV 3\"; HD 12; hp 62; #AT 4+; Dmg 4 + victim's AC; AL N.",
+      "3 hellhounds: AC 4; MV 12\"; HD 5; hp 29, 23, 23; #AT 1; Dmg 1-10 + breath weapon; AL LE.",
+      "1 nightmare: AC -4; MV 15\"/36\"; HD 6+6; hp 29; #AT 3; Dmg 2d4 (fangs) /2d4+2 / 2d4+2 (burning hooves); AL NE; SA breath weapon of smoke."
+    ],
+    "K75a": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75b": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75c": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75d": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75e": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75f": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75g": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ],
+    "K75h": [
+      "1 werewolf: AC 5; MV 15\"; HD 4+3; hp 17; #AT 1; Dmg 2-8 (2d4); AL CE; SD can only be hit by silver or +1 or better weapons."
+    ]
+  },
+  "random": [
+    "1-2 10-100 (10d10) bats: AC 6; MV 4\"/18\"; HD ld4; #AT0; Dmg 0; AL N.",
+    "3 2-12 (2d6) wraiths: AC 4; MV 12\"/24\"; HD 5+3; #AT 1; Dmg 1-6; AL LE; SA hit drains 1 energy level.",
+    "4 1-10 Strahd zombies: AC 8; MV 9\"; HD 4; #AT 1 per part; Dmg 1-8; AL N; SA hit of 5 or more points dismembers, dismembered limbs attack; turn as mummies.",
+    "5 1-8 giant spiders: AC 4; MV 3\"/*12\"; HD 4+4; #AT 1; Dmg 2-8; AL CE; SA bite is poisonous.",
+    "6 1-4 angry villagers: AC 8; MV 12\"; HD 2; #AT 1; Dmg 1-6; AL NG. They are brandishing torches and pitchforks in a ridiculous display of force. They are enraged. Everywhere they go, they shout for justice. They follow the PCs unless prevented from doing so. As long as these citizens are with the adventurers, random encounters occur on a roll of 1, 2, 3, or 4.",
+    "7 2-16 (2d8) gargoyles: AC 5; MV 9\"/15\"; HD 4+4; #AT 4; Dmg 1-3 /1-3 / 1-6 / 1-4; AL N; SD +1 weapon or better required to hit.",
+    "8 10-100(10d10) bats: AC 6; MV 4\"/18\"; HD 1d4; #ATO; Dmg 0; AL N.",
+    "9 1-8 gypsies: AC 6; MV 12\"; HD 6; #AT 1; Dmg 1-8; AL NE.",
+    "10 2-16 (2d8) wights: AC 5; MV 12\"; HD 4+3; #AT 1; Dmg 1-4; AL LE; SA hit drains 1 energy level.",
+    "1 1-4 vampires: AC 1; MV 12\"/18\"; HD 8+3; #AT 1; Dmg 5-10; AL CE; SA hit drains 2 energy levels. These are old, hapless victims of the Count.",
+    "2 1 groaning spirit: AC 0; MV 15\"; HD 7; #AT 1; Dmg 1-8; AL CE. If the PCs have already defeated this spirit, roll again on this table. During darkness, this spirit may keen. If she does, everyone within hearing must save vs. deathray or die on the spot. If the PCs have encountered her before, and she keened, she cannot keen again.",
+    "3 1-2 rust monsters: AC 2; MV 18\"; HD 5; #AT 2; Dmg Nil; AL N; SA hit rusts metal to dust. These monsters cannot damage the sun sword.",
+    "4 1-6 spectres: AC 2; MV 15\"/30\"; HD 7+3; #AT 1; Dmg 1-8; AL LE; SA drains 2 life levels.",
+    "5 1 helpful spirit: AC 0; MV 15\"/30\"; HD 9+2; #AT 1; Dmg 1-6; AL LG. Unless attacked, this spirit honestly answers one question from the PCs. The answer must be 25 words or less. After answering one question, or if it is attacked before answering, this spirit disappears.",
+    "6 Strahd von Zarovich: AC -1; MV 12V18\"; HD 10; hp 55; #AT l;Dmg5-10(ld6+4);ALCE;SA hit drains 2 life levels, see p.3 for other abilities."
+  ]
+}

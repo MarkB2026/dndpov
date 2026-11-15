@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.30 · Multiplayer + AI DM</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.30 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style><meta name="dndpov-edition" content="restricted-public-beta"></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.6</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.6</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -1522,7 +1522,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.30 · PUBLIC BETA';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.30';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2477,7 +2477,7 @@ minimap=function(){tserDrawBeforeMp();
 #mpEncounterToast{position:fixed;z-index:10007;top:28%;left:50%;transform:translateX(-50%);width:min(420px,90vw);padding:24px;background:#180f0df2;color:#f7ddbd;border:2px solid #b65d4b;border-radius:8px;box-shadow:0 15px 60px #000d;text-align:center;font:18px Georgia,serif}
 #mpEncounterToast[hidden]{display:none!important}#mpEncounterToast button{cursor:pointer;background:#44241e;color:#f4e2c8;border:1px solid #b65d4b;padding:7px 14px;margin-top:12px}
 </style>
-<button id="mpButton" type="button" disabled aria-disabled="true" title="Multiplayer is available in the downloadable DNDPOV edition">♟ Multiplayer · Download Edition</button>
+<button id="mpButton" type="button">♟ Multiplayer: OFF</button>
 <section id="mpPanel" aria-label="Local multiplayer"><h3>Local Multiplayer · Road to Tser Pool</h3>
 <p class="muted">Use the same local multiplayer server as Castle Ravenloft. Host or join by session code; party membership can follow you between adventure pages on this server.</p>
 <label>Character name<input id="mpName" maxlength="24" placeholder="Alaric"></label>
@@ -2494,8 +2494,111 @@ minimap=function(){tserDrawBeforeMp();
 <h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
 </section>
 <aside id="mpEncounterToast" hidden role="alert"><strong id="mpEncounterTitle">ENCOUNTER</strong><p id="mpEncounterMessage"></p><button id="mpEncounterDismiss" type="button">Close</button></aside>
-
-<script id="dndpovMpDockFix">
+<script id="dndpovMpController" type="application/x-dndpov-private-multiplayer">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const mp={connected:false,id:null,members:[],role:null,session:null,paused:false};
+ window.DNDPOV_MP=mp;
+ const storageKey='dndpov_mp_session',zoneLabel='Road to Tser Pool';
+ let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
+ function load(){try{return JSON.parse(sessionStorage.getItem(storageKey)||'null')}catch{return null}}
+ function store(){try{sessionStorage.setItem(storageKey,JSON.stringify({
+  role:mp.role||'player',code:mp.session||$('mpCode').value.trim().toUpperCase(),
+  name:$('mpName').value,color:$('mpColor').value,secret:sessionSecret
+ }))}catch{}}
+ const prior=load();
+ if(prior){$('mpName').value=prior.name||'';$('mpColor').value=prior.color||'#58b8ff';
+  $('mpCode').value=prior.code||'';sessionSecret=prior.secret||null;}
+ function say(message){$('mpStatus').textContent=message}
+ function send(message){if(ws&&ws.readyState===WebSocket.OPEN){
+  ws.send(JSON.stringify(message));if(message.type==='position')sent++;}}
+ const zoneNames={100:'Village of Barovia',101:'Old Svalich Road',
+  102:'Road to Tser Pool'};
+ function displayMembers(){const box=$('mpMembers');box.replaceChildren();
+  for(const m of mp.members){const line=document.createElement('div');line.className='member';
+   const zone=zoneNames[m.floor]||('Castle floor '+m.floor);
+   line.textContent=(m.online?'● ':'○ ')+(m.name||'Adventurer')+' · '+zone+
+    ' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'');
+   line.style.color=m.color||'#b8f5c6';box.append(line);}
+  $('mpButton').textContent=mp.connected?'♟ '+mp.session+' · '+mp.members.length+' connected':'♟ Multiplayer: OFF';
+  $('mpButton').classList.toggle('mp-connected',mp.connected);
+ }
+ function connect(role){
+  if(!location.host){say('Open this HTML through the local multiplayer server, not file://.');
+   $('mpPanel').style.display='block';return;}
+  if(ws)ws.close();mp.connected=false;mp.role=role;displayMembers();
+  const protocol=location.protocol==='https:'?'wss:':'ws:';
+  ws=new WebSocket(protocol+'//'+location.host+'/ws');
+  ws.onopen=()=>send({type:'join',role,code:$('mpCode').value.trim().toUpperCase(),
+   name:$('mpName').value.trim()||'Adventurer',color:$('mpColor').value,
+   secret:role==='dm'?sessionSecret:null});
+  ws.onclose=()=>{if(ws){mp.connected=false;say('Disconnected. Rejoin when ready.');displayMembers()}};
+  ws.onerror=()=>say('Connection failed. Start the local multiplayer launcher and open its server URL.');
+  ws.onmessage=event=>{let data;try{data=JSON.parse(event.data)}catch{return}
+   if(data.type==='position_ack'){acked++;return}
+   if(data.type==='error'){say(data.message||'Multiplayer server error');return}
+   if(data.type==='welcome'){
+    mp.connected=true;mp.id=data.id;mp.role=data.role;mp.session=data.code;
+    sessionSecret=data.secret||sessionSecret;$('mpCode').value=data.code;
+    $('mpDM').hidden=data.role!=='dm';store();
+    say('Connected as '+String(data.role).toUpperCase()+' · session '+data.code+
+     ' · '+zoneLabel);sendPosition(true);displayMembers();return;
+   }
+   if(data.type==='state'){
+    received++;mp.members=data.members||[];mp.paused=!!data.paused;
+    displayMembers();window.DNDPOV_ZONE_BRIDGE?.redrawMap?.();return;
+   }
+   if(data.type==='log'&&mp.role==='dm'){
+    const line=document.createElement('div');line.textContent=data.message||'';
+    $('mpLog').prepend(line);return;
+   }
+   if(data.type==='encounter'&&data.id){
+    $('mpEncounterTitle').textContent='ENCOUNTER · '+String(data.id).replaceAll('_',' ').toUpperCase();
+    $('mpEncounterMessage').textContent=(data.count||1)+' × '+String(data.id).replaceAll('_',' ');
+    $('mpEncounterToast').hidden=false;
+    window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:data.id,count:data.count||1}}));
+    return;
+   }
+   if(data.type==='complete'){$('mpEncounterToast').hidden=true;return}
+  };
+ }
+ function sendPosition(force=false){if(!mp.connected)return;
+  const now=Date.now();if(!force&&now-lastSent<170)return;lastSent=now;
+  const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
+  if(position)send({type:'position',...position});
+ }
+ setInterval(()=>sendPosition(),180);
+ setInterval(()=>{
+  const remote=mp.members.filter(m=>m.id!==mp.id);
+  $('mpTransport').textContent='Network: '+(ws?.readyState===1?'connected':'disconnected')+
+   ' · sent '+sent+' · ACK '+acked+' · updates '+received+' · remote '+remote.length;
+ },1000);
+ document.addEventListener('keydown',event=>{
+  if(mp.connected&&mp.paused&&mp.role!=='dm'&&
+   ['ArrowUp','ArrowDown','KeyW','KeyS'].includes(event.code)){
+   event.stopImmediatePropagation();event.preventDefault();}
+ },true);
+ $('mpButton').onclick=()=>{$('mpPanel').style.display=$('mpPanel').style.display==='block'?'none':'block'};
+ $('mpClose').onclick=()=>{$('mpPanel').style.display='none'};
+ $('mpHost').onclick=()=>connect('dm');$('mpJoin').onclick=()=>connect('player');
+ $('mpLeave').onclick=()=>{ws?.close();ws=null;mp.connected=false;mp.members=[];
+  sessionSecret=null;try{sessionStorage.removeItem(storageKey)}catch{}
+  say('Disconnected.');displayMembers();};
+ $('mpEncounterDismiss').onclick=()=>{$('mpEncounterToast').hidden=true};
+ function encounter(type){const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.()||{};
+  send({type,id:$('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),
+   count:Math.max(1,Number($('mpCount').value)||1),
+   targets:$('mpTargets').value,room:position.room||null,floor:position.floor??100});}
+ $('mpTrigger').onclick=()=>encounter('encounter');
+ $('mpComplete').onclick=()=>encounter('complete');
+ $('mpPause').onclick=()=>send({type:'pause'});
+ // sessionStorage travels with the browser tab between adventure HTML pages.
+ // An explicit Disconnect clears it; changing scenes does not.
+ if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
+})();
+</script>
+<script id="dndpovMpDockFix" type="application/x-dndpov-private-multiplayer">
 /* Dock the shared multiplayer controls outside the scene's options window. */
 (()=>{
  const button=document.getElementById('mpButton');
@@ -2609,95 +2712,139 @@ minimap=function(){tserDrawBeforeMp();
 #aiDmPartyBox .partyPreviewNote{margin-top:14px}
 @media(max-width:610px){#aiDmPartyBox .partySections{grid-template-columns:1fr}}
 </style>
-<script id="aiDmCompanion">
-/* DNDPOV Public Beta: the Adventure Journal reads local scene descriptions
-   only. AI requests, uploads and multiplayer are intentionally unavailable. */
-(()=>{
- 'use strict';
- const button=document.createElement('button');
- button.id='aiDmButton';button.type='button';
- button.title='Adventure Journal · Public Beta descriptions';
- button.setAttribute('aria-label','Open adventure descriptions');
- button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';
- document.body.append(button);
- const panel=document.createElement('section');
- panel.id='aiDmPanel';panel.hidden=true;
- panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal · Public Beta');
- panel.innerHTML='<header><b>Adventure Journal · Public Beta</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header>'+
- '<div id="aiDmPlace">Location</div>'+
- '<div id="aiDmControls"><button type="button" id="aiDmReadAgain">Read Again</button>'+
- '<button type="button" id="aiDmNextPassage" hidden>Next Passage →</button>'+
- '<button type="button" id="aiDmPartyOpen" disabled title="Character sheets are available in the downloadable version">⚔ Party / Sheets</button>'+
- '<label id="aiDmToggleLabel" title="AI DM interaction is available in the downloadable version"><input id="aiDmToggle" type="checkbox" disabled> AI DM · Demo</label></div>'+
- '<div id="aiDmLog" aria-live="polite"></div>'+
- '<div id="aiDmCompose"><textarea id="aiDmInput" disabled placeholder="AI DM chat · Available in the downloadable version"></textarea>'+
- '<footer><button id="aiDmConference" type="button" disabled>We have a conference</button>'+
- '<span id="aiDmStatus">Descriptions active · AI DM disabled in public beta</span>'+
- '<button id="aiDmSend" type="button" disabled>Send</button></footer></div>';
- document.body.append(panel);
- const $=id=>panel.querySelector('#'+id);
- const log=$('aiDmLog'),place=$('aiDmPlace'),next=$('aiDmNextPassage');
- let currentKey='',currentScroll=null,passageIndex=0;
- const context=()=>window.DNDPOV_AI_CONTEXT?.()||{location:'ARRIVAL',position:'unknown'};
- const keyOf=c=>String(c.floor??'')+'|'+String(c.location)+'|'+String(c.position);
- function updatePlace(c){
-  place.textContent=(c.floorName||c.zoneName||'Adventure')+' · '+(c.roomName||c.location||'Exploring')+
-   (c.position==='inside'?' · Inside':'');
- }
- function addScroll(title,body,label){
-  const card=document.createElement('article');card.className='aiDmScroll';
-  const heading=document.createElement('strong');heading.textContent=title;
-  const text=document.createElement('div');text.className='aiDmVerbatim';text.textContent=body;
-  const source=document.createElement('small');source.textContent=label;
-  card.append(heading,text,source);log.append(card);log.scrollTop=log.scrollHeight;
-  panel.hidden=false;button.classList.remove('has-new');
- }
- function showLocation(c=context(),force=false){
-  const key=keyOf(c);
-  if(!force&&key===currentKey)return;
-  currentKey=key;currentScroll=null;passageIndex=0;next.hidden=true;updatePlace(c);
-  const entry=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
-  if(!entry)return;
-  const passages=Array.isArray(entry.passages)&&entry.passages.length?
-   entry.passages.filter(t=>typeof t==='string'&&t.trim()):[entry.boxed].filter(Boolean);
-  if(!passages.length)return;
-  const title=(c.location==='CASTLE'||String(c.location).includes(' ')?'':c.location+' · ')+(entry.title||c.roomName||'Location');
-  const label=entry.label||(String(c.location).startsWith('K')?
-   'I6 PLAYER READ-ALOUD · PUBLIC BETA':'DNDPOV SCENE / MODULE REFERENCE · PUBLIC BETA');
-  currentScroll={title,passages,label};
-  addScroll(title,passages[0],label);
-  next.hidden=passages.length<2;
- }
- function readAgain(){
-  const c=context();
-  if(keyOf(c)!==currentKey)showLocation(c,true);
-  else if(currentScroll)addScroll(currentScroll.title,currentScroll.passages[passageIndex],currentScroll.label);
-  else showLocation(c,true);
-  panel.hidden=false;button.classList.remove('has-new');
- }
- next.onclick=()=>{
-  if(!currentScroll||passageIndex>=currentScroll.passages.length-1)return;
-  passageIndex++;
-  addScroll(currentScroll.title+' · Passage '+(passageIndex+1),currentScroll.passages[passageIndex],currentScroll.label);
-  next.hidden=passageIndex>=currentScroll.passages.length-1;
- };
- button.onclick=()=>{
-  panel.hidden=!panel.hidden;button.classList.remove('has-new');
-  if(!panel.hidden)showLocation(context());
- };
- $('aiDmClose').onclick=()=>panel.hidden=true;
- $('aiDmReadAgain').onclick=readAgain;
- window.DNDPOV_AI_READ_NEARBY=readAgain;
- window.DNDPOV_AI_SHOW_LOCATION=()=>showLocation(context(),true);
- window.DNDPOV_JOURNAL_SPECIAL=(title,body,label='PLAYER DISCOVERY · READ-ALOUD')=>{
-  addScroll(title,body,label);
- };
- // The world may initialize after this deferred-independent script.
- setInterval(()=>showLocation(context()),400);
- setTimeout(()=>showLocation(context()),1200);
-})();
+<style id="dndpov-public-beta-controls">#mpButton,#mpPanel,#mpEncounterToast,#aiDmCompose,#aiDmToggle,#aiDmPartyButton,#aiDmPartyBox{display:none!important}</style>
+<script id="aiDmCompanion">(()=>{
+const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
+btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
+const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
+panel.innerHTML='<header><b>Adventure Journal · Tser Road v3.30</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+document.body.append(panel);
+const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
+partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
+<div class="partyContent"><p>Build your adventuring party. Upload a text-based PDF (up to 3 MB / 12 pages), review its details, then save it for your AI Dungeon Master.</p>
+<label class="partyUpload"><strong>📜 Upload a Character Sheet</strong><span>Choose a PDF to extract character details · PDF, up to 3 MB</span><input id="partyFile" type="file" accept="application/pdf,.pdf"></label>
+<div id="partyMessage" role="status">Ready to import a character sheet.</div>
+<label>CHARACTER NAME<input id="partyName" type="text" placeholder="e.g. Brother Garrick"></label>
+<div id="partyPreview" class="partyPreview" aria-live="polite"><div class="partyPreviewTitle">Character at a glance</div><div class="partyStats" id="partyStats"></div><div id="partySections" class="partySections"></div><div class="partyPreviewNote">Organized from the PDF. Review the original sheet before saving; missing information is never invented.</div></div>
+<details class="partyRaw"><summary>✎ Edit original character sheet text</summary><label>EXTRACTED CHARACTER DETAILS<textarea id="partySheet" spellcheck="false" placeholder="Name, class, level, HP, AC, THAC0, stats, saving throws, weapons, spells, equipment…"></textarea></label></details>
+<div class="partyEditHint">Correct any extraction errors here before saving. The AI receives the reviewed text, not the PDF.</div>
+<div class="partyActions"><button id="partySave" type="button">✓ Save to Party</button><button id="partyClear" type="button">New / Clear</button></div>
+<div class="partySectionHeading"><h3>Adventuring Party</h3><span id="partyCount" style="color:#b9a2d1;font:12px system-ui">0 / 8 characters</span></div><div id="partyRoster"></div>
+<small>Local testing · The AI can help resolve battles in chat; automatic combat tracking is not enabled. Keep DM secrets out of character sheets.</small></div>`;
+document.body.append(partyBox);
+let editingPartyId='';
+const partyMsg=partyBox.querySelector('#partyMessage'),partyName=partyBox.querySelector('#partyName'),partySheet=partyBox.querySelector('#partySheet');
+const partyApi=async(path,body)=>{const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session,...body})});const data=await r.json();if(!r.ok)throw Error(data.error||'Request failed');return data};
+const partyPreview=partyBox.querySelector('#partyPreview'),partyStats=partyBox.querySelector('#partyStats');
+function updatePartyPreview(){
+ const t=partySheet.value, lines=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ partyPreview.classList.toggle('visible',!!t.trim());partyStats.replaceChildren();
+ const sections=partyBox.querySelector('#partySections');sections.replaceChildren();if(!t.trim())return;
+ const headings=['Saving Throws','Weapons & Attacks','Equipment & Treasure','Spells','Special Abilities','Character Background','Questions to Ask the AI DM'];
+ const headingIndex=(name)=>lines.findIndex(l=>l.toLowerCase()===name.toLowerCase());
+ const sectionText=(name)=>{const i=headingIndex(name);if(i<0)return '';let j=i+1;while(j<lines.length&&!headings.some(h=>h.toLowerCase()===lines[j].toLowerCase())&&!/^TEST DATA ONLY/i.test(lines[j]))j++;return lines.slice(i+1,j).join(' ')};
+ const headerEnd=Math.max(0,headingIndex('Saving Throws'));
+ const main=lines.slice(0,headerEnd);
+ const numbers=main.filter(l=>/^\d+(?:\s*\/\s*\d+)?$/.test(l));
+ const abilityLabels=['STR','DEX','CON','INT','WIS','CHA'];
+ const abilityStart=main.findIndex((l,i)=>abilityLabels.every((a,j)=>main[i+j]===a));
+ const abilities={};
+ if(abilityStart>=0){const a=main.slice(abilityStart+6,abilityStart+12);abilityLabels.forEach((k,i)=>{if(/^\d{1,2}$/.test(a[i]||''))abilities[k]=a[i]})}
+ for(const a of abilityLabels)if(!abilities[a]){const i=main.findIndex(l=>new RegExp('^'+a+'\\s*[:=]\\s*\\d+','i').test(l));if(i>=0)abilities[a]=main[i].match(/\d+/)?.[0]}
+ const coreLabels=['HIT POINTS','ARMOR CLASS','THAC0','MOVE'];const core={};
+ const coreStart=main.findIndex((l,i)=>coreLabels.every((a,j)=>main[i+j]?.toUpperCase()===a));
+ if(coreStart>=0){const a=main.slice(coreStart+4,coreStart+8);coreLabels.forEach((k,i)=>{if(/^\d+(?:\s*\/\s*\d+)?$/.test(a[i]||''))core[k]=a[i]})}
+ coreLabels.forEach(k=>{if(core[k])return;const i=main.findIndex(l=>new RegExp('^'+k+'\\s*[:=]','i').test(l));if(i>=0)core[k]=main[i].split(/[:=]/).slice(1).join(':').trim()});
+ const makeStat=(label,value)=>{const el=document.createElement('div');el.className='partyStat';const l=document.createElement('span');l.textContent=label;const v=document.createElement('b');v.textContent=value||'—';el.append(l,v);partyStats.append(el)};
+ const makeSection=(title,kind)=>{const el=document.createElement('section');el.className='partyGroup';const h=document.createElement('h4');h.textContent=title;el.append(h);const body=document.createElement('div');body.className=kind||'partyGroupBody';el.append(body);sections.append(el);return body};
+ const identity=makeSection('Character','partyIdentity');
+ const titleLine=main.find(l=>/\bLevel\s+\d+\b/i.test(l));if(titleLine){const el=document.createElement('div');el.textContent=titleLine;identity.append(el)}
+ const abilityBox=makeSection('Ability Scores','partyAbilityGrid');
+ for(const a of abilityLabels){const el=document.createElement('div');el.className='partyAbility';const label=document.createElement('span');label.textContent=a;const val=document.createElement('b');val.textContent=abilities[a]||'—';el.append(label,val);abilityBox.append(el)}
+ const combat=makeSection('Combat & Movement','partyCombatGrid');
+ for(const k of coreLabels){const el=document.createElement('div');el.className='partyCombatRow';const label=document.createElement('span');label.textContent=k;const value=document.createElement('b');value.textContent=core[k]||'—';el.append(label,value);combat.append(el);makeStat(k,core[k])}
+ for(const name of headings){const content=sectionText(name);if(!content)continue;const body=makeSection(name);body.textContent=content}
+}
+partySheet.addEventListener('input',updatePartyPreview);
+const partyClear=()=>{editingPartyId='';partyName.value='';partySheet.value='';partyBox.querySelector('#partyFile').value='';updatePartyPreview()};
+async function partyRefresh(){const d=await partyApi('/api/character/list',{});const target=partyBox.querySelector('#partyRoster');target.replaceChildren();partyBox.querySelector('#partyCount').textContent=d.characters.length+' / 8 characters';for(const c of d.characters){const row=document.createElement('div');row.className='partyRow';const name=document.createElement('strong');name.textContent=c.name;const edit=document.createElement('button');edit.textContent='Edit';edit.onclick=()=>{editingPartyId=c.id;partyName.value=c.name;partySheet.value=c.sheet;updatePartyPreview()};const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{if(!confirm('Remove '+c.name+'?'))return;await partyApi('/api/character/delete',{id:c.id});if(editingPartyId===c.id)partyClear();partyRefresh()};row.append(name,edit,del);target.append(row)}if(!d.characters.length)target.textContent='No characters added yet.'}
+panel.querySelector('#aiDmPartyOpen').onclick=()=>{partyBox.hidden=false;partyRefresh().catch(e=>partyMsg.textContent=e.message)};
+partyBox.querySelector('#partyClose').onclick=()=>partyBox.hidden=true;
+partyBox.querySelector('#partyClear').onclick=partyClear;
+partyBox.querySelector('#partyFile').onchange=async(e)=>{const file=e.target.files?.[0];if(!file)return;if(file.size>3000000){partyMsg.textContent='PDF exceeds 3 MB';return}partyMsg.textContent='Reading PDF…';try{const b64=await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(String(fr.result).split(',')[1]);fr.onerror=reject;fr.readAsDataURL(file)});const d=await partyApi('/api/character/upload',{filename:file.name,pdf_base64:b64});partySheet.value=d.extracted;updatePartyPreview();partyName.value=partyName.value||file.name.replace(/\.pdf$/i,'').replace(/[_-]/g,' ');editingPartyId='';partyMsg.textContent='PDF extracted. Review the text and click Save character.'}catch(err){partyMsg.textContent=err.message}};
+partyBox.querySelector('#partySave').onclick=async()=>{try{const d=await partyApi('/api/character/save',{id:editingPartyId,name:partyName.value,sheet:partySheet.value});editingPartyId=d.id;partyMsg.textContent=d.name+' saved to local party.';await partyRefresh()}catch(e){partyMsg.textContent=e.message}};
+const log=panel.querySelector('#aiDmLog'),input=panel.querySelector('#aiDmInput'),place=panel.querySelector('#aiDmPlace'),toggle=panel.querySelector('#aiDmToggle'),status=panel.querySelector('#aiDmStatus');
+let busy=false,lastKey='',serial=0,lastScroll=null;const session=sessionStorage.getItem('dndpov_ai_session')||crypto.randomUUID();sessionStorage.setItem('dndpov_ai_session',session);
+function context(){return window.DNDPOV_AI_CONTEXT?.()||{location:'ROAD',position:'outside',roomName:'Road to Tser Pool'}}
+function updatePlace(c=context()){place.textContent='Road to Tser Pool · '+(c.roomName||c.location)+(c.position==='inside'?' · Inside':'')}
+function addCard(kind,heading,message,label='ORIGINAL MODULE · READ-ALOUD'){
+ const card=document.createElement('article');card.className=kind==='scroll'?'aiDmScroll':'aiDmChat '+kind;
+ const title=document.createElement('strong');title.textContent=heading;const body=document.createElement('div');body.className=kind==='scroll'?'aiDmVerbatim':'';body.textContent=message;card.append(title,body);
+ if(kind==='scroll'){const footer=document.createElement('small');footer.textContent=label;card.append(footer)}log.append(card);log.scrollTop=log.scrollHeight;
+ if(panel.hidden)btn.classList.add('has-new');return card;
+}
+let aiServerOnline=false, aiUserChoice=true;
+function syncControls(){
+ const enabled=aiServerOnline&&toggle.checked;
+ input.disabled=!enabled||busy;
+ panel.querySelector('#aiDmSend').disabled=!enabled||busy;
+ panel.querySelector('#aiDmConference').disabled=!enabled||busy;
+ status.textContent=!aiServerOnline?'AI offline · descriptions available':enabled?(busy?'DM responding…':'AI ready'):'AI off · descriptions active';
+}
+toggle.addEventListener('change',()=>{aiUserChoice=toggle.checked;syncControls()});
+async function checkAiConnection(){
+ let online=false;
+ try{const r=await fetch('/api/module?location=ARRIVAL&position=outside',{cache:'no-store',signal:AbortSignal.timeout(2500)});
+  online=r.ok&&(r.headers.get('content-type')||'').includes('json');}catch{}
+ aiServerOnline=online;toggle.disabled=!online;toggle.checked=online&&aiUserChoice;syncControls();
+}
+syncControls();checkAiConnection();setInterval(checkAiConnection,12000);
 
-</script>
+function contextKey(c){return c.location+'|'+c.position}
+async function showModule(c,force=false){
+ const key=contextKey(c);if(!force&&key===lastKey)return;
+ lastKey=key;updatePlace(c);++serial;lastScroll=null;
+ const reference=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
+ if(!reference?.boxed)return;
+ const title=(c.location==='CASTLE'?'':c.location+' · ')+reference.title;
+ const label='DNDPOV SCENE DESCRIPTION · NOT VERBATIM MODULE TEXT';
+ lastScroll={title,boxed:reference.boxed,label};
+ addCard('scroll',title,reference.boxed,label);
+ panel.hidden=false;btn.classList.remove('has-new');
+}
+async function checkLocation(){
+ const c=context();if(contextKey(c)!==lastKey)await showModule(c);
+}
+btn.onclick=()=>{panel.hidden=!panel.hidden;btn.classList.remove('has-new');updatePlace();checkLocation();};panel.querySelector('#aiDmClose').onclick=()=>panel.hidden=true;
+function rereadLocation(){
+ if(lastScroll){addCard('scroll',lastScroll.title,lastScroll.boxed,lastScroll.label);panel.hidden=false}
+ else showModule(context(),true);
+}
+panel.querySelector('#aiDmReadAgain').onclick=rereadLocation;
+window.DNDPOV_AI_READ_NEARBY=()=>{
+ if(panel.hidden)panel.hidden=false;
+ btn.classList.remove('has-new');
+ rereadLocation();
+};
+
+function buildRoadDmMessage(message,c){
+ const scene=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
+ const header='Ravenloft I6 journey · '+(c.roomName||c.location)+'. '+
+  'Time: '+(c.time||'unknown')+'; weather: '+(c.weather||'unknown')+'.';
+ const limits='Use the character sheets and established conversation; the following location description is DNDPOV scene-writing, NOT verified original module prose. Do not claim to quote the module verbatim, expose upcoming events, or introduce NPC identities the adventurers have not learned.';
+ const visible=scene?.boxed?'Already visible scene: '+scene.boxed.slice(0,900):'No landmark text currently triggered; the party is on the road.';
+ return (header+'\n'+limits+'\n'+visible+'\nPlayer says: '+message.slice(0,720)).slice(0,1950);
+}
+async function send(message){return; if(busy||!toggle.checked||!message.trim())return;await checkLocation();busy=true;syncControls();addCard('user','YOU',message);input.value='';
+ try{const response=await fetch('/api/dm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session,...context(),message:buildRoadDmMessage(message,context())})});const data=await response.json();if(!response.ok)throw Error(data.error||'Request failed');addCard('dm','AI DUNGEON MASTER',data.reply)}catch(e){addCard('error','ERROR',e.message)}finally{busy=false;syncControls()}}
+panel.querySelector('#aiDmSend').onclick=()=>send(input.value);panel.querySelector('#aiDmConference').onclick=()=>send('We have a conference. Have the party members discuss our present situation and possible next steps, without deciding for me.');
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input.value)}});
+document.addEventListener('keydown',e=>{if(!panel.hidden&&panel.contains(document.activeElement))e.stopImmediatePropagation()},true);
+document.addEventListener('keydown',event=>{
+  if(partyBox.contains(event.target))event.stopImmediatePropagation();
+ },true);
+ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
+})();</script>
 <script id="dndpovLocalDmTools" data-leg="tser">
 /* DNDPOV local Auto DM · module-specific encounter assistance.
    Works without the AI DM server. Conditional battles are never silently
@@ -2739,7 +2886,7 @@ minimap=function(){tserDrawBeforeMp();
  const readJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}};
  const state=Object.assign({enabled:true,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
   wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0},readJSON(stateKey,{}));
- state.enabled=false;let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
+ let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
  const persist=()=>{try{localStorage.setItem(stateKey,JSON.stringify(state));localStorage.setItem(logKey,JSON.stringify(history))}catch{}};
  const $=id=>document.getElementById(id);
  const style=document.createElement('style');style.id='dndpovLocalToolsStyle';
@@ -2922,12 +3069,12 @@ minimap=function(){tserDrawBeforeMp();
   if(b)localDm=/\bON\b/.test(b.textContent)&&!/\bOFF\b/.test(b.textContent);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
-  for(const id of ['localDmMode','localAutoDm','localOracle','localEncounters']){$(id).disabled=true;$(id).title='Full downloadable edition';}
+  $('localOracle').disabled=false;$('localEncounters').disabled=false;
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
  autoButton.onclick=()=>{state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
- $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
- $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localOracle').onclick=()=>{renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localEncounters').onclick=()=>{renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
@@ -2972,17 +3119,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  }
 })();
 </script>
-<style id="dndpovPublicBetaStyles">
-#mpButton[disabled]{background:#3b3b43!important;color:#aaa9b3!important;
-border-color:#6b6870!important;filter:grayscale(1)!important;opacity:.75!important;
-cursor:not-allowed!important;box-shadow:none!important}
-#mpPanel{display:none!important}
-#aiDmPanel #aiDmToggleLabel,#aiDmPanel button:disabled{opacity:.46!important;
-filter:grayscale(1)!important;cursor:not-allowed!important}
-#aiDmPanel #aiDmToggle{accent-color:#888!important;cursor:not-allowed}
-#aiDmCompose textarea:disabled{background:#36363c!important;color:#a8a3ac!important}
-#aiDmStatus{color:#c8b5db!important}
-</style>
+
 <style id="dndpovContextDockStyle">
 #dndpovContextDock{position:fixed;left:12px;bottom:70px;width:min(295px,calc(100vw - 24px));max-height:min(370px,53vh);overflow:hidden;z-index:1600;background:rgba(21,20,27,.95);color:#eee1c7;border:1px solid #a08057;border-radius:9px;box-shadow:0 12px 34px #000a;font:13px Georgia,serif;line-height:1.4;backdrop-filter:blur(6px)}
 #dndpovContextDock *{box-sizing:border-box}
@@ -3003,7 +3140,7 @@ filter:grayscale(1)!important;cursor:not-allowed!important}
 @media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
 </style>
 
-<script id="dndpovContextDockScript" data-edition="public" data-leg="tser">
+<script id="dndpovContextDockScript" data-edition="full" data-leg="tser">
 (()=>{
   'use strict';
   const script=document.currentScript;

@@ -4586,7 +4586,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67 · PUBLIC 
  const readJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}};
  const state=Object.assign({enabled:true,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
   wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0},readJSON(stateKey,{}));
- let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
+ state.enabled=false;let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
  const persist=()=>{try{localStorage.setItem(stateKey,JSON.stringify(state));localStorage.setItem(logKey,JSON.stringify(history))}catch{}};
  const $=id=>document.getElementById(id);
  const style=document.createElement('style');style.id='dndpovLocalToolsStyle';
@@ -4769,7 +4769,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67 · PUBLIC 
   if(b)localDm=/\bON\b/.test(b.textContent)&&!/\bOFF\b/.test(b.textContent);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
-  $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
+  for(const id of ['localDmMode','localAutoDm','localOracle','localEncounters']){$(id).disabled=true;$(id).title='Full downloadable edition';}
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
  autoButton.onclick=()=>{state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
@@ -4829,4 +4829,118 @@ filter:grayscale(1)!important;cursor:not-allowed!important}
 #aiDmPanel #aiDmToggle{accent-color:#888!important;cursor:not-allowed}
 #aiDmCompose textarea:disabled{background:#36363c!important;color:#a8a3ac!important}
 #aiDmStatus{color:#c8b5db!important}
-</style></body></html>
+</style>
+<style id="dndpovContextDockStyle">
+#dndpovContextDock{position:fixed;left:12px;bottom:70px;width:min(295px,calc(100vw - 24px));max-height:min(370px,53vh);overflow:hidden;z-index:1600;background:rgba(21,20,27,.95);color:#eee1c7;border:1px solid #a08057;border-radius:9px;box-shadow:0 12px 34px #000a;font:13px Georgia,serif;line-height:1.4;backdrop-filter:blur(6px)}
+#dndpovContextDock *{box-sizing:border-box}
+#dndpovContextDockHead{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:8px 10px;background:#29232d;border-bottom:1px solid #6f5950}
+#dndpovContextDockHead strong{font-size:13px;letter-spacing:.3px;color:#f3d6a5}
+#dndpovContextFold{flex:none;border:1px solid #79644c;background:#38313b;color:#f6e2c1;border-radius:4px;padding:2px 8px;cursor:pointer}
+#dndpovContextDockBody{padding:9px 11px 11px;overflow-y:auto;max-height:calc(min(370px,53vh) - 39px)}
+#dndpovContextDock.collapsed #dndpovContextDockBody{display:none}
+#dndpovContextDock.collapsed{max-height:none}
+#dndpovContextWhere{font-size:14px;font-weight:bold;color:#efc98d;margin:0 0 5px}
+#dndpovContextExcerpt{margin:0 0 8px;color:#e0d6cb;white-space:pre-wrap;overflow-wrap:anywhere}
+#dndpovContextDock .contextCommands{display:flex;flex-wrap:wrap;gap:5px;padding:7px 0 0;border-top:1px solid #63564c}
+#dndpovContextDock .contextCommands button{font:11px Georgia,serif;padding:5px 7px;border:1px solid #81694b;border-radius:4px;background:#302b33;color:#f2d9b3;cursor:pointer}
+#dndpovContextDock .contextCommands button.active{background:#50374f;border-color:#c69fdb;color:#ffdbff}
+#dndpovContextDock .contextCommands button:disabled{opacity:.42;cursor:not-allowed;filter:grayscale(1)}
+#dndpovContextDmInfo{margin-top:8px;border-top:1px solid #62534e;padding-top:7px;color:#d9c5b9;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+#dndpovContextDock .contextEdition{display:block;margin-top:7px;color:#a5a0ac;font:11px Georgia,serif}
+@media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
+</style>
+
+<script id="dndpovContextDockScript" data-edition="public" data-leg="village">
+(()=>{
+  'use strict';
+  const script=document.currentScript;
+  const publicBeta=script.dataset.edition==='public';
+  const leg=script.dataset.leg;
+  const $=id=>document.getElementById(id);
+  const label={village:'Village of Barovia',svalich:'Old Svalich Road',tser:'Road to Tser Pool'}[leg]||'Adventure';
+  const dock=document.createElement('aside');
+  dock.id='dndpovContextDock';
+  dock.setAttribute('aria-label','Current location and Dungeon Master tools');
+  dock.innerHTML='<div id="dndpovContextDockHead"><strong>📍 '+label+' · Location</strong><button id="dndpovContextFold" type="button" aria-expanded="true" aria-label="Collapse location panel">−</button></div>'+
+    '<div id="dndpovContextDockBody"><div id="dndpovContextWhere">Finding your location…</div><p id="dndpovContextExcerpt">Explore to discover room and landmark descriptions.</p>'+
+    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button></div>'+
+    '<div id="dndpovContextDmInfo" aria-live="off">DM notes hidden. Enable them only if you are running the adventure.</div>'+
+    '<small class="contextEdition">'+(publicBeta?'Public beta · DM and multiplayer features available in the full edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
+  document.body.append(dock);
+
+  const fold=$('dndpovContextFold');
+  const key='dndpov-context-fold-'+leg;
+  let folded=false;
+  try{folded=localStorage.getItem(key)==='yes'}catch{}
+  function setFold(value){folded=value;dock.classList.toggle('collapsed',value);fold.textContent=value?'+':'−';fold.setAttribute('aria-expanded',String(!value));}
+  setFold(folded);
+  fold.onclick=()=>{setFold(!folded);try{localStorage.setItem(key,folded?'yes':'no')}catch{}};
+  $('dndpovContextRead').onclick=()=>{
+    if(typeof window.DNDPOV_AI_READ_NEARBY==='function')window.DNDPOV_AI_READ_NEARBY();
+    else $('localRead')?.click();
+  };
+  if(!publicBeta){
+    $('dndpovContextDm').onclick=()=>$('localDmMode')?.click();
+    $('dndpovContextAuto').onclick=()=>$('localAutoDm')?.click();
+    $('dndpovContextOracle').onclick=()=>$('localOracle')?.click();
+    $('dndpovContextEncounters').onclick=()=>$('localEncounters')?.click();
+  }else{
+    for(const id of ['dndpovContextDm','dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters']){
+      $(id).disabled=true;$(id).title='Available in the full downloadable edition';
+    }
+    $('dndpovContextAuto').textContent='Auto DM: Full only';
+    $('dndpovContextDmInfo').textContent='DM notes and encounter controls are unavailable in the public beta.';
+  }
+
+  const truncate=(str,length)=>str.length>length?str.slice(0,length).trimEnd()+'…':str;
+  let lastKey='';
+  function current(){try{return window.DNDPOV_AI_CONTEXT?.()||null}catch{return null}}
+  function readDescription(c){
+    try{return window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position)||null}catch{return null}
+  }
+  function updateLocation(){
+    const c=current();if(!c)return;
+    const id=String(c.location||'').toUpperCase();
+    const position=String(c.position||'');
+    const contextKey=id+'|'+position+'|'+String(c.roomName||'');
+    if(contextKey===lastKey)return;
+    lastKey=contextKey;
+    const scene=readDescription(c);
+    const entry=window.DNDPOV_MODULE_REFERENCE?.lookup?.(id);
+    const title=String(scene?.title||entry?.title||c.roomName||'');
+    $('dndpovContextWhere').textContent=(id?id+' · ':'')+(title||label)+(position==='inside'?' · Inside':'');
+    const excerpt=String(scene?.boxed||entry?.readAloud?.[0]||'');
+    $('dndpovContextExcerpt').textContent=excerpt?truncate(excerpt.replace(/\s+/g,' '),280):
+      'You are exploring '+label+'. The journal will show any available original room description when you reach its location.';
+    updateDmInfo();
+  }
+  function dmEnabled(){return !publicBeta&&/\bON\b/.test($('localDmMode')?.textContent||'')&&!/\bOFF\b/.test($('localDmMode')?.textContent||'')}
+  function updateDmInfo(){
+    if(publicBeta)return;
+    const info=$('dndpovContextDmInfo');
+    if(!dmEnabled()){info.textContent='DM notes hidden. Toggle DM notes to reveal module guidance for this location.';return;}
+    const c=current();
+    const entry=c&&window.DNDPOV_MODULE_REFERENCE?.lookup?.(c.location);
+    const notes=Array.isArray(entry?.notes)?entry.notes:[];
+    const stats=Array.isArray(entry?.stats)?entry.stats:[];
+    const noteText=notes.slice(0,3).join('\n\n');
+    const statsText=stats.slice(0,2).map(s=>typeof s==='string'?s:JSON.stringify(s)).join('\n');
+    info.textContent=(noteText||statsText)?'DM INFORMATION · '+String(c.location||'')+'\n'+truncate([noteText,statsText].filter(Boolean).join('\n\n'),1150):
+      'DM notes on · No keyed DM guidance for this location.';
+  }
+  function syncControls(){
+    if(publicBeta)return;
+    const notes=dmEnabled();
+    $('dndpovContextDm').textContent='DM notes: '+(notes?'ON':'OFF');
+    $('dndpovContextDm').classList.toggle('active',notes);
+    const auto=window.DNDPOV_AUTO_DM_TOOLS?.getState?.()?.enabled;
+    $('dndpovContextAuto').textContent='Auto DM: '+(auto?'ON':'OFF');
+    $('dndpovContextAuto').classList.toggle('active',Boolean(auto));
+    const state=notes?'1':'0';
+    if(syncControls.lastDm!==state){syncControls.lastDm=state;updateDmInfo();}
+  }
+  updateLocation();syncControls();
+  setInterval(()=>{updateLocation();syncControls()},500);
+})();
+</script>
+</body></html>

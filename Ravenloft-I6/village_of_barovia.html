@@ -333,7 +333,7 @@ const lanternGlowTexture=new THREE.CanvasTexture(glowCanvas);
 // The cobblestone shader is unlit, so its brightness follows the clock explicitly.
 const roadLighting={value:1};
 document.title=document.title.replace('v5.2','v5.38');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.56';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.68';
 document.querySelector('#mapbox small').textContent='North ↑ · Gold arrow = player · cream = roads · terracotta = homes';
 document.querySelector('#locationPanelFooter span').textContent='R / F: read · Esc: close';
 // Manual R/F reading is always available; auto descriptions remain optional.
@@ -4526,7 +4526,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67';
 #aiDmPartyBox .partyPreviewNote{font:11px/1.5 system-ui,sans-serif;color:#b9a8c8;margin-top:10px}
 #aiDmPartyBox .partyEditHint{font:11px system-ui,sans-serif;color:#ab9cb9;margin-top:5px}
 @media(max-width:550px){#aiDmPartyBox{right:8px;width:calc(100vw - 16px)}#aiDmPartyBox .partyContent{padding:14px}#aiDmPartyBox .partyStats{grid-template-columns:repeat(2,1fr)}}
-#aiDmPartyOpen{font-size:11px;background:#5d4281;color:#fff;border:1px solid #9874c9;border-radius:4px;cursor:pointer}
+#aiDmPartyOpen{font-size:11px;background:#5d4281;color:#fff;border:1px solid #9874c9;border-radius:4px;cursor:pointer}#aiDmPartyOpen:disabled{opacity:.35;filter:grayscale(1);cursor:not-allowed;pointer-events:none}
 </style>
 <style>
 /* v5.60 — character sheet: readable columns and grouped details */
@@ -4555,7 +4555,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67';
 const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
 btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · v5.58</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+panel.innerHTML='<header><b>Adventure Journal · v5.68</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
@@ -4606,7 +4606,8 @@ function updatePartyPreview(){
 partySheet.addEventListener('input',updatePartyPreview);
 const partyClear=()=>{editingPartyId='';partyName.value='';partySheet.value='';partyBox.querySelector('#partyFile').value='';updatePartyPreview()};
 async function partyRefresh(){const d=await partyApi('/api/character/list',{});const target=partyBox.querySelector('#partyRoster');target.replaceChildren();partyBox.querySelector('#partyCount').textContent=d.characters.length+' / 8 characters';for(const c of d.characters){const row=document.createElement('div');row.className='partyRow';const name=document.createElement('strong');name.textContent=c.name;const edit=document.createElement('button');edit.textContent='Edit';edit.onclick=()=>{editingPartyId=c.id;partyName.value=c.name;partySheet.value=c.sheet;updatePartyPreview()};const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{if(!confirm('Remove '+c.name+'?'))return;await partyApi('/api/character/delete',{id:c.id});if(editingPartyId===c.id)partyClear();partyRefresh()};row.append(name,edit,del);target.append(row)}if(!d.characters.length)target.textContent='No characters added yet.'}
-panel.querySelector('#aiDmPartyOpen').onclick=()=>{partyBox.hidden=false;partyRefresh().catch(e=>partyMsg.textContent=e.message)};
+// Public beta: Party / Sheets is intentionally disabled.
+
 partyBox.querySelector('#partyClose').onclick=()=>partyBox.hidden=true;
 partyBox.querySelector('#partyClear').onclick=partyClear;
 partyBox.querySelector('#partyFile').onchange=async(e)=>{const file=e.target.files?.[0];if(!file)return;if(file.size>3000000){partyMsg.textContent='PDF exceeds 3 MB';return}partyMsg.textContent='Reading PDF…';try{const b64=await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(String(fr.result).split(',')[1]);fr.onerror=reject;fr.readAsDataURL(file)});const d=await partyApi('/api/character/upload',{filename:file.name,pdf_base64:b64});partySheet.value=d.extracted;updatePartyPreview();partyName.value=partyName.value||file.name.replace(/\.pdf$/i,'').replace(/[_-]/g,' ');editingPartyId='';partyMsg.textContent='PDF extracted. Review the text and click Save character.'}catch(err){partyMsg.textContent=err.message}};
@@ -4630,7 +4631,7 @@ async function showModule(c,force=false){const key=c.location+'|'+c.position;if(
  if(!boxed){const fallback=window.DNDPOV_JOURNAL_FALLBACK?.(c.location);if(fallback?.boxed){title=c.location+' — '+fallback.title;boxed=fallback.boxed;label='DNDPOV LOCATION DESCRIPTION · LOCAL REFERENCE'}}
  if(ticket!==serial)return;
  if(c.location==='E4'&&c.position==='inside'){const inside=window.DNDPOV_MODULE_REFERENCE?.scene('E4','inside');if(inside){title='E4 — '+inside.title;boxed=inside.boxed;label='ORIGINAL MODULE · BURGOMASTER INTERIOR READ-ALOUD';}}
- if(boxed){const sceneIdentity=c.location+'|'+boxed;if(!force&&seenModuleScenes.has(sceneIdentity)){lastScroll=null;return;}seenModuleScenes.add(sceneIdentity);if(c.position==='inside')label+=' · LOCATION REFERENCE (INTERIOR BOXED TEXT NOT SEPARATELY VERIFIED)';lastScroll={title,boxed,label};addCard('scroll',title,boxed,label);panel.hidden=false;btn.classList.remove('has-new')}
+ if(boxed){const sceneIdentity=c.location+'|'+boxed;if(!force&&seenModuleScenes.has(sceneIdentity)){lastScroll=null;return;}seenModuleScenes.add(sceneIdentity);if(c.position==='inside')label+=' · LOCATION REFERENCE (INTERIOR BOXED TEXT NOT SEPARATELY VERIFIED)';lastScroll={title,boxed,label};addCard('scroll',title,boxed,label);if(window.DNDPOV_JOURNAL_AUTO_OPEN===true)panel.hidden=false;else btn.classList.add('has-new');if(!panel.hidden)btn.classList.remove('has-new')}
  else{lastScroll=null;/* No invented module text. */}
 }
 async function checkLocation(){const c=context(),key=c.location+'|'+c.position;if(key!==lastKey)await showModule(c)}
@@ -4726,6 +4727,7 @@ setInterval(checkLocation,350);checkLocation();
  '<button type="button" id="localEncounters">📜 Encounters</button>'+
  '<small>Auto DM handles local scripted checks. AI DM conversation is separate.</small>'+
  '<div class="tool-section">EXPLORATION & SETTINGS</div>'+
+ '<button type="button" id="localJournalAuto" aria-pressed="false">📖 Auto-open Journal: OFF</button>'+
  '<button type="button" id="localRead">📖 Read Scene / Read Again</button>'+
  '<button type="button" id="localMap">⌖ Toggle Map</button>'+
  '<button type="button" id="localReset">↺ Restart Location</button></div>';
@@ -4878,6 +4880,8 @@ setInterval(checkLocation,350);checkLocation();
   dock.classList.remove('open');};
  $('localReset').onclick=()=>{const id='reset';
   if($(id))$(id).click();else if(confirm('Restart this location?'))location.reload();};
+ window.DNDPOV_JOURNAL_AUTO_OPEN=false;
+ $('localJournalAuto').onclick=()=>{window.DNDPOV_JOURNAL_AUTO_OPEN=!window.DNDPOV_JOURNAL_AUTO_OPEN;const on=window.DNDPOV_JOURNAL_AUTO_OPEN;const b=$('localJournalAuto');b.textContent='📖 Auto-open Journal: '+(on?'ON':'OFF');b.setAttribute('aria-pressed',String(on));b.classList.toggle('active',on);};
  $('dndpovToolsButton').onclick=()=>{dock.classList.toggle('open');$('dndpovToolsButton').setAttribute('aria-expanded',String(dock.classList.contains('open')));sync();document.exitPointerLock?.()};
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});

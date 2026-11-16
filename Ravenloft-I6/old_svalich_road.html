@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.57 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.60 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:160px;height:240px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
 </style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
@@ -555,7 +555,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.56';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.60';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -985,7 +985,7 @@ function travelToVillage(){
  target.searchParams.set('weather',effectiveRoadWeather());
  setTimeout(()=>{window.location.assign(target.href)},1700);
 }
-let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(keys.arrowleft)player.angle-=t;if(keys.arrowright)player.angle+=t;const f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
+let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){for(const k of Object.keys(keys))keys[k]=false;}if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&keys.arrowleft)player.angle-=t;if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&keys.arrowright)player.angle+=t;const f=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK?0:(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK?0:(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
 if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;window.dispatchEvent(new CustomEvent('dndpov:gate-closed',{detail:{location:'B',event:'Eastern Gates closed behind the party'}}));noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
 camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
 
@@ -1168,7 +1168,7 @@ gameEl('exploreBtn').onclick=gameOpen;
 if(gameEl('detailBtn'))gameEl('detailBtn').onclick=gameOpen;
 const heldTurn={left:false,right:false};
 for(const [id,side] of [['turnLeft','left'],['turnRight','right']]){const b=gameEl(id);b.addEventListener('pointerdown',e=>{heldTurn[side]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>heldTurn[side]=false)}
-function gameTurnStep(){if(heldTurn.left)player.angle-=.045;if(heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
+function gameTurnStep(){if(window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){heldTurn.left=false;heldTurn.right=false;}if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&heldTurn.left)player.angle-=.045;if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
 window.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&gameEl('gameModal').style.display==='flex'){gameClose();return;}
  if((e.key.toLowerCase()==='e'||e.key==='Enter')&&!e.repeat){
@@ -1668,6 +1668,8 @@ drawMap=function(){svalichDrawBeforeMp();
 <script id="aiDmCompanion">(()=>{
 const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
 btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
+const journalAutoOpenKey='dndpov_svalich_public_auto_open_journal';
+let journalAutoOpen=localStorage.getItem(journalAutoOpenKey)==='on';
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
 panel.innerHTML='<header><b>Adventure Journal · Old Svalich v1.50</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
@@ -1762,9 +1764,7 @@ async function showModule(c,force=false){
  const label=reference.label||'PLAYER-VISIBLE LOCATION DESCRIPTION';
  lastScroll={title,boxed:reference.boxed,label};
  addCard('scroll',title,reference.boxed,label);
- if(window.DNDPOV_JOURNAL_AUTO_OPEN===true)panel.hidden=false;
- else btn.classList.add('has-new');
- if(!panel.hidden)btn.classList.remove('has-new');
+ if(journalAutoOpen){panel.hidden=false;btn.classList.remove('has-new');}
 }
 async function checkLocation(){
  const c=context();if(contextKey(c)!==lastKey)await showModule(c);
@@ -1778,7 +1778,7 @@ panel.querySelector('#aiDmReadAgain').onclick=rereadLocation;
 window.DNDPOV_AI_SHOW_LOCATION=()=>showModule(context(),true);
 window.DNDPOV_JOURNAL_SPECIAL=(title,boxed,label='PLAYER DISCOVERY · READ-ALOUD')=>{
  window.DNDPOV_AI_LAST_DISCOVERY=boxed;
- addCard('scroll',title,boxed,label);panel.hidden=false;btn.classList.remove('has-new');
+ addCard('scroll',title,boxed,label);if(journalAutoOpen){panel.hidden=false;btn.classList.remove('has-new');}
 };
 window.DNDPOV_AI_READ_NEARBY=()=>{
  if(panel.hidden)panel.hidden=false;
@@ -1912,10 +1912,16 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  '<small>Auto DM handles local scripted checks. AI DM conversation is separate.</small>'+
  '<div class="tool-section">EXPLORATION & SETTINGS</div>'+
  '<button type="button" id="localRead">📖 Read Scene / Read Again</button>'+
+ '<button type="button" id="localJournalAuto">📖 Auto-open Journal: OFF</button>'+
  '<button type="button" id="localMap">⌖ Toggle Map</button>'+
- '<button type="button" id="localJournalAuto" aria-pressed="false">📖 Auto-open Journal: OFF</button>'+
  '<button type="button" id="localReset">↺ Restart Location</button></div>';
  document.body.append(dock);
+ const journalAutoOpenKey='dndpov_svalich_public_auto_open_journal';
+ let journalAutoOpen=localStorage.getItem(journalAutoOpenKey)==='on';
+ const autoJournalButton=document.getElementById('localJournalAuto');
+ function syncJournalAutoButton(){autoJournalButton.textContent='📖 Auto-open Journal: '+(journalAutoOpen?'ON':'OFF');autoJournalButton.classList.toggle('active',journalAutoOpen);autoJournalButton.setAttribute('aria-pressed',String(journalAutoOpen));}
+ autoJournalButton.addEventListener('click',()=>{journalAutoOpen=!journalAutoOpen;localStorage.setItem(journalAutoOpenKey,journalAutoOpen?'on':'off');syncJournalAutoButton();});
+ syncJournalAutoButton();
  function makePane(id,label){const el=document.createElement('section');el.id=id;el.className='dndpovDmPane';
   el.setAttribute('role','dialog');el.setAttribute('aria-label',label);
   const h=document.createElement('header');const t=document.createElement('strong');t.textContent=label;
@@ -1925,8 +1931,9 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
- bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
+ bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
  banner.append(bannerHead,bannerText,bannerClose);document.body.append(banner);
+ window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
  const isSvalichWoods=()=>leg==='svalich'&&location==='C';
  const context=()=>window.DNDPOV_AI_CONTEXT?.();
@@ -1934,7 +1941,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  function record(kind,detail,result=''){
   history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,100);persist();renderOracle();
  }
- function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
+ function notice(title,description){if(!state.enabled)return;window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=true;bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
  function renderOracle(){oracleBody.replaceChildren();
   const heartbeat=document.createElement('div');heartbeat.className='entry';
   const head=document.createElement('strong');head.textContent='AUTO DM · ORACLE HEARTBEAT';
@@ -1956,6 +1963,40 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   oracleBody.append(clear);
  }
  function roll(n){return Math.floor(Math.random()*n)+1;}
+ function gameTime(){return document.getElementById('day')?.value||'day';}
+ function conditions(){return 'Time: '+gameTime()+' · Weather: '+(document.getElementById('weather')?.value||'clear')+' · '+(location||'Road');}
+ function dice(count,sides){const values=Array.from({length:count},()=>roll(sides));return {total:values.reduce((a,b)=>a+b,0),detail:count+'d'+sides+' ['+values.join(', ')+']'};}
+ function wildernessEncounter(){
+  const night=['night','dusk','dawn'].includes(gameTime());
+  const threshold=night?'1–2':'1';const check=roll(6);
+  record('I6 Barovia · Random encounter check','Turn '+state.turns+' · '+conditions()+' · 1d6='+check,
+   'Encounter on '+threshold+' · '+(check<=(night?2:1)?'ENCOUNTER':'No encounter'));
+  if(check>(night?2:1))return;
+  const tableRoll=roll(night?12:6);let name='',quantity='',kind='';
+  if(night){
+   if(tableRoll<=2){kind='worg wolves';quantity=dice(1,10).detail;}
+   else if(tableRoll===3){kind='worg wolves';quantity=dice(2,10).detail;}
+   else if(tableRoll<=5){kind='zombies';quantity=dice(3,4).detail;}
+   else if(tableRoll<=7){kind='bats';quantity=dice(10,10).detail;}
+   else if(tableRoll===8){kind='ghost';quantity='1';}
+   else if(tableRoll===9){kind='ghouls';quantity=dice(3,4).detail;}
+   else if(tableRoll===10){kind='wights';quantity=dice(1,4).detail;}
+   else if(tableRoll===11){kind='wraiths';quantity=dice(1,4).detail;}
+   else {kind='maiden vampire';quantity='1';}
+  }else{
+   if(tableRoll===1){kind='worg wolves';quantity=dice(2,4).detail;}
+   else if(tableRoll===2){kind='Vistani travelers';quantity=dice(1,10).detail;}
+   else if(tableRoll===3){kind='villagers';quantity=dice(1,4).detail;}
+   else if(tableRoll===4){kind='worg wolves';quantity=dice(1,4).detail;}
+   else if(tableRoll===5){kind='Vistani travelers';quantity=dice(1,4).detail;}
+   else {kind='villagers';quantity=dice(1,4).detail;}
+  }
+  const number=quantity==='1'?1:quantity.match(/\[([^\]]+)\]/)?.[1]?.split(',').reduce((a,v)=>a+Number(v.trim()),0);
+  name=number+' '+kind;
+  record('I6 '+(night?'Night':'Day')+' encounter table','1d'+(night?12:6)+'='+tableRoll+' · '+quantity,name+' · actual dice result; reaction/combat not predetermined');
+  notice('RANDOM ENCOUNTER · '+name,'I6 Barovia '+(night?'night':'day')+' table, result '+tableRoll+'. Determine reaction, initiative, and actions at the table; no automatic combat outcome.');
+ }
+
  function wolfCheck(){const result=roll(6),howl=result>=4;
   if(!state.wolvesHowling&&howl){state.wolvesHowling=true;state.howlingRounds=0;}
   record('Svalich Woods · Wolf check','1d6='+result+' · howling begins on 4–6',howl?'Wolves howling':'No new howling');
@@ -1975,7 +2016,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
    notice('DRAWBRIDGE HAZARD',outcome);}
   record('Ravenloft drawbridge · Per character','d100='+result+' · plank breaks on 01–05',outcome);
  }
- function advanceTurn(manual=false){if(!state.enabled&&!manual)return;
+ function advanceTurn(manual=false){if(!state.enabled||window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK)return;
   state.turns++;
   record('Exploration turn','10 minutes · '+(location||titles[leg]),'Turn '+state.turns);
   if(leg==='svalich'&&location==='C'){
@@ -1985,6 +2026,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
     record('Module discovery','Svalich Woods · 3 turns','Dead villager and warning letter discovered');}
    if(!state.wolvesHowling)wolfCheck();
   }
+  if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){record('Encounter conditions evaluated','Turn '+state.turns,conditions());wildernessEncounter();}
   persist();renderEncounters();
  }
  function onEnter(c){const id=String(c.location||'');
@@ -2027,7 +2069,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');onEnter(c);renderEncounters();renderOracle();}
   // The real module's wolf checks happen by exploration turns. Walking distance
   // is only a proxy; nonmovement actions can advance turns with the manual button.
-  if(leg==='svalich'&&state.enabled&&location==='C'){
+  if(leg==='svalich'&&state.enabled&&!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){
    const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();if(!p)return;
    if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
     if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
@@ -2086,15 +2128,13 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   if(!localDm){$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');}
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
- autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
+ autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;if(!state.enabled){window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;banner.style.display='none';}persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
  $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
   dock.classList.remove('open');};
- window.DNDPOV_JOURNAL_AUTO_OPEN=false;
- $('localJournalAuto').onclick=()=>{const on=window.DNDPOV_JOURNAL_AUTO_OPEN=!window.DNDPOV_JOURNAL_AUTO_OPEN;const b=$('localJournalAuto');b.textContent='📖 Auto-open Journal: '+(on?'ON':'OFF');b.setAttribute('aria-pressed',String(on));b.classList.toggle('active',on);};
  $('localReset').onclick=()=>{const id='reset';
   if($(id))$(id).click();else if(confirm('Restart this location?'))location.reload();};
  $('dndpovToolsButton').onclick=()=>{dock.classList.toggle('open');$('dndpovToolsButton').setAttribute('aria-expanded',String(dock.classList.contains('open')));sync();document.exitPointerLock?.()};

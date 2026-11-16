@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.34 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.35 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
 #fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.34</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
@@ -1522,7 +1522,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.30';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.35';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2370,7 +2370,7 @@ document.querySelector('#reset').onclick=()=>{
  carriageDoorOpen=0;carriageDoorHinge.rotation.y=0;carriageAt(carriageZ);
  roadPreviousReset();
 };
-function frame(now){const dt=Math.min((now-last)/1000,.05);last=now;animateRiverCurrent(dt);animateCampfire(now);updateCarriageDoor(dt);updateRiverAmbience(dt);updateForestAmbience();updateOpeningRoadAmbience(dt);
+function frame(now){if(window.DNDPOV_ENCOUNTER_PENDING){for(const k of Object.keys(keys))keys[k]=false;}const dt=Math.min((now-last)/1000,.05);last=now;animateRiverCurrent(dt);animateCampfire(now);updateCarriageDoor(dt);updateRiverAmbience(dt);updateForestAmbience();updateOpeningRoadAmbience(dt);
 if(insideEvaTent){
  evaInteriorFrame(dt);updateMoon();updateRoadWeather(now);updateCastleApproach();
  renderer.render(scene,camera);requestAnimationFrame(frame);return;
@@ -2394,6 +2394,7 @@ if(carriageMode==='opening'||carriageMode==='offered'){
  if(carriageMode==='opening')watchCarriageDoor(dt);
  updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame);return;
 }
+if(window.DNDPOV_ENCOUNTER_PENDING){updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame);return;}
 const speed=(keys.shift?17:8)*dt;if(keys.arrowleft)player.angle+=1.8*dt;if(keys.arrowright)player.angle-=1.8*dt;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0);const nx=player.x+Math.sin(player.angle)*f*speed+Math.cos(player.angle)*side*speed,nz=player.z+Math.cos(player.angle)*f*speed-Math.sin(player.angle)*side*speed;
 if(Math.abs(nx-pathX(nz))<5.1||Math.abs(nz-riverZ)<12&&Math.abs(nx-bridgeX)<5.2||onFork(nx,nz,4.2)||Math.abs(nz-campZ)<19&&Math.abs(nx-campX)<22){player.x=nx;player.z=nz}
 camera.position.set(player.x,2.1+hillHeight(player.z),player.z);camera.rotation.set(0,0,0);camera.rotation.y=player.angle+Math.PI;const desc=document.querySelector('#description'),place=document.querySelector('#place');if(player.z>-18){place.textContent='The Old Svalich Road';desc.textContent='Ancient spruce trees close around the winding road.'}else if(player.z>-62){place.textContent='Bridge over the Tser River';desc.textContent='Cold dark water passes beneath the wooden bridge.'}else if(player.z>-245){place.textContent=onFork(player.x,player.z,6)||Math.hypot(player.x-campX,player.z-campZ)<26?'Vistani Encampment':'The Road to the Vistani Camp';desc.textContent='After the River Ivlis bridge, continue to F. Straight follows the forest road; right follows the river past the Vistani camp. Both routes meet before Tser Falls Bridge.'}else{place.textContent='The Road to Castle Ravenloft';desc.textContent='The road winds through the fog. Castle Ravenloft stands faintly ahead.'}
@@ -2999,7 +3000,7 @@ document.addEventListener('keydown',event=>{
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
- bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
+ bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{window.DNDPOV_ENCOUNTER_PENDING=false;banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
  banner.append(bannerHead,bannerText,bannerClose);document.body.append(banner);
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
  const context=()=>window.DNDPOV_AI_CONTEXT?.();
@@ -3007,7 +3008,7 @@ document.addEventListener('keydown',event=>{
  function record(kind,detail,result=''){
   history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,1000);persist();renderOracle();
  }
- function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
+ function notice(title,description){window.DNDPOV_ENCOUNTER_PENDING=true;bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
  function renderOracle(){oracleBody.replaceChildren();
   const expl=document.createElement('p');expl.textContent='LIVE AUDIT · All real checks, skipped checks, rolls, outcomes, and conditions. Actual I6 daytime/nighttime encounter dice are rolled each 10-minute exploration turn. Newest first.';oracleBody.append(expl);
   if(!history.length){const p=document.createElement('p');p.textContent='No evaluations recorded yet. Move along the road or advance an exploration turn.';oracleBody.append(p);}
@@ -3042,7 +3043,7 @@ document.addEventListener('keydown',event=>{
   record('Ravenloft drawbridge · Per character','d100='+result+' · plank breaks on 01–05',outcome);
   if(result>5)record('Dexterity check considered','Drawbridge board held','Not rolled: Dexterity check only applies when a plank breaks.');
  }
- function advanceTurn(manual=false){if(!state.enabled&&!manual)return;
+ function advanceTurn(manual=false){if(window.DNDPOV_ENCOUNTER_PENDING)return;if(!state.enabled&&!manual)return;
   state.turns++;
   if(leg==='tser')assessConditions('Exploration turn '+state.turns);
   record('Exploration turn','10 minutes · '+(location||titles[leg]),'Turn '+state.turns);
@@ -3083,7 +3084,7 @@ document.addEventListener('keydown',event=>{
    persist();
   }
  }
- function scan(){let c=context();if(!c)return;
+ function scan(){if(window.DNDPOV_ENCOUNTER_PENDING)return;let c=context();if(!c)return;
   if(leg==='tser'&&c.location==='G'&&c.position==='inside')
    c={...c,location:'G1',roomName:'Madame Eva’s Tent'};
   const key=String(c.location||'')+'|'+String(c.position||'');

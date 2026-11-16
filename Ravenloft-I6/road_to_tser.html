@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.30 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.31 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
 #fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.6</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
@@ -2717,7 +2717,7 @@ minimap=function(){tserDrawBeforeMp();
 const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
 btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · Tser Road v3.30</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+panel.innerHTML='<header><b>Adventure Journal · Tser Road v3.31</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
@@ -2810,7 +2810,7 @@ async function showModule(c,force=false){
  const label='DNDPOV SCENE DESCRIPTION · NOT VERBATIM MODULE TEXT';
  lastScroll={title,boxed:reference.boxed,label};
  addCard('scroll',title,reference.boxed,label);
- panel.hidden=false;btn.classList.remove('has-new');
+ if(localStorage.getItem('dndpov_tser_auto_journal')==='on'){panel.hidden=false;btn.classList.remove('has-new');}else{btn.classList.add('has-new');}
 }
 async function checkLocation(){
  const c=context();if(contextKey(c)!==lastKey)await showModule(c);
@@ -2924,6 +2924,7 @@ document.addEventListener('keydown',event=>{
  dock.innerHTML='<button type="button" id="dndpovToolsButton" title="Adventure tools" aria-label="Adventure tools" aria-expanded="false">⚒</button>'+
  '<div id="dndpovToolsTray"><div class="tool-section">DM TOOLS</div>'+
  '<button type="button" id="localDmMode">⚿ DM: OFF</button>'+
+ '<button type="button" id="localJournalAuto" aria-pressed="false">📖 Auto-open Journal: OFF</button>'+
  '<button type="button" id="localAutoDm"></button>'+
  '<button type="button" id="localOracle">✦ Oracle · Decision Report</button>'+
  '<button type="button" id="localEncounters">📜 Encounters</button>'+
@@ -2933,6 +2934,18 @@ document.addEventListener('keydown',event=>{
  '<button type="button" id="localMap">⌖ Toggle Map</button>'+
  '<button type="button" id="localReset">↺ Restart Location</button></div>';
  document.body.append(dock);
+ const journalAutoButton=dock.querySelector('#localJournalAuto');
+ function updateJournalAutoButton(){
+  const enabled=localStorage.getItem('dndpov_tser_auto_journal')==='on';
+  journalAutoButton.textContent='📖 Auto-open Journal: '+(enabled?'ON':'OFF');
+  journalAutoButton.setAttribute('aria-pressed',String(enabled));
+  journalAutoButton.classList.toggle('auto-active',enabled);
+ }
+ journalAutoButton.addEventListener('click',()=>{
+  localStorage.setItem('dndpov_tser_auto_journal',localStorage.getItem('dndpov_tser_auto_journal')==='on'?'off':'on');
+  updateJournalAutoButton();
+ });
+ updateJournalAutoButton();
  function makePane(id,label){const el=document.createElement('section');el.id=id;el.className='dndpovDmPane';
   el.setAttribute('role','dialog');el.setAttribute('aria-label',label);
   const h=document.createElement('header');const t=document.createElement('strong');t.textContent=label;

@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.33 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.34 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.33</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.34</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -2895,10 +2895,42 @@ document.addEventListener('keydown',event=>{
  const conditions=()=>`Time: ${gameTime()} · Weather: ${gameWeather()}`;
  let lastConditions='';
  function assessConditions(reason){
-  const now=conditions();
-  if(now!==lastConditions){lastConditions=now;record('Conditions evaluated',reason,now);}
-  record('Night encounter rule evaluated',reason,
-   gameTime()==='night'?'Night: no verified additional Tser Road roll or modifier in the current encounter rules; none invented.':'Not night: no night-only check applicable in current Tser Road rules.');
+  const now=conditions();if(now!==lastConditions){lastConditions=now;record('Conditions evaluated',reason,now);}
+  record('Encounter table selected',reason,(gameTime()==='night'||gameTime()==='dusk'||gameTime()==='dawn')?'I6 Barovia nighttime table · sundown to dawn · 1–2 on 1d6':'I6 Barovia daytime table · sunup to sundown · 1 on 1d6');
+ }
+ // I6 Ravenloft: Table 4 (day) and Table 5 (night), Lands of Barovia.
+ // Checks use the AD&D 1e exploration-turn cadence (10 minutes). This cadence
+ // is a system-level convention, not a frequency specified by the I6 table.
+ function dice(count,sides){const values=Array.from({length:count},()=>roll(sides));return {total:values.reduce((a,b)=>a+b,0),detail:count+'d'+sides+' ['+values.join(', ')+']'};}
+ function wildernessEncounter(){
+  const night=['night','dusk','dawn'].includes(gameTime());
+  const threshold=night?'1–2':'1';const check=roll(6);
+  record('I6 Barovia · Random encounter check','Turn '+state.turns+' · '+conditions()+' · 1d6='+check,
+   'Encounter on '+threshold+' · '+(check<=(night?2:1)?'ENCOUNTER':'No encounter'));
+  if(check>(night?2:1))return;
+  const tableRoll=roll(night?12:6);let name='',quantity='',kind='';
+  if(night){
+   if(tableRoll<=2){kind='worg wolves';quantity=dice(1,10).detail;}
+   else if(tableRoll===3){kind='worg wolves';quantity=dice(2,10).detail;}
+   else if(tableRoll<=5){kind='zombies';quantity=dice(3,4).detail;}
+   else if(tableRoll<=7){kind='bats';quantity=dice(10,10).detail;}
+   else if(tableRoll===8){kind='ghost';quantity='1';}
+   else if(tableRoll===9){kind='ghouls';quantity=dice(3,4).detail;}
+   else if(tableRoll===10){kind='wights';quantity=dice(1,4).detail;}
+   else if(tableRoll===11){kind='wraiths';quantity=dice(1,4).detail;}
+   else {kind='maiden vampire';quantity='1';}
+  }else{
+   if(tableRoll===1){kind='worg wolves';quantity=dice(2,4).detail;}
+   else if(tableRoll===2){kind='Vistani travelers';quantity=dice(1,10).detail;}
+   else if(tableRoll===3){kind='villagers';quantity=dice(1,4).detail;}
+   else if(tableRoll===4){kind='worg wolves';quantity=dice(1,4).detail;}
+   else if(tableRoll===5){kind='Vistani travelers';quantity=dice(1,4).detail;}
+   else {kind='villagers';quantity=dice(1,4).detail;}
+  }
+  const number=quantity==='1'?1:quantity.match(/\[([^\]]+)\]/)?.[1]?.split(',').reduce((a,v)=>a+Number(v.trim()),0);
+  name=number+' '+kind;
+  record('I6 '+(night?'Night':'Day')+' encounter table','1d'+(night?12:6)+'='+tableRoll+' · '+quantity,name+' · actual dice result; reaction/combat not predetermined');
+  notice('RANDOM ENCOUNTER · '+name,'I6 Barovia '+(night?'night':'day')+' table, result '+tableRoll+'. Determine reaction, initiative, and actions at the table; no automatic combat outcome.');
  }
 
  const style=document.createElement('style');style.id='dndpovLocalToolsStyle';
@@ -2977,7 +3009,7 @@ document.addEventListener('keydown',event=>{
  }
  function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
  function renderOracle(){oracleBody.replaceChildren();
-  const expl=document.createElement('p');expl.textContent='LIVE AUDIT · All real checks, skipped checks, rolls, outcomes, and conditions. No dice or night modifiers are invented. Newest first.';oracleBody.append(expl);
+  const expl=document.createElement('p');expl.textContent='LIVE AUDIT · All real checks, skipped checks, rolls, outcomes, and conditions. Actual I6 daytime/nighttime encounter dice are rolled each 10-minute exploration turn. Newest first.';oracleBody.append(expl);
   if(!history.length){const p=document.createElement('p');p.textContent='No evaluations recorded yet. Move along the road or advance an exploration turn.';oracleBody.append(p);}
   for(const item of history){const row=document.createElement('div');row.className='log-row';
    const title=document.createElement('strong');title.textContent=item.kind;
@@ -3016,10 +3048,9 @@ document.addEventListener('keydown',event=>{
   record('Exploration turn','10 minutes · '+(location||titles[leg]),'Turn '+state.turns);
   if(leg==='tser'){
    const entry=entries.find(e=>e.id===location);
-   record('Encounter eligibility · checked',`Turn ${state.turns} · ${entry?.title||location||'Road travel'}`,
-    entry?`Rule: ${entry.rule} · ${entry.mode==='manual'?'Awaiting player/DM action; no automatic roll':entry.mode==='drawbridge'?'Per-character d100 only when crossing; no roll on travel turn':'No random roll specified for this keyed location'}`:'No keyed encounter at this position; no random encounter roll specified in the currently implemented Tser rules');
-   record('Wolf encounter eligibility · checked','Tser Road travel',
-    'The 1d6 wolf howling procedure belongs to Old Svalich Road location C; not rolled on this leg. Ambient wolf howls are separate from combat encounters.');
+   record('Keyed location considered',entry?.title||'Open road',entry?.rule||'No keyed event at current position');
+   record('Wolf howling rule considered','Old Svalich Woods C','Separate fixed wolf procedure applies at C only; Barovia random encounter table is rolled on this leg.');
+   wildernessEncounter();
   }
   if(leg==='svalich'&&location==='C'){
    state.woodsTurns++;

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.76 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.77 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:160px;height:240px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
 </style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
@@ -783,7 +783,7 @@ const atmospherePresets={
 };
 let timeOfDay='dusk',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.76';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.77';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -1410,35 +1410,116 @@ for(const [x,z] of [[-3,2.7],[1.6,3.0],[-3.8,-1.3]]){
  for(const dx of [-1.65,1.65])innBox(x+dx,.65,z, .6,1.3,1.6,innRoomWood);
  const mug=new THREE.Mesh(new THREE.CylinderGeometry(.16,.14,.36,8),new THREE.MeshStandardMaterial({color:'#b18b51'}));mug.position.set(x+.45,1.58,z);innScene.add(mug);
 }
-// Individually dressed low-poly patrons: heads, hair, facial details, arms, legs and boots.
+// v1.77 — individual, fully dressed and expressive Low Svalich Road inn patrons.
 const patronSkin=['#b98c69','#d2a782','#a77758','#c39a78','#987357','#d6b08b'];
 const patronClothes=['#455640','#5d4337','#374d59','#6b4c38','#4c465b','#70614b'];
 const patronHair=['#2b201b','#5b3b27','#302824','#765136','#49382c','#b09a76'];
+const patronDetails=['#bf9f69','#997449','#ab745e','#c39d73','#a37d6c','#b09f88'];
+const innBootMat=new THREE.MeshStandardMaterial({color:'#2b211c',roughness:1});
+const innButtonMat=new THREE.MeshStandardMaterial({color:'#d3b477',metalness:.48,roughness:.49});
+const innEyeMat=new THREE.MeshStandardMaterial({color:'#241d1c',roughness:1});
 function innPerson(x,z,idx,rotation=0){
- const group=new THREE.Group();group.position.set(x,0,z);group.rotation.y=rotation;innScene.add(group);
- const fabric=new THREE.MeshStandardMaterial({color:patronClothes[idx%6],roughness:1});
+ const group=new THREE.Group();group.position.set(x,0,z);group.rotation.y=rotation;
+ group.scale.setScalar([1,.97,1.04,1.09,.95,1.02][idx%6]);innScene.add(group);
+ const fabric=new THREE.MeshStandardMaterial({color:patronClothes[idx%6],roughness:.98});
+ const detail=new THREE.MeshStandardMaterial({color:patronDetails[idx%6],roughness:.94});
+ const vest=new THREE.MeshStandardMaterial({color:patronClothes[(idx+3)%6],roughness:1});
  const skin=new THREE.MeshStandardMaterial({color:patronSkin[idx%6],roughness:1});
- const hair=new THREE.MeshStandardMaterial({color:patronHair[idx%6],roughness:1});
- const boot=new THREE.MeshStandardMaterial({color:'#2b211c',roughness:1});
- function part(geometry,mat,x,y,z,rx=0,rz=0){const m=new THREE.Mesh(geometry,mat);m.position.set(x,y,z);m.rotation.x=rx;m.rotation.z=rz;group.add(m);return m;}
- const torso=part(new THREE.CylinderGeometry(.31,.43,1.04,9),fabric,0,1.38,0);torso.scale.z=.83;
- part(new THREE.SphereGeometry(.27,12,9),skin,0,2.16,0);
- part(new THREE.SphereGeometry(.282,12,9,0,Math.PI*2,0,Math.PI*.50),hair,0,2.28,0);
+ const hair=new THREE.MeshStandardMaterial({color:patronHair[idx%6],roughness:.98});
+ const boots=innBootMat;
+ function part(geometry,material,x,y,z){const mesh=new THREE.Mesh(geometry,material);
+  mesh.position.set(x,y,z);group.add(mesh);return mesh;}
+ function arm(a,b,r,material){const va=new THREE.Vector3(...a),vb=new THREE.Vector3(...b),diff=vb.clone().sub(va);
+  const piece=part(new THREE.CylinderGeometry(r*.94,r, diff.length(),10),material,...va.clone().add(vb).multiplyScalar(.5).toArray());
+  piece.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),diff.normalize());return piece;}
+ // The jacket has an inward-opening vest, contrasting lapels, and belt details.
+ const longCoat=part(new THREE.CylinderGeometry(.34,.49,1.10,12),fabric,0,1.28,.06);
+ longCoat.scale.z=.85;
+ const shoulders=part(new THREE.SphereGeometry(.42,14,10),fabric,0,1.70,.005);
+ shoulders.scale.set(1,.47,.74);
+ const shirt=part(new THREE.BoxGeometry(.26,.76,.068),detail,0,1.51,-.332);
  for(const side of [-1,1]){
-  part(new THREE.CylinderGeometry(.12,.16,.72,8),fabric,side*.42,1.45,.06,.16,side*.27);
-  part(new THREE.SphereGeometry(.115,8,7),skin,side*.51,1.08,.14);
-  part(new THREE.CylinderGeometry(.17,.15,.64,8),fabric,side*.19,.62,0);
-  part(new THREE.BoxGeometry(.34,.20,.51),boot,side*.19,.17,-.11);
+  const lapel=part(new THREE.BoxGeometry(.14,.64,.072),vest,side*.205,1.49,-.356);
+  lapel.rotation.z=-side*.13;
+  part(new THREE.BoxGeometry(.045,.58,.014),detail,side*.288,1.48,-.395);
  }
- // Eyes and nose face forward; small features stay consistent with the stylized world.
- for(const side of [-1,1])part(new THREE.SphereGeometry(.025,6,6),boot,side*.105,2.17,-.245);
- part(new THREE.ConeGeometry(.065,.12,5),skin,0,2.08,-.26,Math.PI/2);
- if(idx%3===0){ // cloak
-  part(new THREE.ConeGeometry(.47,.75,10),fabric,0,1.0,.22,Math.PI);
+ for(let b=0;b<3;b++)part(new THREE.SphereGeometry(.029,7,5),innButtonMat,.015,1.71-b*.21,-.386);
+ const belt=part(new THREE.TorusGeometry(.382,.054,7,18),boots,0,.91,0);
+ belt.rotation.x=Math.PI/2;
+ const buckle=part(new THREE.BoxGeometry(.16,.13,.05),innButtonMat,0,.91,-.394);
+ part(new THREE.BoxGeometry(.085,.075,.059),boots,0,.91,-.425);
+ for(const side of [-1,1]){
+  const shoulder=[side*.39,1.68,.015],elbow=[side*.53,1.33,.04],wrist=[side*.52,1.00,-.19];
+  arm(shoulder,elbow,.150,fabric);arm(elbow,wrist,.123,fabric);
+  part(new THREE.SphereGeometry(.119,10,8),skin,...wrist);
+  const cuff=part(new THREE.TorusGeometry(.13,.032,6,12),detail,wrist[0],wrist[1]+.11,wrist[2]);
+  cuff.rotation.x=Math.PI/2;
+  const trouser=part(new THREE.CylinderGeometry(.164,.144,.67,10),vest,side*.19,.57,-.025);
+  trouser.rotation.x=(idx%2?.04:-.035);
+  part(new THREE.BoxGeometry(.35,.22,.51),boots,side*.19,.155,-.14);
+  part(new THREE.BoxGeometry(.36,.063,.055),detail,side*.19,.285,-.385);
  }
- if(idx%4===1){ // broad-brimmed travel hat
-  part(new THREE.CylinderGeometry(.43,.43,.055,12),hair,0,2.42,0);
-  part(new THREE.CylinderGeometry(.25,.28,.29,10),hair,0,2.58,0);
+ const neck=part(new THREE.CylinderGeometry(.115,.14,.20,10),skin,0,1.93,-.02);
+ const head=part(new THREE.SphereGeometry(.31,18,13),skin,0,2.20,-.015);
+ head.scale.set(.95,1.075,.88);
+ for(const side of [-1,1]){
+  part(new THREE.SphereGeometry(.060,9,7),skin,side*.30,2.17,-.017);
+  const eye=part(new THREE.SphereGeometry(.030,8,6),innEyeMat,side*.118,2.237,-.278);
+  eye.scale.set(1.1,.66,.55);
+  const brow=part(new THREE.BoxGeometry(.15,.022,.015),hair,side*.12,2.32,-.284);
+  brow.rotation.z=side*(idx%2?-.12:.06);
+  const cheek=part(new THREE.SphereGeometry(.11,9,7),skin,side*.154,2.073,-.205);
+  cheek.scale.set(.9,.55,.46);
+ }
+ const nose=part(new THREE.SphereGeometry(.068,10,8),skin,0,2.166,-.31);
+ nose.scale.set(.75,1.25,.86);
+ const mouth=part(new THREE.BoxGeometry(.12,.019,.018),vest,0,2.038,-.287);
+ mouth.rotation.z=(idx%2?.04:-.06);
+ // Side locks, longer hair, beards, and different hats vary each silhouette.
+ const hairCap=part(new THREE.SphereGeometry(.323,17,12,0,Math.PI*2,0,Math.PI*.55),hair,0,2.323,-.015);
+ if(idx%3!==1){
+  for(const side of [-1,1]){
+   const lock=part(new THREE.SphereGeometry(.13,11,8),hair,side*.272,2.185,.05);
+   lock.scale.set(.62,1.60,.72);
+  }
+ }
+ if(idx%4===0 || idx===5){
+  const beard=part(new THREE.ConeGeometry(.22,.34,11),hair,0,1.969,-.09);
+  beard.rotation.x=Math.PI;
+  for(const side of [-1,1]){
+   const moustache=part(new THREE.SphereGeometry(.11,9,7),hair,side*.10,2.075,-.296);
+   moustache.scale.set(1,.40,.42);
+  }
+ }
+ if(idx%4===1){
+  part(new THREE.CylinderGeometry(.47,.47,.06,18),hair,0,2.46,0);
+  part(new THREE.CylinderGeometry(.25,.29,.27,14),hair,0,2.61,0);
+  part(new THREE.CylinderGeometry(.275,.275,.054,14),detail,0,2.54,0);
+ }else if(idx%4===2){
+  const cap=part(new THREE.SphereGeometry(.35,16,10),vest,0,2.44,-.002);
+  cap.scale.set(1.08,.36,.95);
+  const ribbon=part(new THREE.TorusGeometry(.32,.035,6,19),detail,0,2.41,0);
+  ribbon.rotation.x=Math.PI/2;
+ }
+ // A loose wool cloak is layered behind shoulders instead of hiding the face.
+ if(idx%3===0){
+  const cloak=part(new THREE.ConeGeometry(.49,1.20,13),vest,0,1.18,.25);
+  cloak.scale.z=.75;
+  const clasp=part(new THREE.SphereGeometry(.084,10,7),innButtonMat,0,1.80,-.33);
+  clasp.scale.z=.55;
+ }
+ if(idx===1 || idx===4){
+  const apron=part(new THREE.BoxGeometry(.57,.79,.048),detail,0,.66,-.40);
+  apron.rotation.x=.09;
+  for(const side of [-1,1]){
+   const tie=part(new THREE.BoxGeometry(.052,.67,.055),detail,side*.34,1.27,-.28);
+   tie.rotation.z=side*.3;
+  }
+ }
+ if(idx===0 || idx===2 || idx===5){
+  const mug=part(new THREE.CylinderGeometry(.123,.11,.26,10),detail,.57,1.12,-.19);
+  const handle=part(new THREE.TorusGeometry(.092,.026,6,10),innButtonMat,.705,1.13,-.19);
+  handle.rotation.y=Math.PI/2;
  }
  return group;
 }
@@ -3057,4 +3138,66 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  outline:2px solid #fff0bc!important;outline-offset:3px;
 }
 </style>
+
+<style id="svalich177FeatureCss">
+#svalichBetaFeatures{display:flex;gap:7px;margin:8px 0;flex-wrap:wrap}
+#svalichBetaFeatures button{flex:1 1 125px;min-height:34px;font:bold 13px Georgia,serif!important;
+ padding:6px 10px!important;border:1px solid #d9ac68!important;border-radius:5px!important;
+ background:linear-gradient(155deg,#654928,#35251c)!important;color:#ffeac0!important;
+ box-shadow:inset 0 1px #e4c6924d,0 2px 8px #0008}
+#svalichBetaFeatures button:hover,#svalichBetaFeatures button:focus-visible{
+ background:linear-gradient(155deg,#88633c,#4d3425)!important;outline-offset:2px}
+#svalichBetaOverlay[hidden]{display:none!important}
+#svalichBetaOverlay{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;
+ background:rgba(4,5,8,.88);box-sizing:border-box;padding:15px}
+#svalichBetaModal{position:relative;max-height:86vh;overflow-y:auto;box-sizing:border-box;
+ width:min(550px,98vw);background:linear-gradient(150deg,#282229,#18191e);
+ color:#f2e0be;border:2px solid #c3995e;border-radius:11px;padding:28px;
+ box-shadow:0 18px 65px #000f;font:15px/1.65 Georgia,serif}
+#svalichBetaModal h2{color:#f0c786;font-size:25px;line-height:1.3;margin:0 35px 10px 0}
+#svalichBetaModal p{margin:0 0 14px}
+#svalichBetaNote{border-left:4px solid #e4ba73;background:#453120;padding:10px 12px;font-weight:bold}
+#svalichBetaModal .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
+#svalichBetaModal .actions a,#svalichBetaModal .actions button{
+ color:#fff0cc;background:#60452e;border:1px solid #d9b178;border-radius:4px;
+ padding:10px 12px;text-decoration:none;font:bold 14px Georgia,serif;margin:0}
+#svalichBetaModal .actions a:hover,#svalichBetaModal .actions button:hover{background:#80603e}
+#svalichBetaClose{position:absolute;top:12px;right:12px;color:#f4d6a7;
+ background:#4c3830;border:1px solid #c3995e;border-radius:4px;padding:5px 10px}
+@media(max-width:600px){#svalichBetaModal{padding:17px;max-height:91vh}}
+</style>
+<script id="svalich177FeatureJs">
+(()=>{
+ const hud=document.getElementById('hud');if(!hud)return;
+ const bar=document.createElement('div');bar.id='svalichBetaFeatures';
+ bar.setAttribute('role','group');bar.setAttribute('aria-label','Features in the downloadable local edition');
+ bar.innerHTML='<button type="button" data-feature="ai" aria-haspopup="dialog">✦ AI DM</button><button type="button" data-feature="multi" aria-haspopup="dialog">♟ Multiplayer</button>';
+ hud.querySelector('b')?.insertAdjacentElement('afterend',bar);
+ const overlay=document.createElement('div');overlay.id='svalichBetaOverlay';overlay.hidden=true;
+ overlay.innerHTML='<section id="svalichBetaModal" role="dialog" aria-modal="true" aria-labelledby="svalichBetaHeading" tabindex="-1"><button type="button" id="svalichBetaClose" aria-label="Close information">✕</button><h2 id="svalichBetaHeading"></h2><p id="svalichBetaNote">Not available in the browser-based public beta.</p><p id="svalichBetaDescription"></p><div class="actions"><a id="svalichBetaLink" target="_blank" rel="noopener noreferrer"></a><button type="button" id="svalichBetaBack">Back to the adventure</button></div></section>';
+ document.body.append(overlay);
+ const data={
+  ai:{name:'AI Dungeon Master',desc:'In the downloadable local edition, the AI Dungeon Master can converse with players and NPCs, use location context, and help manage battles. The regular DM toggle, Auto DM, Oracle, encounters, and scene descriptions remain available in this browser beta.',href:'https://rpgpov.com/#solo',label:'View AI DM information and gallery ↗'},
+  multi:{name:'Multiplayer',desc:'The downloadable local edition supports the multiplayer experience shown in the RPGPOV gallery. The browser-based public beta is for solo exploration; multiplayer requires a locally run setup.',href:'https://rpgpov.com/#multiplayer',label:'View multiplayer information and gallery ↗'}
+ };
+ let opener=null;
+ function close(){overlay.hidden=true;opener?.focus();opener=null;}
+ function show(key,button){const feature=data[key];if(!feature)return;opener=button;
+  document.exitPointerLock?.();
+  overlay.querySelector('#svalichBetaHeading').textContent=feature.name;
+  overlay.querySelector('#svalichBetaDescription').textContent=feature.desc;
+  const link=overlay.querySelector('#svalichBetaLink');link.href=feature.href;link.textContent=feature.label;
+  overlay.hidden=false;overlay.querySelector('#svalichBetaClose').focus();}
+ bar.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>show(button.dataset.feature,button)));
+ overlay.querySelector('#svalichBetaClose').addEventListener('click',close);
+ overlay.querySelector('#svalichBetaBack').addEventListener('click',close);
+ overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
+ document.addEventListener('keydown',event=>{
+  if(overlay.hidden)return;
+  if(event.key==='Escape'){event.preventDefault();close();}
+  else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','w','a','s','d'].includes(event.key))event.preventDefault();
+  event.stopImmediatePropagation();
+ },true);
+})();
+</script>
 </body></html>

@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.44 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.45 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.44</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.45</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -1386,6 +1386,118 @@ function animateCampfire(now){
  }
  firelight.intensity=2.6+.55*Math.sin(t*9.7)+.28*Math.sin(t*17.3);
 }
+
+// v3.45 — the ten Vistani of encounter G are represented by individual figures.
+// They are scenery only: their clothing does not change encounter rolls or travel.
+const vistaniCloth=['#71394d','#355c64','#875b3f','#704875','#4d624b','#9b6041','#4e4e73','#8c4149','#5c6351','#7a4862'];
+const vistaniSkin=['#b68161','#c3926e','#946447','#d0a17e','#af7754','#9d664d'];
+const vistaniHair=['#302522','#57402c','#211d20','#71503a','#382421','#4a3835'];
+const vistaniGold=new THREE.MeshStandardMaterial({color:'#cba56b',metalness:.44,roughness:.48});
+const vistaniDark=mat(0x2a2324),vistaniBoot=mat(0x372923);
+const vistaniEye=mat(0x271f1b),vistaniLip=mat(0x78483e);
+function vistaniCamper(dx,dz,index){
+ const seated=[0,3,6,9].includes(index);
+ const person=new THREE.Group();person.position.set(campX+dx,0,campZ+dz);
+ // Faces and hands point toward the shared fire; no character blocks the road.
+ person.rotation.y=Math.atan2(dx,dz);scene.add(person);
+ const cloth=mat(vistaniCloth[index%vistaniCloth.length]);
+ const waist=mat(vistaniCloth[(index+4)%vistaniCloth.length]);
+ const skin=mat(vistaniSkin[index%vistaniSkin.length]);
+ const hair=mat(vistaniHair[index%vistaniHair.length]);
+ const headY=seated?1.82:2.36,shoulderY=seated?1.16:1.62;
+ function put(geo,material,x,y,z){const piece=new THREE.Mesh(geo,material);
+  piece.position.set(x,y,z);person.add(piece);return piece;}
+ // A bench or a bundle of blankets makes seated silhouettes believable.
+ if(seated){
+  const seat=put(new THREE.BoxGeometry(1.22,.26,.53),mat(0x62462f),0,.45,.36);
+  seat.rotation.y=(index%2?-.18:.17);
+  for(const side of [-1,1])put(new THREE.BoxGeometry(.14,.37,.14),vistaniDark,side*.48,.22,.39);
+ }
+ const hemY=seated?.56:.59;
+ const skirt=put(new THREE.CylinderGeometry(.32,.52,seated?.82:1.03,13),cloth,0,hemY,0);
+ skirt.scale.z=.86;
+ const lowerHem=put(new THREE.TorusGeometry(.52,.036,7,18),vistaniGold,0,seated?.18:.095,0);
+ lowerHem.rotation.x=Math.PI/2;
+ const upper=put(new THREE.CylinderGeometry(.31,.38,.80,12),waist,0,shoulderY-.24,0);
+ upper.scale.z=.78;
+ const neck=put(new THREE.CylinderGeometry(.105,.125,.20,10),skin,0,headY-.37,0);
+ const scarf=put(new THREE.TorusGeometry(.30,.065,7,15),vistaniGold,0,shoulderY-.65,0);
+ scarf.rotation.x=Math.PI/2;
+ for(const side of [-1,1]){
+  // Two overlapping embroidered vest panels, with a vertical line of buttons.
+  const vest=put(new THREE.BoxGeometry(.18,.65,.065),cloth,side*.18,shoulderY-.22,-.32);
+  vest.rotation.z=side*.075;
+  for(let b=0;b<3;b++)put(new THREE.SphereGeometry(.023,7,5),vistaniGold,side*.065,shoulderY+.04-b*.19,-.37);
+  const shoulder=[side*.36,shoulderY+.06,-.015];
+  const wrist=[side*.57,shoulderY-.58,-.24+(index%3)*.065];
+  campBeam(person,shoulder,wrist,.125,cloth,9);
+  put(new THREE.SphereGeometry(.13,10,8),skin,...wrist);
+  const cuff=put(new THREE.TorusGeometry(.126,.028,6,12),vistaniGold,
+   wrist[0],wrist[1]+.11,wrist[2]);cuff.rotation.x=Math.PI/2;
+  if(!seated){
+   const leg=put(new THREE.CylinderGeometry(.155,.145,.57,9),waist,side*.20,.36,-.015);
+   leg.rotation.x=(index%2?-.07:.08);
+   put(new THREE.BoxGeometry(.33,.20,.51),vistaniBoot,side*.20,.12,-.14);
+  }else{
+   const bent=put(new THREE.CylinderGeometry(.16,.14,.47,9),waist,side*.20,.39,-.31);
+   bent.rotation.x=Math.PI*.35;
+   put(new THREE.BoxGeometry(.32,.18,.50),vistaniBoot,side*.20,.12,-.58);
+  }
+ }
+ const face=put(new THREE.SphereGeometry(.31,16,12),skin,0,headY,0);
+ face.scale.set(.91,1.10,.88);
+ for(const side of [-1,1]){
+  put(new THREE.SphereGeometry(.060,9,7),skin,side*.295,headY-.045,0);
+  const eye=put(new THREE.SphereGeometry(.029,9,7),vistaniEye,side*.118,headY+.025,-.276);
+  eye.scale.set(1,.74,.59);
+  const brow=put(new THREE.BoxGeometry(.13,.022,.015),hair,side*.118,headY+.136,-.273);
+  brow.rotation.z=side*(index%2?-.10:.08);
+  if(index%3===0){
+   const hoop=put(new THREE.TorusGeometry(.070,.018,6,11),vistaniGold,side*.31,headY-.19,.003);
+   hoop.rotation.y=Math.PI/2;
+  }
+ }
+ const nose=put(new THREE.SphereGeometry(.071,10,8),skin,0,headY-.065,-.302);
+ nose.scale.set(.77,1.24,.79);
+ const mouth=put(new THREE.BoxGeometry(.115,.019,.016),vistaniLip,0,headY-.225,-.28);
+ mouth.rotation.z=(index%2?.08:-.04);
+ // Distinctive hair, coiled scarves, embroidered hats and small brass jewelry.
+ const crown=put(new THREE.SphereGeometry(.323,16,10,0,Math.PI*2,0,Math.PI*.55),hair,0,headY+.14,0);
+ if(index%3===0){
+  const wrap=put(new THREE.SphereGeometry(.36,16,10),cloth,0,headY+.235,0);
+  wrap.scale.set(1.05,.40,.94);
+  const tail=put(new THREE.CylinderGeometry(.10,.17,.48,9),cloth,-.31,headY-.10,.13);
+  tail.rotation.z=-.24;
+ }else if(index%3===1){
+  put(new THREE.CylinderGeometry(.42,.42,.055,16),vistaniDark,0,headY+.34,0);
+  put(new THREE.CylinderGeometry(.25,.29,.29,13),hair,0,headY+.46,0);
+  const ribbon=put(new THREE.CylinderGeometry(.275,.278,.060,15),vistaniGold,0,headY+.37,0);
+ }else{
+  for(const side of [-1,1]){
+   const braid=put(new THREE.CylinderGeometry(.083,.052,.52,8),hair,side*.32,headY-.21,.02);
+   braid.rotation.z=-side*.12;
+   put(new THREE.SphereGeometry(.065,8,7),vistaniGold,side*.35,headY-.49,.02);
+  }
+ }
+ if(index%4===2){
+  const beard=put(new THREE.ConeGeometry(.20,.34,11),hair,0,headY-.34,-.10);
+  beard.rotation.x=Math.PI;
+ }
+ const brooch=put(new THREE.SphereGeometry(.085,10,8),vistaniGold,0,shoulderY+.13,-.37);
+ brooch.scale.set(.86,1.17,.48);
+ if(index%2===0){
+  const mug=put(new THREE.CylinderGeometry(.12,.11,.22,10),mat(0x9f784c),
+   .60,shoulderY-.48,-.26);
+  const handle=put(new THREE.TorusGeometry(.095,.025,6,11),vistaniGold,
+   .73,shoulderY-.47,-.26);
+  handle.rotation.y=Math.PI/2;
+ }
+ return person;
+}
+const tserCampGathering=[[-5.7,-2.7],[-6.3,1.2],[-4.7,5.6],[-.3,6.0],
+ [4.3,5.3],[6.1,2.2],[6.4,-2.6],[3.7,-5.4],[-.9,-5.8],[-7.6,-4.8]];
+tserCampGathering.forEach(([dx,dz],index)=>vistaniCamper(dx,dz,index));
+
 // I — Black Carriage. The approach is deliberately free of extra signposts.
 // The horses, wheels, cabin, and lanterns are independent scenery, not a route obstruction.
 const carriageZ=-347,carriageX=pathX(carriageZ)+8;
@@ -1728,7 +1840,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.44';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.45';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -3598,4 +3710,65 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  outline:2px solid #fff0bc!important;outline-offset:3px;
 }
 </style>
+
+<style id="dndpovTserPublicFeatureStyles">
+#dndpovBetaFeatureBar{display:flex;gap:7px;margin:8px 0 9px;flex-wrap:wrap}
+#dndpovBetaFeatureBar button{display:inline-flex;align-items:center;justify-content:center;
+ gap:5px;flex:1 1 112px;min-height:33px;margin:0;padding:6px 8px;
+ border:1px solid #ddb46e;border-radius:5px;background:linear-gradient(155deg,#634725,#39291e);
+ color:#ffe8ba;font:bold 13px Georgia,serif;box-shadow:inset 0 1px #edcd9140,0 2px 7px #0009}
+#dndpovBetaFeatureBar button:hover,#dndpovBetaFeatureBar button:focus-visible{
+ background:linear-gradient(155deg,#846039,#4c3527);border-color:#ffe1a2;outline-offset:2px}
+#dndpovBetaFeatureOverlay[hidden]{display:none!important}
+#dndpovBetaFeatureOverlay{position:fixed;inset:0;z-index:210;display:flex;align-items:center;
+ justify-content:center;background:#060709dc;padding:17px;box-sizing:border-box}
+#dndpovBetaFeatureDialog{position:relative;box-sizing:border-box;width:min(540px,100%);
+ max-height:min(84vh,720px);overflow-y:auto;border:2px solid #bf935a;border-radius:10px;
+ background:linear-gradient(165deg,#28222b,#17191d 68%);box-shadow:0 24px 68px #000e;
+ padding:27px 28px;color:#ead8b5;font:15px/1.6 Georgia,serif}
+#dndpovBetaFeatureDialog h2{margin:0 25px 12px 0;color:#f2c887;font-size:25px;line-height:1.25}
+#dndpovBetaFeatureDialog p{margin:0 0 14px}
+#dndpovBetaFeatureDialog .notice{padding:11px 13px;margin:13px 0;background:#44311f;
+ border-left:4px solid #e8b66a;color:#f9e3bd;font-weight:bold}
+#dndpovBetaFeatureDialog .buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+#dndpovBetaFeatureDialog .buttons a,#dndpovBetaFeatureDialog .buttons button{
+ border:1px solid #dfbd81;border-radius:4px;background:#604329;color:#ffebc8;padding:10px 13px;
+ font:bold 14px Georgia,serif;text-decoration:none;margin:0}
+#dndpovBetaFeatureDialog .buttons a:hover,#dndpovBetaFeatureDialog .buttons button:hover{
+ background:#76543a;color:#fff3d7}
+#dndpovBetaFeatureClose{position:absolute;right:12px;top:11px;background:#4a362e;
+ border:1px solid #a98358;border-radius:4px;color:#f4deb7;padding:4px 9px;margin:0}
+@media(max-height:680px){#dndpovBetaFeatureDialog{padding:20px;max-height:90vh}}
+</style>
+<script id="dndpovTserPublicFeatureScript">
+(()=>{
+ const hud=document.getElementById('hud');if(!hud)return;
+ const bar=document.createElement('div');bar.id='dndpovBetaFeatureBar';
+ bar.setAttribute('role','group');bar.setAttribute('aria-label','Downloadable edition features');
+ bar.innerHTML='<button type="button" data-feature="ai" aria-haspopup="dialog">✦ AI DM</button><button type="button" data-feature="multiplayer" aria-haspopup="dialog">♟ Multiplayer</button>';
+ hud.querySelector('h2')?.insertAdjacentElement('afterend',bar);
+ const layer=document.createElement('div');layer.id='dndpovBetaFeatureOverlay';layer.hidden=true;
+ layer.innerHTML='<section id="dndpovBetaFeatureDialog" role="dialog" aria-modal="true" aria-labelledby="dndpovBetaFeatureHeading" tabindex="-1"><button id="dndpovBetaFeatureClose" type="button" aria-label="Close feature information">✕</button><h2 id="dndpovBetaFeatureHeading"></h2><p class="notice" id="dndpovBetaFeatureNotice"></p><p id="dndpovBetaFeatureDescription"></p><div class="buttons"><a id="dndpovBetaFeatureLink" target="_blank" rel="noopener noreferrer"></a><button type="button" id="dndpovBetaFeatureDone">Back to Tser Pool</button></div></section>';
+ document.body.append(layer);
+ let opener=null;
+ const heading=layer.querySelector('#dndpovBetaFeatureHeading');
+ const notice=layer.querySelector('#dndpovBetaFeatureNotice');
+ const description=layer.querySelector('#dndpovBetaFeatureDescription');
+ const link=layer.querySelector('#dndpovBetaFeatureLink');
+ const close=()=>{layer.hidden=true;opener?.focus();opener=null;};
+ const features={
+  ai:{title:'AI Dungeon Master',description:'The downloadable local edition supports an AI Dungeon Master for location-aware conversations, NPC roleplay, and battle assistance. Your on-screen descriptions, regular DM tools, Auto DM, Oracle, and encounter tracking continue to work in this public beta.',url:'https://rpgpov.com/#solo',label:'See AI DM features and gallery ↗'},
+  multiplayer:{title:'Multiplayer Exploration',description:'Visit the multiplayer gallery to see the shared-adventure experience and information about the local edition. Browser-based public beta sessions are single-player; multiplayer needs the locally run setup.',url:'https://rpgpov.com/#multiplayer',label:'See multiplayer information and gallery ↗'}
+ };
+ function open(key,button){const f=features[key];if(!f)return;opener=button;
+  heading.textContent=f.title;notice.textContent='Not available in the browser-based public beta.';
+  description.textContent=f.description;link.href=f.url;link.textContent=f.label;
+  layer.hidden=false;layer.querySelector('#dndpovBetaFeatureClose').focus();}
+ bar.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>open(button.dataset.feature,button)));
+ layer.querySelector('#dndpovBetaFeatureClose').addEventListener('click',close);
+ layer.querySelector('#dndpovBetaFeatureDone').addEventListener('click',close);
+ layer.addEventListener('click',e=>{if(e.target===layer)close();});
+ document.addEventListener('keydown',e=>{if(!layer.hidden&&e.key==='Escape'){e.stopPropagation();close();}});
+})();
+</script>
 </body></html>

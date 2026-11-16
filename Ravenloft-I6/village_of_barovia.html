@@ -333,7 +333,7 @@ const lanternGlowTexture=new THREE.CanvasTexture(glowCanvas);
 // The cobblestone shader is unlit, so its brightness follows the clock explicitly.
 const roadLighting={value:1};
 document.title=document.title.replace('v5.2','v5.38');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.71';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.72';
 document.querySelector('#mapbox small').textContent='North ↑ · Gold arrow = player · cream = roads · terracotta = homes';
 document.querySelector('#locationPanelFooter span').textContent='R / F: read · Esc: close';
 // Manual R/F reading is always available; auto descriptions remain optional.
@@ -3094,6 +3094,98 @@ function barovianActor(room,{role='villager',x=0,z=0,angle=0,seated=false,
  const actor={root,body,headPivot,hands,phase,role,room};
  interiorActors.push(actor);return actor;
 }
+
+// v5.72 — additional hand-made detail for the nine Blood of the Vine patrons.
+// Preserve the shared Barovian character rig, idles, positions and room triggers.
+const pubAccessoryMetals=[0xbe9b62,0xc4a970,0xa69b8c];
+function detailBloodVinePatron(actor,index){
+ const {body,headPivot,role,hands}=actor;
+ const leather=wovenMaterial([0x483329,0x44352d,0x55453a][index%3]);
+ const trim=wovenMaterial([0xb59a72,0x9b8069,0xa7a19a][index%3]);
+ const wool=wovenMaterial([0x534d5a,0x665044,0x4c5b58,0x705643][index%4]);
+ const brass=new THREE.MeshStandardMaterial({color:pubAccessoryMetals[index%3],metalness:.46,roughness:.43});
+ function piece(parent,geometry,material,x,y,z){
+  const m=new THREE.Mesh(geometry,material);m.position.set(x,y,z);parent.add(m);return m;
+ }
+ // Naturalistic brows and a soft mouth line are visible from the front.
+ for(const side of [-1,1]){
+  const brow=piece(headPivot,new THREE.CapsuleGeometry(.016,.092,3,7),
+   role==='orc'?leather:trim,side*.10,.14,.221);
+  brow.rotation.z=Math.PI/2+side*(index%2?.13:-.08);
+  const ear=piece(headPivot,new THREE.SphereGeometry(.058,11,9),
+   wovenMaterial(role==='orc'?0x71836a:0xb3a18e),side*.245,-.055,-.016);
+  ear.scale.set(.56,1.13,.67);
+  if(role==='woman'){
+   const earring=piece(headPivot,new THREE.TorusGeometry(.065,.018,8,12),brass,
+    side*.246,-.14,.015);
+   earring.rotation.y=Math.PI/2;
+  }
+ }
+ const mouth=piece(headPivot,new THREE.TorusGeometry(.077,.012,5,12,Math.PI),
+  role==='orc'?leather:wool,0,-.175,.228);
+ mouth.rotation.z=Math.PI;
+ // Two contrasting lapels, a soft high collar, and a line of brass buttons.
+ const jacketLeft=piece(body,new THREE.BoxGeometry(.15,.52,.052),wool,-.19,1.28,.279);
+ const jacketRight=piece(body,new THREE.BoxGeometry(.15,.52,.052),wool,.19,1.28,.279);
+ jacketLeft.rotation.z=.13;jacketRight.rotation.z=-.13;
+ for(let j=0;j<3;j++){
+  const stud=piece(body,new THREE.SphereGeometry(.025,8,7),brass,.025,1.47-j*.17,.321);
+  stud.scale.z=.48;
+ }
+ for(const side of [-1,1]){
+  // Stitched coat-seam strips remain flush with the soft-shaped body mesh.
+  organicLimb(body,[side*.31,1.36,.16],[side*.31,.94,.205],.024,.020,trim);
+  const cuff=piece(body,new THREE.TorusGeometry(.104,.020,6,13),trim,
+   hands[side===-1?0:1].position.x,hands[side===-1?0:1].position.y+.13,
+   hands[side===-1?0:1].position.z);
+  cuff.rotation.x=Math.PI/2;
+ }
+ const clasp=piece(body,new THREE.SphereGeometry(.077,10,8),brass,0,1.55,.24);
+ clasp.scale.set(1.05,.91,.51);
+ // Distinct accessories: merchant purse, wizard's symbols, veteran's buckles.
+ if(role==='wizard'){
+  const brooch=piece(headPivot,new THREE.TorusGeometry(.26,.028,6,18),trim,0,.31,0);
+  brooch.rotation.x=Math.PI/2;
+  for(let s=0;s<5;s++){
+   const a=s*Math.PI*2/5;
+   piece(headPivot,new THREE.SphereGeometry(.038,8,7),brass,
+    Math.sin(a)*.28,.32,Math.cos(a)*.28);
+  }
+  const pouch=piece(body,new THREE.BoxGeometry(.24,.32,.12),leather,-.35,.78,.13);
+  pouch.rotation.z=-.19;
+ }else if(role==='warrior'||role==='orc'){
+  for(const side of [-1,1]){
+   const strap=piece(body,new THREE.BoxGeometry(.075,.35,.05),leather,side*.28,1.10,.275);
+   strap.rotation.z=side*.26;
+   piece(body,new THREE.SphereGeometry(.047,8,6),brass,side*.3,1.22,.31);
+  }
+  const brooch=piece(body,new THREE.TorusGeometry(.075,.023,7,13),brass,.23,1.58,.24);
+ }else if(role==='elder'){
+  for(const side of [-1,1])for(let i=0;i<2;i++){
+   const crease=piece(headPivot,new THREE.BoxGeometry(.09,.013,.012),trim,
+    side*.14,-.03-i*.045,.218);
+   crease.rotation.z=side*.17;
+  }
+  const shawlPin=piece(body,new THREE.SphereGeometry(.09,10,8),brass,-.24,1.48,.25);
+ }else if(role==='woman'){
+  const neckScarf=piece(body,new THREE.TorusGeometry(.27,.048,7,22),wool,0,1.61,0);
+  neckScarf.rotation.x=Math.PI/2;
+  const pin=piece(body,new THREE.SphereGeometry(.071,10,8),brass,-.22,1.47,.30);
+  pin.scale.z=.52;
+ }else{
+  const purse=piece(body,new THREE.SphereGeometry(.18,12,9),leather,-.37,.77,.075);
+  purse.scale.set(.81,1.16,.54);
+  const fastening=piece(body,new THREE.BoxGeometry(.12,.055,.027),brass,-.37,.86,.19);
+ }
+ if(index%2===0){
+  const hand=hands[1].position;
+  const mug=piece(body,new THREE.CylinderGeometry(.116,.099,.24,11),
+   wovenMaterial(0x8a7868),hand.x+.045,hand.y+.15,hand.z+.08);
+  piece(body,new THREE.TorusGeometry(.089,.026,6,12),brass,
+   hand.x+.18,hand.y+.15,hand.z+.08).rotation.y=Math.PI/2;
+ }
+}
+
 function makeInteriorShadowBat(room){
  const bat=new THREE.Group(),wings=[];
  const batDark=new THREE.MeshBasicMaterial({color:0x090b10,side:THREE.DoubleSide});
@@ -3542,7 +3634,10 @@ function makeInteriorRoom(id){
    {role:'villager',x:3.24,z:-1.57,angle:Math.PI/2,
     robe:0x4e4a35,accent:0x6a5543}
   ];
-  pubPatrons.forEach((patron,i)=>barovianActor(group,{...patron,phase:i+1}));
+  pubPatrons.forEach((patron,i)=>{
+   const actor=barovianActor(group,{...patron,phase:i+1});
+   detailBloodVinePatron(actor,i);
+  });
   // Small drinking details make the seats feel occupied, not staged.
   const pewter=wovenMaterial(0x8b8173);
   for(const [x,z] of [[-3.9,1.25],[-2.95,-4.36],[1.65,-4.77]]){
@@ -4311,8 +4406,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title='DNDPOV — Village of Barovia PUBLIC v5.71 · Beta';
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.71';
+document.title='DNDPOV — Village of Barovia PUBLIC v5.72 · Beta';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.72';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
@@ -5241,4 +5336,65 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  outline:2px solid #fff0bc!important;outline-offset:3px;
 }
 </style>
+<style id="barovia572FeatureCss">
+#baroviaBetaFeatures{display:flex;gap:7px;margin:8px 0;flex-wrap:wrap}
+#baroviaBetaFeatures button{flex:1 1 125px;min-height:34px;font:bold 13px Georgia,serif!important;
+ padding:6px 10px!important;border:1px solid #d9ac68!important;border-radius:5px!important;
+ background:linear-gradient(155deg,#654928,#35251c)!important;color:#ffeac0!important;
+ box-shadow:inset 0 1px #e4c6924d,0 2px 8px #0008}
+#baroviaBetaFeatures button:hover,#baroviaBetaFeatures button:focus-visible{
+ background:linear-gradient(155deg,#88633c,#4d3425)!important;outline-offset:2px}
+#baroviaBetaOverlay[hidden]{display:none!important}
+#baroviaBetaOverlay{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;
+ background:rgba(4,5,8,.88);box-sizing:border-box;padding:15px}
+#baroviaBetaModal{position:relative;max-height:86vh;overflow-y:auto;box-sizing:border-box;
+ width:min(550px,98vw);background:linear-gradient(150deg,#282229,#18191e);
+ color:#f2e0be;border:2px solid #c3995e;border-radius:11px;padding:28px;
+ box-shadow:0 18px 65px #000f;font:15px/1.65 Georgia,serif}
+#baroviaBetaModal h2{color:#f0c786;font-size:25px;line-height:1.3;margin:0 35px 10px 0}
+#baroviaBetaModal p{margin:0 0 14px}
+#baroviaBetaNote{border-left:4px solid #e4ba73;background:#453120;padding:10px 12px;font-weight:bold}
+#baroviaBetaModal .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
+#baroviaBetaModal .actions a,#baroviaBetaModal .actions button{
+ color:#fff0cc;background:#60452e;border:1px solid #d9b178;border-radius:4px;
+ padding:10px 12px;text-decoration:none;font:bold 14px Georgia,serif;margin:0}
+#baroviaBetaModal .actions a:hover,#baroviaBetaModal .actions button:hover{background:#80603e}
+#baroviaBetaClose{position:absolute;top:12px;right:12px;color:#f4d6a7;
+ background:#4c3830;border:1px solid #c3995e;border-radius:4px;padding:5px 10px}
+@media(max-width:600px){#baroviaBetaModal{padding:17px;max-height:91vh}}
+</style>
+<script id="barovia572FeatureJs">
+(()=>{
+ const hud=document.getElementById('hud');if(!hud)return;
+ const bar=document.createElement('div');bar.id='baroviaBetaFeatures';
+ bar.setAttribute('role','group');bar.setAttribute('aria-label','Features in the downloadable local edition');
+ bar.innerHTML='<button type="button" data-feature="ai" aria-haspopup="dialog">✦ AI DM</button><button type="button" data-feature="multi" aria-haspopup="dialog">♟ Multiplayer</button>';
+ hud.querySelector('b')?.insertAdjacentElement('afterend',bar);
+ const overlay=document.createElement('div');overlay.id='baroviaBetaOverlay';overlay.hidden=true;
+ overlay.innerHTML='<section id="baroviaBetaModal" role="dialog" aria-modal="true" aria-labelledby="baroviaBetaHeading" tabindex="-1"><button type="button" id="baroviaBetaClose" aria-label="Close information">✕</button><h2 id="baroviaBetaHeading"></h2><p id="baroviaBetaNote">Not available in the browser-based public beta.</p><p id="baroviaBetaDescription"></p><div class="actions"><a id="baroviaBetaLink" target="_blank" rel="noopener noreferrer"></a><button type="button" id="baroviaBetaBack">Back to Barovia</button></div></section>';
+ document.body.append(overlay);
+ const data={
+  ai:{name:'AI Dungeon Master',desc:'In the downloadable local edition, the AI Dungeon Master can converse with players and NPCs, use location context, and help manage battles. The regular DM toggle, Auto DM, Oracle, encounters, and scene descriptions remain available in this browser beta.',href:'https://rpgpov.com/#solo',label:'View AI DM information and gallery ↗'},
+  multi:{name:'Multiplayer',desc:'The downloadable local edition supports the multiplayer experience shown in the RPGPOV gallery. The browser-based public beta is for solo exploration; multiplayer requires a locally run setup.',href:'https://rpgpov.com/#multiplayer',label:'View multiplayer information and gallery ↗'}
+ };
+ let opener=null;
+ function close(){overlay.hidden=true;opener?.focus();opener=null;}
+ function show(key,button){const feature=data[key];if(!feature)return;opener=button;
+  document.exitPointerLock?.();
+  overlay.querySelector('#baroviaBetaHeading').textContent=feature.name;
+  overlay.querySelector('#baroviaBetaDescription').textContent=feature.desc;
+  const link=overlay.querySelector('#baroviaBetaLink');link.href=feature.href;link.textContent=feature.label;
+  overlay.hidden=false;overlay.querySelector('#baroviaBetaClose').focus();}
+ bar.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>show(button.dataset.feature,button)));
+ overlay.querySelector('#baroviaBetaClose').addEventListener('click',close);
+ overlay.querySelector('#baroviaBetaBack').addEventListener('click',close);
+ overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
+ document.addEventListener('keydown',event=>{
+  if(overlay.hidden)return;
+  if(event.key==='Escape'){event.preventDefault();close();}
+  else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','w','a','s','d'].includes(event.key))event.preventDefault();
+  event.stopImmediatePropagation();
+ },true);
+})();
+</script>
 </body></html>

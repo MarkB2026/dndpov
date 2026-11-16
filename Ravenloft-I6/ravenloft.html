@@ -35,7 +35,17 @@
 #encounterShock button,#encounterShock.monsterEncounterNotice button{display:block!important;width:100%!important;font:bold 13px Georgia,serif!important;background:#94602d!important;color:#fff7e8!important;border:1px solid #f8cb80!important;border-radius:4px!important;padding:10px 12px!important;cursor:pointer!important}
 #encounterShock button:hover{background:#b87a39!important}
 @media(max-width:850px){#encounterShock,#encounterShock.monsterEncounterNotice{right:12px!important;top:76px!important;width:min(310px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important}}
-</style><style id="encounterStyles">#dmEncounterPanel{display:none;position:fixed;left:18px;top:95px;width:min(510px,calc(100vw - 36px));max-height:78vh;overflow:auto;background:#161416f5;color:#eee0c7;border:1px solid #9d8156;border-radius:10px;z-index:45;padding:16px;box-shadow:0 15px 40px #000b;font:14px Georgia,serif}#dmEncounterPanel h2{margin:0 0 10px;color:#ebcb93}#dmEncounterPanel button,#dmEncounterPanel select{background:#302922;color:#f1ddbd;border:1px solid #8b714b;padding:6px 9px;border-radius:5px;cursor:pointer}#dmEncounterPanel .encCard{border-top:1px solid #6d5843;padding:11px 0}#dmEncounterPanel .encCard strong{color:#f2c784}#dmEncounterPanel small{color:#bcae99}#dmEncounterPanel .encCard p{line-height:1.35;margin:5px 0;font-size:11px}#dmEncounterPanel .encCard{padding:8px 0}#dmEncounterPanel .encCard button{font-size:11px;padding:4px 7px;margin:4px 5px 0 0}#dmEncounterPanel{font-size:12px!important}#encounterToast{display:none;position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#211b19ee;border:1px solid #d2a35c;border-radius:9px;padding:12px 18px;color:#f7e0b7;z-index:44;max-width:75vw;text-align:center}#mapVisitedToggle{font-size:12px!important;padding:4px 7px!important}</style><div id="dmEncounterPanel"><div id="dmEncounterDrag" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2>DM · Ground Floor Encounters</h2><button id="dmClose" type="button" aria-label="Close encounters">✕</button></div><p style="font-size:12px;color:#bcae99">I6 module rules, paraphrased · Main floor K7–K24 plus courtyard K1 · Triggers are evaluated when you enter the modeled location. DM decisions and action-dependent events remain manual.</p><div style="display:flex;gap:7px;flex-wrap:wrap"><button id="dmAutoToggle">Auto DM: ON</button><button id="dmResetState">Reset encounter history</button><button id="dmRandomRoll">Roll castle random encounter</button></div><div id="dmEncounterList"></div></div><div id="encounterToast"></div><style id="autoDmStyle">#notes{max-height:calc(100vh - 220px)!important;overflow-y:auto!important}#autoDmInline{border-top:1px solid #927b58;margin-top:13px;padding-top:10px;color:#ead7b7}#autoDmInline h3{margin:3px 0 8px;color:#f0c982;font-size:15px}#autoDmInline .dmResult{border:1px solid #b58c53;background:#362518;padding:9px;margin:8px 0;color:#ffe2a2;font-weight:bold}#autoDmInline .dmMuted{color:#b7a994;font-size:12px}#autoDmInline button{background:#33291f;color:#f1d6a5;border:1px solid #927b58;border-radius:4px;padding:5px 8px;cursor:pointer;margin:4px 4px 4px 0}#autoDmInline button:hover{background:#55412a}</style><style id="dmUX21">
+</style><style id="encounterStyles">#dmEncounterPanel{display:none;position:fixed;left:18px;top:95px;width:min(510px,calc(100vw - 36px));max-height:78vh;overflow:auto;background:#161416f5;color:#eee0c7;border:1px solid #9d8156;border-radius:10px;z-index:45;padding:16px;box-shadow:0 15px 40px #000b;font:14px Georgia,serif}#dmEncounterPanel h2{margin:0 0 10px;color:#ebcb93}#dmEncounterPanel button,#dmEncounterPanel select{background:#302922;color:#f1ddbd;border:1px solid #8b714b;padding:6px 9px;border-radius:5px;cursor:pointer}#dmEncounterPanel .encCard{border-top:1px solid #6d5843;padding:11px 0}#dmEncounterPanel .encCard strong{color:#f2c784}#dmEncounterPanel small{color:#bcae99}#dmEncounterPanel .encCard p{line-height:1.35;margin:5px 0;font-size:11px}#dmEncounterPanel .encCard{padding:8px 0}#dmEncounterPanel .encCard button{font-size:11px;padding:4px 7px;margin:4px 5px 0 0}#dmEncounterPanel{font-size:12px!important}#encounterToast{display:none;position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#211b19ee;border:1px solid #d2a35c;border-radius:9px;padding:12px 18px;color:#f7e0b7;z-index:44;max-width:75vw;text-align:center}#mapVisitedToggle{font-size:12px!important;padding:4px 7px!important}</style><div id="dmEncounterPanel" role="dialog" aria-label="Castle Ravenloft DM encounters">
+  <div id="dmEncounterDrag"><div><div class="dmEncEyebrow">I6 · CASTLE RAVENLOFT</div><h2>DM · Encounters</h2><div class="dmEncHeaderSub">Module-based room triggers and castle random checks</div></div><button id="dmClose" type="button" aria-label="Close encounters">✕</button></div>
+  <div class="dmEncMain">
+    <div class="dmEncStatus" aria-live="polite"><div><strong id="dmTurnCount">0</strong><span>TURN · 10 MIN</span></div><div><strong id="dmNextCheck">3</strong><span>TURNS TO CHECK</span></div><div><strong id="dmCheckCount">0</strong><span>CHECKS MADE</span></div></div>
+    <div id="dmEncounterModeNote" class="dmEncModeNote">Auto DM rolls on every third exploration turn. Condition-dependent room events still require DM confirmation.</div>
+    <div class="dmEncActions"><button id="dmAutoToggle" type="button" aria-pressed="true">Auto DM: ON</button><button id="dmAdvanceTurn" type="button">+ 10 min</button><button id="dmRandomRoll" type="button">Roll random check</button><button id="dmForceRandom" type="button" title="For demonstration: bypass the encounter probability roll">Force encounter · Test</button><button id="dmOpenOracle" type="button">✦ Oracle</button><button id="dmResetState" type="button" title="Reset location encounter state, not Oracle records">Reset events</button></div>
+    <div class="dmEncToolbar"><label for="dmEncounterSearch">ROOM ENCOUNTERS</label><input id="dmEncounterSearch" type="search" placeholder="Search K-number, room or creature" aria-label="Search castle encounters"><select id="dmEncounterFilter" aria-label="Filter room encounters"><option value="events">Encounter rooms</option><option value="all">All rooms</option></select><span id="dmEncounterCount"></span></div>
+    <div id="dmEncounterList"></div>
+    <p class="dmEncFootnote">Random encounters: 1d6 check every 3 exploration turns (30 minutes); encounter on 1–2, or 1–4 if angry villagers are following. The Oracle records rolls and results. Manual test triggers are not automatic module events.</p>
+  </div>
+</div><div id="encounterToast"></div><style id="autoDmStyle">#notes{max-height:calc(100vh - 220px)!important;overflow-y:auto!important}#autoDmInline{border-top:1px solid #927b58;margin-top:13px;padding-top:10px;color:#ead7b7}#autoDmInline h3{margin:3px 0 8px;color:#f0c982;font-size:15px}#autoDmInline .dmResult{border:1px solid #b58c53;background:#362518;padding:9px;margin:8px 0;color:#ffe2a2;font-weight:bold}#autoDmInline .dmMuted{color:#b7a994;font-size:12px}#autoDmInline button{background:#33291f;color:#f1d6a5;border:1px solid #927b58;border-radius:4px;padding:5px 8px;cursor:pointer;margin:4px 4px 4px 0}#autoDmInline button:hover{background:#55412a}</style><style id="dmUX21">
 #notes{width:clamp(315px,25vw,430px)!important;max-width:none!important;top:130px!important;bottom:100px!important;max-height:none!important;padding:14px 16px!important;overflow-y:auto!important;z-index:5}
 #notes #noteText{line-height:1.48;display:block;border-left:4px solid #c49b5d;background:#201c19;padding:12px 13px;margin:10px 0 14px;font-style:italic;white-space:pre-line}#notes #noteTitle{display:block;color:#e8c88c;font-size:16px}#notes .readAloudLabel{font-size:11px;color:#d7ad69;text-transform:uppercase;letter-spacing:1px;margin-top:10px}#notes{width:370px!important;max-width:min(370px,calc(100vw - 30px))!important;top:155px!important;bottom:100px!important;max-height:none!important;overflow:auto!important}#notes .dm-only{display:none}body.dm-visible #notes .dm-only{display:block}#autoDmInline{display:none}body.dm-visible #autoDmInline{display:block}body:not(.dm-visible) #dmEncounterPanel{display:none!important}#dmEncounterPanel{left:auto!important;right:170px!important;top:100px!important;max-height:65vh!important}#autoDmInline{border-top:1px solid #8e7148;margin-top:18px;padding-top:12px;clear:both}#autoDmInline details{margin:12px 0;font-size:12px;color:#c6b398}#autoDmInline summary{cursor:pointer;color:#e8c78a}#autoDmInline h3{color:#e6bf77;margin:0 0 9px}#autoDmInline button{margin:8px 6px 0 0}
 #mapbox{right:160px!important;width:clamp(300px,30vw,490px);height:clamp(280px,43vh,440px);min-width:250px!important;min-height:210px!important;resize:both!important;overflow:hidden!important}
@@ -152,8 +162,8 @@
 <g class="outerFlame"><path d="M110 196 C74 160 74 135 87 107 C82 135 102 143 94 111 C84 79 111 63 115 18 C135 55 135 77 129 98 C150 77 148 54 151 43 C169 88 160 120 147 141 C169 123 172 112 174 99 C185 144 158 179 132 199 Z" fill="#7b260e" stroke="#311408" stroke-width="4"/><path d="M108 189 C86 162 89 143 100 124 C98 145 111 150 109 126 C108 99 124 86 124 55 C139 90 128 113 133 129 C150 111 154 98 155 86 C169 139 145 176 131 190 Z" fill="url(#fire)"/></g>
 <g class="innerFlame"><path d="M112 190 C101 170 107 150 115 139 C115 155 121 154 119 133 C117 113 134 103 132 88 C153 131 139 158 134 168 C144 160 149 150 150 142 C156 167 142 183 130 194 Z" fill="url(#hot)"/><path d="M120 188 C117 169 126 156 128 144 C138 164 132 176 130 188 Z" fill="#fff5c0"/></g>
 <g class="embers" fill="#ffb34c"><circle cx="83" cy="119" r="2.3"/><circle cx="165" cy="103" r="2.4"/><circle cx="100" cy="70" r="1.8"/><circle cx="154" cy="62" r="1.5"/></g>
-</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.33 · Public Beta · Floors 02 & 03</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
-<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Public beta · Floors 02 & 03</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.31 — Public Beta · Floors 02 & 03</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
+</svg></div><div id="hud"><h2>CASTLE RAVENLOFT</h2><div>Ground floor · Illustrated Exploration · v0.10.34 · Public Beta · Floors 02 & 03</div><div id="place">Entrance</div></div><div id="mapbox"><div id="maplabel">Ground floor</div><canvas id="map" width="450" height="350"></canvas><div id="maptools"><button id="mapVisitedToggle" title="Show or hide areas explored">Visited: ON</button><button id="zoomout">−</button><span id="zoomlabel">2.0×</span><button id="zoomin">+</button><button id="mapModeToggle" title="Switch between centered GPS follow and full-floor map">Full Map</button></div></div><button type="button" id="roomDirectoryButton">K-Room Index</button><div id="roomDirectory"><h3 id="roomDirectoryTitle">Map rooms</h3><p>Select this floor or the complete K-room directory. Rooms without indexed text are clearly marked. Upper-floor geometry remains schematic.</p><div id="roomDirectoryControls"><button type="button" id="roomIndexFloor" class="selected">This floor</button><button type="button" id="roomIndexAll">All castle rooms</button><input id="roomIndexSearch" type="search" placeholder="Search K-number or room name" aria-label="Search rooms"></div><div id="roomDirectoryItems"></div></div>
+<div id="i6RoomReference" role="dialog" aria-modal="true"><div id="i6ReferenceCard"><button class="close" id="i6ReferenceClose">Close ×</button><h2 id="i6ReferenceTitle"></h2><div id="i6ReferenceContent"></div></div></div><div id="floorRibbon"><strong>GO TO FLOOR</strong><button id="floorCollapse" title="Collapse or expand floor selector">◀ Floors</button><div class="hint">Public beta · Floors 02 & 03</div></div><button id="ambientControl" aria-pressed="true" title="Toggle ambient dungeon sounds">🔊 Dungeon sounds: ON</button><div id="help"><span class="move-guide"><span class="move-keys"><span class="move-key move-up">↑</span><span class="move-key">←</span><span class="move-key">↓</span><span class="move-key">→</span></span><span class="move-guide-text"><b>↑ ↓</b> Walk &nbsp; <b>← →</b> Turn &nbsp; <b>Shift</b> Run</span></span><span class="help-secondary">Mouse look optional · Drag map title to move<br>F Torch · M Map · Tab Notes · G DM<br>Enter Dismiss · Esc Release mouse</span></div><div id="controls"><button id="mouseLook">Mouse Look: OFF</button><button id="lantern">Torch: ON</button><button id="textToggle" title="Enable or disable room descriptions and DM notes">Room Notes: ON</button><button id="roomImagesToggle" title="Automatically show artwork on first entry">Room Images: ON</button><button id="dmBtn">DM: OFF</button><button id="moduleContentsBtn" type="button" title="Open the complete I6 module room list">Module Contents</button><button id="reset" title="Restart this floor and clear its explored map and visited rooms">Restart Floor</button><button id="mapBtn" title="Hide K# identifiers while keeping the navigation map visible">Hide Key Locations</button><button id="hardcoreBtn" title="Hide the entire navigation map">Hide Map</button></div><div id="notes"><b id="noteTitle"></b><div class="readAloudLabel">MODULE · READ ALOUD</div><p id="noteText"></p><small id="provisionalNote" class="dm-only">Provisional room entrances are open from all sides; exterior walls remain solid.</small></div><style id="roomArtStyle">#roomArtOverlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#roomArtCard{position:relative;width:min(780px,95vw);max-height:92vh;background:#19150f;border:2px solid #b79760;box-shadow:0 12px 60px #000;border-radius:12px;padding:13px;text-align:center;color:#e9d5ae}#roomArtCard img{width:100%;max-height:72vh;object-fit:contain;display:block;border-radius:5px}#roomArtCard h2{font-size:18px;margin:4px 0 10px}#roomArtClose{margin-top:10px;background:#59432b;color:#f4e5c6;border:1px solid #c7a879;border-radius:6px;padding:9px 22px;cursor:pointer}#roomArtClose:hover{background:#85663c}#roomArtReopen{font-size:12px;padding:4px 8px}</style><div id="roomArtOverlay"><div id="roomArtCard"><h2 id="roomArtHeading"></h2><img id="roomArtImg" alt="Castle Ravenloft room illustration"><button id="roomArtClose">Continue Exploring (Enter)</button></div></div><div id="popup"><small id="popupK"></small><h2 id="popupTitle"></h2><img id="popupImage" alt="Illustration of this room"/><div id="imageError" style="display:none;color:#f0b8a3">Illustration could not be displayed in this browser.</div><p id="popupText"></p><div class="foot"><span>Illustrative reconstruction · room locations provisional</span><button id="dismiss">Continue (Enter)</button></div></div><div id="start"><h2>Castle Ravenloft v0.10.34 — Public Beta · Floors 02 & 03</h2><p>Explore the castle with atmospheric Gothic architecture and illustrated, module-inspired room discoveries.</p><p>Click to begin. This build uses the Three.js WebGL engine and needs internet access to load it.</p><div id="gpuLaunchNotice" role="note" aria-label="Chrome performance tip"><button id="gpuLaunchClose" type="button" aria-label="Dismiss graphics troubleshooting tip">×</button><strong>Slow or choppy in Chrome?</strong><p>Go to <code>chrome://settings/system</code>, enable <b>Use graphics acceleration when available</b>, then relaunch Chrome.</p><a href="../troubleshooting.html" target="_blank" rel="noopener">Complete troubleshooting guide</a></div><button id="begin">Begin exploration</button></div><div id="error"></div>
 <div id="encounterShock" role="alertdialog" aria-live="assertive" aria-label="Encounter"><h2 id="shockHeading">ENCOUNTER!</h2><p id="shockMessage"></p><button id="shockContinue">Continue exploring</button></div><script>
 (()=>{
  const n=document.getElementById('gpuLaunchNotice');
@@ -618,7 +628,7 @@ function applyFloorTheme(f){
 applyFloorTheme(0);
 function switchFloor(f){
  if(f!==0 && f!==1)return; // Public beta: Maps 3 and 2 only
- if(window.RPGPOV_COMBAT_LOCK)return;
+ if(window.RPGPOV_COMBAT_LOCK||window.DNDPOV_CASTLE_ENCOUNTER_LOCK)return;
  if(f===activeFloor)return;
  activeFloor=f;
  for(const o of groundOnlyObjects)o.visible=f===0;
@@ -745,7 +755,39 @@ const GROUND_ENCOUNTERS=[
 {id:'K20',title:'Tower Hall of Honor — Guardian',trigger:'step',rule:'Stepping onto the spiral staircase awakens the Guardian of Sorrow for 12 hours. On stairs, dexterity checks each round unless crawling at half speed.',condition:'Steps onto the spiral staircase',chance:1,once:false,manual:true},
 {id:'K23',title:'Servants Entrance — skeletons',trigger:'enter',rule:'The skeletons are suspended on pegs and are harmless.',condition:'No encounter',chance:null,once:false}
 ];
-let autoDmEnabled=true;
+let autoDmEnabled=localStorage.getItem('dndpov_castle_auto_dm_enabled')!=='false';
+function castleAutoActive(){return !!(dm&&autoDmEnabled&&!window.DNDPOV_MP?.connected);}
+function setCastleEncounterLock(locked){
+ window.DNDPOV_CASTLE_ENCOUNTER_LOCK=!!locked&&castleAutoActive();
+ if(window.DNDPOV_CASTLE_ENCOUNTER_LOCK){keys={};document.exitPointerLock?.();}
+ refreshCastleDmStatus();
+}
+function refreshCastleDmStatus(){
+ const turns=typeof randomState==='undefined'?0:randomState.turns;
+ const checks=typeof randomState==='undefined'?0:randomState.checks;
+ if($('dmTurnCount'))$('dmTurnCount').textContent=String(turns);
+ if($('dmNextCheck'))$('dmNextCheck').textContent=String(3-turns%3);
+ if($('dmCheckCount'))$('dmCheckCount').textContent=String(checks);
+ const toggle=$('dmAutoToggle');if(toggle){toggle.textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');toggle.classList.toggle('is-on',autoDmEnabled);toggle.setAttribute('aria-pressed',String(autoDmEnabled));}
+ const note=$('dmEncounterModeNote');if(note){note.textContent=window.DNDPOV_CASTLE_ENCOUNTER_LOCK?'ENCOUNTER PENDING · Movement paused until Battle handled / Continue.':!dm?'Turn on DM Mode to enable automatic encounters.':autoDmEnabled?'AUTO DM ON · 1d6 check every third turn. Room triggers follow their stated conditions.':'AUTO DM OFF · No automatic rolls or encounter movement locks. Manual DM rolls remain available.';note.classList.toggle('pending',!!window.DNDPOV_CASTLE_ENCOUNTER_LOCK);}
+}
+function setCastleAutoDm(enabled){
+ autoDmEnabled=!!enabled;try{localStorage.setItem('dndpov_castle_auto_dm_enabled',String(autoDmEnabled));}catch(_){}
+ if(!castleAutoActive()){
+  setCastleEncounterLock(false);
+  $('encounterShock').style.display='none';$('encounterShock').classList.remove('monsterEncounterNotice');
+ }
+ randomState.lastX=null;randomState.lastY=null;randomState.feet=0;
+ oracleRecord('Auto DM mode','Castle Ravenloft',autoDmEnabled?'ON · automatic 30-minute checks when DM Mode is ON':'OFF · no automatic checks');
+ refreshCastleDmStatus();
+ const r=room();if(r&&dm)showLocationDmNotes(r);
+}
+function displayCastleEncounter(heading,message,combat=false){
+ const shock=$('encounterShock');$('shockHeading').textContent=heading;$('shockMessage').textContent=message;
+ $('shockContinue').textContent=combat?'Battle handled / Continue':'Acknowledge / Continue';
+ shock.style.display='block';clearTimeout(window._shockTimer);setCastleEncounterLock(true);
+}
+
 const encounterLog=[];
 function dmInline(){let n=document.getElementById('autoDmInline');if(!n){n=document.createElement('div');n.id='autoDmInline';document.getElementById('notes').appendChild(n)}return n;}
 function dmWrite(title,details,result=''){
@@ -753,7 +795,7 @@ function dmWrite(title,details,result=''){
  const p=document.createElement('div');p.textContent=details;n.appendChild(p);
  if(result){const r=document.createElement('div');r.className='dmResult';r.textContent=result;n.appendChild(r)}
  const m=document.createElement('div');m.className='dmMuted';m.textContent=autoDmEnabled?'AUTO DM: ON — encounter checks are automatic':'AUTO DM: OFF — encounter checks are manual';n.appendChild(m);
- const b=document.createElement('button');b.textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');b.onclick=()=>{autoDmEnabled=!autoDmEnabled;dmWrite(title,details,result);};n.appendChild(b);
+ const b=document.createElement('button');b.textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');b.onclick=()=>{setCastleAutoDm(!autoDmEnabled);dmWrite(title,details,result);};n.appendChild(b);
  const list=document.createElement('button');list.textContent='Encounter summary';list.onclick=()=>{if(!dm)return;document.getElementById('dmEncounterPanel').style.display='block';renderDmEncounters()};n.appendChild(list);
 }
 function rollPercent(chance){const n=Math.floor(Math.random()*100)+1;return {n,hit:n<=Math.round(chance*100)}}
@@ -763,7 +805,7 @@ window.addEventListener('rpgpov-combat-finished',event=>{
  if(event.detail?.room==='K8'){encounterState.K8_active=false;encounterState.K8_resolved=true;saveEncounterState();}
  oracleRecord('Combat session ended',event.detail?.room||'Castle','Players chose to finish the test battle.');
 });
-function encounterNotice(message, heading='ENCOUNTER!', monsterId=null){
+function encounterNotice(message, heading='ENCOUNTER!', monsterId=null, battleRequired=null){
  const illustrated=!!(monsterId&&MONSTER_ASSETS[monsterId]);
  if(illustrated && !heading.startsWith('RANDOM ENCOUNTER')){
    window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:monsterId}}));
@@ -772,14 +814,13 @@ function encounterNotice(message, heading='ENCOUNTER!', monsterId=null){
  if(!heading.startsWith('RANDOM ENCOUNTER'))oracleRecord('Location encounter',heading,message);
  dmWrite('Encounter',message);
  if(monsterId){window.dispatchEvent(new CustomEvent('rpgpov-combat-ready',{detail:{room:(heading.match(/K\d+[a-z]?/i)||[])[0]||'CASTLE',monsterId,count:monsterId==='gargoyle'?8:1,heading,rule:message}}));}
- const el=$('encounterShock');$('shockHeading').textContent=heading;$('shockMessage').textContent=message;
- el.style.display='block';clearTimeout(window._shockTimer);
- // Stay visible until players acknowledge battle completion.
+ displayCastleEncounter(heading,message,battleRequired===null?(!!monsterId||heading.startsWith('RANDOM ENCOUNTER')):battleRequired);
+ // The acknowledgement does not adjudicate combat.
 }
-$('shockContinue').onclick=()=>{const title=$('shockHeading').textContent;oracleRecord('Encounter notice dismissed',title,'Notice acknowledged; combat not automatically resolved');dmWrite('Encounter acknowledged',title,'Battle is not marked complete.');$('encounterShock').style.display='none';$('encounterShock').classList.remove('monsterEncounterNotice');clearTimeout(window._shockTimer)};
+$('shockContinue').onclick=()=>{const title=$('shockHeading').textContent;oracleRecord('Encounter acknowledged',title,'Player/DM acknowledged; no automatic combat outcome');dmWrite('Encounter acknowledged',title,'Continue exploring; resolve any combat with your DM.');$('encounterShock').style.display='none';$('encounterShock').classList.remove('monsterEncounterNotice');setCastleEncounterLock(false);clearTimeout(window._shockTimer)};
 
 function evaluateGroundEncounter(id){
- if(activeFloor!==0)return;
+ if(activeFloor!==0||!castleAutoActive())return;
  const e=GROUND_ENCOUNTERS.find(x=>x.id===id);
  if(!e){if(dm)dmWrite(id,'No automated encounter specified for this location.');else dmInline().replaceChildren();return;}
  const st=encounterState;
@@ -821,18 +862,19 @@ function i6ShowEvent(room,event,mode){
    if(event.chance==='60%'){
      const n=d(100);rolled='d100='+n+'; success on 01–60';
      if(n>60){oracleRecord('Room encounter check',detail+' · '+rolled,'No trigger');dmWrite('No encounter',detail+' · '+rolled);return;}
-   }else rolled='Condition check: '+event.chance+' · DM confirmation required';
+   }else if(event.chance==='Certain'){rolled='Certain once the stated room action is confirmed';}
+    else {oracleRecord('Room condition needs confirmation',detail,'No automatic trigger; confirm the condition then use Trigger event');dmWrite('Condition not verified',detail,'Use Trigger event only after the condition occurs.');return;}
  }
  oracleRecord('Room encounter '+mode,detail+' · '+rolled,event.count+' × '+i6MonsterName(event.id));
  window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:event.id,count:event.count}}));
  dmWrite('Encounter '+room.id,event.count+' × '+i6MonsterName(event.id)+' · '+rolled);
- const shock=$('encounterShock');$('shockHeading').textContent=room.id+' · '+i6MonsterName(event.id).toUpperCase();
- $('shockMessage').textContent=event.count+' × '+i6MonsterName(event.id)+' · '+event.condition;
- shock.classList.add('monsterEncounterNotice');shock.style.display='block';
+  $('encounterShock').classList.add('monsterEncounterNotice');
+  displayCastleEncounter(room.id+' · '+i6MonsterName(event.id).toUpperCase(),event.count+' × '+i6MonsterName(event.id)+' · '+event.condition,true);
  window.dispatchEvent(new CustomEvent('rpgpov-combat-ready',{detail:{room:room.id,monsterId:event.id,count:event.count,heading:room.id+' · '+i6MonsterName(event.id),rule:event.condition}}));
  clearTimeout(window._shockTimer); // Persistent until players start or dismiss the encounter
 }
 function i6RandomRoll(room,force){
+ if(!force){randomState.checks++;refreshCastleDmStatus();}
  const check=d(6),threshold=encounterState.angryVillagersFollowing?4:2;
  const detail='Floor: '+floorNames[Number(document.getElementById('dmFloorSelect')?.value||activeFloor)]+' · Room: '+room.id+' · 1d6='+check+'; threshold '+threshold;
  if(!force&&check>threshold){oracleRecord('Castle random check',detail,'No encounter');dmWrite('Random check',detail,'No encounter');return;}
@@ -844,48 +886,56 @@ function i6RandomRoll(room,force){
  if(chosen.name==='angry villagers'){encounterState.angryVillagersFollowing=true;saveEncounterState();}
  if(id)window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id,count}}));
  dmWrite('Random encounter',rollInfo,count+' × '+chosen.name);
- const shock=$('encounterShock');$('shockHeading').textContent='RANDOM · '+chosen.name.toUpperCase();$('shockMessage').textContent=count+' × '+chosen.name;
- shock.style.display='block';clearTimeout(window._shockTimer);
+  displayCastleEncounter('RANDOM · '+chosen.name.toUpperCase(),count+' × '+chosen.name+' · '+chosen.text,!['bats','angry villagers','helpful spirit'].includes(chosen.name));
  if(id)window.dispatchEvent(new CustomEvent('rpgpov-combat-ready',{detail:{room:room.id,monsterId:id,count,heading:'Random encounter · '+chosen.name,rule:rollInfo}}));
 }
 function renderDmEncounters(){
  const panel=$('dmEncounterPanel'),list=$('dmEncounterList');list.replaceChildren();
  let picker=$('dmFloorSelect');
  if(!picker){
-   const controls=document.createElement('div');controls.id='dmFloorControls';controls.style.cssText='margin:8px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap';
-   const label=document.createElement('label');label.textContent='Floor: ';label.htmlFor='dmFloorSelect';
-   picker=document.createElement('select');picker.id='dmFloorSelect';
-   floorNames.forEach((name,i)=>{if(i!==0&&i!==1)return;const o=document.createElement('option');o.value=i;o.textContent=name;picker.append(o)});
-   picker.value=String(activeFloor);picker.onchange=renderDmEncounters;
-   const current=document.createElement('button');current.textContent='Current floor';current.onclick=()=>{picker.value=String(activeFloor);renderDmEncounters()};
-   controls.append(label,picker,current);list.before(controls);
+  const controls=document.createElement('div');controls.id='dmFloorControls';controls.className='dmEncFloorControls';
+  const label=document.createElement('label');label.textContent='Floor';label.htmlFor='dmFloorSelect';
+  picker=document.createElement('select');picker.id='dmFloorSelect';
+  floorNames.forEach((name,i)=>{if(i!==0&&i!==1)return;const o=document.createElement('option');o.value=i;o.textContent=name;picker.append(o)});
+  picker.value=String(activeFloor);picker.onchange=renderDmEncounters;
+  const current=document.createElement('button');current.textContent='Current floor';current.onclick=()=>{picker.value=String(activeFloor);renderDmEncounters()};
+  controls.append(label,picker,current);panel.querySelector('.dmEncToolbar').before(controls);
  }
- const floor=Number(picker.value),entries=encounterRosterForFloor(floor);
- panel.querySelector('h2').textContent='DM · '+floorNames[floor]+' Encounters';
- const intro=panel.querySelector('h2')?.parentElement?.nextElementSibling;
- if(intro?.tagName==='P')intro.textContent='Room encounter rules and castle random table only. Manual Trigger overrides conditions for visual testing; Roll/check respects numeric chances.';
- const help=document.createElement('p');help.style.cssText='font-size:11px;color:#d2bd9c';help.textContent='Room events and random rolls are recorded in the Oracle Decision Report.';list.append(help);
+ const floor=Number(picker.value),q=String($('dmEncounterSearch')?.value||'').trim().toLowerCase();
+ const filter=$('dmEncounterFilter')?.value||'events';
+ const entries=encounterRosterForFloor(floor).filter(e=>(filter==='all'||e.events.length>0||!!e.base)&&(!q||[e.id,e.title,e.base?.rule||'',...e.events.flatMap(v=>[v.id,v.condition])].join(' ').toLowerCase().includes(q)));
+ const h=panel.querySelector('h2');h.textContent='DM · '+floorNames[floor];
+ $('dmEncounterCount').textContent=entries.length+' rooms';
+ if(!entries.length){const empty=document.createElement('p');empty.className='dmEncEmpty';empty.textContent='No rooms match this search. Try All rooms or another K-number.';list.append(empty);}
  for(const e of entries){
-   const card=document.createElement('div');card.className='encCard';
-   const heading=document.createElement('strong');heading.textContent=e.id+' · '+e.title;card.append(heading);
-   for(const event of e.events){
-     const p=document.createElement('p');p.textContent=event.count+' × '+i6MonsterName(event.id)+' — '+event.condition+' ('+event.chance+')';card.append(p);
-     const check=document.createElement('button');check.textContent='Roll/check';check.onclick=()=>i6ShowEvent(e,event,'check');card.append(check);
-     const trigger=document.createElement('button');trigger.textContent='Trigger event';trigger.onclick=()=>i6ShowEvent(e,event,'trigger');card.append(trigger);
-   }
-   if(!e.events.length){
-     const p=document.createElement('p');p.style.cssText='font-size:11px;color:#b9aa95';p.textContent=e.base?.rule||'No fixed monster encounter assigned to this room.';card.append(p);
-   }
-   const random=document.createElement('div');random.style.cssText='margin-top:6px';
-   const randomLabel=document.createElement('small');randomLabel.textContent='Castle random encounter table (applies by exploration turns)';random.append(randomLabel);
-   const roll=document.createElement('button');roll.textContent='Roll random check';roll.onclick=()=>i6RandomRoll(e,false);random.append(roll);
-   const triggerRandom=document.createElement('button');triggerRandom.textContent='Trigger random';triggerRandom.onclick=()=>i6RandomRoll(e,true);random.append(triggerRandom);
-   card.append(random);list.append(card);
+  const card=document.createElement('details');card.className='encCard';card.open=!!q;
+  const summary=document.createElement('summary');
+  const code=document.createElement('span');code.className='encRoomCode';code.textContent=e.id;
+  const title=document.createElement('span');title.className='encRoomName';title.textContent=e.title;
+  const tag=document.createElement('span');tag.className='encEventCount';tag.textContent=e.events.length?e.events.length+' event'+(e.events.length===1?'':'s'):e.base?'Module note':'No fixed event';
+  summary.append(code,title,tag);card.append(summary);
+  const body=document.createElement('div');body.className='encCardBody';
+  if(e.base){const rule=document.createElement('p');rule.className='encRule';rule.textContent=e.base.rule;body.append(rule);}
+  for(const event of e.events){
+   const row=document.createElement('div');row.className='encEventRow';
+   const heading=document.createElement('strong');heading.textContent=event.count+' × '+i6MonsterName(event.id);row.append(heading);
+   const condition=document.createElement('p');condition.textContent=event.condition;row.append(condition);
+   const chance=document.createElement('small');chance.textContent='Rule: '+event.chance;row.append(chance);
+   const actions=document.createElement('div');actions.className='encEventActions';
+   const check=document.createElement('button');check.textContent='Check / roll';check.onclick=()=>i6ShowEvent(e,event,'check');actions.append(check);
+   const trigger=document.createElement('button');trigger.className='encManual';trigger.textContent='Trigger · Manual';trigger.title='DM confirms that the module condition has occurred';trigger.onclick=()=>i6ShowEvent(e,event,'trigger');actions.append(trigger);
+   row.append(actions);body.append(row);
+  }
+  if(!e.events.length&&!e.base){const p=document.createElement('p');p.textContent='No fixed monster encounter is assigned to this modeled room.';body.append(p);}
+  card.append(body);list.append(card);
  }
+ refreshCastleDmStatus();
 }
+$('dmEncounterSearch').addEventListener('input',renderDmEncounters);
+$('dmEncounterFilter').addEventListener('change',renderDmEncounters);
 $('dmClose').onclick=()=>{$('dmEncounterPanel').style.display='none'};
-$('dmAutoToggle').onclick=()=>{autoDmEnabled=!autoDmEnabled;$('dmAutoToggle').textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');dmWrite('Mode changed','Automatic encounter checks '+(autoDmEnabled?'enabled':'disabled')+'.');};
-$('dmResetState').onclick=()=>{if(confirm('Reset castle encounter history?')){Object.keys(encounterState).forEach(k=>delete encounterState[k]);saveEncounterState();renderDmEncounters()}};
+$('dmAutoToggle').onclick=()=>setCastleAutoDm(!autoDmEnabled);
+$('dmResetState').onclick=()=>{if(confirm('Reset castle location encounter states? Oracle roll history will be kept.')){Object.keys(encounterState).forEach(k=>delete encounterState[k]);saveEncounterState();oracleRecord('Encounter state reset','Castle Ravenloft','Room encounter states reset by DM');renderDmEncounters()}};
 const randomCastle=[
  {name:'bats',dice:[10,10],text:'A cloud of bats sweeps through the darkness. They do not attack.'},
  {name:'bats',dice:[10,10],text:'A cloud of bats sweeps through the darkness. They do not attack.'},
@@ -930,7 +980,7 @@ oracleHead.addEventListener('pointerup',()=>{oracleDrag=null});oracleRender();
 
 function castleEncounterCheck(){
  const check=d(6),threshold=encounterState.angryVillagersFollowing?4:2;
- randomState.checks++;
+ randomState.checks++;refreshCastleDmStatus();
  if(check>threshold){oracleRecord('Random encounter check',floorNames[activeFloor]+' · 1d6 = '+check+' · encounter on '+threshold+' or less','No encounter');return;}
  const tableRoll=d(12),entry=randomCastle[tableRoll-1];
  let chosen=entry,extra='',specialRoll=null;
@@ -943,11 +993,18 @@ function castleEncounterCheck(){
  randomState.history.unshift('Turn '+randomState.turns+': '+message);
  oracleRecord('Random encounter',floorNames[activeFloor]+' · 1d6='+check+' (≤'+threshold+') · Table 6 1d12='+tableRoll+(specialRoll!==null?' · Table 7 1d6='+specialRoll:'')+' · '+chosen.dice[0]+'d'+chosen.dice[1]+'='+count,name+' · '+chosen.text);
  window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:RANDOM_MONSTER_IDS[chosen.name]||null,count}}));
- encounterNotice(message,'RANDOM ENCOUNTER · '+name.toUpperCase());
+ encounterNotice(message,'RANDOM ENCOUNTER · '+name.toUpperCase(),null,!['bats','angry villagers','helpful spirit'].includes(chosen.name));
 }
-function advanceExplorationTurn(){if(window.DNDPOV_MP?.connected)return;if(!autoDmEnabled)return;randomState.turns++;oracleRecord('Time advanced','10 minutes · '+floorNames[activeFloor]+' · Turn '+randomState.turns,'Turn advanced');if(randomState.turns%3===0)castleEncounterCheck();}
+function advanceExplorationTurn(manual=false){
+ if(!dm||window.DNDPOV_MP?.connected||window.DNDPOV_CASTLE_ENCOUNTER_LOCK||(!autoDmEnabled&&!manual))return;
+ randomState.turns++;
+ oracleRecord('Exploration turn','10 minutes · '+floorNames[activeFloor]+' · Turn '+randomState.turns,
+  randomState.turns%3===0?(autoDmEnabled?'Encounter check due':'Check due · Auto DM OFF; roll manually'):(3-randomState.turns%3)+' turns until next check');
+ if(randomState.turns%3===0){if(autoDmEnabled)castleEncounterCheck();else oracleRecord('Encounter check pending','Turn '+randomState.turns+' · Auto DM OFF','Use Roll random check when the DM decides');}
+ refreshCastleDmStatus();
+}
 function trackExplorationMovement(){if(window.DNDPOV_MP?.connected)return;
- if(!autoDmEnabled||$('start').style.display!=='none')return;
+ if(!castleAutoActive()||window.DNDPOV_CASTLE_ENCOUNTER_LOCK||$('start').style.display!=='none')return;
  if(randomState.lastX===null){randomState.lastX=player.x;randomState.lastY=player.y;return;}
  const step=Math.hypot(player.x-randomState.lastX,player.y-randomState.lastY);
  randomState.lastX=player.x;randomState.lastY=player.y;
@@ -955,11 +1012,13 @@ function trackExplorationMovement(){if(window.DNDPOV_MP?.connected)return;
  // Walk-distance is a proxy for exploration turns; 30 map units per turn.
  // This is adjustable in the DM panel, not a claim about module movement rate.
  randomState.feet+=step;
- if(randomState.feet>=30){randomState.feet-=30;advanceExplorationTurn();}
+ if(randomState.feet>=30){randomState.feet-=30;advanceExplorationTurn(false);}
 }
-$('dmRandomRoll').style.display='none';
-const timeButton=document.createElement('button');timeButton.textContent='Advance 10 minutes';timeButton.onclick=advanceExplorationTurn;$('dmRandomRoll').after(timeButton);
-const explanation=document.createElement('p');explanation.style.fontSize='12px';explanation.textContent='I6 checks every 3 turns (30 game minutes). Automatic movement uses an adjustable approximation of 30 map units per turn; use Advance Turn for searching, waiting, or other nonmovement activity. Combat is never tracked.';timeButton.after(explanation);
+$('dmAdvanceTurn').onclick=()=>advanceExplorationTurn(true);
+$('dmRandomRoll').onclick=()=>i6RandomRoll({id:room()?.id||'CASTLE'},false);
+$('dmForceRandom').onclick=()=>i6RandomRoll({id:room()?.id||'CASTLE'},true);
+$('dmOpenOracle').onclick=()=>{if(!$('oraclePanel'))return;$('oraclePanel').style.display='block';oracleRender();document.exitPointerLock?.();};
+refreshCastleDmStatus();
 let visitedOn=true;
 const exploredByFloor={},previousExplorePosition={},visitedRoomsByFloor={};
 function visitedArray(){return exploredByFloor[activeFloor]??(exploredByFloor[activeFloor]=new Set(JSON.parse(localStorage.getItem('dndpov_i6_visited_v29_'+activeFloor)||'[]')))}
@@ -1002,7 +1061,7 @@ function showLocationDmNotes(r){
  if(src?.dmNotes?.length){const details=document.createElement('details');details.open=true;const summary=document.createElement('summary');summary.textContent='Full module DM notes ('+src.dmNotes.length+')';details.appendChild(summary);const body=document.createElement('p');body.style.whiteSpace='pre-line';body.textContent=src.dmNotes.join('\n\n');details.appendChild(body);n.appendChild(details)}
  if(src?.readAloud?.length>1){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='All '+src.readAloud.length+' boxed read-aloud passages';details.appendChild(summary);const body=document.createElement('p');body.style.whiteSpace='pre-line';body.textContent=src.readAloud.join('\n\n');details.appendChild(body);n.appendChild(details)}
  const b=document.createElement('button');b.textContent='Encounter summary';b.onclick=()=>{if(dm){$('dmEncounterPanel').style.display='block';renderDmEncounters()}};n.appendChild(b);
- const auto=document.createElement('button');auto.textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');auto.onclick=()=>{autoDmEnabled=!autoDmEnabled;showLocationDmNotes(r)};n.appendChild(auto);
+ const auto=document.createElement('button');auto.textContent='Auto DM: '+(autoDmEnabled?'ON':'OFF');auto.onclick=()=>{setCastleAutoDm(!autoDmEnabled);showLocationDmNotes(r)};n.appendChild(auto);
 }
 let roomTextEnabled=localStorage.getItem('dndpov_room_text_enabled')!=='false';
 function applyRoomTextVisibility(){ $('notes').style.display=roomTextEnabled?'block':'none';$('textToggle').textContent='Room Notes: '+(roomTextEnabled?'ON':'OFF');}
@@ -1070,7 +1129,7 @@ mini.addEventListener('click',e=>{
 });
 function collides(x,y){let r=.2;for(let a of [-r,r])for(let b of [-r,r]){let gx=Math.floor(x+a),gy=Math.floor(y+b);if(cellSafe(gx,gy)!==0)return true}return false}
 function openDoor(){
- if(window.RPGPOV_COMBAT_LOCK)return;
+ if(window.RPGPOV_COMBAT_LOCK||window.DNDPOV_CASTLE_ENCOUNTER_LOCK)return;
   // Prioritize the doorway directly ahead; never open a door behind the player.
   const fx=-Math.sin(player.a),fz=-Math.cos(player.a);
   let closest=null,best=Infinity;
@@ -1092,7 +1151,7 @@ function openDoor(){
     grid[index(d.x,d.y)]=opening?0:2;
   }
 }
-function dismiss(){$('popup').style.display='none';keys={};if(mouseLookEnabled&&$('start').style.display==='none'&&document.pointerLockElement!==renderer.domElement){renderer.domElement.requestPointerLock().catch(()=>{})}}$('dismiss').onclick=dismiss;$('mouseLook').onclick=()=>{mouseLookEnabled=!mouseLookEnabled;$('mouseLook').textContent='Mouse Look: '+(mouseLookEnabled?'ON':'OFF');if(mouseLookEnabled){renderer.domElement.requestPointerLock().catch(()=>{});}else if(document.pointerLockElement===renderer.domElement){document.exitPointerLock();}};$('lantern').onclick=()=>{lanternOn=!lanternOn;lanternLight.visible=lanternOn;$('heldTorch').classList.toggle('off',!lanternOn);$('lantern').textContent='Torch: '+(lanternOn?'ON':'OFF')};$('dmBtn').onclick=()=>{dm=!dm;document.body.classList.toggle('dm-visible',dm);$('dmBtn').textContent='DM: '+(dm?'ON':'OFF');$('dmEncounterPanel').style.display='none';if(!dm)$('oraclePanel').style.display='none';if(dm)renderDmEncounters();refresh()};$('reset').onclick=()=>{if(window.RPGPOV_COMBAT_LOCK){alert('Finish the battle before restarting the floor.');return;}
+function dismiss(){$('popup').style.display='none';keys={};if(mouseLookEnabled&&$('start').style.display==='none'&&document.pointerLockElement!==renderer.domElement){renderer.domElement.requestPointerLock().catch(()=>{})}}$('dismiss').onclick=dismiss;$('mouseLook').onclick=()=>{mouseLookEnabled=!mouseLookEnabled;$('mouseLook').textContent='Mouse Look: '+(mouseLookEnabled?'ON':'OFF');if(mouseLookEnabled){renderer.domElement.requestPointerLock().catch(()=>{});}else if(document.pointerLockElement===renderer.domElement){document.exitPointerLock();}};$('lantern').onclick=()=>{lanternOn=!lanternOn;lanternLight.visible=lanternOn;$('heldTorch').classList.toggle('off',!lanternOn);$('lantern').textContent='Torch: '+(lanternOn?'ON':'OFF')};$('dmBtn').onclick=()=>{dm=!dm;document.body.classList.toggle('dm-visible',dm);$('dmBtn').textContent='DM: '+(dm?'ON':'OFF');$('dmEncounterPanel').style.display='none';if(!dm){$('oraclePanel').style.display='none';setCastleEncounterLock(false);$('encounterShock').style.display='none';}if(dm)renderDmEncounters();refreshCastleDmStatus();refresh()};$('reset').onclick=()=>{if(window.RPGPOV_COMBAT_LOCK){alert('Finish the battle before restarting the floor.');return;}
  if(!confirm('Restart this floor? This clears its visited rooms, explored blue map and room-image history.'))return;
  exploredByFloor[activeFloor]=new Set();visitedRoomsByFloor[activeFloor]=new Set();
  delete previousExplorePosition[activeFloor];
@@ -1136,7 +1195,7 @@ $('mapBtn').onclick=()=>{
 mapVisible=!hardcoreMode;
 syncNavigationControls();
 $('mapModeToggle').onclick=()=>{mapOverview=!mapOverview;mapDraw()};$('zoomin').onclick=()=>{mapOverview=false;mapZoom=Math.min(5,mapZoom+.4);mapDraw()};$('zoomout').onclick=()=>{mapOverview=false;mapZoom=Math.max(.65,mapZoom-.4);mapDraw()};
-addEventListener('keydown',e=>{if(window.RPGPOV_COMBAT_LOCK&&['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyE','ShiftLeft','ShiftRight'].includes(e.code)){keys[e.code]=false;if(!e.target.closest?.('input,textarea,[contenteditable=true]'))e.preventDefault();return;}keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('rpgpov-combat-movement',()=>{keys={};});addEventListener('mousemove',e=>{if(!window.RPGPOV_COMBAT_LOCK&&mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;
+addEventListener('keydown',e=>{if((window.RPGPOV_COMBAT_LOCK||window.DNDPOV_CASTLE_ENCOUNTER_LOCK)&&['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyE','ShiftLeft','ShiftRight'].includes(e.code)){keys[e.code]=false;if(!e.target.closest?.('input,textarea,[contenteditable=true]'))e.preventDefault();return;}keys[e.code]=true;if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;if(e.code==='KeyE'&&activeFloor===0)openDoor();if(e.code==='KeyF')$('lantern').click();if(e.code==='KeyM')$('hardcoreBtn').click();if(e.code==='KeyG')$('dmBtn').click();if(e.code==='Tab'){let r=room();if(r)openI6RoomReference(r.id)}if(e.code==='Enter'&&$('popup').style.display==='block')dismiss()});addEventListener('keyup',e=>keys[e.code]=false);window.addEventListener('rpgpov-combat-movement',()=>{keys={};});addEventListener('mousemove',e=>{if(!window.RPGPOV_COMBAT_LOCK&&!window.DNDPOV_CASTLE_ENCOUNTER_LOCK&&mouseLookEnabled&&document.pointerLockElement===renderer.domElement){player.a-=e.movementX*.0023;player.pitch=0}});function begin(){$('start').style.display='none';window.dispatchEvent(new CustomEvent('dndpov-room-entry',{detail:{id:room()?.id||null,name:room()?.name||'',floor:activeFloor}}));applyRoomTextVisibility();if(mouseLookEnabled)renderer.domElement.requestPointerLock().catch(()=>{})}$('begin').onclick=begin;
 // v0.10.18: Process road/carriage arrival inside the Three.js module,
 // where switchFloor(), player, refresh() and mapDraw() are in scope.
 // Do this before Begin so the start overlay cannot leave the player on Map 3.
@@ -1147,8 +1206,8 @@ if(roadArrival.get('arrival')==='carriage' && roadArrival.get('floor')==='walls'
   refresh();mapDraw();
   history.replaceState(null,'',window.location.pathname+window.location.hash);
 }
-renderer.domElement.onclick=()=>{if(!window.RPGPOV_COMBAT_LOCK&&mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
-let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=!window.RPGPOV_COMBAT_LOCK && $('popup').style.display!=='block' && $('start').style.display==='none' && ($('encounterShock').style.display!=='block'||$('encounterShock').classList.contains('monsterEncounterNotice')) && $('roomArtOverlay').style.display!=='flex';let forward=active?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=active?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
+renderer.domElement.onclick=()=>{if(!window.RPGPOV_COMBAT_LOCK&&!window.DNDPOV_CASTLE_ENCOUNTER_LOCK&&mouseLookEnabled&&$('start').style.display==='none'&&$('popup').style.display!=='block')renderer.domElement.requestPointerLock().catch(()=>{})};addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeMini()});
+let last=performance.now(),mapTime=0;function animate(now){requestAnimationFrame(animate);updateMonsterReveal(now);let dt=Math.min(.05,(now-last)/1000);last=now;let active=!window.RPGPOV_COMBAT_LOCK && !window.DNDPOV_CASTLE_ENCOUNTER_LOCK && $('popup').style.display!=='block' && $('start').style.display==='none' && $('roomArtOverlay').style.display!=='flex';let forward=active?((keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)):0;let turning=active?((keys.KeyA||keys.ArrowLeft?1:0)-(keys.KeyD||keys.ArrowRight?1:0)):0;player.a+=turning*2.15*dt;$('heldTorch').classList.toggle('walking',!!forward);let speed=(keys.ShiftLeft||keys.ShiftRight?6.5:3.5)*dt;let dx=-Math.sin(player.a)*forward*speed,dz=-Math.cos(player.a)*forward*speed;if(!collides(player.x+dx,player.y))player.x+=dx;if(!collides(player.x,player.y+dz))player.y+=dz;camera.position.set(player.x,1.75,player.y);camera.rotation.set(0,player.a,0,'YXZ');lanternLight.intensity=43*(.975+.025*Math.sin(now*.009)+.012*Math.sin(now*.023));for(let i=0;i<torches.length;i++){torches[i].intensity=13;const f=wallFlames[i],t=now*.006+f.phase;if(activeFloor===0){f.art.quaternion.copy(camera.quaternion);f.art.scale.set(1,1,1);}}renderer.render(scene,camera);if(now-mapTime>110){recordVisited();trackExplorationMovement();refresh();if(mapVisible)mapDraw();mapTime=now}}requestAnimationFrame(animate);
 // Explicit bridge from the Three.js ES module to the multiplayer controller.
 window.DNDPOV_CASTLE_BRIDGE={
  getPosition:()=>({x:player.x,y:player.y,a:player.a,floor:activeFloor,room:room()?.id||null}),
@@ -1912,4 +1971,67 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   observer.observe(document.documentElement,{childList:true,subtree:true});
 })();
 </script>
+<style id="castleDmRefresh34">
+/* Castle DM v0.10.34 — compact modern encounter console, preserves existing 3D/map engine. */
+#dmEncounterPanel{box-sizing:border-box!important;left:auto!important;right:157px!important;top:75px!important;width:min(555px,calc(100vw - 185px))!important;max-height:min(79vh,770px)!important;overflow:auto!important;padding:0!important;border:1px solid #a18460!important;border-radius:14px!important;background:linear-gradient(165deg,#282b32,#1b1c22 65%,#17181d)!important;color:#f2ece1!important;box-shadow:0 20px 60px #000d,0 0 0 1px #ffffff0a inset!important;font:13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif!important;z-index:1000!important;}
+#dmEncounterDrag{position:sticky!important;top:0!important;z-index:5!important;display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:12px!important;cursor:grab!important;touch-action:none!important;background:linear-gradient(110deg,#35333a,#24262d)!important;border-bottom:1px solid #5b514b!important;padding:15px 18px 14px!important;margin:0!important;}
+#dmEncounterDrag:active{cursor:grabbing!important}
+#dmEncounterPanel .dmEncEyebrow{font:700 10px/1.3 system-ui,sans-serif;color:#cba775;letter-spacing:2px;margin-bottom:5px}
+#dmEncounterPanel h2{font:700 21px/1.2 system-ui,sans-serif!important;letter-spacing:.1px;color:#fff0d5!important;margin:0!important}
+#dmEncounterPanel .dmEncHeaderSub{color:#c6bdaf;font-size:11px;margin-top:5px}
+#dmEncounterPanel #dmClose{flex-shrink:0;background:#443538!important;border:1px solid #80676a!important;color:#f7dfd6!important;border-radius:7px!important;font:700 17px system-ui,sans-serif!important;padding:5px 11px!important;min-height:33px!important}
+#dmEncounterPanel .dmEncMain{padding:14px 17px 16px}
+#dmEncounterPanel .dmEncStatus{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:11px}
+#dmEncounterPanel .dmEncStatus>div{background:#30333b;border:1px solid #53535b;border-radius:9px;padding:10px 9px 8px;min-width:0;text-align:center}
+#dmEncounterPanel .dmEncStatus strong{display:block;color:#f7d49b;font:700 24px/1.1 system-ui,sans-serif}
+#dmEncounterPanel .dmEncStatus span{display:block;margin-top:5px;font:700 9px/1.3 system-ui,sans-serif;letter-spacing:.7px;color:#c2b9ae}
+#dmEncounterPanel .dmEncModeNote{border-left:3px solid #a58861;padding:8px 11px;background:#363840;border-radius:4px;color:#ddd6ca;font-size:11px;line-height:1.5;margin-bottom:12px}
+#dmEncounterPanel .dmEncModeNote.pending{border-left-color:#e6a85e;background:#4b342d;color:#ffe6bd}
+#dmEncounterPanel .dmEncActions{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+#dmEncounterPanel button,#dmEncounterPanel select,#dmEncounterPanel input{font:600 12px/1.3 system-ui,sans-serif!important;border-radius:7px!important;min-height:33px;box-sizing:border-box}
+#dmEncounterPanel .dmEncActions button{padding:8px 10px!important;background:#3a3b44!important;color:#e9e2d7!important;border:1px solid #67616a!important}
+#dmEncounterPanel .dmEncActions button:hover,#dmEncounterPanel .encEventActions button:hover{background:#59505a!important;border-color:#b59a72!important}
+#dmEncounterPanel #dmAutoToggle{background:#4b3637!important;border-color:#90685c!important;color:#e8c7b9!important}
+#dmEncounterPanel #dmAutoToggle.is-on{background:#254938!important;border-color:#64a17c!important;color:#d7f5df!important}
+#dmEncounterPanel #dmAdvanceTurn{background:#70512f!important;border-color:#ba915e!important;color:#fff0d6!important}
+#dmEncounterPanel #dmForceRandom{background:#3b3440!important;color:#c9bbd8!important}
+#dmEncounterPanel .dmEncFloorControls{display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid #49454b}
+#dmEncounterPanel .dmEncFloorControls label{font-weight:700;color:#cbbd9f}
+#dmEncounterPanel .dmEncFloorControls select{flex:1;min-width:0}
+#dmEncounterPanel .dmEncFloorControls button{white-space:nowrap}
+#dmEncounterPanel select,#dmEncounterPanel input{background:#272a30!important;color:#f4ece0!important;border:1px solid #6b6668!important;padding:8px 9px!important}
+#dmEncounterPanel .dmEncToolbar{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center;padding:11px 0 10px;border-top:1px solid #49454b}
+#dmEncounterPanel .dmEncToolbar label{font:700 11px system-ui,sans-serif;letter-spacing:1.3px;color:#e6c38c}
+#dmEncounterPanel #dmEncounterCount{text-align:right;font-size:11px;color:#c9b9a1}
+#dmEncounterPanel #dmEncounterSearch{grid-column:1 / 2;width:100%}
+#dmEncounterPanel #dmEncounterFilter{grid-column:2 / 3;max-width:160px}
+#dmEncounterPanel .encCard{border:1px solid #51505a!important;background:#2b2e35;border-radius:9px;padding:0!important;margin:0 0 8px!important;overflow:hidden}
+#dmEncounterPanel .encCard[open]{border-color:#86745f!important;background:#303138}
+#dmEncounterPanel .encCard summary{display:flex;gap:9px;align-items:center;cursor:pointer;padding:11px 12px;list-style:none;user-select:none}
+#dmEncounterPanel .encCard summary::-webkit-details-marker{display:none}
+#dmEncounterPanel .encCard summary::after{content:'⌄';color:#d5b680;font-size:16px;line-height:1;flex-shrink:0}
+#dmEncounterPanel .encCard[open] summary::after{transform:rotate(180deg)}
+#dmEncounterPanel .encRoomCode{font:700 12px system-ui,sans-serif;color:#ffda9b;background:#574329;border:1px solid #846943;border-radius:5px;padding:4px 6px;flex-shrink:0}
+#dmEncounterPanel .encRoomName{flex:1;font:600 12px/1.3 system-ui,sans-serif;color:#f1e7da}
+#dmEncounterPanel .encEventCount{font:600 10px system-ui,sans-serif;color:#cfc1b3;white-space:nowrap}
+#dmEncounterPanel .encCardBody{padding:0 12px 12px;border-top:1px solid #504c4d}
+#dmEncounterPanel .encCardBody p{font:12px/1.5 system-ui,sans-serif!important;color:#d8d0c4!important;margin:9px 0!important}
+#dmEncounterPanel .encCardBody .encRule{border-left:2px solid #b29265;padding-left:10px}
+#dmEncounterPanel .encEventRow{border-top:1px solid #535056;padding-top:10px;margin-top:10px}
+#dmEncounterPanel .encEventRow strong{color:#f1c98d;font:700 13px system-ui,sans-serif}
+#dmEncounterPanel .encEventRow small{display:block;color:#c1b5a7;font-size:11px}
+#dmEncounterPanel .encEventActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+#dmEncounterPanel .encEventActions button{background:#484149!important;color:#f4e4ce!important;border:1px solid #87705b!important;padding:7px 10px!important;margin:0!important}
+#dmEncounterPanel .encEventActions .encManual{background:#393c43!important;border-color:#6b707b!important}
+#dmEncounterPanel .dmEncEmpty{color:#d0c1aa;padding:16px 4px}
+#dmEncounterPanel .dmEncFootnote{font-size:11px;line-height:1.5;color:#bdb3a7;border-top:1px solid #4b484e;padding-top:12px;margin:14px 0 0}
+#encounterShock,#encounterShock.monsterEncounterNotice{display:none;position:fixed!important;left:50%!important;right:auto!important;top:84px!important;bottom:auto!important;transform:translateX(-50%)!important;width:min(430px,calc(100vw - 28px))!important;max-width:calc(100vw - 28px)!important;max-height:65vh!important;overflow:auto!important;padding:16px 19px 18px!important;background:linear-gradient(155deg,#342e32fa,#202329fa)!important;color:#f4e7d5!important;border:1px solid #c6a477!important;border-left:4px solid #dfb675!important;border-radius:13px!important;box-shadow:0 18px 55px #000d,0 0 0 1px #fff1 inset!important;text-align:left!important;animation:none!important;z-index:1300!important;pointer-events:auto!important;font-family:system-ui,-apple-system,'Segoe UI',sans-serif!important}
+#encounterShock::before{content:'⚔  ENCOUNTER · DM DECISION';display:block!important;position:static!important;color:#e7bd83!important;font:700 10px/1.3 system-ui,sans-serif!important;letter-spacing:1.6px!important;margin:0 0 8px!important}
+#encounterShock::after{display:none!important;content:none!important}
+#encounterShock h2,#encounterShock.monsterEncounterNotice h2{display:block!important;color:#ffe2b1!important;font:700 19px/1.25 system-ui,sans-serif!important;letter-spacing:0!important;margin:0 0 9px!important}
+#encounterShock p,#encounterShock.monsterEncounterNotice p{display:block!important;color:#eee6db!important;font:13px/1.5 system-ui,sans-serif!important;margin:0 0 14px!important}
+#encounterShock button,#encounterShock.monsterEncounterNotice button{display:block!important;width:100%!important;margin:0!important;padding:11px 12px!important;background:#45654d!important;color:#f6fff6!important;border:1px solid #7db68b!important;border-radius:7px!important;font:700 13px system-ui,sans-serif!important;cursor:pointer!important}
+#encounterShock button:hover{background:#537a5e!important}
+@media(max-width:820px){#dmEncounterPanel{right:9px!important;top:60px!important;left:auto!important;width:min(550px,calc(100vw - 18px))!important;max-height:calc(100vh - 80px)!important}#encounterShock,#encounterShock.monsterEncounterNotice{top:68px!important}}
+</style>
 </body></html>

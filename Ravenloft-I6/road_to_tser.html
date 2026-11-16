@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.35 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.44 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.34</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.44</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -157,7 +157,72 @@ const nodes=[[0,105],[0,80],[-5,52],[-10,20],[-19,-15],[-28,-48],[-18,-82],[1,-1
  }
  const roadGeo=new THREE.BufferGeometry();roadGeo.setAttribute('position',new THREE.Float32BufferAttribute(roadVerts,3));roadGeo.setAttribute('uv',new THREE.Float32BufferAttribute(roadUV,2));roadGeo.setIndex(roadIdx);roadGeo.computeVertexNormals();scene.add(new THREE.Mesh(roadGeo,roadmat));
  // River coordinate must be initialized before gravel and forest placement.
- const riverZ=-35;
+ // v3.44 — Village of Barovia gate and continuous curtain wall, seen when
+// looking back toward the village at the east entrance to Road to Tser.
+// This is a visual threshold beyond the z=105 return boundary, not a new B encounter.
+function makeBaroviaEntranceVista(){
+ const entrance=new THREE.Group();entrance.name='Village of Barovia · eastern entrance walls';
+ entrance.position.set(0,0,154);scene.add(entrance);
+ const ancient=mat(0x666a64),dark=mat(0x343936),cap=mat(0x808178);
+ const iron=mat(0x4c352d),masonry=mat(0x525952),roofMat=mat(0x322b29);
+ function entranceBox(x,y,z,w,h,d,m){
+  const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
+  mesh.position.set(x,y,z);entrance.add(mesh);return mesh;
+ }
+ // A continuous piece of earth road reaches through the gates toward the village.
+ // Match the main road's 10.6-unit dirt repeat and its UV phase exactly.
+ // Start at z=105, where the main mesh ends, so the two surfaces cannot overlap.
+ const backRoadLength=82; // from the first road sample (z=105) to z=187
+ const backRoadGeo=new THREE.PlaneGeometry(9.0,backRoadLength);
+ const backRoadUV=backRoadGeo.getAttribute('uv');
+ for(let i=0;i<backRoadUV.count;i++){
+  const v=backRoadUV.getY(i);
+  backRoadUV.setY(i,(backRoadLength*v-backRoadLength)/10.6);
+ }
+ backRoadUV.needsUpdate=true;
+ const backRoad=new THREE.Mesh(backRoadGeo,roadmat);
+ backRoad.rotation.x=-Math.PI/2;backRoad.position.set(0,.075,146);
+ backRoad.name='Village entrance · dirt road continuation';scene.add(backRoad);
+ // Broad Gothic gate piers, worn horizontal courses and raised parapet.
+ for(const x of [-8.2,8.2]){
+  entranceBox(x,6.6,0,3.4,13.2,3.8,ancient);
+  entranceBox(x,13.25,0,3.9,.65,4.2,cap);
+  for(const y of [2.8,6.3,9.6])entranceBox(x,y,2.06,3.5,.23,.15,dark);
+  for(const dx of [-1.2,1.2])entranceBox(x+dx,14.06,0,1.03,1.35,3.35,masonry);
+ }
+ entranceBox(0,12.2,0,13,2.6,3.5,masonry);
+ for(let c=-5;c<=5;c++)entranceBox(c*1.12,14,0,.77,1.1,3.45,cap);
+ // Open gate leaves allow the road to be seen continuing into Barovia.
+ for(const side of [-1,1]){
+  const leaf=new THREE.Group();leaf.position.set(side*6.8,0,.65);
+  leaf.rotation.y=side*1.05;entrance.add(leaf);
+  for(let bar=0;bar<13;bar++){
+   const b=new THREE.Mesh(new THREE.BoxGeometry(.125,7,.13),bar%3===0?dark:iron);
+   b.position.set(-side*bar*.47,3.5,0);leaf.add(b);
+  }
+  for(const y of [1.3,3.8,6.35]){
+   const rail=new THREE.Mesh(new THREE.BoxGeometry(6.1,.22,.2),iron);
+   rail.position.set(-side*3,y,0);leaf.add(rail);
+  }
+ }
+ // The stone curtain extends in both directions to the woods; no disconnected slabs.
+ for(const side of [-1,1])for(let i=0;i<20;i++){
+  const x=side*(10.1+i*5.65),height=8.7+Math.sin(i*2.1)*.25;
+  entranceBox(x,height/2,0,5.82,height,2.8,i%4===0?masonry:ancient);
+  entranceBox(x,height+.1,0,5.85,.3,3.15,cap);
+  for(let p=-1;p<=1;p++)entranceBox(x+p*1.75,height+.74,0,1.1,1.3,2.7,cap);
+  if(i%4===0)entranceBox(x,4.7,1.52,1.35,9.4,.52,masonry);
+ }
+ // Low dark rooftops beyond the wall make the return view read as the village.
+ for(const [x,z,w] of [[-39,15,17],[42,18,20],[-79,30,24],[83,24,18]]){
+  entranceBox(x,8.5,z,w,7,13,masonry);
+  const roof=new THREE.Mesh(new THREE.ConeGeometry(w*.74,5,4),roofMat);
+  roof.position.set(x,14,z);roof.rotation.y=Math.PI/4;entrance.add(roof);
+ }
+ return entrance;
+}
+const baroviaEntranceVista=makeBaroviaEntranceVista();
+const riverZ=-35;
  // Small rounded stones and gravel along both road shoulders.
  const pebbleGeo=new THREE.IcosahedronGeometry(1,0),pebbleMats=[0x68675f,0x817d70,0x999080,0x514f49].map(mat);
  let gravelSeed=2314;function gravelRand(){gravelSeed=(Math.imul(1664525,gravelSeed)+1013904223)>>>0;return gravelSeed/4294967296}
@@ -537,6 +602,147 @@ onFork=function(x,z,margin=4.1){
  }
  return false;
 };
+// v3.44 — the map-marker screenshots pinpoint the western fork at z≈-404.
+// Follow the original castle road just 57m beyond the carriage (z=-347),
+// BEFORE its noticeable climb. The western B road peels LEFT about 90°.
+// Neither the original castle road nor its terrain is modified in any way.
+const westGateForkZ=-404,westGateForkX=pathX(westGateForkZ);
+const westGateRoadPoints=[
+ [westGateForkX,westGateForkZ], [westGateForkX-14,-392],
+ [-35,-383],[-60,-379],[-87,-374],[-114,-370],[-142,-369],[-167,-372]
+];
+// Terrain height along the OLD hillside. The fork NEVER climbs: it follows
+// the natural falling shoulder to the level forest beyond the castle road.
+function westernForkTerrain(x,z){
+ const offset=Math.abs(x-pathX(z));
+ const shoulder=Math.max(0,1-Math.pow(Math.min(1,offset/38),1.7));
+ return Math.max(0,hillHeight(z)*shoulder);
+}
+const westGateCurve=new THREE.CatmullRomCurve3(
+ westGateRoadPoints.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
+const westGateSamples=westGateCurve.getPoints(175);
+for(const sample of westGateSamples)sample.y=westernForkTerrain(sample.x,sample.z)+.17;
+const westGateVertices=[],westGateUV=[],westGateIndices=[];
+for(let i=0;i<westGateSamples.length;i++){
+ const p=westGateSamples[i],a=westGateSamples[Math.max(0,i-1)],
+  b=westGateSamples[Math.min(westGateSamples.length-1,i+1)];
+ const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz)||1;
+ const normalX=-dz/len,normalZ=dx/len;
+ for(const side of [-1,1]){
+  const width=4.13+.08*Math.sin(i*.81+side);
+  westGateVertices.push(p.x+side*width*normalX,p.y+.008*Math.sin(i*.51+side),
+   p.z+side*width*normalZ);
+  westGateUV.push(side<0?0:1,i*.16);
+ }
+ if(i){const j=i*2;westGateIndices.push(j-2,j-1,j,j-1,j+1,j)}
+}
+const westGateGeometry=new THREE.BufferGeometry();
+westGateGeometry.setAttribute('position',new THREE.Float32BufferAttribute(westGateVertices,3));
+westGateGeometry.setAttribute('uv',new THREE.Float32BufferAttribute(westGateUV,2));
+westGateGeometry.setIndex(westGateIndices);westGateGeometry.computeVertexNormals();
+const westGateRoad=new THREE.Mesh(westGateGeometry,campDirtMat);
+westGateRoad.name='I6 western road to Gates of Barovia (B)';scene.add(westGateRoad);
+
+function nearWesternGateRoad(x,z,margin=4.1){
+ let nearest=Infinity;
+ for(let i=1;i<westGateSamples.length;i++){
+  const a=westGateSamples[i-1],b=westGateSamples[i],dx=b.x-a.x,dz=b.z-a.z;
+  const t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz||1)));
+  nearest=Math.min(nearest,Math.hypot(x-(a.x+t*dx),z-(a.z+t*dz)));
+ }
+ return nearest<margin;
+}
+function westernBranchGroundHeight(x,z){
+ // The existing castle ascent and carriage use their untouched altitude.
+ if(Math.abs(x-pathX(z))<5.15)return hillHeight(z);
+ if(nearWesternGateRoad(x,z,5.8))return westernForkTerrain(x,z);
+ return hillHeight(z);
+}
+const forkBeforeWesternGate=onFork;
+onFork=(x,z,margin=4.1)=>forkBeforeWesternGate(x,z,margin)||nearWesternGateRoad(x,z,margin);
+
+// Locally oriented stone gateway, barred from the Barovian (carriage) side.
+// Reuses I6's existing B description—no new monster or chance roll is added.
+// Low Barovian gate and head-height wall, well to the LEFT of the castle road.
+// The two original headless statues remain at the B landmark.
+const westGateAt=.81;
+const westGatePoint=westGateCurve.getPoint(westGateAt);
+const westGateDirection=westGateCurve.getTangent(westGateAt).normalize();
+const westernGateYaw=Math.atan2(westGateDirection.x,westGateDirection.z);
+const westernGate=new THREE.Group();
+westernGate.name='B · Western Gates of Barovia';
+westernGate.position.set(westGatePoint.x,westernForkTerrain(westGatePoint.x,westGatePoint.z),westGatePoint.z);
+westernGate.rotation.y=westernGateYaw;scene.add(westernGate);
+const gateStone=new THREE.MeshStandardMaterial({color:0x6c6c63,roughness:1});
+const gateCapStone=new THREE.MeshStandardMaterial({color:0x464a47,roughness:1});
+const gateRust=new THREE.MeshStandardMaterial({color:0x493d36,metalness:.45,roughness:.85});
+const gateIron=new THREE.MeshStandardMaterial({color:0x262827,metalness:.68,roughness:.62});
+const gateRobe=new THREE.MeshStandardMaterial({color:0x66675f,roughness:1});
+function westernGateBox(x,y,z,w,h,d,mat){
+ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+ mesh.position.set(x,y,z);westernGate.add(mesh);return mesh;
+}
+for(const side of [-1,1]){
+ const sx=side*5.85;
+ westernGateBox(sx,3.1,0,2.65,6.2,3.1,gateStone);
+ westernGateBox(sx,6.35,0,3.0,.5,3.5,gateCapStone);
+ for(const y of [2.4,4.5])westernGateBox(sx,y,1.63,2.7,.13,.13,gateCapStone);
+ const guardian=new THREE.Group();guardian.position.set(side*9.3,0,2.8);westernGate.add(guardian);
+ const body=new THREE.Mesh(new THREE.CylinderGeometry(.65,.86,2.55,8),gateRobe);
+ body.position.y=2.4;guardian.add(body);
+ const legs=new THREE.Mesh(new THREE.BoxGeometry(1.35,1.75,1.15),gateStone);
+ legs.position.y=.89;guardian.add(legs);
+ const brokenNeck=new THREE.Mesh(new THREE.CylinderGeometry(.31,.38,.29,7),gateCapStone);
+ brokenNeck.position.y=3.84;guardian.add(brokenNeck);
+ const fallenHead=new THREE.Mesh(new THREE.DodecahedronGeometry(.48,0),gateStone);
+ fallenHead.position.set(side*.55,.4,1.05);guardian.add(fallenHead);
+}
+westernGateBox(0,6.1,0,9.5,.87,2.5,gateCapStone);
+for(let i=-4;i<=4;i++)westernGateBox(i*1.02,6.77,0,.75,.55,2.5,gateStone);
+for(const side of [-1,1]){
+ const leaf=side*2.15;
+ westernGateBox(leaf,2.5,0,4.25,4.9,.25,gateRust);
+ for(let x=-1.8;x<=1.8;x+=.45)
+  westernGateBox(leaf+x,2.55,.2,.08,5.1,.1,gateIron);
+ for(const y of [1.2,2.8,4.45])
+  westernGateBox(leaf,y,.28,4.0,.19,.15,gateIron);
+}
+// A short, solid, weathered boundary wall extends from both gate piers.
+// Its 2.4m parapet is approximately head height for travellers on the road.
+const westernGateWallReach=65;
+const westernWallMasonry=[gateStone,gateCapStone,
+ new THREE.MeshStandardMaterial({color:0x596059,roughness:1})];
+for(const side of [-1,1]){
+ const inside=7.4,sections=14,width=(westernGateWallReach-inside)/sections;
+ for(let i=0;i<sections;i++){
+  const lateral=side*(inside+(i+.5)*width);
+  // Subtle stone foundations fill the small height difference to forest soil.
+  const wallHeight=2.4,foundation=westernGate.position.y;
+  westernGateBox(lateral,(wallHeight-foundation)/2,0,width+.11,
+    wallHeight+foundation,1.65,westernWallMasonry[i%westernWallMasonry.length]);
+  westernGateBox(lateral,wallHeight+.08,0,width+.18,.2,1.95,gateCapStone);
+  if(i%4===0)westernGateBox(lateral,1.2,.94,1.0,2.5,.25,gateCapStone);
+ }
+}
+function nearWesternGateWall(x,z,clearance=4.2){
+ const p=westernGateLocal(x,z);
+ return Math.abs(p.along)<clearance&&Math.abs(p.across)<westernGateWallReach+2;
+}
+
+// The original adventure's west gate will not admit a party trying to leave.
+// Keep the road visible beyond it, but do not permit crossing its closed leaves.
+function westernGateLocal(x,z){
+ const dx=x-westernGate.position.x,dz=z-westernGate.position.z;
+ const sin=Math.sin(westernGateYaw),cos=Math.cos(westernGateYaw);
+ return {across:cos*dx-sin*dz,along:sin*dx+cos*dz};
+}
+function blockedByWesternGate(x,z,nx,nz){
+ const from=westernGateLocal(x,z),to=westernGateLocal(nx,nz);
+ return Math.abs(from.across)<westernGateWallReach&&Math.abs(to.across)<westernGateWallReach&&
+   from.along*to.along<=0;
+}
+
+
 // Main-road shoulder gravel was generated before the diversion existed.
 // Cull stones where its two branches pass, so the camp track stays walkable.
 const shoulderMatrix=new THREE.Matrix4(),shoulderPosition=new THREE.Vector3();
@@ -1442,7 +1648,7 @@ for(let i=0;i<forestCount;i++){
  // Readable wayfinding: keep the camp nameboard and second bridge directions clear.
  if(Math.hypot(x-campSignX,z-campSignZ)<10||
     Math.hypot(x-secondBridgeSignX,z-secondBridgeSignZ)<11)continue;
- if(onFork(x,z,10))continue;
+ if(onFork(x,z,10)||nearWesternGateWall(x,z,7))continue;
  if(inRiverWater(x,z))continue;
  // An extra shoreline margin keeps overhanging low spruce branches out of the flow.
  if(z<=-53&&z>=-258&&followRiverSamples.some(p=>Math.hypot(p.x-x,p.z-z)<12.5))continue;
@@ -1478,7 +1684,7 @@ treeTrunks.count=usedTrunks;treeTrunks.instanceMatrix.needsUpdate=true;scene.add
   const z=-375-(i*37.73%235),side=i%2?-1:1;
   const offset=18+(i*17.91%94);
   const x=pathX(z)+side*offset;
-  if(Math.hypot(x-castleX,z-castleZ)<100)continue;
+  if(Math.hypot(x-castleX,z-castleZ)<100||onFork(x,z,12)||nearWesternGateWall(x,z,9))continue;
   // Valley trees sit on the low land or on the sloping outer hill shoulders.
   const shoulder=Math.max(0,1-Math.pow(Math.abs(offset)/38,1.7));
   const y=Math.max(0,hillHeight(z)*shoulder)-.2;
@@ -1522,7 +1728,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.35';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.44';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),
@@ -2070,7 +2276,16 @@ function updateCastleApproach(){
  castleRoof.color.setRGB(...new THREE.Color(0x252a32).lerp(new THREE.Color(0x111219),strength).toArray());
 }
 document.querySelector('#day').onchange=e=>{time=e.target.value;atmosphere()};document.querySelector('#weather').onchange=e=>{const next=e.target.value,now=performance.now();if(next==='random'){roadWeatherFlow.current=previousManualWeather;roadWeatherFlow.target=null;roadWeatherFlow.nextAt=now+12000+Math.random()*18000;roadWeatherFlow.lastStatus=0;roadWeatherStatus.hidden=false;roadWeatherStatus.style.display='block';}else{previousManualWeather=next;roadWeatherFlow.target=null;roadWeatherStatus.hidden=true;roadWeatherStatus.style.display='none';}weather=next;atmosphere();if(next==='random')updateRandomRoadWeather(now)};document.querySelector('#reset').onclick=()=>{stopCarriageSoundtrack();stopRiverAmbience();carriageMode='walking';carriageOffer.style.display='none';rideZ=carriageZ;carriageAt(carriageZ);player.x=0;player.z=93;player.angle=Math.PI;document.querySelector('#notice').style.display='none';transitionStarted=false;document.querySelector('#fade').classList.remove('active')};atmosphere();
-const map=document.querySelector('#map'),ctx=map.getContext('2d');function minimap(){ctx.fillStyle='#192725';ctx.fillRect(0,0,210,280);ctx.strokeStyle='#8c8370';ctx.lineWidth=5;ctx.beginPath();nodes.forEach((n,i)=>{const x=105+n[0]*.45,y=20+(105-n[1])*.34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#ad8a61';ctx.lineWidth=3;ctx.beginPath();forkSamples.forEach((p,i)=>{const x=105+p.x*.45,y=20+(105-p.z)*.34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#456a80';ctx.lineWidth=5;ctx.beginPath();followRiverSamples.forEach((p,i)=>{const mx=105+p.x*.45,my=20+(105-p.z)*.34;if(!i)ctx.moveTo(mx,my);else ctx.lineTo(mx,my)});ctx.stroke();ctx.beginPath();ctx.moveTo(105+(bridgeX-90)*.45,20+(105-riverZ)*.34);ctx.lineTo(105+(bridgeX+90)*.45,20+(105-riverZ)*.34);ctx.stroke();ctx.strokeStyle='#b3a48b';ctx.lineWidth=3;ctx.beginPath();forkSamples.forEach((p,i)=>{const mx=105+p.x*.45,my=20+(105-p.z)*.34;if(!i)ctx.moveTo(mx,my);else ctx.lineTo(mx,my)});campToFallsSamples.forEach(p=>ctx.lineTo(105+p.x*.45,20+(105-p.z)*.34));ctx.stroke();ctx.fillStyle='#e5ad70';ctx.fillRect(105+campX*.45-4,20+(105-campZ)*.34-4,8,8);ctx.fillStyle='#c6b6a1';ctx.fillRect(105+castleX*.45-4,20+(105-castleZ)*.34-4,8,8);ctx.fillStyle='#ffd36f';ctx.beginPath();ctx.arc(105+player.x*.45,20+(105-player.z)*.34,4,0,Math.PI*2);ctx.fill()}
+const map=document.querySelector('#map'),ctx=map.getContext('2d');function minimap(){ctx.fillStyle='#192725';ctx.fillRect(0,0,210,280);ctx.strokeStyle='#8c8370';ctx.lineWidth=5;ctx.beginPath();nodes.forEach((n,i)=>{const x=105+n[0]*.45,y=20+(105-n[1])*.34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#ad8a61';ctx.lineWidth=3;ctx.beginPath();forkSamples.forEach((p,i)=>{const x=105+p.x*.45,y=20+(105-p.z)*.34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#bda17f';ctx.lineWidth=3;ctx.beginPath();westGateSamples.forEach((p,i)=>{const mx=105+p.x*.45,my=20+(105-p.z)*.34;i?ctx.lineTo(mx,my):ctx.moveTo(mx,my)});ctx.stroke();ctx.fillStyle='#f3d09e';ctx.font='bold 11px Georgia';ctx.fillText('B',105+westernGate.position.x*.45+6,20+(105-westernGate.position.z)*.34-5);// Reference map v3.44: river from the east, a western bend by the crossing,
+// then south and east toward Tser Falls. Only the blue minimap ink changes.
+ctx.strokeStyle='#527e9b';ctx.lineWidth=5;ctx.lineJoin='round';ctx.lineCap='round';
+ctx.beginPath();
+ctx.moveTo(190,64);
+ctx.bezierCurveTo(164,61,137,57,113,58);
+ctx.bezierCurveTo(93,59,79,69,79,88);
+ctx.bezierCurveTo(77,112,93,140,111,158);
+ctx.bezierCurveTo(119,166,126,172,132,174);
+ctx.stroke();ctx.strokeStyle='#b3a48b';ctx.lineWidth=3;ctx.beginPath();forkSamples.forEach((p,i)=>{const mx=105+p.x*.45,my=20+(105-p.z)*.34;if(!i)ctx.moveTo(mx,my);else ctx.lineTo(mx,my)});campToFallsSamples.forEach(p=>ctx.lineTo(105+p.x*.45,20+(105-p.z)*.34));ctx.stroke();ctx.fillStyle='#e5ad70';ctx.fillRect(105+campX*.45-4,20+(105-campZ)*.34-4,8,8);ctx.fillStyle='#c6b6a1';ctx.fillRect(105+castleX*.45-4,20+(105-castleZ)*.34-4,8,8);ctx.fillStyle='#ffd36f';ctx.beginPath();ctx.arc(105+player.x*.45,20+(105-player.z)*.34,4,0,Math.PI*2);ctx.fill()}
 // Carriage invitation and automated first-person ride.
 // Carriage soundtrack extracted from the supplied recording; self-contained for local playback.
 // Play the same original outdoor recording used by the Village of Barovia
@@ -2203,6 +2418,8 @@ const roadNarrativeSites=[
   text:'Richly colored velvet tents emerge from the mist beside the river. Lanterns, patterned draperies, traveling carts and trinkets surround a low campfire. The largest double-peaked pavilion bears the name Madame Eva.'},
  {id:'H',name:'Tser Falls Bridge',x:fallsX,z:fallsZ,radius:9,
   text:'Water races beneath Tser Falls Bridge, its restless current breaking around stones and ancient timbers. Beyond the crossing, the road bends through increasingly steep and lonely forest toward Castle Ravenloft.'},
+ {id:'B',name:'Western Gates of Barovia',x:westernGate.position.x,z:westernGate.position.z,radius:18,
+  text:'A short walk beyond the black carriage, just before the castle road begins its climb, an almost right-angle track branches left toward weathered iron gates framed by old stone pillars and low, head-height walls extending into the woods. Headless stone guardians stand watch, their fallen heads among the weeds. Beyond the bars, the road disappears into cold fog. The gates do not open to anyone attempting to leave Barovia from this side.'},
  {id:'I',name:'The Black Carriage',x:carriageX,z:carriageZ,radius:16,
   text:'A black carriage waits silently beside the road. Its dark cabin and still wheels seem strangely untouched by the mud of the journey. Somewhere ahead, the castle rises from the crags, and the carriage appears ready to take you there.'},
  {id:'CASTLE',name:'The Castle Road',x:pathX(-525),z:-525,radius:11,
@@ -2396,8 +2613,8 @@ if(carriageMode==='opening'||carriageMode==='offered'){
 }
 if(window.DNDPOV_ENCOUNTER_PENDING){updateEyes(now);updateMoon();updateRoadWeather(now);updateCastleApproach();minimap();renderer.render(scene,camera);requestAnimationFrame(frame);return;}
 const speed=(keys.shift?17:8)*dt;if(keys.arrowleft)player.angle+=1.8*dt;if(keys.arrowright)player.angle-=1.8*dt;let f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0);const nx=player.x+Math.sin(player.angle)*f*speed+Math.cos(player.angle)*side*speed,nz=player.z+Math.cos(player.angle)*f*speed-Math.sin(player.angle)*side*speed;
-if(Math.abs(nx-pathX(nz))<5.1||Math.abs(nz-riverZ)<12&&Math.abs(nx-bridgeX)<5.2||onFork(nx,nz,4.2)||Math.abs(nz-campZ)<19&&Math.abs(nx-campX)<22){player.x=nx;player.z=nz}
-camera.position.set(player.x,2.1+hillHeight(player.z),player.z);camera.rotation.set(0,0,0);camera.rotation.y=player.angle+Math.PI;const desc=document.querySelector('#description'),place=document.querySelector('#place');if(player.z>-18){place.textContent='The Old Svalich Road';desc.textContent='Ancient spruce trees close around the winding road.'}else if(player.z>-62){place.textContent='Bridge over the Tser River';desc.textContent='Cold dark water passes beneath the wooden bridge.'}else if(player.z>-245){place.textContent=onFork(player.x,player.z,6)||Math.hypot(player.x-campX,player.z-campZ)<26?'Vistani Encampment':'The Road to the Vistani Camp';desc.textContent='After the River Ivlis bridge, continue to F. Straight follows the forest road; right follows the river past the Vistani camp. Both routes meet before Tser Falls Bridge.'}else{place.textContent='The Road to Castle Ravenloft';desc.textContent='The road winds through the fog. Castle Ravenloft stands faintly ahead.'}
+if(!blockedByWesternGate(player.x,player.z,nx,nz)&&(Math.abs(nx-pathX(nz))<5.1||Math.abs(nz-riverZ)<12&&Math.abs(nx-bridgeX)<5.2||onFork(nx,nz,4.2)||Math.abs(nz-campZ)<19&&Math.abs(nx-campX)<22)){player.x=nx;player.z=nz}
+camera.position.set(player.x,2.1+westernBranchGroundHeight(player.x,player.z),player.z);camera.rotation.set(0,0,0);camera.rotation.y=player.angle+Math.PI;const desc=document.querySelector('#description'),place=document.querySelector('#place');if(Math.hypot(player.x-westernGate.position.x,player.z-westernGate.position.z)<17){place.textContent='B · Western Gates of Barovia';desc.textContent='The road ends at towering, rusted iron gates flanked by headless stone guardians. From within Barovia the gates remain sealed.'}else if(nearWesternGateRoad(player.x,player.z,5.6)){place.textContent='Western Road · Gates of Barovia';desc.textContent='A northwest branch leaves the carriage crossroads, vanishing among the spruces toward the second Gates of Barovia.'}else if(player.z>-18){place.textContent='The Old Svalich Road';desc.textContent='Ancient spruce trees close around the winding road.'}else if(player.z>-62){place.textContent='Bridge over the Tser River';desc.textContent='Cold dark water passes beneath the wooden bridge.'}else if(player.z>-245){place.textContent=onFork(player.x,player.z,6)||Math.hypot(player.x-campX,player.z-campZ)<26?'Vistani Encampment':'The Road to the Vistani Camp';desc.textContent='After the River Ivlis bridge, continue to F. Straight follows the forest road; right follows the river past the Vistani camp. Both routes meet before Tser Falls Bridge.'}else{place.textContent='The Road to Castle Ravenloft';desc.textContent='The road winds through the fog. Castle Ravenloft stands faintly ahead.'}
 // Keep the boundary at the actual last road waypoint (z=105). Declining the
 // prompt never lets the player wander beyond the map or triggers it repeatedly;
 // walking back 10+ metres rearms it for a later return.
@@ -2973,6 +3190,7 @@ document.addEventListener('keydown',event=>{
  '<button type="button" id="localAutoDm"></button>'+
  '<button type="button" id="localOracle">✦ Oracle · Decision Report</button>'+
  '<button type="button" id="localEncounters">📜 Encounters</button>'+
+ '<button type="button" id="localModuleContents" disabled>📚 Module Contents · Scenes</button>'+
  '<small>Auto DM handles local scripted checks. AI DM conversation is separate.</small>'+
  '<div class="tool-section">EXPLORATION & SETTINGS</div>'+
  '<button type="button" id="localRead">📖 Read Scene / Read Again</button>'+
@@ -2998,6 +3216,7 @@ document.addEventListener('keydown',event=>{
   h.append(t,close);const b=document.createElement('div');b.className='pane-body';el.append(h,b);document.body.append(el);return b;}
  const oracleBody=makePane('dndpovOracle','Oracle · Decision Report');
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
+ const moduleBody=makePane('dndpovModuleContents',titles[leg]+' · Original Module Text');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
  bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{window.DNDPOV_ENCOUNTER_PENDING=false;banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
@@ -3149,6 +3368,38 @@ document.addEventListener('keydown',event=>{
    persist();record('Encounter history reset',titles[leg]);renderEncounters();
   }};encounterBody.append(reset);
  }
+ function renderModuleContents(){
+  moduleBody.replaceChildren();
+  const intro=document.createElement('p');
+  intro.textContent='DM reference · All available I6 scene descriptions for this leg. Open a location to read its complete text. Notes and statistics remain DM-only.';
+  moduleBody.append(intro);
+  const references=window.DNDPOV_MODULE_REFERENCE?.locations||{};
+  const current=String(window.DNDPOV_AI_CONTEXT?.()?.location||location||'').toUpperCase();
+  for(const id of ['B','D','F','G','G1','H','I','J']){
+   const ref=references[id];if(!ref)continue;
+   const card=document.createElement('details');card.className='entry';
+   if(id===current)card.open=true;
+   const summary=document.createElement('summary');
+   summary.textContent=id+' · '+(ref.title||id)+(ref.page?' · p. '+ref.page:'');
+   summary.style.cssText='cursor:pointer;font-weight:bold;color:#f1d6a3';card.append(summary);
+   const label=document.createElement('small');label.textContent='I6 MODULE · READ-ALOUD';
+   label.style.cssText='display:block;margin:9px 0 4px;color:#d6b989';card.append(label);
+   const read=document.createElement('div');
+   read.textContent=(ref.readAloud||[]).join('\n\n')||'No boxed read-aloud is provided for this location in the embedded reference.';
+   read.style.cssText='background:#41454c;border-left:4px solid #d8ae70;color:#f7f4ed;padding:11px 12px;white-space:pre-wrap;font:italic 13px/1.55 Georgia,serif;max-height:240px;overflow-y:auto;scrollbar-color:#b89b70 #32343a';
+   card.append(read);
+   const notes=[...(ref.notes||[]),...(ref.stats||[])];
+   if(notes.length){const dm=document.createElement('details');
+    dm.style.marginTop='9px';const caption=document.createElement('summary');
+    caption.textContent='DM notes & statistics ('+notes.length+')';caption.style.cursor='pointer';
+    dm.append(caption);
+    const text=document.createElement('p');text.textContent=notes.join('\n\n');
+    text.style.cssText='white-space:pre-wrap;font-size:12px;line-height:1.5;color:#e1c9ac';
+    dm.append(text);card.append(dm);
+   }
+   moduleBody.append(card);
+  }
+ }
  const actualDmId=leg==='svalich'?'dmBtn':leg==='village'?'dmMode':null;
  const dmModeButton=$('localDmMode'),autoButton=$('localAutoDm');
  function sync(){const b=actualDmId?$(actualDmId):null;
@@ -3156,11 +3407,19 @@ document.addEventListener('keydown',event=>{
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
   autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
+  $('localModuleContents').disabled=!localDm;
+  if(!localDm)$('dndpovModuleContents').classList.remove('open');
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
  autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
  $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localModuleContents').onclick=()=>{
+  if(!localDm)return;renderModuleContents();
+  $('dndpovModuleContents').classList.add('open');
+  $('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');
+  dock.classList.remove('open');document.exitPointerLock?.();
+ };
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
@@ -3169,7 +3428,7 @@ document.addEventListener('keydown',event=>{
   if($(id))$(id).click();else if(confirm('Restart this location?'))location.reload();};
  $('dndpovToolsButton').onclick=()=>{dock.classList.toggle('open');$('dndpovToolsButton').setAttribute('aria-expanded',String(dock.classList.contains('open')));sync();document.exitPointerLock?.()};
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');$('dndpovModuleContents').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
  if(leg==='tser'){
   record('Oracle initialized','Tser Road public beta',
@@ -3189,7 +3448,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:280px!important}
 @media(max-width:600px){#aiDmButton{right:79px!important;bottom:80px!important;width:54px;height:54px}
 body:has(#dndpovToolsDock.open) #aiDmButton,
 body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!important}}
-</style><script type="application/json" id="dndpovLegReference">{"leg":"tser","source":"ADV_DnD_I6_FULL_rooms(3).html · F–J; D from existing game","locations":{"D":{"id":"D","title":"River Ivlis Crossing","page":"","readAloud":[],"notes":["River Ivlis crossing: in-game landmark; no boxed D text is present in the supplied ALL source."],"stats":[]},"F":{"id":"F","title":"Road Junction","page":"11","readAloud":["Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves."],"notes":["The northern fork leads to area G. The southern road goes to area I."],"stats":[]},"G":{"id":"G","title":"Tser Pool Encampment","page":"11","readAloud":["The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp."],"notes":["There are 10 gypsies standing and sitting around the fire. If the PCs approach the camp, they are asked to join in the singing around the campfire. Whether they join the singing or not, one of the gypsies tells them, \"It was fated that you would visit this humble camp. Madam Eva foretold your coming. She awaits you.\" He leads the PCs into a large tent (area G1). The gypsies attack only if some act of hostility or insult is displayed within the camp.","10 gypsies, F-4: AC6; MV 12\"; hp 43, 34, 32, 31, 29, 27, 25, 18, 16, 13; #AT 1; Dmg 1-8; AL NE."],"stats":["10 gypsies, F-4: AC6; MV 12\"; hp 43, 34, 32, 31, 29, 27, 25, 18, 16, 13; #AT 1; Dmg 1-8; AL NE."]},"G1":{"id":"G1","title":"Madam Eva's Tent","page":"11","readAloud":["Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. \"At last you have arrived!\" Her sudden cackling laughter bursts like mad lightning from her withered lips."],"notes":["Use the following boxed text only if the PCs enter the tent.","This is Madam Eva. She speaks the name of each PC, and makes some reference to a past deed of each PC. She asks the PCs if they wish their fortunes to be read. If they agree she proceeds with the sequence outlined in Fortunes of Ravenloft on p. 4. If the PCs don't want a reading of their fates, continue play using the Fortunes of Ravenloft results you generated before starting the game.","11","Madam Eva, gypsy, C-10: AC 10; MV 9\"; hp 22; #AT 1; Dmg 1d4; AL CN; clerical spells; S 15,I 10, W 17, D 15, Con 13, Ch 8.","Madam Eva can cast the following spells each day.","First Level: darkness, protection from evil, cause fear, command,","cure light wounds (X2) Second Level: augury , chant, hold person, know alignment, speak with animals, silence 15' radius Third Level: glyph of warding, curse (X2), locate object Fourth Level: cause serious wounds, detect lie, divination Fifth Level: true seeing, raise dead","This old woman may seem crazed and mad to the PCs but she is, in fact, quite cunning and sharp of mind. She is never fooled by adventurers (she has seen a good many in her time) and is very neutral. She serves Strahd as long as that benefits her and her troupe. She never gives aid and never needs any."],"stats":["Madam Eva, gypsy, C-10: AC 10; MV 9\"; hp 22; #AT 1; Dmg 1d4; AL CN; clerical spells; S 15,I 10, W 17, D 15, Con 13, Ch 8."]},"H":{"id":"H","title":"Tser Falls","page":"11","readAloud":["This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead."],"notes":["The I6 boxed H description is from the bottom of the falls; the DNDPOV H walkable scene is the bridge above. Preserve the game-specific bridge narration."],"stats":[]},"I":{"id":"I","title":"Carriage","page":"11","readAloud":["Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently."],"notes":["2 horses: AC 7; MV 18\"; HD 2+2; hp 8, 8; #AT 3; Dmg 1-6/1-6/1-3; AL N.","The two horses pull the carriage. They are under Strahd' s control, and wait until the PCs get into the carriage. There is plenty of room in the carriage for all of the PCs. If the PCs get into the carriage, the horses draw it down the road to area J, The horses cannot be discouraged from their course."],"stats":["2 horses: AC 7; MV 18\"; HD 2+2; hp 8, 8; #AT 3; Dmg 1-6/1-6/1-3; AL N."]},"J":{"id":"J","title":"The Gates of Ravenloft","page":"12","readAloud":["After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below. The lowered drawbridge of old shom-up wood beams hangs precariously between you and the arched entrance to the courtyard. The chains of the drawbridge creak in the wind, their rust-eaten iron straining with the weight. From atop the high strong walls, stone gargoyles seem to stare at you from their hollow sockets and grin hideously. A rotting wooden portcullis, green with growth, hangs in the entry tunnel. Beyond this, the main doors of Ravenloft stand open. A rich warm light spills from them into the courtyard. Torches flutter sadly in sconces on both sides of the open doors."],"notes":["The drawbridge creaks and groans under any weight but is relatively sturdy. Each time anyone except Strajd crosses the drawbridge, there is a 5% chance of a cross board breaking. If a cross board breaks, the character on it must make a dexterity check or fall to the bottom of the cliffs, 1,000 feet below. A patch of green slime hangs over the entry tunnel. It turns living flesh into green slime in 1-4 melee rounds and eats through metal within 3 melee rounds. It can be scraped off quickly (if the scraper is discarded), excised, frozen, or burned. A cure disease kills green slime. The slime will not fall on characters entering the castle.","1 green slime: AC 9; MV 0\"; HD 2; hp 10; #AT 1; Dmg special; AL N."],"stats":["1 green slime: AC 9; MV 0\"; HD 2; hp 10; #AT 1; Dmg special; AL N."]}}}</script>
+</style><script type="application/json" id="dndpovLegReference">{"leg":"tser","source":"ADV_DnD_I6_FULL_rooms(3).html · F–J; D from existing game","locations":{"B":{"id":"B","title":"The Gates of Barovia","page":"","readAloud":["Jutting from the impenetrable woods on both sides of the road, high stone buttresses loom up gray in the fog. Huge iron gates hang on the stonework. Dew clings with cold tenacity to the rusted bars. Two statues of armed guardians silently flank the gate. Their heads, missing from their shoulders, now lie among the weeds at their feet. They greet you only with silence."],"notes":["When PCs approach within 50 feet, the gates open and then close after they pass. They will not open for PCs from within Barovia; crossing the border brings the magical fog's choking effect. See the Lands of Barovia rules.","The gates open for arrivals, close behind the party and will not open again until Strahd is destroyed. Two such gates exist in I6."],"stats":[]},"D":{"id":"D","title":"River Ivlis Crossing","page":"","readAloud":[],"notes":["River Ivlis crossing: in-game landmark; no boxed D text is present in the supplied ALL source."],"stats":[]},"F":{"id":"F","title":"Road Junction","page":"11","readAloud":["Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves."],"notes":["The northern fork leads to area G. The southern road goes to area I."],"stats":[]},"G":{"id":"G","title":"Tser Pool Encampment","page":"11","readAloud":["The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp."],"notes":["There are 10 gypsies standing and sitting around the fire. If the PCs approach the camp, they are asked to join in the singing around the campfire. Whether they join the singing or not, one of the gypsies tells them, \"It was fated that you would visit this humble camp. Madam Eva foretold your coming. She awaits you.\" He leads the PCs into a large tent (area G1). The gypsies attack only if some act of hostility or insult is displayed within the camp.","10 gypsies, F-4: AC6; MV 12\"; hp 43, 34, 32, 31, 29, 27, 25, 18, 16, 13; #AT 1; Dmg 1-8; AL NE."],"stats":["10 gypsies, F-4: AC6; MV 12\"; hp 43, 34, 32, 31, 29, 27, 25, 18, 16, 13; #AT 1; Dmg 1-8; AL NE."]},"G1":{"id":"G1","title":"Madam Eva's Tent","page":"11","readAloud":["Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. \"At last you have arrived!\" Her sudden cackling laughter bursts like mad lightning from her withered lips."],"notes":["Use the following boxed text only if the PCs enter the tent.","This is Madam Eva. She speaks the name of each PC, and makes some reference to a past deed of each PC. She asks the PCs if they wish their fortunes to be read. If they agree she proceeds with the sequence outlined in Fortunes of Ravenloft on p. 4. If the PCs don't want a reading of their fates, continue play using the Fortunes of Ravenloft results you generated before starting the game.","11","Madam Eva, gypsy, C-10: AC 10; MV 9\"; hp 22; #AT 1; Dmg 1d4; AL CN; clerical spells; S 15,I 10, W 17, D 15, Con 13, Ch 8.","Madam Eva can cast the following spells each day.","First Level: darkness, protection from evil, cause fear, command,","cure light wounds (X2) Second Level: augury , chant, hold person, know alignment, speak with animals, silence 15' radius Third Level: glyph of warding, curse (X2), locate object Fourth Level: cause serious wounds, detect lie, divination Fifth Level: true seeing, raise dead","This old woman may seem crazed and mad to the PCs but she is, in fact, quite cunning and sharp of mind. She is never fooled by adventurers (she has seen a good many in her time) and is very neutral. She serves Strahd as long as that benefits her and her troupe. She never gives aid and never needs any."],"stats":["Madam Eva, gypsy, C-10: AC 10; MV 9\"; hp 22; #AT 1; Dmg 1d4; AL CN; clerical spells; S 15,I 10, W 17, D 15, Con 13, Ch 8."]},"H":{"id":"H","title":"Tser Falls","page":"11","readAloud":["This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead."],"notes":["The I6 boxed H description is from the bottom of the falls; the DNDPOV H walkable scene is the bridge above. Preserve the game-specific bridge narration."],"stats":[]},"I":{"id":"I","title":"Carriage","page":"11","readAloud":["Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently."],"notes":["2 horses: AC 7; MV 18\"; HD 2+2; hp 8, 8; #AT 3; Dmg 1-6/1-6/1-3; AL N.","The two horses pull the carriage. They are under Strahd' s control, and wait until the PCs get into the carriage. There is plenty of room in the carriage for all of the PCs. If the PCs get into the carriage, the horses draw it down the road to area J, The horses cannot be discouraged from their course."],"stats":["2 horses: AC 7; MV 18\"; HD 2+2; hp 8, 8; #AT 3; Dmg 1-6/1-6/1-3; AL N."]},"J":{"id":"J","title":"The Gates of Ravenloft","page":"12","readAloud":["After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below. The lowered drawbridge of old shom-up wood beams hangs precariously between you and the arched entrance to the courtyard. The chains of the drawbridge creak in the wind, their rust-eaten iron straining with the weight. From atop the high strong walls, stone gargoyles seem to stare at you from their hollow sockets and grin hideously. A rotting wooden portcullis, green with growth, hangs in the entry tunnel. Beyond this, the main doors of Ravenloft stand open. A rich warm light spills from them into the courtyard. Torches flutter sadly in sconces on both sides of the open doors."],"notes":["The drawbridge creaks and groans under any weight but is relatively sturdy. Each time anyone except Strajd crosses the drawbridge, there is a 5% chance of a cross board breaking. If a cross board breaks, the character on it must make a dexterity check or fall to the bottom of the cliffs, 1,000 feet below. A patch of green slime hangs over the entry tunnel. It turns living flesh into green slime in 1-4 melee rounds and eats through metal within 3 melee rounds. It can be scraped off quickly (if the scraper is discarded), excised, frozen, or burned. A cure disease kills green slime. The slime will not fall on characters entering the castle.","1 green slime: AC 9; MV 0\"; HD 2; hp 10; #AT 1; Dmg special; AL N."],"stats":["1 green slime: AC 9; MV 0\"; HD 2; hp 10; #AT 1; Dmg special; AL N."]}}}</script>
 
 <script id="dndpovLegReferenceRuntime">
 (()=>{
@@ -3222,7 +3481,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 #dndpovContextDock.collapsed #dndpovContextDockBody{display:none}
 #dndpovContextDock.collapsed{max-height:none}
 #dndpovContextWhere{font-size:14px;font-weight:bold;color:#efc98d;margin:0 0 5px}
-#dndpovContextExcerpt{margin:0 0 8px;color:#e0d6cb;white-space:pre-wrap;overflow-wrap:anywhere}
+#dndpovContextExcerpt{margin:8px 0 10px;background:#41454c;border-left:4px solid #d8ae70;color:#f7f4ed;font:italic 13px/1.55 Georgia,serif;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:205px;overflow-y:auto;scrollbar-color:#b89b70 #32343a}
 #dndpovContextDock .contextCommands{display:flex;flex-wrap:wrap;gap:5px;padding:7px 0 0;border-top:1px solid #63564c}
 #dndpovContextDock .contextCommands button{font:11px Georgia,serif;padding:5px 7px;border:1px solid #81694b;border-radius:4px;background:#302b33;color:#f2d9b3;cursor:pointer}
 #dndpovContextDock .contextCommands button.active{background:#50374f;border-color:#c69fdb;color:#ffdbff}
@@ -3232,7 +3491,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 @media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
 </style>
 
-<script id="dndpovContextDockScript" data-edition="full" data-leg="tser">
+<script id="dndpovContextDockScript" data-edition="public" data-leg="tser">
 (()=>{
   'use strict';
   const script=document.currentScript;
@@ -3245,7 +3504,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   dock.setAttribute('aria-label','Current location and Dungeon Master tools');
   dock.innerHTML='<div id="dndpovContextDockHead"><strong>📍 '+label+' · Location</strong><button id="dndpovContextFold" type="button" aria-expanded="true" aria-label="Collapse location panel">−</button></div>'+
     '<div id="dndpovContextDockBody"><div id="dndpovContextWhere">Finding your location…</div><p id="dndpovContextExcerpt">Explore to discover room and landmark descriptions.</p>'+
-    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button></div>'+
+    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button><button id="dndpovContextReference" type="button" disabled>📚 Module Text</button></div>'+
     '<div id="dndpovContextDmInfo" aria-live="off">DM notes hidden. Enable them only if you are running the adventure.</div>'+
     '<small class="contextEdition">'+(publicBeta?'Public beta · Local DM tools available. AI chat and multiplayer require the local edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
   document.body.append(dock);
@@ -3266,6 +3525,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   $('dndpovContextAuto').onclick=()=>$('localAutoDm')?.click();
   $('dndpovContextOracle').onclick=()=>$('localOracle')?.click();
   $('dndpovContextEncounters').onclick=()=>$('localEncounters')?.click();
+  $('dndpovContextReference').onclick=()=>$('localModuleContents')?.click();
 
   const truncate=(str,length)=>str.length>length?str.slice(0,length).trimEnd()+'…':str;
   let lastKey='';
@@ -3285,7 +3545,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const title=String(scene?.title||entry?.title||c.roomName||'');
     $('dndpovContextWhere').textContent=(id?id+' · ':'')+(title||label)+(position==='inside'?' · Inside':'');
     const excerpt=String(scene?.boxed||entry?.readAloud?.[0]||'');
-    $('dndpovContextExcerpt').textContent=excerpt?truncate(excerpt.replace(/\s+/g,' '),280):
+    $('dndpovContextExcerpt').textContent=excerpt?excerpt:
       'You are exploring '+label+'. The journal will show any available original room description when you reach its location.';
     updateDmInfo();
   }
@@ -3306,7 +3566,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const notes=dmEnabled();
     $('dndpovContextDm').textContent='DM notes: '+(notes?'ON':'OFF');
     $('dndpovContextDm').classList.toggle('active',notes);
-    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters'])$(id).disabled=!notes;
+    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters','dndpovContextReference'])$(id).disabled=!notes;
     const auto=window.DNDPOV_AUTO_DM_TOOLS?.getState?.()?.enabled;
     $('dndpovContextAuto').textContent='Auto DM: '+(auto?'ON':'OFF');
     $('dndpovContextAuto').classList.toggle('active',Boolean(auto));
@@ -3317,4 +3577,25 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   setInterval(()=>{updateLocation();syncControls()},500);
 })();
 </script>
+<style id="dndpovAntiqueGoldToolsButton">
+/* Accessible DNDPOV tool launcher: shared PUBLIC and PRIVATE design standard. */
+#dndpovToolsButton,#dungeonToolToggle{
+ background:linear-gradient(145deg,#deb770 0%,#bd914b 62%,#a87834 100%)!important;
+ color:#21180f!important;
+ border:2px solid #e6bd77!important;
+ text-shadow:0 1px 0 #f9d795a6!important;
+ box-shadow:0 0 0 1px #573b20,0 5px 20px #b88a4590,0 2px 8px #0009!important;
+ font-weight:bold!important;
+}
+#dndpovToolsButton:hover,#dungeonToolToggle:hover,
+#dndpovToolsButton:focus-visible,#dungeonToolToggle:focus-visible{
+ background:linear-gradient(145deg,#f1cf8e,#d5a65c 70%,#b88a45)!important;
+ color:#1b140c!important;
+ border-color:#ffe2a3!important;
+ box-shadow:0 0 0 2px #bd914b,0 0 22px #e5b970bf!important;
+}
+#dndpovToolsButton:focus-visible,#dungeonToolToggle:focus-visible{
+ outline:2px solid #fff0bc!important;outline-offset:3px;
+}
+</style>
 </body></html>

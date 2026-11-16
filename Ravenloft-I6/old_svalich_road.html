@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.60 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.76 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:160px;height:240px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
 </style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
@@ -6,11 +6,25 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;
 @media(max-width:750px){#gamePanel{top:125px;max-height:38vh;width:235px;font-size:11px}}
 </style><style id="full-controls">
 #hud{left:12px!important;top:12px!important;width:350px!important;max-width:calc(100vw - 24px)!important;box-sizing:border-box;border-radius:0!important;z-index:14!important;background:#24272cf5!important}#hud b{font-size:21px!important}#hud p{margin:4px 0!important;font-size:11px}#hud .sceneSettings{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}#hud button{font-size:11px;padding:5px}
-#gamePanel{left:12px!important;top:128px!important;width:310px!important;max-height:calc(100vh - 255px)!important;border-radius:0!important;padding:13px!important;z-index:14!important}#gamePanel .readaloud{line-height:1.6}#gamePanel .dmnote{margin:12px 0}#gamePanel .smallCaption{font-size:10px;color:#e4b879;letter-spacing:.7px}#gamePanel .gameTools{display:none!important}#gamePanel h2{font-size:19px!important}#gamePanel .readaloud{margin-top:8px}
+#gamePanel{left:12px!important;top:128px!important;width:310px!important;max-height:calc(100vh - 255px)!important;border-radius:0!important;padding:13px!important;z-index:14!important}#gamePanel .readaloud{line-height:1.6}#gamePanel .dmnote{margin:12px 0}#gamePanel .smallCaption{font-size:10px;color:#e4b879;letter-spacing:.7px}#gamePanel .gameTools{display:none!important}#gamePanel h2{font-size:19px!important}#gamePanel .readaloud{margin-top:8px;background:#41454c!important;color:#f7f4ed!important;border-left:4px solid #d8ae70;padding:12px 13px;font-style:italic;white-space:pre-wrap;line-height:1.6!important}
 #mapbox,#minimap{right:14px!important;top:12px!important;z-index:12!important;width:300px!important;box-sizing:border-box;border-radius:0!important;background:#1b191ced!important}#mapbox canvas,#minimap canvas{width:100%!important;height:auto!important;max-height:255px!important;object-fit:contain}#mapbox small,#minimap small{font-size:11px;color:#e2bd84}#mapTools{display:flex;gap:5px;justify-content:center;margin-top:5px}#mapTools button{font-size:11px}
-#help{left:360px!important;bottom:14px!important;transform:none!important;z-index:13!important;font-size:11px!important;white-space:normal!important;max-width:330px;border-radius:0!important}#loc{display:none!important}#controlDeck{position:fixed;right:14px;bottom:14px;z-index:18;width:350px;max-width:calc(100vw - 28px);background:#120e12f5;border:1px solid #9c784c;padding:9px;color:#e8c18b;font:12px Georgia,serif;box-sizing:border-box}#controlDeck .toolRow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px 0;border-bottom:1px solid #6d5037}#controlDeck .toolRow:last-child{border-bottom:0}#controlDeck .toolLabel{width:40px;flex:none;font-size:10px;color:#d7a766}#controlDeck button,#controlDeck select,#mapTools button{background:#34271d;border:1px solid #aa8757;color:#f0d6a9;padding:7px 6px;cursor:pointer;border-radius:2px;font:11px Georgia,serif}#controlDeck button:hover,#mapTools button:hover{background:#74502e}#controlDeck button.on{background:#805824;border-color:#efbc69}#controlDeck select{max-width:160px}#gameModal{z-index:70!important}#gameModal article{max-height:85vh}#gameModal .readaloud{white-space:pre-line}#keyOverlay{position:absolute;inset:8px;pointer-events:none;width:calc(100% - 16px);height:calc(100% - 16px)}
+#help{left:360px!important;bottom:14px!important;transform:none!important;z-index:13!important;font-size:11px!important;white-space:normal!important;max-width:330px;border-radius:0!important}#loc{display:none!important}#controlDeck{position:fixed;right:14px;bottom:14px;z-index:18;width:350px;max-width:calc(100vw - 28px);background:#120e12f5;border:1px solid #9c784c;padding:9px;color:#e8c18b;font:12px Georgia,serif;box-sizing:border-box}#controlDeck .toolRow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px 0;border-bottom:1px solid #6d5037}#controlDeck .toolRow:last-child{border-bottom:0}#controlDeck .toolLabel{width:40px;flex:none;font-size:10px;color:#d7a766}#controlDeck button,#controlDeck select,#mapTools button{background:#34271d;border:1px solid #aa8757;color:#f0d6a9;padding:7px 6px;cursor:pointer;border-radius:2px;font:11px Georgia,serif}#controlDeck button:hover,#mapTools button:hover{background:#74502e}#controlDeck button.on{background:#805824;border-color:#efbc69}#controlDeck select{max-width:160px}#gameModal{z-index:70!important}#gameModal article{max-height:85vh}#gameModal .readaloud{white-space:pre-line}#keyOverlay{position:absolute;inset:0;pointer-events:none;width:100%!important;height:auto!important;max-height:255px!important;object-fit:contain}
 @media(max-width:1050px){#help{left:14px!important;bottom:15px!important}#gamePanel{max-height:calc(100vh - 290px)!important}#controlDeck{bottom:100px}}@media(max-width:720px){#hud{width:240px!important}#gamePanel{width:220px!important;top:120px!important;max-height:35vh!important}#mapbox,#minimap{width:165px!important}#controlDeck{width:285px;bottom:8px}#help{display:none!important}}
-</style><style id="inn-interior-style">.innInterior{height:230px;position:relative;overflow:hidden;border:2px solid #86643e;background:linear-gradient(160deg,#39291e 0%,#60412b 52%,#21170f 100%);color:#ffe0a5;text-align:center}.innRafters{padding:16px;background:repeating-linear-gradient(90deg,#2b1c13 0 24px,#513520 24px 29px);font-size:20px;letter-spacing:3px}.innHearth{position:absolute;left:6%;top:80px;font-size:58px;text-shadow:0 0 28px #ff9d25}.innPatrons{position:absolute;right:8%;top:92px;font-size:32px}.innTable{position:absolute;left:30%;right:30%;bottom:10px;padding:10px;background:#4a2a18;border:3px solid #9b6b3c;font-size:25px}.innInterior small{display:block;font-size:11px;color:#f5d4a2}</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style><style id="dndpovToolsMoved">#dmBtn{display:none!important}</style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.47</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
+</style><style id="inn-interior-style">.innInterior{height:230px;position:relative;overflow:hidden;border:2px solid #86643e;background:linear-gradient(160deg,#39291e 0%,#60412b 52%,#21170f 100%);color:#ffe0a5;text-align:center}.innRafters{padding:16px;background:repeating-linear-gradient(90deg,#2b1c13 0 24px,#513520 24px 29px);font-size:20px;letter-spacing:3px}.innHearth{position:absolute;left:6%;top:80px;font-size:58px;text-shadow:0 0 28px #ff9d25}.innPatrons{position:absolute;right:8%;top:92px;font-size:32px}.innTable{position:absolute;left:30%;right:30%;bottom:10px;padding:10px;background:#4a2a18;border:3px solid #9b6b3c;font-size:25px}.innInterior small{display:block;font-size:11px;color:#f5d4a2}</style><style id="atmosphere-controls">#hud select#day,#hud select#weather{font:12px Georgia,serif;color:#f4dcb2;background:#30271e;border:1px solid #b18c57;border-radius:3px;padding:5px 7px;max-width:130px;cursor:pointer}#hud select#day:focus,#hud select#weather:focus{outline:2px solid #e6bb76}</style><style id="road-village-transition-style">#travelFade{position:fixed;inset:0;background:#070b12;opacity:0;pointer-events:none;z-index:100;transition:opacity 1.5s ease;display:flex;align-items:center;justify-content:center;color:#e4c58e;font:22px Georgia,serif}#travelFade.active{opacity:1;pointer-events:auto}</style><style id="dndpovToolsMoved">#dmBtn{display:none!important}</style><style id="svalich-i6-opening-style">
+#svalichJourneyOverlay{position:fixed;inset:0;background:rgba(3,5,10,.73);z-index:3500;display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;color:#f4e0bb;font:14px/1.5 Georgia,serif}
+#svalichJourneyOverlay[hidden]{display:none}
+#svalichJourneyCard{width:min(610px,94vw);max-height:85vh;overflow:auto;background:linear-gradient(155deg,#232027,#111218);border:2px solid #b58a4a;border-radius:12px;padding:25px;box-shadow:0 20px 70px #000;box-sizing:border-box}
+#svalichJourneyCard h2{color:#edc98e;font-size:24px;margin:2px 0 12px}
+#svalichJourneyCard p{margin:0 0 14px;line-height:1.65}
+#svalichJourneyCard .sourceNote{color:#b9aa95;font-size:12px}
+#svalichJourneyActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+#svalichJourneyActions button{flex:1 1 200px;min-height:49px;font:bold 14px Georgia,serif;background:#4c3726;border:1px solid #c19a62;color:#fbe6c2;cursor:pointer;padding:10px}
+#svalichJourneyActions button:hover{background:#75502d}
+#svalichJourneyActions button:focus-visible{outline:3px solid #f8da95;outline-offset:2px}
+#svalichJourneyBadge{position:fixed;bottom:74px;left:50%;transform:translateX(-50%);z-index:45;background:#171721ef;border:1px solid #ad8952;border-radius:6px;color:#eac790;padding:8px 14px;font:13px Georgia,serif;text-align:center;max-width:calc(100vw - 26px);pointer-events:none}
+#svalichJourneyBadge[hidden]{display:none}
+@media(max-width:700px){#svalichJourneyCard{padding:16px}#svalichJourneyCard h2{font-size:20px}#svalichJourneyBadge{bottom:90px}}
+</style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.47</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
 try {
 let THREE;
 for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}
@@ -139,7 +153,43 @@ dirtTexture.anisotropy=4;
 dirtTexture.repeat.set(1,3);
 const roadMat=new THREE.MeshStandardMaterial({map:dirtTexture,color:0xffffff,roughness:1});
 const edge=material('#655b4a');
-for(let i=1;i<nodes.length;i++){const [x,z]=nodes[i-1],[xx,zz]=nodes[i],length=Math.hypot(xx-x,zz-z);const m=box((x+xx)/2,-.012,(z+zz)/2,9,.06,length+.7,roadMat);m.rotation.y=-Math.atan2(xx-x,zz-z);const l=box((x+xx)/2,-.05,(z+zz)/2,11,.045,length+.7,edge);l.rotation.y=m.rotation.y;}
+// v1.76 — one smoothly joined road ribbon instead of disconnected box segments.
+// Original nodes stay unchanged for the map, location rules and village transition.
+const scenicRoadNodes=[
+ [0,415],[3,358],[1,307],[-3,268],[-1,226],
+ ...nodes,
+ [1,-245],[2,-283],[-3,-325],[-2,-365],[5,-415],[7,-470]
+];
+function addJoinedRoadRibbon(sourceNodes,width,height,originalMaterial,label){
+ const curve=new THREE.CatmullRomCurve3(
+  sourceNodes.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
+ const segments=270;
+ const positions=[],uvs=[],indices=[];
+ let travelled=0,prior=null;
+ for(let i=0;i<=segments;i++){
+  const t=i/segments,p=curve.getPoint(t),tangent=curve.getTangent(t).normalize();
+  if(prior)travelled+=p.distanceTo(prior);
+  prior=p;
+  const nx=tangent.z,nz=-tangent.x;
+  for(const side of [1,-1]){
+   positions.push(p.x+nx*width*.5*side,height,p.z+nz*width*.5*side);
+   uvs.push(side===1?0:1,travelled/22);
+  }
+  if(i<segments){const a=i*2;indices.push(a,a+1,a+2,a+1,a+3,a+2)}
+ }
+ const geometry=new THREE.BufferGeometry();
+ geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+ geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+ geometry.setIndex(indices);geometry.computeVertexNormals();
+ const materialForRibbon=originalMaterial.clone();
+ materialForRibbon.side=THREE.DoubleSide;
+ const ribbon=new THREE.Mesh(geometry,materialForRibbon);
+ ribbon.name=label;scene.add(ribbon);
+ return ribbon;
+}
+addJoinedRoadRibbon(scenicRoadNodes,11,.008,edge,'Old Svalich Road · joined earth shoulders');
+addJoinedRoadRibbon(scenicRoadNodes,9,.037,roadMat,'Old Svalich Road · continuous dirt surface');
+
 // Tser Pool-style compact earth road with scattered stones along the shoulders only.
 let seed=93471;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
 const pebble=material('#77756c');const pebbleGeom=new THREE.DodecahedronGeometry(.34,0);
@@ -256,6 +306,96 @@ for(let i=0;i<forestCount;i++){
 }
 trunks.instanceMatrix.needsUpdate=true;scene.add(trunks);
 crowns.forEach(c=>{c.instanceMatrix.needsUpdate=true;scene.add(c)});
+// v1.76 — Visual continuation beyond both Old Svalich Road termini.
+// Scenery only: preserves navigation limits, map markers, village transition,
+// encounters, and the playable road and gate geometry.
+{
+ const distantEarth=material('#465943');
+ // The original flat forest ground ends at Z -285 and +195.
+ // Close both exposed ends with continuous land rather than a void.
+ box(0,-.63,-530,260,1.26,490,distantEarth);  // -775 ... -285
+ box(0,-.63,425,260,1.26,460,distantEarth);   // +195 ... +655
+
+ // Two Barovian valley shoulders per end: mossy slopes close to the road,
+ // jagged Balinok-like rock formations rising in the distance.
+ function valleyNoise(x,z){
+  const n=Math.sin(x*0.117+z*0.029)*43758.5453;
+  return n-Math.floor(n);
+ }
+ function valleyHeight(across,distance,side){
+  const rise=Math.min(1,Math.max(0,distance/95));
+  const jagged=Math.sin(distance*.043+side*1.7)*10+
+               Math.sin(distance*.091+side*.4)*5+
+               Math.sin(distance*.014+side*2.3)*13;
+  const shelf=Math.pow(across,1.25)*(46+jagged)+Math.pow(across,3.8)*47;
+  return Math.max(0,rise*shelf);
+ }
+ const valleySlopeMaterial=new THREE.MeshLambertMaterial({
+  vertexColors:true,side:THREE.DoubleSide,transparent:false,fog:true
+ });
+ const moss=new THREE.Color('#46563f');
+ const darkStone=new THREE.Color('#454b46');
+ const farStone=new THREE.Color('#64706f');
+ const crownStone=new THREE.Color('#87908e');
+ for(const direction of [-1,1])for(const side of [-1,1]){
+  const positions=[],colors=[],indices=[];
+  const acrossSteps=32,alongSteps=55;
+  const startZ=direction<0?-225:215;
+  for(let iz=0;iz<=alongSteps;iz++){
+   const distance=iz/alongSteps*610;
+   const z=startZ+direction*distance;
+   for(let ix=0;ix<=acrossSteps;ix++){
+    const t=ix/acrossSteps;
+    const x=side*(37+t*360);
+    const h=valleyHeight(t,distance,side)+
+      Math.sin(x*.052+z*.074)*3.5*t*Math.min(1,distance/80);
+    positions.push(x,h-.6,z);
+    const rocky=Math.max(0,Math.min(1,(t-.23)*1.7));
+    const c=moss.clone().lerp(darkStone,rocky*.65)
+      .lerp(farStone,Math.pow(rocky,1.4)*.45);
+    if(h>72)c.lerp(crownStone,Math.min(.43,(h-72)/90));
+    c.multiplyScalar(.91+valleyNoise(ix+direction*19,iz+side*37)*.16);
+    colors.push(c.r,c.g,c.b);
+    if(ix<acrossSteps&&iz<alongSteps){
+     const a=iz*(acrossSteps+1)+ix;
+     const b=a+acrossSteps+1;
+     indices.push(a,b,a+1,b,b+1,a+1);
+    }
+   }
+  }
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  geometry.setIndex(indices);geometry.computeVertexNormals();
+  const slope=new THREE.Mesh(geometry,valleySlopeMaterial);
+  slope.name=(direction<0?'Southern':'Northern')+' Barovian valley · '+(side<0?'west':'east')+' ridge';
+  scene.add(slope);
+ }
+
+ // The continuous road ribbon above carries through this valley toward the fog.
+
+ // A sparse continuation of the existing mountain spruce forest provides
+ // perspective in the valley and leaves the central road corridor clear.
+ const valleyTreeCount=220;
+ const valleyTrunks=new THREE.InstancedMesh(spruceTrunkGeo,spruceBark,valleyTreeCount);
+ const valleyCrowns=new THREE.InstancedMesh(spruceBranches,spruceMats[1],valleyTreeCount);
+ const valleyRand=spruceRandom(0x51A71C);
+ for(let i=0;i<valleyTreeCount;i++){
+  const towardsSouth=i%2===0;
+  const depth=20+valleyRand()*310;
+  const z=towardsSouth?-210-depth:195+depth;
+  const x=(valleyRand()<.5?-1:1)*(15+valleyRand()*98);
+  const scale=.66+valleyRand()*.95;
+  temp.position.set(x,0,z);temp.rotation.y=valleyRand()*Math.PI*2;
+  temp.scale.set(scale,scale,scale);temp.updateMatrix();
+  valleyTrunks.setMatrixAt(i,temp.matrix);
+  valleyCrowns.setMatrixAt(i,temp.matrix);
+ }
+ valleyTrunks.instanceMatrix.needsUpdate=true;
+ valleyCrowns.instanceMatrix.needsUpdate=true;
+ scene.add(valleyTrunks,valleyCrowns);
+}
+
 // v1.18: Village-of-Barovia-inspired timber-framed, white-stucco gabled inn.
 const innWood=material('#352418'),innPlaster=material('#785338'),innRoof=material('#46301e'),innTrim=material('#241b16');
 const innGlow=new THREE.MeshStandardMaterial({color:'#f5cf91',emissive:'#e99d3c',emissiveIntensity:.9});
@@ -345,15 +485,61 @@ box(0,9.15,7.03,7.6,3.7,.25,innWood,inn);
 const sign=new THREE.Mesh(new THREE.PlaneGeometry(7.15,3.25),signMat);
 sign.position.set(0,9.15,7.19);inn.add(sign);
 for(const x of [-3.65,3.65])box(x,9.15,7.2,.18,3.7,.2,innTrim,inn);
-// Wide cart driveway winds off the main road into a clearing in the trees.
-const innPathMat=roadMat;
+// v1.76 — a close-laid Barovian cobbled inn approach, with no dirt patio slabs.
+// The curved cart lane meets a compact paved forecourt outside the front door.
 const driveNodes=[[-1,180],[-12,178],[-23,174],[-32,169],[-39,165]];
-for(let i=1;i<driveNodes.length;i++){
- const [ax,az]=driveNodes[i-1],[bx,bz]=driveNodes[i];const dx=bx-ax,dz=bz-az;
- const drive=box((ax+bx)/2,.038,(az+bz)/2,13.8,.095,Math.hypot(dx,dz)+1.5,innPathMat);
- drive.rotation.y=-Math.atan2(dx,dz);
+const driveCurve=new THREE.CatmullRomCurve3(
+ driveNodes.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
+const settsBed=material('#48483e');
+settsBed.polygonOffset=true;settsBed.polygonOffsetFactor=1;settsBed.polygonOffsetUnits=2;
+addJoinedRoadRibbon(driveNodes,14.3,.065,settsBed,'Inn · cobblestone cart lane bed');
+box(-39,.055,165.8,19.6,.07,16.3,settsBed);
+const settGeom=new THREE.BoxGeometry(1,1,1);
+const settMat=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:1,flatShading:true});
+const stoneColors=['#86847a','#70726b','#777b75','#6e706a','#969184','#626760','#7c7a70','#8a887e'];
+const cobbles=new THREE.InstancedMesh(settGeom,settMat,1100);
+cobbles.name='The Last Chance Inn · tightly laid individual cobblestones';
+let cobbleCount=0;
+const laidSetts=[];
+const tint=new THREE.Color();
+function laySett(x,z,yaw,width,depth,offset=0){
+ if(cobbleCount>=cobbles.count)return;
+ // Suppress overlapping bricks at the curved drive / inn forecourt seam.
+ if(laidSetts.some(p=>Math.hypot(p[0]-x,p[1]-z)<.96))return;
+ laidSetts.push([x,z]);
+ const object=new THREE.Object3D();
+ object.position.set(x,.158,z); // above the dark mortar; a low, walkable stone surface
+ object.rotation.set(0,yaw,0);
+ object.scale.set(width,.125,depth);
+ object.updateMatrix();cobbles.setMatrixAt(cobbleCount,object.matrix);
+ tint.set(stoneColors[Math.floor(rand()*stoneColors.length)]);
+ tint.multiplyScalar(.92+rand()*.12);
+ cobbles.setColorAt(cobbleCount,tint);cobbleCount++;
 }
-box(-39,.045,165.8,19,.1,16,innPathMat);
+const driveLength=driveCurve.getLength();
+// Brick-bond rows follow the turn; the final 7 metres join the front apron.
+for(let d=0,row=0;d<driveLength-8;d+=1.02,row++){
+ const t=driveCurve.getUtoTmapping(d/driveLength),p=driveCurve.getPoint(t);
+ const tangent=driveCurve.getTangent(t).normalize();
+ const sideways=new THREE.Vector3(tangent.z,0,-tangent.x);
+ const yaw=Math.atan2(-tangent.x,-tangent.z);
+ for(let column=-6;column<=6;column++){
+  const across=column*1.045+(row%2)*.52;
+  if(Math.abs(across)>6.8)continue;
+  const x=p.x+sideways.x*across,z=p.z+sideways.z*across;
+  laySett(x,z,yaw,.96+rand()*.05,.92+rand()*.07);
+ }
+}
+// A dense, staggered forecourt, tightly joined to the curved cart lane.
+for(let row=0;row<15;row++)for(let column=0;column<18;column++){
+ const x=-48.0+column*1.06+(row%2)*.35;
+ const z=158.45+row*1.02;
+ if(x>-29.9||z>172.8)continue;
+ laySett(x,z,0,.98+rand()*.05,.91+rand()*.06);
+}
+cobbles.count=cobbleCount;cobbles.instanceMatrix.needsUpdate=true;
+if(cobbles.instanceColor)cobbles.instanceColor.needsUpdate=true;
+scene.add(cobbles);
 // Roadside sign: face the actual main road, not edge-on to passing travellers.
 const roadSign=new THREE.Group();roadSign.position.set(-8.3,0,188);scene.add(roadSign);
 for(const x of [-3.2,3.2])box(x,2.0,0,.34,4,.4,innWood,roadSign);
@@ -364,13 +550,18 @@ rsg.strokeStyle='#eac789';rsg.lineWidth=23;rsg.strokeRect(15,15,994,370);
 rsg.textAlign='center';rsg.fillStyle='#ffe4ad';rsg.font='bold 88px Georgia';rsg.fillText('THE LAST CHANCE',512,178);rsg.font='bold 120px Georgia';rsg.fillText('INN',512,318);
 const roadSignFace=new THREE.Mesh(new THREE.PlaneGeometry(6.65,2.05),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(roadSignCanvas),side:THREE.DoubleSide}));
 roadSignFace.position.set(0,3.15,.23);roadSign.add(roadSignFace);
-// Stones define the driveway shoulders without blocking carts.
-for(let i=0;i<75;i++){
- const j=1+Math.floor(rand()*(driveNodes.length-1));const [ax,az]=driveNodes[j-1],[bx,bz]=driveNodes[j];
- const t=rand(),dx=bx-ax,dz=bz-az,len=Math.hypot(dx,dz),side=rand()<.5?-1:1;
- const x=ax+dx*t+side*(-dz/len)*(7.6+rand()*1.2),z=az+dz*t+side*(dx/len)*(7.6+rand()*1.2);
- box(x,.075,z,.3+rand()*.5,.12,.28+rand()*.48,stone);
+// Close-spaced weathered edging stones replace the scattered floating slabs.
+const rimGeo=new THREE.DodecahedronGeometry(.5,0);
+const rimStone=new THREE.InstancedMesh(rimGeo,material('#676a63'),160);
+let rimCount=0;
+for(const side of [-1,1])for(let d=0;d<driveLength-7;d+=.79){
+ const t=driveCurve.getUtoTmapping(d/driveLength),p=driveCurve.getPoint(t);
+ const v=driveCurve.getTangent(t).normalize();
+ const object=new THREE.Object3D();object.position.set(p.x+side*v.z*7.2,.13,p.z-side*v.x*7.2);
+ object.rotation.set(0,rand()*Math.PI,.08);object.scale.set(.76+rand()*.24,.28+rand()*.13,.72+rand()*.20);
+ object.updateMatrix();rimStone.setMatrixAt(rimCount++,object.matrix);
 }
+rimStone.count=rimCount;rimStone.instanceMatrix.needsUpdate=true;scene.add(rimStone);
 // Iron sconces and animated dusk/night light remain compatible with existing atmosphere updates.
 const torchFlame=new THREE.MeshBasicMaterial({color:'#ffb54b'});const innTorches=[];
 for(const x of [-2.4,2.4]){
@@ -414,6 +605,43 @@ const extraCount=480;const extraTrunks=new THREE.InstancedMesh(spruceTrunkGeo,sp
 let extraPlaced=0;
 for(let i=0;i<extraCount;i++){const z=97+rand()*101,side=rand()<.5?-1:1,x=side*(19+rand()*79);if(z>143&&z<192&&x>-57&&x<11)continue;const scale=.8+rand()*1.1;temp.position.set(x,0,z);temp.rotation.y=rand()*6.28;temp.scale.set(scale,scale,scale);temp.updateMatrix();extraTrunks.setMatrixAt(extraPlaced++,temp.matrix);const k=i%4;extraCrowns[k].setMatrixAt(extraNums[k]++,temp.matrix)}
 extraTrunks.count=extraPlaced;extraTrunks.instanceMatrix.needsUpdate=true;scene.add(extraTrunks);extraCrowns.forEach((c,k)=>{c.count=extraNums[k];c.instanceMatrix.needsUpdate=true;scene.add(c)});
+
+// v1.76 — a quiet, optional campsite in the trees beside the inn road.
+// The party walks here BEFORE sleeping; a mist transition happens afterwards.
+const i6CampGroup=new THREE.Group();
+i6CampGroup.name='I6 · Roadside resting place';
+i6CampGroup.position.set(14,0,165);
+i6CampGroup.visible=false;scene.add(i6CampGroup);
+const i6CampGrass=new THREE.MeshStandardMaterial({color:'#394633',roughness:1});
+const i6CampCanvas=new THREE.MeshStandardMaterial({color:'#867352',roughness:1,side:THREE.DoubleSide});
+const i6CampWood=new THREE.MeshStandardMaterial({color:'#4b392b',roughness:1});
+const i6CampStone=new THREE.MeshStandardMaterial({color:'#6a685f',roughness:1});
+const i6CampEmbers=new THREE.MeshStandardMaterial({color:'#ef9537',roughness:.8,emissive:'#ad4919',emissiveIntensity:.6});
+const i6CampClearing=new THREE.Mesh(new THREE.CylinderGeometry(6.4,6.4,.08,32),i6CampGrass);
+i6CampClearing.position.y=.035;i6CampGroup.add(i6CampClearing);
+// Low canvas A-frame shelter on the left and a small campfire. The tent is the rest interaction.
+const i6CampTent=new THREE.Mesh(new THREE.ConeGeometry(2.5,2.65,4),i6CampCanvas);
+i6CampTent.position.set(-2.6,1.35,-1.5);i6CampTent.rotation.y=Math.PI/4;i6CampGroup.add(i6CampTent);
+for(const [x,z,s] of [[-3.8,-1.5,1],[-1.4,-1.5,1]]){
+ const stake=new THREE.Mesh(new THREE.CylinderGeometry(.10,.13,2.25,6),i6CampWood);
+ stake.position.set(x,1.05,z);i6CampGroup.add(stake);
+}
+for(let i=0;i<9;i++){
+ const angle=i*Math.PI*2/9;
+ const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.24+(i%3)*.065,0),i6CampStone);
+ rock.position.set(Math.cos(angle)*.85,.18,Math.sin(angle)*.85);i6CampGroup.add(rock);
+}
+for(const rotation of [0,Math.PI/3,2*Math.PI/3]){
+ const log=new THREE.Mesh(new THREE.CylinderGeometry(.15,.19,1.4,7),i6CampWood);
+ log.rotation.z=Math.PI/2;log.rotation.y=rotation;log.position.set(0,.24,0);i6CampGroup.add(log);
+}
+const i6CampFire=new THREE.Mesh(new THREE.ConeGeometry(.34,.8,7),i6CampEmbers);
+i6CampFire.position.set(0,.6,0);i6CampGroup.add(i6CampFire);
+const i6CampLight=new THREE.PointLight(0xffa459,2.4,13,2);
+i6CampLight.position.set(0,1.4,0);i6CampGroup.add(i6CampLight);
+window.DNDPOV_I6_SET_CAMPSITE=(x,z,visible)=>{
+ i6CampGroup.position.set(x,0,z);i6CampGroup.visible=Boolean(visible);
+};
 
 // Eastern Gates of Barovia, placed in the forest, NOT the village.
 const gateZ=0,gateL=new THREE.Group(),gateR=new THREE.Group();gateL.position.set(-4.5,0,gateZ);gateR.position.set(4.5,0,gateZ);scene.add(gateL,gateR);
@@ -477,7 +705,7 @@ for(const [p,dir] of [[gateL,1],[gateR,-1]]){
   rivet.position.set(x,y,.20);p.add(rivet);
  }
 }
-const leftOpen=-Math.PI*.51,rightOpen=Math.PI*.51;gateL.rotation.y=leftOpen;gateR.rotation.y=rightOpen;
+const leftOpen=-Math.PI*.51,rightOpen=Math.PI*.51;gateL.rotation.y=0;gateR.rotation.y=0; // Start barred and closed.
 // v1.29 — the ancient boundary runs from both existing stone gate piers to
 // the forest edges. The 9m-wide road opening remains completely unobstructed.
 function makeEasternGateCurtainWall(){
@@ -543,9 +771,9 @@ const easternGateCurtainWall=makeEasternGateCurtainWall();
 function blocksGateWall(x,z){
  return Math.abs(x)>4.35&&Math.abs(x)<121.5&&Math.abs(z-gateZ)<1.25;
 }
-const player={x:0,z:183,angle:0},keys={};let triggered=false,progress=0,night=false,noticeUntil=0;
+const player={x:0,z:183,angle:0},keys={};let triggered=false,progress=0,night=false,noticeUntil=0,gateApproach=false,gateOpenProgress=0;
 window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(document.getElementById('gameModal')?.style.display!=='flex')keys[e.key.toLowerCase()]=true});window.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function reset(){player.x=0;player.z=183;player.angle=0;triggered=false;progress=0;gateL.rotation.y=leftOpen;gateR.rotation.y=rightOpen;document.querySelector('#notice').style.display='none'}document.querySelector('#reset').onclick=reset;
+function reset(){player.x=0;player.z=183;player.angle=0;triggered=false;progress=0;gateApproach=false;gateOpenProgress=0;gateL.rotation.y=0;gateR.rotation.y=0;document.querySelector('#notice').style.display='none';window.DNDPOV_RESET_SVALICH_CROSSINGS?.();window.DNDPOV_RESET_I6_JOURNEY?.()}document.querySelector('#reset').onclick=reset;
 // v1.22: Tser Pool's softer, layered distance mist and dusk/night palette.
 const atmospherePresets={
  day:{sky:0x899394,fog:0x899394,ambient:1.4,sun:1.6,exposure:1},
@@ -553,9 +781,9 @@ const atmospherePresets={
  dusk:{sky:0x4a505d,fog:0x4a505d,ambient:.55,sun:.45,exposure:1},
  night:{sky:0x101b28,fog:0x101b28,ambient:.22,sun:.15,exposure:1}
 };
-let timeOfDay='day',weatherMode='clear';
+let timeOfDay='dusk',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.60';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.76';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -678,7 +906,7 @@ function setAtmosphere(){
  // Natural exponential fog from the reference Tser road build.
  const fogDensity=air=>air==='fog'?.032:air==='mist'?.016:
   air==='thunderstorm'?.018:air==='rain'?.010:air==='cloudy'?.007:.005;
- scene.fog.density=w(fogDensity);
+ scene.fog.density=Math.max(w(fogDensity),window.DNDPOV_I6_TRAVEL_FOG_DENSITY||0);
  scene.fog.color.copy(new THREE.Color(bg(b.from))
    .lerp(new THREE.Color(bg(b.to)),b.t));
  const moon=night?w(air=>air==='clear'?1:0):0;
@@ -972,7 +1200,62 @@ document.querySelector('#day').addEventListener('change',()=>{wolfUnlock();wolfA
 document.querySelector('#weather').addEventListener('change',()=>{wolfUnlock();wolfAtmosphereChanged();});
 const gateSlamAudio = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAf1RYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAG1wNDFpc29tAFRTU0UAAAAOAAADTGF2ZjYxLjcuMTAzAAAAAAAAAAAAAAD/+1QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYaW5nAAAADwAAAQcAANUAAAIDBAUHCAkKCw0NDxARFx0hJikuMzY7P0JGSk1SVVldYGRpbHB0eXx/g4aJjZCUmJufo6aqrrG2ub3CxcnN0NTW19na29zd3+Dh4uPk5ufo6ers7e7v8PLz9PX29/n6+/z9/wAAAABMYXZjNjEuMTkAAAAAAAAAAAAAAAAkBUAAAAAAAADVAK8IIhz/+xRkAA/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRkHg/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRkPA/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRkWg/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRkeA/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRklg/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRktA/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk0g/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxB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TUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRE54/wNQBFgAAADAUAGLUEAAFAAAH+AAAAIAAAP8AAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAAB/gAAACAAAD/AAAAEAAAH+AAAAIAAAP8AAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAAB/gAAACAAAD/AAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xRk4Y/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=');
 function clang(){ gateSlamAudio.pause();gateSlamAudio.currentTime=0;gateSlamAudio.volume=.95;gateSlamAudio.play().catch(e=>console.warn('Gate slam audio:',e)); }
-const map=document.querySelector('#map'),ctx=map.getContext('2d');function drawMap(){ctx.fillStyle='#45583f';ctx.fillRect(0,0,160,240);ctx.strokeStyle='#9e9989';ctx.lineWidth=10;ctx.beginPath();nodes.forEach(([x,z],i)=>{const xx=80+x*1.1,yy=18+(195-z)*.52;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)});ctx.stroke();ctx.strokeStyle='#d2cbb4';ctx.lineWidth=7;ctx.stroke();ctx.strokeStyle='#8f968c';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,119);ctx.lineTo(74,119);ctx.moveTo(86,119);ctx.lineTo(160,119);ctx.stroke();ctx.strokeStyle='#282e2e';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(65,119);ctx.lineTo(95,119);ctx.stroke();ctx.fillStyle='#e8c899';ctx.fillRect(55,26,12,10);ctx.fillStyle='#986d48';ctx.fillRect(90,56,8,12);ctx.fillStyle='#ffe02d';ctx.beginPath();ctx.arc(80+player.x*1.1,18+(195-player.z)*.52,4.5,0,Math.PI*2);ctx.fill()}
+const map=document.querySelector('#map'),ctx=map.getContext('2d');
+// One world-to-map scale for both axes. The mini-map traces the same curves
+// as the world, including the inn's side drive and the full road approach.
+const svalichMapX=x=>80+x*.52,svalichMapY=z=>18+(195-z)*.52;
+const svalichMapRoadCurve=new THREE.CatmullRomCurve3(
+ scenicRoadNodes.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
+function drawMap(){
+ ctx.fillStyle='#45583f';ctx.fillRect(0,0,160,240);
+ ctx.beginPath();let began=false;
+ for(let i=0;i<=280;i++){
+  const p=svalichMapRoadCurve.getPoint(i/280);
+  if(p.z>199||p.z< -217)continue;
+  if(!began){ctx.moveTo(svalichMapX(p.x),svalichMapY(p.z));began=true}
+  else ctx.lineTo(svalichMapX(p.x),svalichMapY(p.z));
+ }
+ ctx.strokeStyle='#8a8374';ctx.lineWidth=10;ctx.stroke();
+ ctx.strokeStyle='#ddd0b0';ctx.lineWidth=6;ctx.stroke();
+ ctx.beginPath();
+ for(let i=0;i<=55;i++){
+  const p=driveCurve.getPoint(i/55);
+  if(i===0)ctx.moveTo(svalichMapX(p.x),svalichMapY(p.z));
+  else ctx.lineTo(svalichMapX(p.x),svalichMapY(p.z));
+ }
+ ctx.strokeStyle='#6c6356';ctx.lineWidth=7;ctx.stroke();
+ ctx.strokeStyle='#a6a297';ctx.lineWidth=4;ctx.stroke();
+ const gateY=svalichMapY(0);
+ ctx.strokeStyle='#8f968c';ctx.lineWidth=3;ctx.beginPath();
+ ctx.moveTo(0,gateY);ctx.lineTo(75,gateY);
+ ctx.moveTo(85,gateY);ctx.lineTo(160,gateY);ctx.stroke();
+ ctx.strokeStyle='#282e2e';ctx.lineWidth=4;ctx.beginPath();
+ ctx.moveTo(75,gateY);ctx.lineTo(85,gateY);ctx.stroke();
+ // Permanent geometry cues; toggleable landmark labels use #keyOverlay.
+ const sites=[[-39,165,'INN','#e8c899'],[10,112,'CART','#aa7952']];
+ for(const [x,z,name,color] of sites){
+  const mx=svalichMapX(x),my=svalichMapY(z);
+  ctx.fillStyle=color;ctx.fillRect(mx-2.5,my-2.5,5,5);
+ }
+ const stage=window.DNDPOV_I6_TRAVEL_SCENE;
+ if(stage){
+  const checkpoint=[151,116,82,47,16][stage.hour-1];
+  if(checkpoint!==undefined){
+   const py=svalichMapY(checkpoint);
+   ctx.strokeStyle='#e0a95e';ctx.lineWidth=1.3;
+   ctx.beginPath();ctx.arc(svalichMapX(pathX(checkpoint)),py,7,0,Math.PI*2);ctx.stroke();
+  }
+ }
+ ctx.fillStyle='#ffe02d';ctx.strokeStyle='#241b12';ctx.lineWidth=2;
+ ctx.beginPath();ctx.arc(svalichMapX(player.x),svalichMapY(player.z),4.4,0,Math.PI*2);
+ ctx.fill();ctx.stroke();
+ const caption=document.querySelector('#minimap small');
+ if(caption){
+  const label=stage?'Old Svalich Road · Hour '+stage.hour+'/5 · gold = you':
+   'Old Svalich Road · position in gold';
+  if(caption.textContent!==label)caption.textContent=label;
+ }
+}
 // Walk-through transition: triggered well beyond the Eastern Gates; no gate or player coordinates changed.
 let villageTransitionStarted=false;
 function travelToVillage(){
@@ -985,24 +1268,59 @@ function travelToVillage(){
  target.searchParams.set('weather',effectiveRoadWeather());
  setTimeout(()=>{window.location.assign(target.href)},1700);
 }
-let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){for(const k of Object.keys(keys))keys[k]=false;}if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&keys.arrowleft)player.angle-=t;if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&keys.arrowright)player.angle+=t;const f=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK?0:(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK?0:(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
-if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;window.dispatchEvent(new CustomEvent('dndpov:gate-closed',{detail:{location:'B',event:'Eastern Gates closed behind the party'}}));noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
-camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
+let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;const journeyLocked=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK||window.DNDPOV_INTRO_LOCK;if(journeyLocked){for(const k of Object.keys(keys))keys[k]=false;}if(!journeyLocked&&keys.arrowleft)player.angle-=t;if(!journeyLocked&&keys.arrowright)player.angle+=t;const f=journeyLocked?0:(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=journeyLocked?0:(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
+// I6 B: within fifty feet, the gates creak open before the party enters.
+if(!triggered&&!gateApproach&&player.z<=15.24&&player.z>=-1&&Math.abs(player.x)<8){
+ gateApproach=true;
+ window.dispatchEvent(new CustomEvent('dndpov:gate-opening',{detail:{location:'B',event:'Eastern Gates opening on approach · 50 feet'}}));
+}
+if(gateApproach&&!triggered&&gateOpenProgress<1){
+ gateOpenProgress=Math.min(1,gateOpenProgress+dt*.82);
+ const opened=gateOpenProgress*gateOpenProgress*(3-2*gateOpenProgress);
+ gateL.rotation.y=leftOpen*opened;gateR.rotation.y=rightOpen*opened;
+}
+// Wait for the iron leaves to swing clear rather than walking through them.
+if(!triggered&&gateApproach&&gateOpenProgress<.88&&player.z<1.5&&Math.abs(player.x)<4.2)player.z=1.5;
+if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;window.dispatchEvent(new CustomEvent('dndpov:gate-closed',{detail:{location:'B',event:'Eastern Gates closed behind the party'}}));noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*gateOpenProgress*(1-v);gateR.rotation.y=rightOpen*gateOpenProgress*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
+camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();window.DNDPOV_I6_JOURNEY_TICK?.();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
 
 // DNDPOV scenery-first gameplay integration v1.5
 const GAME_MAP=document.querySelector('#map')?.parentElement;
-const gameLocations=[{"id": "INN", "name": "The Last Chance Inn", "player": "To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.\n\nOutside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.\n\nYet inside these tavern walls the food is hearty and the ale is warm and frothy. A fire blazes in the hearth and the tavern is alive with the tumbling voices of country folk.\n\nSuddenly, a hush falls over the tavern. Even the flagons of\nale seem to silence themselves. The tavern door swings open.\nFramed by the lamp-lit fog, a form strides into the room. His\nheavy, booted footfalls and the jingle of his coins shatter the\nsilence. His brightly colored clothes are draped in loose folds\nabout him and his hat hangs askew, hiding his eyes in shadows.\nWithout hesitation, he walks directly up to your table and\nstands proudly in a wide stance with folded arms.\nHis accented voice speaks, \"I have been sent to you to deliver\nthis messagel If you be creatures of honor, you will come to my\nmaster's aid at first light. It is not advisable to travel the Svalich\nwoods at night!\" He pulls from his tunic a sealed letter,\naddressed to all of you in beautiful flowing script. He drops the\nletter on the table. \"Take the west road from here some five\nhours march down through the Svalich woods. There you will\nfind my master in Barovia.\"\nAmid the continued silent stares of the patronage, the gypsy\nstrides to the bar and says to the wary barkeeper, \"Fill the\nglasses, one and all. Their throats are obviously parched.\" He\ndrops a purse heavy with gold on the bar. With that, he leaves.\nThe babble of tavern voices resumes, although somewhat\nsubdued. The letter is lying before you. Dated yesterday, the ink\nis still not dry and the parchment is crisp. The seal is of a crest\nyou don't recognize.", "dm": "Planned Encounters, opening inn: the PCs begin at an old inn east of Barovia. A messenger arrives with a sealed invitation supposedly from the Burgomaster. Present the letter from the original module. The players can make preparations before setting out. The tavern building is a walk-up exterior landmark. Press E nearby to present the opening invitation and scene; the inn interior is represented in the text panel.", "x": -18, "z": 167, "r": 21}, {"id": "CART", "name": "The Messenger's Cart", "player": "A battered wooden cart rests among the spruce trees beside the road. Its wheels are motionless, and no horses are in sight. A cloaked figure lies slumped across the boards. A folded letter is visible among the folds of the cloak.", "inside": "On closer inspection, the traveler is dead. The letter bears a message warning visitors to stay away from Barovia. Its contents contradict the invitation that brought you here.", "dm": "DNDPOV adaptation: the original I6 places the dead messenger in Svalich Woods, not in a cart. This roadside cart makes the discovery visible in first person. The deceased is the messenger, not Burgomaster Kolyan Indirovich. Reveal the genuine warning only when the party examines the body; use the original module handout for exact letter text.", "x": 10, "z": 112, "r": 16}, {"id": "A", "name": "The Old Svalich Road", "player": "Black pools of water stand like dark mirrors about the muddy roadway. Thick, cold mists spread a pallor over the road. Giant tree trunks stand on both sides of the road, their branches clawing into the mists. In every direction the mists grow thicker and the forest grows more oppressive.", "dm": "The journey from the opening inn to B, Gates of Barovia, takes five hours on the road.", "x": 0, "z": 53, "r": 15}, {"id": "B", "name": "The Gates of Barovia", "player": "Jutting from the impenetrable woods on both sides of the road, high stone buttresses loom up gray in the fog. Huge iron gates hang on the stonework. Dew clings with cold tenacity to the rusted bars. Two statues of armed guardians silently flank the gate. Their heads, missing from their shoulders, now lie among the weeds at their feet. They greet you only with silence.", "dm": "When PCs approach within 50 feet, the gates open and then close after they pass. They will not open for PCs from within Barovia; crossing the border brings the magical fog's choking effect. See the Lands of Barovia rules.", "x": 0, "z": 0, "r": 13}, {"id": "C", "name": "The Svalich Woods", "player": "Towering trees, whose tops are lost in heavy gray mist, block out all save a death-gray light. The tree trunks almost touch. The thick, damp undergrowth presses in on you, making it impossible even to see one another at all times. The woods have the silence of a forgotten grave, yet exude the feeling of an unsounded scream.", "dm": "After three turns in the woods, PCs find a dead villager with an envelope bearing the Burgomaster's genuine warning. The module also prescribes wolf howling checks and attacks while in the woods. Use the original text and statistics for timing and resolution.", "x": 0, "z": -68, "r": 27}, {"id": "D", "name": "The River Ivlis", "player": "The river Ivlis flows as clear as a blue winter sky through the valley.", "dm": "A geographic landmark on Map 1. The bridge in this prototype represents the river crossing; the precise bridge shape is interpretive.", "x": 1000, "z": 1000, "r": 0}, {"id": "E", "name": "Village of Barovia", "player": "Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing that echoes through the streets from a distance.", "dm": "The village's E1–E7 keyed locations are represented in the separate Village of Barovia walkthrough. Most shops are abandoned, with exceptions E1 and E2. See the original module for home occupancy and encounter rules.", "x": 1000, "z": 1000, "r": 0}, {"id": "F", "name": "Road Junction", "player": "Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves.", "dm": "The northern fork leads to G, the Tser Pool encampment. The southern road leads toward I, the carriage.", "x": 1000, "z": 1000, "r": 0}, {"id": "G", "name": "Tser Pool Encampment", "player": "The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp.", "dm": "There are ten Vistani at the camp, who invite PCs to join them. A member of the troupe leads them to Madam Eva at G1. Use the original module for reactions, character statistics and the Fortunes of Ravenloft reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "G1", "name": "Madam Eva's Tent", "player": "Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. \"At last you have arrived!\" Her sudden cackling laughter bursts like mad lightning from her withered lips.", "dm": "Madam Eva offers to read the PCs' fortunes. The DM should perform the Fortunes of Ravenloft procedure from the original module; a new reading supersedes the previous results. Madam Eva is a level-10 cleric, neutral, and cunning. This prototype does not automatically generate the fortune reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "H", "name": "Tser Falls", "player": "This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead.", "dm": "The stone bridge above the waterfall is described as nearly one thousand feet overhead. In this alpha its scale and terrain are intentionally condensed.", "x": 1000, "z": 1000, "r": 0}, {"id": "I", "name": "The Carriage", "player": "Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently.", "dm": "The carriage is controlled by Strahd. Once PCs enter it, the horses travel to J, the Gates of Ravenloft, and cannot be discouraged. The carriage journey is represented by the road in this prototype; no automatic carriage ride yet.", "x": 1000, "z": 1000, "r": 0}, {"id": "J", "name": "The Gates of Ravenloft", "player": "After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below.", "dm": "A lowered drawbridge crosses the precipice between the approach and the castle. Continue using the original J boxed text for the drawbridge, gargoyles and gate tunnel. The castle's K1–K88 rooms are represented in the separate Castle Ravenloft walkthrough.", "x": 1000, "z": 1000, "r": 0}];
+const gameLocations=[{"id": "INN", "name": "The Last Chance Inn", "player": "To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.\n\nOutside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.\n\nYet inside these tavern walls the food is hearty and the ale is warm and frothy. A fire blazes in the hearth and the tavern is alive with the tumbling voices of country folk.\n\nSuddenly, a hush falls over the tavern. Even the flagons of\nale seem to silence themselves. The tavern door swings open.\nFramed by the lamp-lit fog, a form strides into the room. His\nheavy, booted footfalls and the jingle of his coins shatter the\nsilence. His brightly colored clothes are draped in loose folds\nabout him and his hat hangs askew, hiding his eyes in shadows.\nWithout hesitation, he walks directly up to your table and\nstands proudly in a wide stance with folded arms.\nHis accented voice speaks, \"I have been sent to you to deliver\nthis messagel If you be creatures of honor, you will come to my\nmaster's aid at first light. It is not advisable to travel the Svalich\nwoods at night!\" He pulls from his tunic a sealed letter,\naddressed to all of you in beautiful flowing script. He drops the\nletter on the table. \"Take the west road from here some five\nhours march down through the Svalich woods. There you will\nfind my master in Barovia.\"\nAmid the continued silent stares of the patronage, the gypsy\nstrides to the bar and says to the wary barkeeper, \"Fill the\nglasses, one and all. Their throats are obviously parched.\" He\ndrops a purse heavy with gold on the bar. With that, he leaves.\nThe babble of tavern voices resumes, although somewhat\nsubdued. The letter is lying before you. Dated yesterday, the ink\nis still not dry and the parchment is crisp. The seal is of a crest\nyou don't recognize.", "dm": "Planned Encounters, opening inn: the PCs begin at an old inn east of Barovia. A messenger arrives with a sealed invitation supposedly from the Burgomaster. Present the letter from the original module. The players can make preparations before setting out. The tavern building is a walk-up exterior landmark. Press E nearby to present the opening invitation and scene; the inn interior is represented in the text panel.", "x": -18, "z": 167, "r": 21}, {"id": "CART", "name": "The Messenger's Cart", "player": "A battered wooden cart rests among the spruce trees beside the road. Its wheels are motionless, and no horses are in sight. A cloaked figure lies slumped across the boards. A folded letter is visible among the folds of the cloak.", "inside": "On closer inspection, the traveler is dead. The letter bears a message warning visitors to stay away from Barovia. Its contents contradict the invitation that brought you here.", "dm": "DNDPOV adaptation: the original I6 places the dead messenger in Svalich Woods, not in a cart. This roadside cart makes the discovery visible in first person. The deceased is the messenger, not Burgomaster Kolyan Indirovich. Reveal the genuine warning only when the party examines the body; use the original module handout for exact letter text.", "x": 10, "z": 112, "r": 16}, {"id": "A", "name": "The Old Svalich Road", "player": "Black pools of water stand like dark mirrors about the muddy roadway. Thick, cold mists spread a pallor over the road. Giant tree trunks stand on both sides of the road, their branches clawing into the mists. In every direction the mists grow thicker and the forest grows more oppressive.", "dm": "The journey from the opening inn to B, Gates of Barovia, takes five hours on the road.", "x": 0, "z": 53, "r": 15}, {"id": "B", "name": "The Gates of Barovia", "player": "Jutting from the impenetrable woods on both sides of the road, high stone buttresses loom up gray in the fog. Huge iron gates hang on the stonework. Dew clings with cold tenacity to the rusted bars. Two statues of armed guardians silently flank the gate. Their heads, missing from their shoulders, now lie among the weeds at their feet. They greet you only with silence.", "dm": "When PCs approach within 50 feet, the gates open and then close after they pass. They will not open for PCs from within Barovia; crossing the border brings the magical fog's choking effect. See the Lands of Barovia rules.", "x": 0, "z": 0, "r": 15.24}, {"id": "C", "name": "The Svalich Woods", "player": "Towering trees, whose tops are lost in heavy gray mist, block out all save a death-gray light. The tree trunks almost touch. The thick, damp undergrowth presses in on you, making it impossible even to see one another at all times. The woods have the silence of a forgotten grave, yet exude the feeling of an unsounded scream.", "dm": "After three turns in the woods, PCs find a dead villager with an envelope bearing the Burgomaster's genuine warning. The module also prescribes wolf howling checks and attacks while in the woods. Use the original text and statistics for timing and resolution.", "x": 0, "z": -68, "r": 27}, {"id": "D", "name": "The River Ivlis", "player": "The river Ivlis flows as clear as a blue winter sky through the valley.", "dm": "A geographic landmark on Map 1. The bridge in this prototype represents the river crossing; the precise bridge shape is interpretive.", "x": 1000, "z": 1000, "r": 0}, {"id": "E", "name": "Village of Barovia", "player": "Tall shapes loom out of the dense fog that surrounds everything. The muddy ground underfoot gives way to slick, wet cobblestones. The tall shapes become recognizable as the dwellings of the village of Barovia. The windows of each house stare out from pools of black nothingness. No sound cuts the silence except for a single mournful sobbing that echoes through the streets from a distance.", "dm": "The village's E1–E7 keyed locations are represented in the separate Village of Barovia walkthrough. Most shops are abandoned, with exceptions E1 and E2. See the original module for home occupancy and encounter rules.", "x": 1000, "z": 1000, "r": 0}, {"id": "F", "name": "Road Junction", "player": "Suddenly, the road splits into the forbidding Svalich woods. The northern fork slants up slightly to the north while the southern fork slants slightly downward. Dense fog obscures your vision. A cold autumn wind whistles down the northern lane, cutting icily through your clothing. Dead brown leaves rush about. There is no sound other than the wind and leaves.", "dm": "The northern fork leads to G, the Tser Pool encampment. The southern road leads toward I, the carriage.", "x": 1000, "z": 1000, "r": 0}, {"id": "G", "name": "Tser Pool Encampment", "player": "The canopy of mist and branches overhead suddenly gives way to black clouds boiling far above. There is a clearing here. Dry, brittle grass rustles in the biting wind. On the far side of the clearing are several colorful wagons parked on the banks of a pool. The mournful strains of an accordion mix meekly with the moaning of the wind. Several brightly clad figures surround a large, roaring fire. The road seems to pass close by this camp.", "dm": "There are ten Vistani at the camp, who invite PCs to join them. A member of the troupe leads them to Madam Eva at G1. Use the original module for reactions, character statistics and the Fortunes of Ravenloft reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "G1", "name": "Madam Eva's Tent", "player": "Within, all is dimly illuminated in pools of red light. A small, low table stands across from the doorway, covered in a black velvet cloth. Glints of light seem to flash from a crystal ball on the table as a hunched figure peers into its depths. She speaks. Her voice crackles like dry weeds. Her tone soars and falls like the wind outside. \"At last you have arrived!\" Her sudden cackling laughter bursts like mad lightning from her withered lips.", "dm": "Madam Eva offers to read the PCs' fortunes. The DM should perform the Fortunes of Ravenloft procedure from the original module; a new reading supersedes the previous results. Madam Eva is a level-10 cleric, neutral, and cunning. This prototype does not automatically generate the fortune reading.", "x": 1000, "z": 1000, "r": 0}, {"id": "H", "name": "Tser Falls", "player": "This is the bottom of the falls. There is nothing of any interest here. A stone bridge can be seen nearly a thousand feet overhead.", "dm": "The stone bridge above the waterfall is described as nearly one thousand feet overhead. In this alpha its scale and terrain are intentionally condensed.", "x": 1000, "z": 1000, "r": 0}, {"id": "I", "name": "The Carriage", "player": "Once again you continue down the fog-shrouded road, dead leaves crackling along your track. The road splits in two. The dirt road continues to the northwest while a wide road leads east into the heart of the dense forest. Patches of cobblestone show up through the east road, telling that it was once a great road. To the right side of the fork stands a large carriage with two horses. Both horses are black as pitch. The horses snort violent puffs of steamy breath into the chill air. The carriage door swings open silently.", "dm": "The carriage is controlled by Strahd. Once PCs enter it, the horses travel to J, the Gates of Ravenloft, and cannot be discouraged. The carriage journey is represented by the road in this prototype; no automatic carriage ride yet.", "x": 1000, "z": 1000, "r": 0}, {"id": "J", "name": "The Gates of Ravenloft", "player": "After passing through the craggy peaks of the Balinoks, the road takes a sudden turn to the east and the startling awesome presence of Ravenloft itself towers before you. The carriage comes to a stop just in front of twin guardhouses of turreted stone, broken from years of use and exposure. Beyond these, a 50-foot-wide precipice gapes between the Balinok cliffs and the walls of Ravenloft, a chasm of dizzying depth that disappears into the fog-shrouded distance far below.", "dm": "A lowered drawbridge crosses the precipice between the approach and the castle. Continue using the original J boxed text for the drawbridge, gargoyles and gate tunnel. The castle's K1–K88 rooms are represented in the separate Castle Ravenloft walkthrough.", "x": 1000, "z": 1000, "r": 0}];
 const gameEncounterTable=[["Opening Inn", "A messenger arrives with a forged Burgomaster letter; the adventure begins here."], ["A · Old Svalich Road", "Five-hour journey toward the gates; the dangerous fog and the forest set the scene."], ["B · Gates of Barovia", "The gates open for arrivals, close behind the party and will not open again until Strahd is destroyed. Two such gates exist in I6."], ["C · Svalich Woods", "After three turns, the party finds a dead villager carrying a genuine warning letter. Each turn in the woods, roll 1d6; 4–6 begins wolf howling, increasing by one wolf each round. After five rounds of howling, 5 worg wolves attack if entering Barovia, or 25 if trying to leave. They cease pursuit at the village. Worg wolves: AC 6; HD 4+4; damage 2–8."], ["D · River Ivlis", "River crossing and geographic landmark; use its module location text."], ["E · Village", "Village homes, closed shops, and E1–E7 encounters are in the separate village walkthrough."], ["F · Road Junction", "Fork toward the Tser Pool camp or the castle approach."], ["G · Tser Pool camp", "Vistani at the camp invite the party to join them; a guide leads them to Madam Eva."], ["G1 · Madam Eva", "The fortune reading determines important information and castle objectives; run the original Fortunes of Ravenloft procedure at the table."], ["H · Tser Falls", "Waterfall and bridge; dramatic terrain, no invented encounter added."], ["I · Carriage", "Strahd’s waiting carriage takes passengers toward the castle."], ["J · Gates of Ravenloft", "Guardhouses, chasm, drawbridge and approach to K1."]];
 
-const MAP_X=l=>80+l.x*1.1,MAP_Y=l=>18+(195-l.z)*.52;
+const MAP_X=l=>svalichMapX(l.x),MAP_Y=l=>svalichMapY(l.z);
 
 let gameDM=false,gameDesc=true,gameMap=true,gameKeys=true,gameIndex=0,gameLast=-1,torchOn=true;
+window.DNDPOV_SVALICH_LANDMARKS=gameLocations.filter(l=>l.r>0).map(l=>({id:l.id,x:l.x,z:l.z,r:l.r,name:l.name}));
 const gameEl=id=>document.getElementById(id);
 const gameEscape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function gameShowModal(title,body){gameEl('gameModalTitle').textContent=title;gameEl('gameModalBody').innerHTML=body;gameEl('gameModal').style.display='flex'}
 function gameClose(){gameEl('gameModal').style.display='none'}
 gameEl('gameClose').onclick=gameClose;gameEl('gameModal').onclick=e=>{if(e.target.id==='gameModal')gameClose()};
-function gameRender(){if(innInside){gameEl('gamePlace').textContent='INN · The Last Chance Inn';gameEl('gameRead').textContent=innReadAloud;gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=true;return;}const l=gameLocations[gameIndex];gameEl('gamePlace').textContent=l.id+' · '+l.name;gameEl('gameRead').textContent=l.player||'';gameEl('gameRead').hidden=!gameDesc;gameEl('gameNotes').hidden=!gameDM;gameEl('gameNotes').textContent=gameDM?(l.dm||'No DM notes provided.'):'';if(gameEl('jumpSelect'))gameEl('jumpSelect').value=String(gameIndex)}
+function gameRender(){
+ if(innInside){
+  gameEl('gamePlace').textContent='INN · The Last Chance Inn';
+  gameEl('gameRead').textContent=innReadAloud;
+  gameEl('gameRead').hidden=!gameDesc;
+  gameEl('gameNotes').hidden=true;return;
+ }
+ const current=svalichCurrentLocation();
+ const travel=window.DNDPOV_I6_TRAVEL_SCENE;
+ if(travel&&(current.location.startsWith('TRAVEL_')||window.DNDPOV_INTRO_LOCK)){
+  gameEl('gamePlace').textContent=travel.title;
+  gameEl('gameRead').textContent=travel.moduleText+'\n\n'+travel.text;
+  gameEl('gameRead').hidden=!gameDesc;
+  gameEl('gameNotes').hidden=true;return;
+ }
+ const l=gameLocations.find(item=>item.id===current.location)||gameLocations[gameIndex];
+ gameEl('gamePlace').textContent=l.id+' · '+l.name;
+ gameEl('gameRead').textContent=l.player||'';
+ gameEl('gameRead').hidden=!gameDesc;
+ gameEl('gameNotes').hidden=!gameDM;
+ gameEl('gameNotes').textContent=gameDM?(l.dm||'No DM notes provided.'):'';
+ if(gameEl('jumpSelect')&&current.location===l.id)gameEl('jumpSelect').value=String(gameLocations.indexOf(l));
+}
 const innReadAloud=`To a party of seasoned adventurers such as yourselves, this is but another dull tavern in another dull town in some nameless province. It is but another passage of time between the challenges of true adventuring. Such is the doldrum of existence — waiting for another opportunity.
 
 Outside the Inn, a fog lies over the town this evening, draping everything in its clammy grasp. The damp cobbled street shines as the light of street lanterns dances across the slick stones. The cold fog chills the bones and shivers the soul of anyone outside.
@@ -1134,14 +1452,14 @@ const messengerCloak=new THREE.Mesh(new THREE.ConeGeometry(.49,1.25,12),new THRE
 messengerCloak.position.set(0,1.18,.12);innMessenger.add(messengerCloak);
 innBox(-3.4,1.41,-1.3,.48,.035,.36,new THREE.MeshStandardMaterial({color:'#d6c19a'}));
 const innInteriorPrompt=document.createElement('div');innInteriorPrompt.id='innInteriorPrompt';innInteriorPrompt.style.cssText='display:none;position:fixed;bottom:55px;left:50%;transform:translateX(-50%);z-index:25;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;pointer-events:none';document.body.append(innInteriorPrompt);
-let innInside=false;
+let innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;window.DNDPOV_INTRO_LOCK=true;
 const innDoorX=-39,innDoorZ=162.5;
 const innDoorPrompt=document.createElement('div');
 innDoorPrompt.id='innDoorPrompt';innDoorPrompt.textContent='The Last Chance Inn — press E or Enter to enter';
 innDoorPrompt.style.cssText='display:none;position:fixed;bottom:52px;left:50%;transform:translateX(-50%);z-index:24;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;text-align:center;pointer-events:none';
 document.body.append(innDoorPrompt);
 function atInnDoor(){return Math.hypot(player.x-innDoorX,player.z-innDoorZ)<7.5;}
-function leaveInn(){gameClose();innInside=false;player.x=innDoorX;player.z=166.4;player.angle=Math.PI;gameLast=-1;gameUpdateLocation(player.x,player.z);gameRender();innInteriorPrompt.style.display='none';}
+function leaveInn(){gameClose();innInside=false;player.x=innDoorX;player.z=166.4;player.angle=Math.PI;gameLast=-1;gameUpdateLocation(player.x,player.z);gameRender();innInteriorPrompt.style.display='none';window.DNDPOV_I6_START_WALK_FROM_INN?.();}
 setInterval(()=>{const near=atInnDoor()&&!innInside&&gameEl('gameModal').style.display!=='flex';innDoorPrompt.style.display=near?'block':'none';},100);
 function enterInn(){
  innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;gameRender();
@@ -1154,9 +1472,54 @@ setInterval(()=>{
  innInteriorPrompt.style.display=gameEl('gameModal').style.display==='flex'?'none':'block';
  innInteriorPrompt.textContent=nearExit?'Exit tavern — E or Enter':nearLetter?'Examine sealed letter — E or Enter':'Walk around the tavern · approach the door to leave';
 },120);
-function gameOpen(){if(atInnDoor()){enterInn();return;}const l=gameLocations[gameIndex];
- if(l.id!=='CART'&&window.DNDPOV_AI_READ_NEARBY){window.DNDPOV_AI_READ_NEARBY();return;}if(l.id==='INN'){gameShowModal('The Last Chance Inn','<div class="readaloud">A warm glow spills from the inn windows. Approach the front door to enter.</div>');return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
-function gameUpdateLocation(x,z){if(innInside)return;let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender();window.dispatchEvent(new CustomEvent('dndpov:scene-visible',{detail:{location:gameLocations[idx].id,position:'outside',source:'proximity-description'}}))}}
+function gameOpen(){if(window.DNDPOV_I6_CAMP_NEAR?.()){window.DNDPOV_I6_CAMP_REST?.();return;}if(atInnDoor()){enterInn();return;}const l=gameLocations[gameIndex];
+ if(l.id!=='CART'&&window.DNDPOV_AI_READ_NEARBY){window.DNDPOV_AI_READ_NEARBY();return;}if(l.id==='INN'){gameShowModal('The Last Chance Inn','<div class="readaloud">A warm glow spills from the inn windows. Approach the front door to enter.</div>');return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(l.id==='CART')window.DNDPOV_SVALICH_DISCOVER?.('CART','The Messenger’s Cart · Warning Found',l.inside,'PLAYER DISCOVERY · LETTER REFERENCE');if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
+let svalichLastDisplayKey='';
+const svalichCrossedLocations=new Set();
+window.DNDPOV_RESET_SVALICH_CROSSINGS=()=>{
+ svalichCrossedLocations.clear();svalichLastDisplayKey='';
+ window.DNDPOV_SVALICH_LATEST_DISCOVERY=null;
+};
+function svalichMarkLocation(id){
+ if(svalichCrossedLocations.has(id))return;
+ svalichCrossedLocations.add(id);
+ const index=gameLocations.findIndex(item=>item.id===id);
+ if(index>=0){gameLast=index;gameIndex=index}
+ window.dispatchEvent(new CustomEvent('dndpov:scene-visible',{
+  detail:{location:id,position:'outside',source:'crossed-location-boundary'}}));
+ window.DNDPOV_AI_SHOW_LOCATION?.();
+}
+window.DNDPOV_SVALICH_DISCOVER=(location,title,text,label='PLAYER DISCOVERY · READ-ALOUD')=>{
+ window.DNDPOV_SVALICH_LATEST_DISCOVERY={location,title,text};
+ window.DNDPOV_JOURNAL_SPECIAL?.(title,text,label);
+};
+function gameUpdateLocation(x,z){
+ if(innInside)return;
+ let best=Infinity,idx=-1;
+ for(let i=0;i<gameLocations.length;i++){
+  const l=gameLocations[i];if(!l.r)continue;
+  const d=Math.hypot(x-l.x,z-l.z);
+  if(d<best){best=d;idx=i}
+ }
+ if(idx>=0&&best<gameLocations[idx].r){
+  const place=gameLocations[idx];
+  if(!svalichCrossedLocations.has(place.id))svalichMarkLocation(place.id);
+  else {gameLast=idx;gameIndex=idx;}
+ }
+ const display=svalichCurrentLocation();
+ // A begins on leaving the last tavern approach, long before the A marker
+ // at the middle of the five-hour stretch. C starts beyond the shut gate.
+ if(x>-25&&z<=155&&z>16&&!svalichCrossedLocations.has('A'))
+  svalichMarkLocation('A');
+ if(display.location==='B'&&!svalichCrossedLocations.has('B'))
+  svalichMarkLocation('B');
+ if(triggered&&display.location==='C'&&!svalichCrossedLocations.has('C'))
+  svalichMarkLocation('C');
+ const displayKey=display.location+'|'+(window.DNDPOV_I6_TRAVEL_SCENE?.hour||0);
+ if(displayKey!==svalichLastDisplayKey){
+  svalichLastDisplayKey=displayKey;gameRender();
+ }
+}
 gameEl('dmBtn').onclick=()=>{gameDM=!gameDM;gameEl('dmBtn').textContent='DM: '+(gameDM?'ON':'OFF');gameEl('dmBtn').classList.toggle('on',gameDM);gameRender()};
 gameEl('descBtn').textContent='Read Scene (R)';
 gameEl('descBtn').onclick=()=>window.DNDPOV_AI_READ_NEARBY?.();
@@ -1168,7 +1531,7 @@ gameEl('exploreBtn').onclick=gameOpen;
 if(gameEl('detailBtn'))gameEl('detailBtn').onclick=gameOpen;
 const heldTurn={left:false,right:false};
 for(const [id,side] of [['turnLeft','left'],['turnRight','right']]){const b=gameEl(id);b.addEventListener('pointerdown',e=>{heldTurn[side]=true;b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>heldTurn[side]=false)}
-function gameTurnStep(){if(window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){heldTurn.left=false;heldTurn.right=false;}if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&heldTurn.left)player.angle-=.045;if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
+function gameTurnStep(){const locked=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK||window.DNDPOV_INTRO_LOCK;if(locked){heldTurn.left=false;heldTurn.right=false;}if(!locked&&heldTurn.left)player.angle-=.045;if(!locked&&heldTurn.right)player.angle+=.045;requestAnimationFrame(gameTurnStep)}requestAnimationFrame(gameTurnStep);
 window.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&gameEl('gameModal').style.display==='flex'){gameClose();return;}
  if((e.key.toLowerCase()==='e'||e.key==='Enter')&&!e.repeat){
@@ -1176,19 +1539,255 @@ window.addEventListener('keydown',e=>{
   if(innInside){
    e.preventDefault();
    if(Math.hypot(player.x,player.z+5.6)<2.6){leaveInn();return;}
-   if(Math.hypot(player.x+3.4,player.z+1.3)<2.1){if(window.DNDPOV_JOURNAL_SPECIAL){window.DNDPOV_JOURNAL_SPECIAL('The Sealed Letter','The letter is addressed to your party in beautiful flowing script. Dated yesterday, the ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.');}else gameShowModal('The Sealed Letter','<div class="readaloud">The letter is addressed to your party in beautiful flowing script. Dated yesterday, the ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.</div>');return;}
+   if(Math.hypot(player.x+3.4,player.z+1.3)<2.1){if(window.DNDPOV_JOURNAL_SPECIAL){window.DNDPOV_SVALICH_DISCOVER?.('INN','The Sealed Letter','The letter is addressed to your party in beautiful flowing script. Dated yesterday, the ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.');}else gameShowModal('The Sealed Letter','<div class="readaloud">The letter is addressed to your party in beautiful flowing script. Dated yesterday, the ink is still not dry. The parchment is crisp, and its wax seal bears a crest you do not recognize.</div>');return;}
    return;
   }
+  if(window.DNDPOV_I6_CAMP_NEAR?.()){e.preventDefault();window.DNDPOV_I6_CAMP_REST?.();return;}
   if(atInnDoor()){e.preventDefault();enterInn();return;}
   gameOpen();
  }
 });
-const keyOverlay=document.createElement('canvas');keyOverlay.id='keyOverlay';keyOverlay.width=480;keyOverlay.height=600;GAME_MAP.style.position='absolute';GAME_MAP.append(keyOverlay);
-function drawKeys(){const c=keyOverlay.getContext('2d');c.clearRect(0,0,480,600);c.font='bold 14px Georgia';c.textAlign='center';for(const l of gameLocations){if(!l.r)continue;const x=MAP_X(l),y=MAP_Y(l);if(x<10||x>470||y<10||y>590)continue;c.fillStyle='#f4cf8a';c.fillRect(x-15,y-12,30,19);c.fillStyle='#3c2b1d';c.fillText(l.id,x,y+2)}}drawKeys();
+const keyOverlay=document.createElement('canvas');keyOverlay.id='keyOverlay';keyOverlay.width=160;keyOverlay.height=240;GAME_MAP.style.position='absolute';GAME_MAP.append(keyOverlay);
+function drawKeys(){const c=keyOverlay.getContext('2d');c.clearRect(0,0,160,240);c.font='bold 9px Georgia';c.textAlign='center';for(const l of gameLocations){if(!l.r)continue;const x=MAP_X(l),y=MAP_Y(l);if(x<10||x>150||y<10||y>230)continue;c.fillStyle='#f4cf8a';c.fillRect(x-11,y-11,22,14);c.fillStyle='#3c2b1d';c.fillText(l.id,x,y-1)}}drawKeys();
 function gameNav(path){window.location.href=path}
 gameEl('castleBtn').onclick=()=>gameNav('ravenloft.html');
 gameEl('encBtn').onclick=gameEncounter;
 gameRender();setInterval(()=>gameUpdateLocation(player.x,player.z),250);
+// v1.76 — I6 opening at The Last Chance Inn and a condensed 5-hour walk.
+// No new encounter tables: original Auto DM rolls remain tied to their own rules.
+const i6JourneyOverlay=document.createElement('section');
+i6JourneyOverlay.id='svalichJourneyOverlay';
+i6JourneyOverlay.setAttribute('role','dialog');
+i6JourneyOverlay.setAttribute('aria-modal','true');
+i6JourneyOverlay.setAttribute('aria-label','The Last Chance Inn — opening choice');
+i6JourneyOverlay.innerHTML='<div id="svalichJourneyCard"><h2>The Last Chance Inn</h2><p>The adventure begins here.</p></div>';
+document.body.append(i6JourneyOverlay);
+const i6JourneyCard=document.getElementById('svalichJourneyCard');
+const i6JourneyBadge=document.createElement('div');
+i6JourneyBadge.id='svalichJourneyBadge';i6JourneyBadge.hidden=true;
+i6JourneyBadge.setAttribute('role','status');
+document.body.append(i6JourneyBadge);
+const i6HourZ=[151,116,82,47,16];
+const i6HourText=[
+ 'One hour since midnight. The inn is lost behind you as cold mist gathers along the Old Svalich Road.',
+ 'Two hours on the road. Tree trunks crowd the path; the stars disappear above the thickening mists.',
+ 'Three hours of the five-hour march along the Old Svalich Road. Black pools of water reflect the cold mists beside the muddy roadway. The Eastern Gates remain ahead.',
+ 'Four hours since the inn. The first grey hint of dawn barely penetrates the mist, now thick as fog.',
+ 'Five hours after departing the inn, the Eastern Gates of Barovia emerge from the dawn fog ahead.'
+];
+let i6JourneyMode='choice',i6JourneyHours=0;
+function i6JourneyClearKeys(){for(const k of Object.keys(keys))keys[k]=false;}
+function i6JourneyTime(phase){
+ timeOfDay=phase;const s=document.getElementById('day');s.value=phase;
+ s.dispatchEvent(new Event('change',{bubbles:true}));
+}
+function i6JourneyHide(){
+ i6JourneyOverlay.hidden=true;window.DNDPOV_INTRO_LOCK=false;i6JourneyClearKeys();
+ gameRender();
+}
+function i6JourneyShow(title,description,actions){
+ window.DNDPOV_INTRO_LOCK=true;i6JourneyClearKeys();
+ i6JourneyOverlay.hidden=false;
+ i6JourneyCard.replaceChildren();
+ const h=document.createElement('h2');h.textContent=title;
+ const p=document.createElement('p');p.textContent=description;p.style.whiteSpace='pre-line';
+ const row=document.createElement('div');row.id='svalichJourneyActions';
+ for(const a of actions){const b=document.createElement('button');b.type='button';b.textContent=a.label;b.onclick=a.run;row.append(b)}
+ i6JourneyCard.append(h,p,row);
+}
+function i6JourneyUpdateBadge(){
+ if(i6JourneyMode==='walking'){
+  i6JourneyBadge.hidden=false;
+  const hour=String(i6JourneyHours).padStart(2,'0');
+  i6JourneyBadge.textContent='Eastern Gates · '+hour+':00 AM · '+i6JourneyHours+' of 5 travel hours';
+ }else if(i6JourneyMode==='camp_pending'){
+  i6JourneyBadge.hidden=true; // The contextual tent prompt is already visible.
+ }else if(i6JourneyMode==='camp'){
+  i6JourneyBadge.hidden=false;
+  i6JourneyBadge.textContent='Daybreak · you find yourselves nearer to the Gates of Barovia';
+ }else i6JourneyBadge.hidden=true;
+}
+function i6JourneyWeather(mode){
+ roadWeatherSelect.value=mode;
+ roadWeatherSelect.dispatchEvent(new Event('change',{bubbles:true}));
+}
+function i6JourneyRoadStart(mode){
+ // Reuse the original public starting point, not any new five-hour geometry.
+ innInside=false;player.x=0;player.z=183;player.angle=0;
+ gameLast=-1;gameIndex=0;gameRender();gameUpdateLocation(player.x,player.z);
+ i6JourneyMode=mode;i6JourneyHours=0;
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=mode==='walking'?.036:0;
+ i6JourneyWeather('mist');
+ i6JourneyTime(mode==='camp'?'dawn':'night');
+ roadWeatherSelect.disabled=mode==='walking';
+ document.getElementById('day').disabled=mode==='walking';
+ i6JourneyUpdateBadge();i6JourneyHide();
+ window.DNDPOV_AI_SHOW_LOCATION?.();
+}
+// A campsite must be experienced outside before the mists can carry the party.
+let i6CampSiteX=14,i6CampSiteZ=165,i6CampWakeZ=130,i6CampTransitionId=0;
+const i6CampPrompt=document.createElement('div');
+i6CampPrompt.id='i6CampPrompt';
+i6CampPrompt.style.cssText='position:fixed;bottom:119px;left:50%;transform:translateX(-50%);z-index:48;background:#18171bef;color:#f3d4a1;border:1px solid #b08a51;border-radius:6px;padding:9px 14px;display:none;font:13px Georgia,serif;pointer-events:none;text-align:center';
+document.body.append(i6CampPrompt);
+function i6JourneyCamp(){
+ window.DNDPOV_I6_TRAVEL_SCENE=null;
+ // If leaving the inn, the camp is nearby. Farther into the march it forms
+ // in a clearing beside the party, never moving an encounter behind them.
+ const alreadyWalking=i6JourneyMode==='walking';
+ const atZ=innInside?183:player.z;
+ i6CampWakeZ=atZ>160?130:atZ>112?112.8:Math.max(26,atZ-27);
+ i6CampSiteX=alreadyWalking?-14:14;
+ i6CampSiteZ=alreadyWalking?Math.max(36,atZ):165;
+ window.DNDPOV_I6_SET_CAMPSITE?.(i6CampSiteX,i6CampSiteZ,true);
+ innInside=false;player.x=i6CampSiteX+1.5;player.z=i6CampSiteZ+5;player.angle=-.56;
+ i6JourneyMode='camp_pending';i6JourneyHours=0;
+ gameLast=-1;gameIndex=0;gameRender();gameUpdateLocation(player.x,player.z);
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
+ i6JourneyWeather('mist');i6JourneyTime('night');
+ roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
+ i6JourneyUpdateBadge();i6JourneyHide();
+}
+window.DNDPOV_I6_CAMP_NEAR=()=>i6JourneyMode==='camp_pending'&&
+ Math.hypot(player.x-(i6CampSiteX-2.6),player.z-(i6CampSiteZ-1.5))<4.2;
+setInterval(()=>{
+ if(i6JourneyMode!=='camp_pending'){i6CampPrompt.style.display='none';return;}
+ i6CampPrompt.style.display='block';
+ i6CampPrompt.textContent=window.DNDPOV_I6_CAMP_NEAR()?
+  'Tent entrance · press E to turn in for the night':
+  'Roadside camp · approach the tent to turn in for the night';
+},130);
+window.DNDPOV_I6_CAMP_REST=()=>{
+ if(!window.DNDPOV_I6_CAMP_NEAR()||window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK)return;
+ const token=++i6CampTransitionId;
+ i6JourneyMode='camp_sleeping';window.DNDPOV_INTRO_LOCK=true;i6JourneyClearKeys();
+ i6CampPrompt.style.display='none';i6JourneyBadge.textContent='Night · the mists are closing around your camp…';
+ const fade=document.getElementById('travelFade');
+ fade.textContent='The campfire dies. The mists gather around you…';fade.classList.add('active');
+ setTimeout(()=>{
+  if(token!==i6CampTransitionId)return;
+  player.x=0;player.z=i6CampWakeZ;player.angle=0;
+  i6JourneyMode='camp';window.DNDPOV_I6_SET_CAMPSITE?.(0,0,false);
+  gameLast=-1;gameIndex=0;gameRender();gameUpdateLocation(player.x,player.z);
+  i6JourneyTime('dawn');i6JourneyWeather('fog');i6JourneyUpdateBadge();
+  fade.textContent='Dawn breaks through the mist…';
+ },1650);
+ setTimeout(()=>{
+  if(token!==i6CampTransitionId)return;
+  fade.classList.remove('active');
+  i6JourneyShow('Dawn on Old Svalich Road',
+   'You awaken on the cold ground. The campsite has vanished into the mist. You find yourselves nearer to the Gates of Barovia. The old road continues before you, and the morning fog hides what lies ahead.',[
+    {label:'Continue exploring',run:i6JourneyHide}
+   ]);
+ },2400);
+};
+function i6JourneyDepart(){
+ i6JourneyShow('About the Five-Hour Journey',
+  'In the original I6 Ravenloft adventure, the road from the inn to the Eastern Gates takes five hours on foot. Rather than make you walk for five real-world hours, DNDPOV presents this one long journey through five brief atmospheric stages. The clock, weather and narration move forward as you travel. Once you reach the gates, free exploration resumes at your own pace; the rest of the adventure is not a choose-your-path sequence.',[
+   {label:'Begin Journey · Midnight',run:()=>i6JourneyRoadStart('walking')},
+   {label:'Wait for dawn instead',run:i6JourneyCamp}
+  ]);
+}
+function i6JourneyNoCamp(){
+ // Stay inside the interactive inn. The five-hour walk starts at the door,
+ // not when this decision is made, leaving time to read the letter and explore.
+ i6JourneyMode='ready_to_leave';i6JourneyHours=0;
+ window.DNDPOV_I6_TRAVEL_SCENE=null;
+ i6JourneyUpdateBadge();i6JourneyHide();
+}
+window.DNDPOV_I6_START_WALK_FROM_INN=()=>{
+ if(i6JourneyMode!=='ready_to_leave')return;
+ // The inn exit already placed the party outside. Do not teleport to gates
+ // or past the messenger's cart; retain the original road geometry.
+ i6JourneyMode='walking';i6JourneyHours=0;
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=.036;
+ i6JourneyWeather('mist');i6JourneyTime('night');
+ roadWeatherSelect.disabled=true;document.getElementById('day').disabled=true;
+ i6JourneyUpdateBadge();
+};
+function i6JourneyOpening(){
+ window.DNDPOV_I6_TRAVEL_SCENE=null;
+ i6JourneyMode='choice';i6JourneyHours=0;i6JourneyUpdateBadge();
+ i6JourneyShow('The Last Chance Inn · I6 Ravenloft',
+  'The original I6 module calls for a five-hour journey to the Eastern Gates of Barovia. This opening is presented in brief travel stages; afterward, you explore freely. The inn’s patrons warn against setting out after dark.',[ 
+   {label:'Yes',run:i6JourneyCamp},
+   {label:'No',run:i6JourneyNoCamp}
+  ]);
+ // Show the complete source read-aloud BEFORE either decision. The narration
+ // has its own scrollbar, so the two action buttons remain in view.
+ const originalScene=document.createElement('details');
+ originalScene.id='i6OpeningOriginalScene';originalScene.open=true;
+ originalScene.style.cssText='border:1px solid #795f42;background:#1b1b22;padding:9px 11px;margin:13px 0 4px;border-radius:5px';
+ const sceneHeading=document.createElement('summary');
+ sceneHeading.textContent='📜 Original I6 introduction · scroll to read';
+ sceneHeading.style.cssText='color:#f1d19f;font-weight:bold;cursor:pointer';
+ const sceneText=document.createElement('div');
+ sceneText.id='i6OpeningReadAloud';sceneText.textContent=innReadAloud;
+ sceneText.style.cssText='max-height:min(245px,35vh);overflow-y:auto;white-space:pre-line;color:#e9dac4;font:13px/1.55 Georgia,serif;padding:10px 5px 1px';
+ originalScene.append(sceneHeading,sceneText);
+ i6JourneyCard.insertBefore(originalScene,document.getElementById('svalichJourneyActions'));
+ // Make the actual Yes/No decision stand out from the explanatory paragraph.
+ const openingQuestion=document.createElement('h3');
+ openingQuestion.id='i6OpeningQuestion';
+ openingQuestion.textContent='Do you camp and leave in the morning?';
+ openingQuestion.style.cssText='color:#f5cb80;font:bold 23px/1.3 Georgia,serif;margin:20px 0 5px;text-align:center';
+ i6JourneyCard.insertBefore(openingQuestion,originalScene);
+}
+window.DNDPOV_RESET_I6_JOURNEY=()=>{
+ ++i6CampTransitionId;
+ window.DNDPOV_I6_SET_CAMPSITE?.(0,0,false);
+ document.getElementById('travelFade').classList.remove('active');
+ innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;
+ gameIndex=0;gameLast=-1;gameRender();
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
+ roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
+ i6JourneyWeather('clear');i6JourneyTime('dusk');i6JourneyOpening();
+};
+window.DNDPOV_I6_JOURNEY_TICK=()=>{
+ if(i6JourneyMode!=='walking'||innInside||window.DNDPOV_INTRO_LOCK||window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK)return;
+ if(i6JourneyHours>=5||player.z>i6HourZ[i6JourneyHours])return;
+ ++i6JourneyHours;
+ if(i6JourneyHours===3){
+  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=.052;
+  i6JourneyWeather('fog');
+ }
+ if(i6JourneyHours===4)i6JourneyTime('dawn');
+ const current=i6JourneyHours;
+ window.DNDPOV_I6_TRAVEL_SCENE={
+  hour:current,title:'A · The Old Svalich Road · Hour '+current+' of 5',
+  text:i6HourText[current-1],
+  moduleText:gameLocations.find(l=>l.id==='A')?.player||'The Old Svalich Road'
+ };
+ i6JourneyUpdateBadge();
+ i6JourneyShow(window.DNDPOV_I6_TRAVEL_SCENE.title,i6HourText[current-1],[
+  {label:current===5?'Approach the Eastern Gates':'Continue the journey',run:()=>{
+    if(current===5){
+     i6JourneyMode='complete';
+     window.DNDPOV_I6_TRAVEL_SCENE=null;
+     roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
+     window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
+     setAtmosphere();
+     i6JourneyBadge.textContent='05:00 AM · Five-hour march complete · Eastern Gates of Barovia';
+    }
+    i6JourneyHide();
+  }},
+  ...(current<5?[{label:'Make camp until daybreak',run:i6JourneyCamp}]:[])
+ ]);
+ // Reuse the exact text in the left read-aloud and the Adventure Journal.
+ gameRender();
+ const loc=svalichCurrentLocation();
+ if(loc.location.startsWith('TRAVEL_'))window.DNDPOV_AI_SHOW_LOCATION?.();
+ else window.DNDPOV_JOURNAL_SPECIAL?.(
+  window.DNDPOV_I6_TRAVEL_SCENE.title,
+  window.DNDPOV_I6_TRAVEL_SCENE.moduleText+'\n\n'+i6HourText[current-1],
+  'I6 AREA A · ORIGINAL READ-ALOUD + JOURNEY PROGRESS');
+};
+// During a chapter card, block keyboard actions behind the dialog too.
+window.addEventListener('keydown',e=>{
+ if(window.DNDPOV_INTRO_LOCK){e.preventDefault();e.stopImmediatePropagation()}
+},true);
+i6JourneyOpening();
+
 
 gameEl('villageBtn').onclick=()=>travelToVillage();
 const jump=gameEl('jumpSelect');gameLocations.forEach((l,i)=>{const o=document.createElement('option');o.value=i;o.textContent=l.id+' · '+l.name;jump.append(o)});jump.onchange=()=>{if(jump.value==='')return;gameIndex=+jump.value;gameRender();gameOpen()};
@@ -1201,17 +1800,32 @@ gameEl('torchBtn').onclick=()=>{torchOn=!torchOn;sceneTorch.intensity=torchOn?3.
 function svalichCurrentLocation(){
  if(innInside)return {location:'INN',position:'inside',roomName:'The Last Chance Inn · Inside'};
  if(atInnDoor())return {location:'INN',position:'outside',roomName:'The Last Chance Inn · Entrance'};
+ const travelling=window.DNDPOV_I6_TRAVEL_SCENE;
+ if(travelling){
+  // Physical encounters still win while the party is near the cart or gate.
+  for(const id of ['CART','B']){
+   const landmark=gameLocations.find(item=>item.id===id);
+   if(landmark&&Math.hypot(player.x-landmark.x,player.z-landmark.z)<landmark.r)
+    return {location:id,position:'outside',roomName:id+' · '+landmark.name};
+  }
+  return {location:'TRAVEL_'+travelling.hour,position:'outside',roomName:travelling.title};
+ }
  let found=null,best=Infinity;
  for(const item of gameLocations){
   if(!item.r)continue;
   const d=Math.hypot(player.x-item.x,player.z-item.z);
   if(d<item.r&&d<best){found=item;best=d}
  }
- return found?{location:found.id,position:'outside',roomName:found.id+' · '+found.name}:
-  {location:'ROAD',position:'outside',roomName:'Old Svalich Road · Svalich Woods'};
+ const section=found||gameLocations.find(item=>item.id===(player.z<0?'C':'A'));
+ return {location:section.id,position:'outside',roomName:section.id+' · '+section.name};
 }
 window.DNDPOV_AI_CONTEXT=()=>({...svalichCurrentLocation(),zoneName:'Old Svalich Road',time:timeOfDay,weather:effectiveRoadWeather()});
 window.DNDPOV_JOURNAL_FALLBACK=(id,position)=>{
+ if(String(id).startsWith('TRAVEL_')){
+  const travel=window.DNDPOV_I6_TRAVEL_SCENE;
+  if(travel&&id==='TRAVEL_'+travel.hour)
+   return {title:travel.title,boxed:travel.moduleText+'\n\n'+travel.text,label:'I6 AREA A · ORIGINAL READ-ALOUD + JOURNEY PROGRESS'};
+ }
  if(id==='INN'&&position==='inside')return {title:'The Last Chance Inn · Opening Encounter',
   boxed:innReadAloud,label:'I6 ORIGINAL OPENING · PLAYER READ-ALOUD'};
  if(id==='INN')return {title:'The Last Chance Inn',
@@ -1234,7 +1848,7 @@ drawMap=function(){svalichDrawBeforeMp();
   ctx.save();
   for(const member of mp.members){
    if(member.id===mp.id||!member.online||Number(member.floor)!==101)continue;
-   const mx=80+Number(member.x)*1.1,my=18+(195-Number(member.y))*.52;
+   const mx=svalichMapX(Number(member.x)),my=svalichMapY(Number(member.y));
    ctx.fillStyle=member.color||'#58b8ff';
    ctx.strokeStyle='#131313';ctx.lineWidth=3;
    ctx.beginPath();ctx.arc(mx,my,10,0,Math.PI*2);
@@ -1671,7 +2285,7 @@ btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5
 const journalAutoOpenKey='dndpov_svalich_public_auto_open_journal';
 let journalAutoOpen=localStorage.getItem(journalAutoOpenKey)==='on';
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · Old Svalich v1.50</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+panel.innerHTML='<header><b>Adventure Journal · Old Svalich v1.76</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
@@ -1729,7 +2343,23 @@ partyBox.querySelector('#partyFile').onchange=async(e)=>{const file=e.target.fil
 partyBox.querySelector('#partySave').onclick=async()=>{try{const d=await partyApi('/api/character/save',{id:editingPartyId,name:partyName.value,sheet:partySheet.value});editingPartyId=d.id;partyMsg.textContent=d.name+' saved to local party.';await partyRefresh()}catch(e){partyMsg.textContent=e.message}};
 const log=panel.querySelector('#aiDmLog'),input=panel.querySelector('#aiDmInput'),place=panel.querySelector('#aiDmPlace'),toggle=panel.querySelector('#aiDmToggle'),status=panel.querySelector('#aiDmStatus');
 let busy=false,lastKey='',serial=0,lastScroll=null;const session=sessionStorage.getItem('dndpov_ai_session')||crypto.randomUUID();sessionStorage.setItem('dndpov_ai_session',session);
-function context(){return window.DNDPOV_AI_CONTEXT?.()||{location:'ROAD',position:'outside',roomName:'Old Svalich Road'}}
+function context(){
+  // Use exactly the same bridge as the left-hand location dock.
+  for(const reader of [window.DNDPOV_SVALICH_LOCATION,window.DNDPOV_AI_CONTEXT]){
+   if(typeof reader!=='function')continue;
+   try{
+    const c=reader();
+    if(c?.location&&c.location!=='ROAD'&&c.location!=='ARRIVAL')return c;
+   }catch(err){console.warn('Adventure Journal location source unavailable:',err)}
+  }
+  // Last resort: the game panel already knows the area ID even if the
+  // engine's async module and the classic Journal initialized out of order.
+  const heading=document.getElementById('gamePlace')?.textContent||'';
+  const id=heading.match(/^\s*(INN|CART|A|B|C)\s*[·—-]/i)?.[1]?.toUpperCase()||'A';
+  const entry=window.DNDPOV_MODULE_REFERENCE?.lookup?.(id);
+  return {location:id,position:id==='INN'?'inside':'outside',roomName:
+   id+' · '+(entry?.title||'Old Svalich Road')};
+ }
 function updatePlace(c=context()){place.textContent='Old Svalich Road · '+(c.roomName||c.location)}
 function addCard(kind,heading,message,label='ORIGINAL MODULE · READ-ALOUD'){
  const card=document.createElement('article');card.className=kind==='scroll'?'aiDmScroll':'aiDmChat '+kind;
@@ -1755,11 +2385,32 @@ async function checkAiConnection(){
 syncControls();checkAiConnection();setInterval(checkAiConnection,12000);
 
 function contextKey(c){return c.location+'|'+c.position}
+function moduleReference(c){
+ let reference=null;
+ try{reference=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position)}catch(e){console.warn('Module journal reference unavailable:',e)}
+ if(reference?.boxed)return reference;
+ // Travel stages are an extension of original area A, not a separate I6
+ // location. The original A text remains the player-visible read-aloud.
+ if(/^TRAVEL_\d+$/.test(String(c.location))){
+  const stage=window.DNDPOV_I6_TRAVEL_SCENE;
+  if(stage?.text)return {title:stage.title,
+   boxed:[stage.moduleText,stage.text].filter(Boolean).join('\n\n'),
+   label:'I6 AREA A · READ-ALOUD + JOURNEY PROGRESS'};
+ }
+ try{reference=window.DNDPOV_MODULE_REFERENCE?.scene?.(c.location,c.position)}catch(e){console.warn('Stored module scene unavailable:',e)}
+ if(reference?.boxed)return reference;
+ const entry=window.DNDPOV_MODULE_REFERENCE?.lookup?.(c.location);
+ if(entry?.readAloud?.length)return {title:entry.title||c.roomName||c.location,
+  boxed:entry.readAloud.join('\n\n'),
+  label:'I6 LOCATION · PLAYER READ-ALOUD'};
+ return null;
+}
 async function showModule(c,force=false){
  const key=contextKey(c);if(!force&&key===lastKey)return;
- lastKey=key;updatePlace(c);++serial;lastScroll=null;
- const reference=window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position);
- if(!reference?.boxed)return;
+ updatePlace(c);++serial;lastScroll=null;
+ const reference=moduleReference(c);
+ if(!reference?.boxed){lastKey='';return;}
+ lastKey=key;
  const title=(c.location==='CASTLE'?'':c.location+' · ')+reference.title;
  const label=reference.label||'PLAYER-VISIBLE LOCATION DESCRIPTION';
  lastScroll={title,boxed:reference.boxed,label};
@@ -1767,15 +2418,29 @@ async function showModule(c,force=false){
  if(journalAutoOpen){panel.hidden=false;btn.classList.remove('has-new');}
 }
 async function checkLocation(){
- const c=context();if(contextKey(c)!==lastKey)await showModule(c);
+ const c=context();if(contextKey(c)!==lastKey||!log.children.length)await showModule(c);
 }
-btn.onclick=()=>{panel.hidden=!panel.hidden;btn.classList.remove('has-new');updatePlace();checkLocation();};panel.querySelector('#aiDmClose').onclick=()=>panel.hidden=true;
+btn.onclick=()=>{
+ panel.hidden=!panel.hidden;btn.classList.remove('has-new');
+ if(!panel.hidden){updatePlace(context());checkLocation();}
+};
+panel.querySelector('#aiDmClose').onclick=()=>panel.hidden=true;
 function rereadLocation(){
- if(lastScroll){addCard('scroll',lastScroll.title,lastScroll.boxed,lastScroll.label);panel.hidden=false}
- else showModule(context(),true);
+ const c=context();
+ if(contextKey(c)!==lastKey||!lastScroll)showModule(c,true);
+ else{addCard('scroll',lastScroll.title,lastScroll.boxed,lastScroll.label);panel.hidden=false}
 }
 panel.querySelector('#aiDmReadAgain').onclick=rereadLocation;
 window.DNDPOV_AI_SHOW_LOCATION=()=>showModule(context(),true);
+// Read-aloud appears immediately on scene crossing; polling remains as a
+// recovery path if a location event fired before the classic journal loaded.
+window.addEventListener('dndpov:scene-visible',event=>{
+ const id=String(event.detail?.location||'');
+ const c=context();
+ if(id&&id===c.location)showModule(c,true);
+ else if(id&&['INN','CART','A','B','C'].includes(id))
+  showModule({location:id,position:'outside',roomName:id+' · Old Svalich Road'},true);
+});
 window.DNDPOV_JOURNAL_SPECIAL=(title,boxed,label='PLAYER DISCOVERY · READ-ALOUD')=>{
  window.DNDPOV_AI_LAST_DISCOVERY=boxed;
  addCard('scroll',title,boxed,label);if(journalAutoOpen){panel.hidden=false;btn.classList.remove('has-new');}
@@ -1909,6 +2574,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  '<button type="button" id="localAutoDm"></button>'+
  '<button type="button" id="localOracle">✦ Oracle · Decision Report</button>'+
  '<button type="button" id="localEncounters">📜 Encounters</button>'+
+ '<button type="button" id="localModuleContents" disabled>📚 Module Contents · Scenes & Letters</button>'+
  '<small>Auto DM handles local scripted checks. AI DM conversation is separate.</small>'+
  '<div class="tool-section">EXPLORATION & SETTINGS</div>'+
  '<button type="button" id="localRead">📖 Read Scene / Read Again</button>'+
@@ -1929,6 +2595,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   h.append(t,close);const b=document.createElement('div');b.className='pane-body';el.append(h,b);document.body.append(el);return b;}
  const oracleBody=makePane('dndpovOracle','Oracle · Decision Report');
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
+ const moduleBody=makePane('dndpovModuleContents',titles[leg]+' · Module Contents');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
  bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
@@ -1936,7 +2603,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
  const isSvalichWoods=()=>leg==='svalich'&&location==='C';
- const context=()=>window.DNDPOV_AI_CONTEXT?.();
+ const context=()=>window.DNDPOV_SVALICH_LOCATION?.()||window.DNDPOV_AI_CONTEXT?.();
  const currentEntry=()=>entries.find(e=>e.id===location);
  function record(kind,detail,result=''){
   history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,100);persist();renderOracle();
@@ -2023,7 +2690,10 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
    state.woodsTurns++;
    if(state.woodsTurns===3&&!state.woodsLetter){state.woodsLetter=true;
     notice('FOUND IN THE SVALICH WOODS','After three turns, the party finds the dead villager and the genuine warning letter. Reveal the warning when investigated.');
-    record('Module discovery','Svalich Woods · 3 turns','Dead villager and warning letter discovered');}
+    record('Module discovery','Svalich Woods · 3 turns','Dead villager and warning letter discovered');
+    window.DNDPOV_SVALICH_DISCOVER?.('C','Svalich Woods · Warning Letter Found',
+     'After three exploration turns, you discover a dead villager with an envelope containing a warning. The complete original letter is available in the I6 module handout, not transcribed in this beta.',
+     'I6 PLAYER DISCOVERY · LETTER REFERENCE');}
    if(!state.wolvesHowling)wolfCheck();
   }
   if(!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){record('Encounter conditions evaluated','Turn '+state.turns,conditions());wildernessEncounter();}
@@ -2118,6 +2788,47 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
    persist();record('Encounter history reset',titles[leg]);renderEncounters();
   }};encounterBody.append(reset);
  }
+ function renderModuleContents(){
+  moduleBody.replaceChildren();
+  const intro=document.createElement('p');
+  intro.textContent='DM reference · All player-facing descriptions in this leg, plus known letter references. This panel is hidden when DM mode is OFF.';
+  moduleBody.append(intro);
+  const references=window.DNDPOV_MODULE_REFERENCE?.locations||{};
+  function showEntry(id,title,body,notes,sourceLabel,discoveryLocation){
+   const card=document.createElement('details');card.className='entry';
+   const heading=document.createElement('summary');heading.textContent=id+' · '+title;heading.style.cssText='cursor:pointer;font-weight:bold;color:#f1d6a3';
+   const label=document.createElement('small');label.textContent=sourceLabel;label.style.cssText='display:block;margin:8px 0 4px;color:#d6b989';
+   const read=document.createElement('div');read.textContent=body||'No verified text currently embedded.';
+   read.style.cssText='background:#41454c;border-left:4px solid #d8ae70;padding:11px 12px;white-space:pre-wrap;font-style:italic;line-height:1.6';
+   card.append(heading,label,read);
+   if(notes){
+    const dm=document.createElement('p');dm.textContent='DM NOTES · '+notes;
+    dm.style.cssText='white-space:pre-wrap;font-size:12px;color:#e1c9ac;padding-top:5px';card.append(dm);
+   }
+   const reveal=document.createElement('button');reveal.type='button';
+   reveal.textContent='Read to party / Add to Journal';
+   reveal.onclick=()=>{
+    if(!localDm)return;
+    if(discoveryLocation)window.DNDPOV_SVALICH_DISCOVER?.(discoveryLocation,title,body,'DM REVEALED · PLAYER REFERENCE');
+    else window.DNDPOV_JOURNAL_SPECIAL?.(title,body,'DM REVEALED · PLAYER READ-ALOUD');
+   };
+   card.append(reveal);moduleBody.append(card);
+  }
+  for(const id of ['INN','CART','A','B','C']){
+   const ref=references[id];
+   if(!ref)continue;
+   showEntry(id,ref.title||id,(ref.readAloud||[]).join('\n\n'),
+    (ref.notes||[]).join('\n\n'),'ORIGINAL I6 / EXISTING DNDPOV SCENE',null);
+  }
+  showEntry('LETTER 1','The Sealed Invitation',
+   'The letter is addressed to the party in beautiful flowing script, dated yesterday, with ink still wet and a crest the party does not recognize.',
+   'Inn opening. The complete original invitation handout is not embedded in this HTML; consult the I6 module for exact wording.',
+   'KNOWN LETTER · AVAILABLE PLAYER DISCOVERY','INN');
+  showEntry('LETTER 2','The Genuine Warning',
+   'A dead villager discovered after three turns in the Svalich Woods carries the genuine warning letter.',
+   'Area C, beyond the gates. The original warning handout is not fully transcribed in this HTML. Do not present this summary as verbatim module letter text.',
+   'KNOWN LETTER · ORIGINAL HANDOUT REFERENCE','C');
+ }
  const actualDmId=leg==='svalich'?'dmBtn':leg==='village'?'dmMode':null;
  const dmModeButton=$('localDmMode'),autoButton=$('localAutoDm');
  function sync(){const b=actualDmId?$(actualDmId):null;
@@ -2125,12 +2836,19 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
   autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
-  if(!localDm){$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');}
+  $('localModuleContents').disabled=!localDm;
+  if(!localDm){$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');$('dndpovModuleContents').classList.remove('open');}
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
  autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;if(!state.enabled){window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;banner.style.display='none';}persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
  $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localModuleContents').onclick=()=>{
+  if(!localDm)return;renderModuleContents();
+  $('dndpovModuleContents').classList.add('open');
+  $('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');
+  dock.classList.remove('open');document.exitPointerLock?.();
+ };
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
@@ -2139,7 +2857,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   if($(id))$(id).click();else if(confirm('Restart this location?'))location.reload();};
  $('dndpovToolsButton').onclick=()=>{dock.classList.toggle('open');$('dndpovToolsButton').setAttribute('aria-expanded',String(dock.classList.contains('open')));sync();document.exitPointerLock?.()};
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');$('dndpovModuleContents').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
  renderOracle();renderEncounters();sync();setInterval(()=>{scan()},450);setInterval(sync,1200);
 })();
@@ -2186,7 +2904,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 #dndpovContextDock.collapsed #dndpovContextDockBody{display:none}
 #dndpovContextDock.collapsed{max-height:none}
 #dndpovContextWhere{font-size:14px;font-weight:bold;color:#efc98d;margin:0 0 5px}
-#dndpovContextExcerpt{margin:0 0 8px;color:#e0d6cb;white-space:pre-wrap;overflow-wrap:anywhere}
+#dndpovContextExcerpt{margin:8px 0 10px;background:#41454c;border-left:4px solid #d8ae70;color:#f7f4ed;font:italic 13px/1.55 Georgia,serif;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:205px;overflow-y:auto;scrollbar-color:#b89b70 #32343a}
 #dndpovContextDock .contextCommands{display:flex;flex-wrap:wrap;gap:5px;padding:7px 0 0;border-top:1px solid #63564c}
 #dndpovContextDock .contextCommands button{font:11px Georgia,serif;padding:5px 7px;border:1px solid #81694b;border-radius:4px;background:#302b33;color:#f2d9b3;cursor:pointer}
 #dndpovContextDock .contextCommands button.active{background:#50374f;border-color:#c69fdb;color:#ffdbff}
@@ -2196,7 +2914,40 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 @media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
 </style>
 
-<script id="dndpovContextDockScript" data-edition="full" data-leg="svalich">
+<script id="svalichLocationBridge62">
+/* v1.76 — independent location reader for the dock and local DM tools.
+   Uses live engine context when available; otherwise uses existing map markers
+   and the player's visible HUD coordinates, not invented locations. */
+(()=>{
+ function location(){
+  try{
+   const live=window.DNDPOV_AI_CONTEXT?.();
+   if(live&&live.location)return live;
+  }catch(error){
+   if(!location.warned){console.warn('Svalich context fallback enabled:',error);location.warned=true;}
+  }
+  const place=document.getElementById('gamePlace')?.textContent||'';
+  const displayedId=place.match(/^\s*(INN|CART|A|B|C)\s*[·—-]/i)?.[1].toUpperCase();
+  const inside=document.getElementById('innInteriorPrompt')?.style.display==='block';
+  if(inside)return {location:'INN',position:'inside',roomName:'The Last Chance Inn · Inside'};
+  const coordinates=(document.getElementById('pos')?.textContent||'').match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+  const marks=window.DNDPOV_SVALICH_LANDMARKS;
+  if(coordinates&&Array.isArray(marks)&&marks.length){
+   const x=Number(coordinates[1]),z=Number(coordinates[2]);
+   let found=null,best=Infinity;
+   for(const m of marks){const d=Math.hypot(x-m.x,z-m.z);if(d<m.r&&d<best){found=m;best=d;}}
+   if(!found){found=marks.find(m=>m.id===(z<0?'C':'A'));}
+   if(found)return {location:found.id,position:'outside',roomName:found.id+' · '+found.name};
+  }
+  const id=displayedId||'A';
+  const entry=window.DNDPOV_MODULE_REFERENCE?.lookup?.(id);
+  return {location:id,position:'outside',roomName:id+' · '+(entry?.title||'Old Svalich Road')};
+ }
+ window.DNDPOV_SVALICH_LOCATION=location;
+})();
+</script>
+
+<script id="dndpovContextDockScript" data-edition="public" data-leg="svalich">
 (()=>{
   'use strict';
   const script=document.currentScript;
@@ -2209,7 +2960,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   dock.setAttribute('aria-label','Current location and Dungeon Master tools');
   dock.innerHTML='<div id="dndpovContextDockHead"><strong>📍 '+label+' · Location</strong><button id="dndpovContextFold" type="button" aria-expanded="true" aria-label="Collapse location panel">−</button></div>'+
     '<div id="dndpovContextDockBody"><div id="dndpovContextWhere">Finding your location…</div><p id="dndpovContextExcerpt">Explore to discover room and landmark descriptions.</p>'+
-    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button></div>'+
+    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button><button id="dndpovContextReference" type="button" disabled>📚 Module Text</button></div>'+
     '<div id="dndpovContextDmInfo" aria-live="off">DM notes hidden. Enable them only if you are running the adventure.</div>'+
     '<small class="contextEdition">'+(publicBeta?'Public beta · Local DM tools available. AI chat and multiplayer require the local edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
   document.body.append(dock);
@@ -2230,10 +2981,11 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   $('dndpovContextAuto').onclick=()=>$('localAutoDm')?.click();
   $('dndpovContextOracle').onclick=()=>$('localOracle')?.click();
   $('dndpovContextEncounters').onclick=()=>$('localEncounters')?.click();
+  $('dndpovContextReference').onclick=()=>$('localModuleContents')?.click();
 
   const truncate=(str,length)=>str.length>length?str.slice(0,length).trimEnd()+'…':str;
   let lastKey='';
-  function current(){try{return window.DNDPOV_AI_CONTEXT?.()||null}catch{return null}}
+  function current(){return window.DNDPOV_SVALICH_LOCATION?.()||null}
   function readDescription(c){
     try{return window.DNDPOV_JOURNAL_FALLBACK?.(c.location,c.position)||null}catch{return null}
   }
@@ -2241,7 +2993,9 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const c=current();if(!c)return;
     const id=String(c.location||'').toUpperCase();
     const position=String(c.position||'');
-    const contextKey=id+'|'+position+'|'+String(c.roomName||'');
+    const discovery=window.DNDPOV_SVALICH_LATEST_DISCOVERY;
+    const contextKey=id+'|'+position+'|'+String(c.roomName||'')+'|'+
+      (discovery?.location===id?discovery.title:'');
     if(contextKey===lastKey)return;
     lastKey=contextKey;
     const scene=readDescription(c);
@@ -2249,7 +3003,8 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const title=String(scene?.title||entry?.title||c.roomName||'');
     $('dndpovContextWhere').textContent=(id?id+' · ':'')+(title||label)+(position==='inside'?' · Inside':'');
     const excerpt=String(scene?.boxed||entry?.readAloud?.[0]||'');
-    $('dndpovContextExcerpt').textContent=excerpt?truncate(excerpt.replace(/\s+/g,' '),280):
+    const found=discovery?.location===id?'\n\n📜 '+discovery.title+'\n'+discovery.text:'';
+    $('dndpovContextExcerpt').textContent=excerpt?excerpt+found:
       'You are exploring '+label+'. The journal will show any available original room description when you reach its location.';
     updateDmInfo();
   }
@@ -2270,7 +3025,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const notes=dmEnabled();
     $('dndpovContextDm').textContent='DM notes: '+(notes?'ON':'OFF');
     $('dndpovContextDm').classList.toggle('active',notes);
-    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters'])$(id).disabled=!notes;
+    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters','dndpovContextReference'])$(id).disabled=!notes;
     const auto=window.DNDPOV_AUTO_DM_TOOLS?.getState?.()?.enabled;
     $('dndpovContextAuto').textContent='Auto DM: '+(auto?'ON':'OFF');
     $('dndpovContextAuto').classList.toggle('active',Boolean(auto));
@@ -2281,4 +3036,25 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   setInterval(()=>{updateLocation();syncControls()},500);
 })();
 </script>
+<style id="dndpovAntiqueGoldToolsButton">
+/* Accessible DNDPOV tool launcher: shared PUBLIC and PRIVATE design standard. */
+#dndpovToolsButton,#dungeonToolToggle{
+ background:linear-gradient(145deg,#deb770 0%,#bd914b 62%,#a87834 100%)!important;
+ color:#21180f!important;
+ border:2px solid #e6bd77!important;
+ text-shadow:0 1px 0 #f9d795a6!important;
+ box-shadow:0 0 0 1px #573b20,0 5px 20px #b88a4590,0 2px 8px #0009!important;
+ font-weight:bold!important;
+}
+#dndpovToolsButton:hover,#dungeonToolToggle:hover,
+#dndpovToolsButton:focus-visible,#dungeonToolToggle:focus-visible{
+ background:linear-gradient(145deg,#f1cf8e,#d5a65c 70%,#b88a45)!important;
+ color:#1b140c!important;
+ border-color:#ffe2a3!important;
+ box-shadow:0 0 0 2px #bd914b,0 0 22px #e5b970bf!important;
+}
+#dndpovToolsButton:focus-visible,#dungeonToolToggle:focus-visible{
+ outline:2px solid #fff0bc!important;outline-offset:3px;
+}
+</style>
 </body></html>

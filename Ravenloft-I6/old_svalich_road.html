@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.52 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.56 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:160px;height:240px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
 </style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
@@ -417,40 +417,66 @@ extraTrunks.count=extraPlaced;extraTrunks.instanceMatrix.needsUpdate=true;scene.
 
 // Eastern Gates of Barovia, placed in the forest, NOT the village.
 const gateZ=0,gateL=new THREE.Group(),gateR=new THREE.Group();gateL.position.set(-4.5,0,gateZ);gateR.position.set(4.5,0,gateZ);scene.add(gateL,gateR);
-// Tall ancient gate towers with weathered crowns and carved gargoyles.
-const gateDark=material('#3b4140'),gateHighlight=material('#6b7069');
+// v1.56 — towering rusted iron gates flanked by weathered HEADLESS stone guardians.
+// Keep hinge positions and the existing closure/Oracle event wiring unchanged.
+const gateDark=material('#272c2b'),gateHighlight=material('#686b65');
+const gateRust=material('#5b3027'),gateRustEdge=material('#382522');
 for(const x of [-5.2,5.2]){
- box(x,4.15,gateZ,2.15,8.3,2.4,stone);
- box(x,8.4,gateZ,2.65,.65,2.8,gateDark);
- for(const dz of [-.92,.92])box(x,8.95,gateZ+dz,.52,.95,.52,gateHighlight);
- const cap=new THREE.Mesh(new THREE.ConeGeometry(1.2,1.65,4),gateDark);
- cap.position.set(x,9.45,gateZ);cap.rotation.y=Math.PI/4;scene.add(cap);
+ // Massive masonry piers and an elevated gothic crown.
+ box(x,5.8,gateZ,2.25,11.6,3.2,stone);
+ box(x,11.8,gateZ,2.8,.85,3.6,gateDark);
+ for(const dz of [-1.25,1.25])box(x,12.5,gateZ+dz,.72,1.2,.7,gateHighlight);
+ const cap=new THREE.Mesh(new THREE.ConeGeometry(1.65,2.3,4),gateDark);
+ cap.position.set(x,13.65,gateZ);cap.rotation.y=Math.PI/4;scene.add(cap);
+ // Age-darkened cracks, stone bands and iron mounting brackets.
+ for(const y of [2.0,5.4,8.8])box(x,y,gateZ+1.64,2.3,.20,.12,gateDark);
+ for(const y of [2.5,7.5])box(x>0?4.03:-4.03,y,gateZ,.2,.85,1.0,gateRustEdge);
 }
-// Gothic keystone lintel above the still-open nine-metre passage.
-box(0,8.25,gateZ,8.4,1.15,2.0,gateDark);
-for(let k=-3;k<=3;k++)box(k*1.13,8.95,gateZ,.76,.46,2.15,stone);
-function gateGargoyle(x,z,turn=1){
- const g=new THREE.Group();g.position.set(x,9.12,z);g.rotation.y=turn<0?Math.PI:0;scene.add(g);
- const body=new THREE.Mesh(new THREE.DodecahedronGeometry(.68,0),gateDark);body.scale.set(.85,1.12,1.15);body.position.set(0,.38,0);g.add(body);
- const head=new THREE.Mesh(new THREE.DodecahedronGeometry(.43,0),gateHighlight);head.position.set(0,.92,.42);g.add(head);
+// Heavy, high arch connecting the towers; the road remains clear below.
+box(0,11.55,gateZ,8.2,1.5,2.5,gateDark);
+for(let k=-3;k<=3;k++)box(k*1.12,12.48,gateZ,.80,.82,2.6,stone);
+// Flanking headless stone statues: shoulders and broken necks, NO heads.
+function headlessGateGuardian(x){
+ const g=new THREE.Group();g.position.set(x,0,3.4);scene.add(g);
+ const aged=material('#656861'),shadow=material('#424844');
+ box(0,.7,0,2.5,1.4,2.2,gateDark,g); // plinth
+ box(0,1.6,0,2.05,.45,1.75,aged,g);
+ const robe=new THREE.Mesh(new THREE.CylinderGeometry(.78,1.18,4.9,8),aged);
+ robe.position.set(0,4.2,0);g.add(robe);
+ box(0,6.85,0,2.25,1.0,1.2,aged,g); // shoulders
  for(const side of [-1,1]){
-  const horn=new THREE.Mesh(new THREE.ConeGeometry(.17,.67,5),gateDark);horn.position.set(side*.30,1.45,.34);horn.rotation.z=side*-.38;g.add(horn);
-  const wing=new THREE.Mesh(new THREE.ConeGeometry(.64,1.7,3),gateDark);
-  wing.position.set(side*.80,.86,-.24);wing.rotation.z=side*-.58;wing.rotation.x=-.18;g.add(wing);
-  const claw=new THREE.Mesh(new THREE.ConeGeometry(.13,.53,5),gateHighlight);
-  claw.rotation.x=Math.PI/2;claw.position.set(side*.40,-.17,.68);g.add(claw);
+  const arm=box(side*1.12,4.85,.02,.55,3.8,.65,aged,g);
+  arm.rotation.z=side*.11;
+  box(side*.52,3.0,.7,.18,3.5,.2,shadow,g); // worn robe fold
  }
- const muzzle=box(0,.76,.85,.40,.22,.48,gateDark,g);
+ // A jagged broken neck stump makes the missing head unmistakable.
+ const stump=new THREE.Mesh(new THREE.CylinderGeometry(.34,.46,.34,7),shadow);
+ stump.position.set(0,7.52,0);stump.rotation.z=.14;g.add(stump);
  for(const side of [-1,1]){
-  const eye=new THREE.Mesh(new THREE.SphereGeometry(.075,6,5),new THREE.MeshBasicMaterial({color:'#ad563d'}));
-  eye.position.set(side*.19,1.02,.76);g.add(eye);
+  const shard=new THREE.Mesh(new THREE.ConeGeometry(.16,.33,4),aged);
+  shard.position.set(side*.22,7.72,0);g.add(shard);
  }
  return g;
 }
-for(const x of [-5.2,5.2])gateGargoyle(x,-.65,-1);
-
-function bar(p,x,y,z,w,h,d,m=iron){return box(x,y,z,w,h,d,m,p)}
-for(const [p,dir] of [[gateL,1],[gateR,-1]]){bar(p,dir*2.15,1.05,0,4.3,.17,.16);bar(p,dir*2.15,3.35,0,4.3,.17,.16);for(let i=0;i<10;i++){const x=dir*(.23+i*.43);bar(p,x,2.2,0,.08,3.8,.12,i%4===0?rust:iron);const tip=new THREE.Mesh(new THREE.ConeGeometry(.14,.48,4),iron);tip.position.set(x,4.35,0);p.add(tip)}bar(p,dir*4.25,2.2,0,.18,3.9,.18,rust)}
+headlessGateGuardian(-9.5);headlessGateGuardian(9.5);
+// Rusted leaves, now nearly twice as tall, with spear-point finials and cross-bracing.
+function bar(p,x,y,z,w,h,d,m=gateRust){return box(x,y,z,w,h,d,m,p)}
+for(const [p,dir] of [[gateL,1],[gateR,-1]]){
+ bar(p,dir*2.15,1.35,0,4.3,.30,.30,gateRustEdge);
+ bar(p,dir*2.15,4.0,0,4.3,.30,.30,gateRustEdge);
+ bar(p,dir*2.15,6.8,0,4.3,.32,.30,gateRustEdge);
+ for(let i=0;i<12;i++){
+  const x=dir*(.20+i*.355);
+  bar(p,x,3.75,0,.12,7.5,.17,i%3===0?gateRustEdge:gateRust);
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(.19,.72,4),i%3===0?gateRustEdge:gateRust);
+  tip.position.set(x,7.85,0);p.add(tip);
+ }
+ bar(p,dir*4.25,3.8,0,.26,7.6,.28,gateRustEdge);
+ for(const y of [1.35,4.0,6.8])for(const x of [dir*.5,dir*3.7]){
+  const rivet=new THREE.Mesh(new THREE.SphereGeometry(.13,6,5),gateDark);
+  rivet.position.set(x,y,.20);p.add(rivet);
+ }
+}
 const leftOpen=-Math.PI*.51,rightOpen=Math.PI*.51;gateL.rotation.y=leftOpen;gateR.rotation.y=rightOpen;
 // v1.29 — the ancient boundary runs from both existing stone gate piers to
 // the forest edges. The 9m-wide road opening remains completely unobstructed.
@@ -529,7 +555,7 @@ const atmospherePresets={
 };
 let timeOfDay='day',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.52';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.56';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -960,7 +986,7 @@ function travelToVillage(){
  setTimeout(()=>{window.location.assign(target.href)},1700);
 }
 let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;if(keys.arrowleft)player.angle-=t;if(keys.arrowright)player.angle+=t;const f=(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
-if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
+if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;window.dispatchEvent(new CustomEvent('dndpov:gate-closed',{detail:{location:'B',event:'Eastern Gates closed behind the party'}}));noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*(1-v);gateR.rotation.y=rightOpen*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
 camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
 
 // DNDPOV scenery-first gameplay integration v1.5
@@ -1130,7 +1156,7 @@ setInterval(()=>{
 },120);
 function gameOpen(){if(atInnDoor()){enterInn();return;}const l=gameLocations[gameIndex];
  if(l.id!=='CART'&&window.DNDPOV_AI_READ_NEARBY){window.DNDPOV_AI_READ_NEARBY();return;}if(l.id==='INN'){gameShowModal('The Last Chance Inn','<div class="readaloud">A warm glow spills from the inn windows. Approach the front door to enter.</div>');return;}let body='<div class="readaloud">'+gameEscape(l.player)+'</div>';if(l.inside)body+='<h3>Inside / Exploration</h3><div class="readaloud">'+gameEscape(l.inside)+'</div>';if(gameDM)body+='<h3>DM ONLY</h3><div class="dmnote">'+gameEscape(l.dm||'')+'</div>';gameShowModal(l.name,body)}
-function gameUpdateLocation(x,z){if(innInside)return;let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender()}}
+function gameUpdateLocation(x,z){if(innInside)return;let best=Infinity,idx=-1;for(let i=0;i<gameLocations.length;i++){const l=gameLocations[i];if(!l.r)continue;const d=Math.hypot(x-l.x,z-l.z);if(d<best){best=d;idx=i}}if(idx>=0&&best<gameLocations[idx].r&&gameLast!==idx){gameLast=idx;gameIndex=idx;gameRender();window.dispatchEvent(new CustomEvent('dndpov:scene-visible',{detail:{location:gameLocations[idx].id,position:'outside',source:'proximity-description'}}))}}
 gameEl('dmBtn').onclick=()=>{gameDM=!gameDM;gameEl('dmBtn').textContent='DM: '+(gameDM?'ON':'OFF');gameEl('dmBtn').classList.toggle('on',gameDM);gameRender()};
 gameEl('descBtn').textContent='Read Scene (R)';
 gameEl('descBtn').onclick=()=>window.DNDPOV_AI_READ_NEARBY?.();
@@ -1898,6 +1924,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
  banner.append(bannerHead,bannerText,bannerClose);document.body.append(banner);
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
+ const isSvalichWoods=()=>leg==='svalich'&&location==='C';
  const context=()=>window.DNDPOV_AI_CONTEXT?.();
  const currentEntry=()=>entries.find(e=>e.id===location);
  function record(kind,detail,result=''){
@@ -1905,6 +1932,16 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  }
  function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
  function renderOracle(){oracleBody.replaceChildren();
+  const heartbeat=document.createElement('div');heartbeat.className='entry';
+  const head=document.createElement('strong');head.textContent='AUTO DM · ORACLE HEARTBEAT';
+  const active=currentEntry();
+  const status=document.createElement('p');status.textContent=!state.enabled?'Auto DM paused — no automatic encounter checks.':isSvalichWoods()?(state.wolvesAttacked?'Wolf encounter triggered — see the encounter report.':state.wolvesHowling?'Wolves howling · round '+state.howlingRounds+'/5 · awaiting next round.':'Svalich Woods · encounter check 1d6 on each exploration turn (4–6 starts howling).'):'Waiting for encounters — no encounter roll required at this location.';
+  const where=document.createElement('small');where.textContent='Current: '+(active?active.id+' · '+active.title:(location||'Exploring'))+' · '+(state.enabled?'Monitoring':'Paused');
+  heartbeat.append(head,where,status);
+  const link=document.createElement('button');link.className='pane-action';link.textContent='View encounter rules and visited locations';link.onclick=()=>{$('dndpovOracle').classList.remove('open');renderEncounters();$('dndpovEncounters').classList.add('open')};heartbeat.append(link);
+  if(isSvalichWoods()&&state.enabled){const rollBtn=document.createElement('button');rollBtn.className='pane-action';rollBtn.textContent='Advance exploration turn / roll encounter';rollBtn.onclick=()=>advanceTurn(true);heartbeat.append(rollBtn);}
+  oracleBody.append(heartbeat);
+  const report=document.createElement('strong');report.textContent='DECISION & ROLL REPORT';oracleBody.append(report);
   if(!history.length){const p=document.createElement('p');p.textContent='The Oracle records location events, encounter rolls, and decisions here.';oracleBody.append(p);}
   for(const item of history){const row=document.createElement('div');row.className='log-row';
    const title=document.createElement('strong');title.textContent=item.kind;
@@ -1954,18 +1991,36 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
    record('Location reached',entry.title,entry.rule);
    if(state.enabled&&(!entry.autoPosition||entry.autoPosition===c.position)){
     if(id==='INN'&&c.position==='inside')record('Opening encounter','Last Chance Inn','Messenger’s invitation scene; use parchment read-aloud');
-    if(id==='B')record('Gates of Barovia','Party approaches the eastern gates','Open on approach; close after party passes');
+    if(id==='B')record('Gates of Barovia','Party approaches the eastern gates','Gates close after the party passes');
     if(id==='G')record('Camp encounter','Ten Vistani at Tser Pool','Friendly invitation; hostility requires a party action');
     if(id==='I'&&c.position==='inside')record('Carriage departure','Boarded black carriage','Strahd’s horses take the party toward Ravenloft');
    }
    persist();
   }
  }
+ // The on-screen location description is the authoritative proximity event.
+ // Mark its matching encounter as visited immediately, without requiring E.
+ window.addEventListener('dndpov:scene-visible',event=>{
+  if(leg!=='svalich')return;
+  const id=String(event.detail?.location||'');
+  const entry=entries.find(e=>e.id===id);
+  if(!entry)return;
+  location=id;position='outside';
+  onEnter({location:id,position:'outside'});
+  renderEncounters();renderOracle();
+ });
+ window.addEventListener('dndpov:gate-closed',()=>{
+  if(leg!=='svalich')return;
+  if(!state.visited.some(v=>v.startsWith('B|')))state.visited.push('B|outside');
+  location='B';position='outside';lastContext='B|outside';
+  record('B · Gates of Barovia','Gate crossing confirmed','Iron gates slammed shut behind the party; passage back is blocked');
+  renderEncounters();
+ });
  function scan(){let c=context();if(!c)return;
   if(leg==='tser'&&c.location==='G'&&c.position==='inside')
    c={...c,location:'G1',roomName:'Madame Eva’s Tent'};
   const key=String(c.location||'')+'|'+String(c.position||'');
-  if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');onEnter(c);renderEncounters();}
+  if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');onEnter(c);renderEncounters();renderOracle();}
   // The real module's wolf checks happen by exploration turns. Walking distance
   // is only a proxy; nonmovement actions can advance turns with the manual button.
   if(leg==='svalich'&&state.enabled&&location==='C'){
@@ -1987,7 +2042,8 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   for(const entry of entries){const card=document.createElement('div');card.className='entry';if(entry.id===location)card.classList.add('current');
    const title=document.createElement('strong');title.textContent=entry.id+' · '+entry.title;
    const rule=document.createElement('p');rule.textContent=entry.rule;card.append(title,rule);
-   const checked=document.createElement('small');checked.textContent=state.visited.some(k=>k.startsWith(entry.id+'|'))?'Visited':'Not yet visited';card.append(checked);
+   const checked=document.createElement('small');checked.textContent=state.visited.some(k=>k.startsWith(entry.id+'|'))?'VISITED':'NOT YET VISITED';card.append(checked);
+   const explanation=document.createElement('p');explanation.style.fontSize='12px';explanation.textContent=entry.mode==='wolves'?'Encounter check: roll 1d6 each exploration turn in the woods; 4–6 starts howling. The Oracle displays every roll and its result.':entry.mode==='story'?'Story/location event — no random encounter roll here.':entry.mode==='manual'?'Conditional encounter — requires the described player action or DM confirmation.':entry.mode==='drawbridge'?'Hazard check on crossing — roll separately for each character.':'Module event — see its conditions above.';card.append(explanation);
    // Full module extract: accessible only via the DM Encounter panel, not the player scroll.
    const source=window.DNDPOV_MODULE_REFERENCE?.lookup(entry.id);
    if(source&&(source.stats.length||source.notes.length)){
@@ -2023,6 +2079,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
   autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
+  if(!localDm){$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');}
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
  autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
@@ -2038,7 +2095,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
- renderOracle();renderEncounters();sync();setInterval(()=>{if(localDm)scan()},450);setInterval(sync,1200);
+ renderOracle();renderEncounters();sync();setInterval(()=>{scan()},450);setInterval(sync,1200);
 })();
 
 </script>

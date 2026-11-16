@@ -333,7 +333,7 @@ const lanternGlowTexture=new THREE.CanvasTexture(glowCanvas);
 // The cobblestone shader is unlit, so its brightness follows the clock explicitly.
 const roadLighting={value:1};
 document.title=document.title.replace('v5.2','v5.38');
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.68';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.69';
 document.querySelector('#mapbox small').textContent='North ↑ · Gold arrow = player · cream = roads · terracotta = homes';
 document.querySelector('#locationPanelFooter span').textContent='R / F: read · Esc: close';
 // Manual R/F reading is always available; auto descriptions remain optional.
@@ -3625,6 +3625,7 @@ function refreshDoorHint(){
 }
 function enterBuilding(id){
  // LOCAL AI TEST: permit village interiors; public GitHub preview remains unchanged.
+ if(window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.())return;
  if(activeInterior||!locationPanel.hidden)return;
  activeRoom=roomCache.get(id)||makeInteriorRoom(id);
  activeRoom.visible=true;activeInterior=id;
@@ -3644,6 +3645,7 @@ function enterBuilding(id){
  syncBaroviaAudio();
 }
 function leaveBuilding(){
+ if(window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.())return;
  if(!activeInterior)return;
  if(activeInterior==='E6')stopChurchOrganNotes();
  // Exterior door positions are offset by (sin(angle), cos(angle)).
@@ -4265,7 +4267,20 @@ window.addEventListener('keydown',event=>{
  readNearbyDescription();
 },true);
 
-const keys={};window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys[e.code]=true;if(e.code==='KeyM'&&!activeInterior){mapShown=!mapShown;document.getElementById('mapbox').style.display=mapShown?'block':'none'}});window.addEventListener('keyup',e=>keys[e.code]=false);document.getElementById('reset').onclick=()=>Object.assign(player,{x:(1285-WIDTH/2)/SCALE,z:(548-HEIGHT/2)/SCALE,heading:-Math.PI/2});document.getElementById('overview').onclick=()=>{overhead=!overhead;document.getElementById('overview').textContent=overhead?'First-person view':'Overhead view'};window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeWeatherCanvas()});
+// Freeze first-person walking and turning whenever an Auto DM encounter is pending.
+const keys=new Proxy({}, {
+ get(target,key){
+  if(window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.()&&/^(ArrowUp|ArrowDown|ArrowLeft|ArrowRight|KeyW|KeyA|KeyS|KeyD|ShiftLeft|ShiftRight)$/.test(String(key)))return false;
+  return target[key];
+ },
+ set(target,key,value){target[key]=window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.()?false:value;return true;}
+});
+window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys[e.code]=true;if(e.code==='KeyM'&&!activeInterior){mapShown=!mapShown;document.getElementById('mapbox').style.display=mapShown?'block':'none'}});
+window.addEventListener('keyup',e=>keys[e.code]=false);
+document.getElementById('reset').onclick=()=>Object.assign(player,{x:(1285-WIDTH/2)/SCALE,z:(548-HEIGHT/2)/SCALE,heading:-Math.PI/2});
+document.getElementById('reset').addEventListener('click',e=>{if(window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.()){e.preventDefault();e.stopImmediatePropagation();}},true);
+document.getElementById('overview').onclick=()=>{overhead=!overhead;document.getElementById('overview').textContent=overhead?'First-person view':'Overhead view'};
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizeWeatherCanvas()});
 let last=performance.now();function animate(now){requestAnimationFrame(animate);const dt=Math.min(.05,(now-last)/1000);last=now;if(activeInterior){updateWeatherEffects(now);walkInterior(dt);return;}const rot=2.2*dt;if(!locationPanel.hidden){for(const key of Object.keys(keys))keys[key]=false;}if(keys.ArrowLeft)player.heading-=rot;if(keys.ArrowRight)player.heading+=rot;let f=(keys.ArrowUp?1:0)-(keys.ArrowDown?1:0),side=(keys.KeyD?1:0)-(keys.KeyA?1:0);const speed=(keys.ShiftLeft||keys.ShiftRight?15:7)*dt;const dx=(Math.sin(player.heading)*f+Math.cos(player.heading)*side)*speed,dz=(-Math.cos(player.heading)*f+Math.sin(player.heading)*side)*speed;const nx=player.x+dx,nz=player.z+dz;if(Math.abs(nx)<WIDTH/(2*SCALE)-1&&Math.abs(nz)<HEIGHT/(2*SCALE)-1&&Math.hypot(nx-church.x,nz-church.z)>church.r&&Math.hypot(nx-tavern.x,nz-tavern.z)>tavern.r&&Math.hypot(nx-mercantile.x,nz-mercantile.z)>mercantile.r&&Math.hypot(nx-maryHouse.x,nz-maryHouse.z)>maryHouse.r&&Math.hypot(nx-guestHouse.x,nz-guestHouse.z)>guestHouse.r&&Math.hypot(nx-residentialHouse.x,nz-residentialHouse.z)>residentialHouse.r&&Math.hypot(nx-mansion.x,nz-mansion.z)>mansion.r&&!hitsVillagePerimeter(nx,nz)&&villageHomes.every(h=>Math.hypot(nx-h.x,nz-h.z)>h.r)){player.x=nx;player.z=nz}if(overhead){camera.position.set(player.x,90,player.z+5);camera.lookAt(player.x,0,player.z)}else{camera.position.set(player.x,1.72,player.z);camera.lookAt(player.x+Math.sin(player.heading)*10,1.72,player.z-Math.cos(player.heading)*10)}skyDome.position.copy(camera.position);updateNearbyFog(now);refreshLanternLighting();updateLocationProximity();refreshDoorHint();renderer.render(scene,camera);drawMap();document.getElementById('pos').textContent=`Location: ${Math.round(player.x*SCALE+WIDTH/2)}, ${Math.round(player.z*SCALE+HEIGHT/2)} · ${onRoad(player.x,player.z)?'On road':'Off road (grass)'}`};requestAnimationFrame(animate);
 
 // v5.39: multiplayer bridge — no geometry, weather or encounter changes.
@@ -4296,8 +4311,8 @@ drawMap=function(){villageDrawBeforeMp();
  }
  
 };
-document.title='DNDPOV — Village of Barovia v5.67 · Multiplayer + AI DM';
-document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67';
+document.title='DNDPOV — Village of Barovia PUBLIC v5.69 · Beta';
+document.querySelector('#hud b').textContent='DNDPOV · BAROVIA PUBLIC v5.69';
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
@@ -4555,7 +4570,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA v5.67';
 const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
 btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · v5.68</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+panel.innerHTML='<header><b>Adventure Journal · v5.69</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
@@ -4682,8 +4697,9 @@ setInterval(checkLocation,350);checkLocation();
  const stateKey='dndpov_local_auto_dm_'+leg+'_v1';
  const logKey='dndpov_local_oracle_'+leg+'_v1';
  const readJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}};
- const state=Object.assign({enabled:true,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
-  wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0},readJSON(stateKey,{}));
+ const state=Object.assign({enabled:false,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
+  wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0,
+  pendingEncounter:null,nightAttacked:false},readJSON(stateKey,{}));
  let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
  const persist=()=>{try{localStorage.setItem(stateKey,JSON.stringify(state));localStorage.setItem(logKey,JSON.stringify(history))}catch{}};
  const $=id=>document.getElementById(id);
@@ -4741,16 +4757,44 @@ setInterval(checkLocation,350);checkLocation();
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
- bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
+ bannerClose.textContent='Encounter handled / Continue';bannerClose.onclick=()=>{
+  const completed=bannerHead.textContent;
+  state.pendingEncounter=null;banner.style.display='none';
+  record('Encounter completed',completed,'Player confirmed resolution; movement released');
+  persist();renderEncounters();
+ };
  banner.append(bannerHead,bannerText,bannerClose);document.body.append(banner);
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
  const context=()=>window.DNDPOV_AI_CONTEXT?.();
  const currentEntry=()=>entries.find(e=>e.id===location);
+ const dmIsOn=()=>{
+  const button=$(leg==='village'?'dmMode':leg==='svalich'?'dmBtn':'localDmMode');
+  return !!button&&/\bON\b/.test(button.textContent)&&!/\bOFF\b/.test(button.textContent);
+ };
+ const autoActive=()=>state.enabled&&dmIsOn();
+ const movementLocked=()=>autoActive()&&!!(state.pendingEncounter||
+  (leg==='village'&&!$('cemeteryEncounterToast')?.hidden));
+ window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED=movementLocked;
  function record(kind,detail,result=''){
   history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,100);persist();renderOracle();
  }
- function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
+ function notice(title,description,lock=false){
+  bannerHead.textContent=title;bannerText.textContent=description;
+  bannerClose.textContent=lock?'Battle / encounter handled · Continue':'Continue';
+  banner.style.display='block';
+  if(lock&&autoActive())state.pendingEncounter={title,description};
+  persist();document.exitPointerLock?.();
+ }
  function renderOracle(){oracleBody.replaceChildren();
+  if(leg==='village'){
+   const status=document.createElement('p');
+   const remaining=3-(state.turns%3);
+   status.textContent=state.pendingEncounter?'Encounter pending · movement paused until resolved.':
+    autoActive()?'I6 wandering encounters: '+remaining+' exploration turn'+(remaining===1?'':'s')+
+      ' until the next 1d6 check · '+(isNight()?'night (1–2 on d6)':'day (1 on d6)')+'.':
+      'Waiting for DM and Auto DM to be enabled. No automatic encounter rolls.';
+   oracleBody.append(status);
+  }
   if(!history.length){const p=document.createElement('p');p.textContent='The Oracle records location events, encounter rolls, and decisions here.';oracleBody.append(p);}
   for(const item of history){const row=document.createElement('div');row.className='log-row';
    const title=document.createElement('strong');title.textContent=item.kind;
@@ -4761,6 +4805,65 @@ setInterval(checkLocation,350);checkLocation();
   oracleBody.append(clear);
  }
  function roll(n){return Math.floor(Math.random()*n)+1;}
+ const isNight=()=>['night','dusk'].includes($('timeofday')?.value);
+ function rollDice(count,sides){
+  const faces=Array.from({length:count},()=>roll(sides));
+  const total=faces.reduce((sum,face)=>sum+face,0);
+  record('I6 group size',count+'d'+sides+' = '+faces.join(' + '),'Total '+total);
+  return total;
+ }
+ function villageWanderingEncounter(){
+  if(!autoActive()||state.pendingEncounter)return;
+  // I6 Ravenloft p. 6: outside the castle, check every THREE ten-minute turns.
+  // Table 4: 1 on d6 by day, 1d6 encounter table.
+  // Table 5: 1–2 on d6 by night, 1d12 encounter table.
+  const night=isNight(),table=night?5:4;
+  const check=roll(6),hit=check<=(night?2:1);
+  record('I6 Table '+table+' · encounter check',
+   'Turn '+state.turns+' · '+(night?'night':'day')+' · 1d6 = '+check+
+   ' · encounter on '+(night?'1–2':'1'),
+   hit?'Encounter! Roll the I6 Table '+table+' creature entry.':'No encounter · next check in 3 turns');
+  if(!hit)return;
+  const index=roll(night?12:6);
+  record('I6 Table '+table+' · encounter table','1d'+(night?12:6)+' = '+index,
+   'Looking up the matching original module entry');
+  let kind='',number=1,hostile=true;
+  if(night){
+   if(index<=2){kind='worg wolves';number=rollDice(1,10)}
+   else if(index===3){kind='worg wolves';number=rollDice(2,10)}
+   else if(index<=5){kind='zombies';number=rollDice(3,4)}
+   else if(index<=7){kind='bats';number=rollDice(10,10);hostile=false}
+   else if(index===8){kind='ghost'}
+   else if(index===9){kind='ghouls';number=rollDice(3,4)}
+   else if(index===10){kind='wights';number=rollDice(1,4)}
+   else if(index===11){kind='wraiths';number=rollDice(1,4)}
+   else {kind='maiden vampire'}
+  }else{
+   if(index===1){kind='worg wolves';number=rollDice(2,4)}
+   else if(index===2){kind='Vistani travelers';number=rollDice(1,10);hostile=false}
+   else if(index===3){kind='villagers';number=rollDice(1,4);hostile=false}
+   else if(index===4){kind='worg wolves';number=rollDice(1,4)}
+   else if(index===5){kind='Vistani travelers';number=rollDice(1,4);hostile=false}
+   else {kind='villagers';number=rollDice(1,4);hostile=false}
+  }
+  const detail=number+' × '+kind;
+  record('I6 wandering encounter', 'Table '+table+' · result '+index+' · '+(location||'Village streets'),
+   detail+' · '+(hostile?'initiative / encounter handling required':'non-hostile unless circumstances change'));
+  notice('I6 ENCOUNTER · '+kind.toUpperCase(),detail+'. '+
+   (hostile?'Resolve the encounter; combat is not automated.':'Role-play or acknowledge this encounter.')+
+   ' Movement remains paused until you continue.',true);
+ }
+ function villageNightAttack(){
+  if(!autoActive()||!isNight()||$('timeofday')?.value!=='night'||state.nightAttacked||state.pendingEncounter)return;
+  state.nightAttacked=true;
+  const wolves=rollDice(4,4),bats=rollDice(10,10);
+  record('I6 scripted night attack','First nightfall outside Castle Ravenloft',
+   'Strahd attacks with '+wolves+' worg wolves and '+bats+' bats. Withdraws after 5 melee rounds.');
+  notice('I6 · STRAHD’S NIGHT ATTACK',wolves+' worg wolves and '+bats+
+   ' bats harry the party. The module says Strahd withdraws after five melee rounds.'+
+   ' If the party is indoors, use the module’s 1–2 on 1d6 wolf-entry check each attack round.',true);
+  persist();
+ }
  function wolfCheck(){const result=roll(6),howl=result>=4;
   if(!state.wolvesHowling&&howl){state.wolvesHowling=true;state.howlingRounds=0;}
   record('Svalich Woods · Wolf check','1d6='+result+' · howling begins on 4–6',howl?'Wolves howling':'No new howling');
@@ -4781,8 +4884,18 @@ setInterval(checkLocation,350);checkLocation();
   record('Ravenloft drawbridge · Per character','d100='+result+' · plank breaks on 01–05',outcome);
  }
  function advanceTurn(manual=false){if(!state.enabled&&!manual)return;
+  if(leg==='village'&&!autoActive())return;
+  if(leg==='village'&&movementLocked()){
+   record('Turn paused','Unresolved encounter','Resolve the pending encounter before travel time advances');return;
+  }
   state.turns++;
   record('Exploration turn','10 minutes · '+(location||titles[leg]),'Turn '+state.turns);
+  if(leg==='village'){
+   const turnsUntilCheck=3-state.turns%3;
+   if(state.turns%3===0)villageWanderingEncounter();
+   else record('I6 encounter schedule','Turn '+state.turns+' of the current 3-turn cycle',
+    'No roll yet · '+turnsUntilCheck+' turn'+(turnsUntilCheck===1?'':'s')+' until next check');
+  }
   if(leg==='svalich'&&location==='C'){
    state.woodsTurns++;
    if(state.woodsTurns===3&&!state.woodsLetter){state.woodsLetter=true;
@@ -4819,17 +4932,40 @@ setInterval(checkLocation,350);checkLocation();
    if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
     if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
    lastCoords={x:p.x,y:p.y};
-  }else lastCoords=null;
+  }else if(leg!=='village')lastCoords=null;
   if(leg==='village'){
    const toast=$('cemeteryEncounterToast');if(toast&&!toast.hidden&&!state.zombieNoticed){
     state.zombieNoticed=true;record('E7 · Zombie encounter','Existing cemetery event triggered','Four zombies · roll initiative');
     persist();}
    if(toast?.hidden)state.zombieNoticed=false;
+   // The module governs the ROLLS, not the real-world walk-to-turn conversion.
+   // DNDPOV advances one simulated 10-minute exploration turn per 180 map
+   // units traveled outdoors; the button also advances nonmovement activities.
+   // Teleports, resets and multiplayer position jumps are deliberately ignored.
+   const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
+   if(p&&lastCoords&&autoActive()&&!movementLocked()&&position!=='inside'){
+    const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
+    if(step>0&&step<110){
+     travelDistance+=step;
+     if(travelDistance>=180){travelDistance-=180;advanceTurn();}
+    }
+   }
+   lastCoords=p?{x:p.x,y:p.y}:null;
+   if($('timeofday')?.value==='day'||$('timeofday')?.value==='dawn'){
+    if(state.nightAttacked){state.nightAttacked=false;persist();}
+   }
+   if(!movementLocked())villageNightAttack();
   }
  }
  function renderEncounters(){encounterBody.replaceChildren();
-  const heading=document.createElement('p');heading.textContent='Current location: '+(location||'Exploring')+' · Auto DM '+(state.enabled?'ON':'OFF')+'. Conditional events require the listed action. No combat is resolved by the map.';encounterBody.append(heading);
-  const turn=document.createElement('button');turn.className='pane-action';turn.textContent='Advance 10 Minutes';turn.onclick=()=>advanceTurn(true);encounterBody.append(turn);
+  const heading=document.createElement('p');heading.textContent='Current location: '+(location||'Exploring')+' · Auto DM '+(autoActive()?'ON':'OFF')+'. Conditional events require the listed action. No combat is resolved by the map.';encounterBody.append(heading);
+  if(leg==='village'){
+   const timing=document.createElement('p');timing.textContent=
+    'Original I6: check every 3 exploration turns. Day: encounter on 1 on 1d6 (Table 4). Night: encounter on 1–2 on 1d6 (Table 5). '+
+    'Walking converts distance into approximate 10-minute turns; use the button for investigation, waiting and other actions.';
+   encounterBody.append(timing);
+  }
+  const turn=document.createElement('button');turn.className='pane-action';turn.textContent='Advance 10 Minutes';turn.disabled=!autoActive()||movementLocked();turn.onclick=()=>advanceTurn(true);encounterBody.append(turn);
   for(const entry of entries){const card=document.createElement('div');card.className='entry';if(entry.id===location)card.classList.add('current');
    const title=document.createElement('strong');title.textContent=entry.id+' · '+entry.title;
    const rule=document.createElement('p');rule.textContent=entry.rule;card.append(title,rule);
@@ -4854,11 +4990,12 @@ setInterval(checkLocation,350);checkLocation();
     const info=document.createElement('p');info.textContent='Woods turns: '+state.woodsTurns+' · Howling rounds: '+state.howlingRounds+'/5';card.append(info);
    }
    if(entry.mode==='drawbridge')action('Check plank for one PC (d100)',bridgeCheck);
-   if(entry.mode==='cemetery')action('Record midnight procession',()=>record('E7 · Midnight procession','One hundred spirits rise and march to Ravenloft','No combat with PCs'));
+   if(entry.mode==='cemetery')action('Record midnight procession (when midnight)',()=>record('E7 · Midnight procession','DM confirmed midnight · one hundred spirits rise and march to Ravenloft','No combat with PCs; a planned event, not a random encounter'));
    encounterBody.append(card);
   }
   const reset=document.createElement('button');reset.className='pane-action';reset.textContent='Reset encounter history';reset.onclick=()=>{if(confirm('Reset local encounters for '+titles[leg]+'?')){
-   Object.assign(state,{visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0});
+   Object.assign(state,{visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0,pendingEncounter:null,nightAttacked:false});
+   travelDistance=0;banner.style.display='none';
    persist();record('Encounter history reset',titles[leg]);renderEncounters();
   }};encounterBody.append(reset);
  }
@@ -4867,13 +5004,14 @@ setInterval(checkLocation,350);checkLocation();
  function sync(){const b=actualDmId?$(actualDmId):null;
   if(b)localDm=/\bON\b/.test(b.textContent)&&!/\bOFF\b/.test(b.textContent);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
-  autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
-  autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
+  autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',autoActive());
+  autoButton.disabled=!localDm;
+  $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
- autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
- $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
- $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ autoButton.onclick=()=>{if(!dmIsOn())return;state.enabled=!state.enabled;persist();record('Auto DM',titles[leg],state.enabled?'I6 checks enabled':'I6 checks paused');sync();renderEncounters()};
+ $('localOracle').onclick=()=>{renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
+ $('localEncounters').onclick=()=>{renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localRead').onclick=()=>{window.DNDPOV_AI_READ_NEARBY?.();dock.classList.remove('open')};
  $('localMap').onclick=()=>{const id=leg==='svalich'?'mapBtn':leg==='village'?'overview':null;
   if(id&&$(id))$(id).click();else if(leg==='tser'){const m=$('map');if(m)m.style.display=m.style.display==='none'?'':'none';}
@@ -4886,7 +5024,17 @@ setInterval(checkLocation,350);checkLocation();
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
- renderOracle();renderEncounters();sync();setInterval(()=>{if(localDm)scan()},450);setInterval(sync,1200);
+ if(state.pendingEncounter){
+  bannerHead.textContent=state.pendingEncounter.title;
+  bannerText.textContent=state.pendingEncounter.description;
+  bannerClose.textContent='Battle / encounter handled · Continue';banner.style.display='block';
+ }
+ if(leg==='village')$('timeofday')?.addEventListener('change',()=>{
+  if(autoActive())record('I6 time of day', $('timeofday').value,
+   'Next wandering check uses '+(isNight()?'night Table 5':'day Table 4'));
+  renderOracle();renderEncounters();
+ });
+ renderOracle();renderEncounters();sync();setInterval(scan,450);setInterval(sync,1200);
 })();
 
 </script>

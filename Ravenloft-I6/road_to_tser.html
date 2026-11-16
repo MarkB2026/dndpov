@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.32 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.33 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.6</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.33</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -2889,6 +2889,18 @@ document.addEventListener('keydown',event=>{
  let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
  const persist=()=>{try{localStorage.setItem(stateKey,JSON.stringify(state));localStorage.setItem(logKey,JSON.stringify(history))}catch{}};
  const $=id=>document.getElementById(id);
+ // The Oracle is an audit of real engine checks, never a generator of extra rolls.
+ const gameTime=()=>document.getElementById('day')?.value||'unknown';
+ const gameWeather=()=>document.getElementById('weather')?.value||'unknown';
+ const conditions=()=>`Time: ${gameTime()} · Weather: ${gameWeather()}`;
+ let lastConditions='';
+ function assessConditions(reason){
+  const now=conditions();
+  if(now!==lastConditions){lastConditions=now;record('Conditions evaluated',reason,now);}
+  record('Night encounter rule evaluated',reason,
+   gameTime()==='night'?'Night: no verified additional Tser Road roll or modifier in the current encounter rules; none invented.':'Not night: no night-only check applicable in current Tser Road rules.');
+ }
+
  const style=document.createElement('style');style.id='dndpovLocalToolsStyle';
  style.textContent=`
  #dndpovToolsDock{position:fixed;right:16px;bottom:16px;z-index:180;font:13px Georgia,serif;color:#edd6b1}
@@ -2961,11 +2973,12 @@ document.addEventListener('keydown',event=>{
  const context=()=>window.DNDPOV_AI_CONTEXT?.();
  const currentEntry=()=>entries.find(e=>e.id===location);
  function record(kind,detail,result=''){
-  history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,100);persist();renderOracle();
+  history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,1000);persist();renderOracle();
  }
  function notice(title,description){bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
  function renderOracle(){oracleBody.replaceChildren();
-  if(!history.length){const p=document.createElement('p');p.textContent='The Oracle records location events, encounter rolls, and decisions here.';oracleBody.append(p);}
+  const expl=document.createElement('p');expl.textContent='LIVE AUDIT · All real checks, skipped checks, rolls, outcomes, and conditions. No dice or night modifiers are invented. Newest first.';oracleBody.append(expl);
+  if(!history.length){const p=document.createElement('p');p.textContent='No evaluations recorded yet. Move along the road or advance an exploration turn.';oracleBody.append(p);}
   for(const item of history){const row=document.createElement('div');row.className='log-row';
    const title=document.createElement('strong');title.textContent=item.kind;
    const meta=document.createElement('small');meta.textContent=item.at+' · '+item.detail;
@@ -2989,14 +3002,25 @@ document.addEventListener('keydown',event=>{
    record('Module encounter','Five howling rounds completed','5 worgs entering / 25 leaving · initiative required');}
   persist();renderEncounters();
  }
- function bridgeCheck(){const result=roll(100);let outcome='Board holds';
+ function bridgeCheck(){record('Drawbridge rule evaluated','Per-character crossing',
+  'Original rule: roll d100; 01–05 breaks a board; Dexterity check required only if board breaks. '+conditions());
+  const result=roll(100);let outcome='Board holds';
   if(result<=5){outcome='A plank breaks! Dexterity check required; failure means a fall into the chasm.';
    notice('DRAWBRIDGE HAZARD',outcome);}
   record('Ravenloft drawbridge · Per character','d100='+result+' · plank breaks on 01–05',outcome);
+  if(result>5)record('Dexterity check considered','Drawbridge board held','Not rolled: Dexterity check only applies when a plank breaks.');
  }
  function advanceTurn(manual=false){if(!state.enabled&&!manual)return;
   state.turns++;
+  if(leg==='tser')assessConditions('Exploration turn '+state.turns);
   record('Exploration turn','10 minutes · '+(location||titles[leg]),'Turn '+state.turns);
+  if(leg==='tser'){
+   const entry=entries.find(e=>e.id===location);
+   record('Encounter eligibility · checked',`Turn ${state.turns} · ${entry?.title||location||'Road travel'}`,
+    entry?`Rule: ${entry.rule} · ${entry.mode==='manual'?'Awaiting player/DM action; no automatic roll':entry.mode==='drawbridge'?'Per-character d100 only when crossing; no roll on travel turn':'No random roll specified for this keyed location'}`:'No keyed encounter at this position; no random encounter roll specified in the currently implemented Tser rules');
+   record('Wolf encounter eligibility · checked','Tser Road travel',
+    'The 1d6 wolf howling procedure belongs to Old Svalich Road location C; not rolled on this leg. Ambient wolf howls are separate from combat encounters.');
+  }
   if(leg==='svalich'&&location==='C'){
    state.woodsTurns++;
    if(state.woodsTurns===3&&!state.woodsLetter){state.woodsLetter=true;
@@ -3012,6 +3036,13 @@ document.addEventListener('keydown',event=>{
   const marker=id+'|'+String(c.position||'');
   if(!state.visited.includes(marker)){state.visited.push(marker);
    record('Location reached',entry.title,entry.rule);
+   if(leg==='tser'&&state.enabled){
+    assessConditions('Entering '+entry.title);
+    record('Encounter rule considered',entry.title,
+     entry.mode==='manual'?'Conditional: requires player/DM confirmation. No automatic combat or dice.':
+     entry.mode==='drawbridge'?'Drawbridge d100 check is per character, only when the crossing is attempted.':
+     'No automatic combat roll specified here. '+entry.rule);
+   }
    if(state.enabled&&(!entry.autoPosition||entry.autoPosition===c.position)){
     if(id==='INN'&&c.position==='inside')record('Opening encounter','Last Chance Inn','Messenger’s invitation scene; use parchment read-aloud');
     if(id==='B')record('Gates of Barovia','Party approaches the eastern gates','Open on approach; close after party passes');
@@ -3025,10 +3056,20 @@ document.addEventListener('keydown',event=>{
   if(leg==='tser'&&c.location==='G'&&c.position==='inside')
    c={...c,location:'G1',roomName:'Madame Eva’s Tent'};
   const key=String(c.location||'')+'|'+String(c.position||'');
-  if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');onEnter(c);renderEncounters();}
+  if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');
+   if(leg==='tser'&&state.enabled)record('Position considered',location||'Road travel',
+    'Position: '+(position||'road')+' · '+conditions());
+   onEnter(c);renderEncounters();}
   // The real module's wolf checks happen by exploration turns. Walking distance
   // is only a proxy; nonmovement actions can advance turns with the manual button.
-  if(leg==='svalich'&&state.enabled&&location==='C'){
+  if(leg==='tser'&&state.enabled){
+   const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
+   if(p){
+    if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
+     if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
+    lastCoords={x:p.x,y:p.y};
+   }
+  }else if(leg==='svalich'&&state.enabled&&location==='C'){
    const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();if(!p)return;
    if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
     if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
@@ -3059,7 +3100,7 @@ document.addEventListener('keydown',event=>{
    }
    const action=(label,fn)=>{const b=document.createElement('button');b.textContent=label;b.onclick=fn;card.append(b)};
    if(entry.mode==='manual')action('Confirm / record encounter',()=>{
-    record('Conditional encounter',entry.title,'Player/DM confirmed condition: '+entry.rule);
+    record('Conditional encounter',entry.title,'Player/DM confirmed condition: '+entry.rule+' · '+conditions());
     if(entry.combat)notice('ENCOUNTER',entry.combat+' · roll initiative');
    });
    if(entry.mode==='wolves'){
@@ -3098,6 +3139,12 @@ document.addEventListener('keydown',event=>{
  document.addEventListener('pointerdown',e=>{if(!dock.contains(e.target))dock.classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('open');$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open')}});
  window.DNDPOV_AUTO_DM_TOOLS={getState:()=>({...state}),advanceTurn,rollWolf:wolfCheck,rollDrawbridge:bridgeCheck};
+ if(leg==='tser'){
+  record('Oracle initialized','Tser Road public beta',
+   'Auto DM will record travel turns, time and weather, eligibility, conditional decisions and actual rolls. No unverified nighttime encounter modifier applied.');
+  document.getElementById('day')?.addEventListener('change',()=>{if(state.enabled)assessConditions('Time changed')});
+  document.getElementById('weather')?.addEventListener('change',()=>{if(state.enabled)assessConditions('Weather changed')});
+ }
  renderOracle();renderEncounters();sync();setInterval(()=>{if(localDm)scan()},450);setInterval(sync,1200);
 })();
 

@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.47 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.48 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.47</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.48</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -160,67 +160,66 @@ const nodes=[[0,105],[0,80],[-5,52],[-10,20],[-19,-15],[-28,-48],[-18,-82],[1,-1
  // v3.44 — Village of Barovia gate and continuous curtain wall, seen when
 // looking back toward the village at the east entrance to Road to Tser.
 // This is a visual threshold beyond the z=105 return boundary, not a new B encounter.
-function makeBaroviaEntranceVista(){
- const entrance=new THREE.Group();entrance.name='Village of Barovia · eastern entrance walls';
- entrance.position.set(0,0,154);scene.add(entrance);
- const ancient=mat(0x666a64),dark=mat(0x343936),cap=mat(0x808178);
- const iron=mat(0x4c352d),masonry=mat(0x525952),roofMat=mat(0x322b29);
- function entranceBox(x,y,z,w,h,d,m){
-  const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
-  mesh.position.set(x,y,z);entrance.add(mesh);return mesh;
- }
- // A continuous piece of earth road reaches through the gates toward the village.
- // Match the main road's 10.6-unit dirt repeat and its UV phase exactly.
- // Start at z=105, where the main mesh ends, so the two surfaces cannot overlap.
- const backRoadLength=82; // from the first road sample (z=105) to z=187
- const backRoadGeo=new THREE.PlaneGeometry(9.0,backRoadLength);
- const backRoadUV=backRoadGeo.getAttribute('uv');
- for(let i=0;i<backRoadUV.count;i++){
-  const v=backRoadUV.getY(i);
-  backRoadUV.setY(i,(backRoadLength*v-backRoadLength)/10.6);
- }
- backRoadUV.needsUpdate=true;
- const backRoad=new THREE.Mesh(backRoadGeo,roadmat);
- backRoad.rotation.x=-Math.PI/2;backRoad.position.set(0,.075,146);
- backRoad.name='Village entrance · dirt road continuation';scene.add(backRoad);
- // Broad Gothic gate piers, worn horizontal courses and raised parapet.
- for(const x of [-8.2,8.2]){
-  entranceBox(x,6.6,0,3.4,13.2,3.8,ancient);
-  entranceBox(x,13.25,0,3.9,.65,4.2,cap);
-  for(const y of [2.8,6.3,9.6])entranceBox(x,y,2.06,3.5,.23,.15,dark);
-  for(const dx of [-1.2,1.2])entranceBox(x+dx,14.06,0,1.03,1.35,3.35,masonry);
- }
- entranceBox(0,12.2,0,13,2.6,3.5,masonry);
- for(let c=-5;c<=5;c++)entranceBox(c*1.12,14,0,.77,1.1,3.45,cap);
- // Open gate leaves allow the road to be seen continuing into Barovia.
- for(const side of [-1,1]){
-  const leaf=new THREE.Group();leaf.position.set(side*6.8,0,.65);
-  leaf.rotation.y=side*1.05;entrance.add(leaf);
-  for(let bar=0;bar<13;bar++){
-   const b=new THREE.Mesh(new THREE.BoxGeometry(.125,7,.13),bar%3===0?dark:iron);
-   b.position.set(-side*bar*.47,3.5,0);leaf.add(b);
+ function makeBaroviaEntranceVista(){
+  // Match the Village of Barovia eastern entrance: OPEN rounded stone arch,
+  // long low crenellated walls, cobbled approach and village rooftops behind.
+  const entrance=new THREE.Group();entrance.name='Barovia village eastern gate · matching vista';
+  entrance.position.set(0,0,154);scene.add(entrance);
+  const wall=mat(0x444b43),mortar=mat(0x343b35),cap=mat(0x525a50);
+  const stoneLight=mat(0x99978a),stoneDark=mat(0x747469),plaster=mat(0x9c9a88),timber=mat(0x3a3028),roof=mat(0x45443c);
+  function eb(x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);entrance.add(o);return o}
+  // Keep the road from Tser continuous; the cobbles begin just inside the village.
+  const cobbleCanvas=document.createElement('canvas');cobbleCanvas.width=256;cobbleCanvas.height=256;
+  const cx=cobbleCanvas.getContext('2d');cx.fillStyle='#66665e';cx.fillRect(0,0,256,256);
+  for(let row=0;row<11;row++)for(let col=-1;col<8;col++){
+   const x=col*39+(row%2)*19,y=row*24;
+   cx.fillStyle=['#a6a497','#929184','#b5b1a2','#858579'][(row*7+col*3+40)%4];
+   cx.beginPath();cx.moveTo(x+3,y+3);cx.lineTo(x+35,y+1);cx.lineTo(x+38,y+19);cx.lineTo(x+5,y+22);cx.closePath();cx.fill();
   }
-  for(const y of [1.3,3.8,6.35]){
-   const rail=new THREE.Mesh(new THREE.BoxGeometry(6.1,.22,.2),iron);
-   rail.position.set(-side*3,y,0);leaf.add(rail);
+  const cobbleTex=new THREE.CanvasTexture(cobbleCanvas);cobbleTex.colorSpace=THREE.SRGBColorSpace;
+  cobbleTex.wrapS=cobbleTex.wrapT=THREE.RepeatWrapping;cobbleTex.repeat.set(1,5);
+  const cobble=new THREE.Mesh(new THREE.PlaneGeometry(9.1,48),new THREE.MeshStandardMaterial({map:cobbleTex,roughness:1}));
+  cobble.rotation.x=-Math.PI/2;cobble.position.set(0,.095,26);entrance.add(cobble);
+  // Continuous stone curtain wall: same height and silhouette as the village scene.
+  for(const side of [-1,1]){
+   for(let i=0;i<25;i++){
+    const x=side*(9.5+i*5.0);
+    eb(x,3.25,0,5.12,6.5,3.0,i%4===0?mortar:wall);
+    eb(x,6.57,0,5.15,.35,3.25,cap);
+    if(i%2===0)eb(x,7.12,0,2.3,.85,3.0,wall);
+    // staggered courses make the wall read as dark block masonry.
+    for(const y of [1.45,3.2,4.95])eb(x,y,1.54,5.05,.085,.055,mortar);
+   }
   }
+  // Rounded arch built from individual voussoirs; deliberately no top beam
+  // across the opening, and no iron doors (the village screenshot shows it open).
+  const innerRadius=5.15,outerRadius=6.55,archCenterY=6.25;
+  for(const side of [-1,1]){
+   eb(side*6.0,3.15,0,2.5,6.3,3.7,wall);
+   eb(side*6.0,6.05,0,2.8,.4,3.85,cap);
+  }
+  for(let i=0;i<19;i++){
+   const angle=Math.PI*i/18;
+   const radius=(innerRadius+outerRadius)/2;
+   const block=new THREE.Mesh(new THREE.BoxGeometry(1.28,1.5,3.8),i%3===0?cap:wall);
+   block.position.set(radius*Math.cos(angle),archCenterY+radius*Math.sin(angle),0);
+   block.rotation.z=angle-Math.PI/2;entrance.add(block);
+  }
+  // The village-facing cobbled lane, timbered homes and dark teal windows.
+  const windowMat=mat(0x1e3436);
+  for(const [x,z,w] of [[-19,19,14],[-34,39,15],[21,26,12],[37,44,16]]){
+   eb(x,4.0,z,w,8,11,plaster);
+   eb(x,7.8,z,w+.7,.7,12,roof);
+   const slope=new THREE.Mesh(new THREE.ConeGeometry(w*.78,5,4),roof);
+   slope.position.set(x,10.3,z);slope.rotation.y=Math.PI/4;entrance.add(slope);
+   for(const dx of [-w*.27,w*.27]){
+    eb(x+dx,4.6,z-5.57,2.0,2.3,.12,windowMat);
+    eb(x+dx,4.6,z-5.67,.16,2.5,.18,timber);
+   }
+   eb(x,1.1,z-5.6,w,.6,.35,timber);
+  }
+  return entrance;
  }
- // The stone curtain extends in both directions to the woods; no disconnected slabs.
- for(const side of [-1,1])for(let i=0;i<20;i++){
-  const x=side*(10.1+i*5.65),height=8.7+Math.sin(i*2.1)*.25;
-  entranceBox(x,height/2,0,5.82,height,2.8,i%4===0?masonry:ancient);
-  entranceBox(x,height+.1,0,5.85,.3,3.15,cap);
-  for(let p=-1;p<=1;p++)entranceBox(x+p*1.75,height+.74,0,1.1,1.3,2.7,cap);
-  if(i%4===0)entranceBox(x,4.7,1.52,1.35,9.4,.52,masonry);
- }
- // Low dark rooftops beyond the wall make the return view read as the village.
- for(const [x,z,w] of [[-39,15,17],[42,18,20],[-79,30,24],[83,24,18]]){
-  entranceBox(x,8.5,z,w,7,13,masonry);
-  const roof=new THREE.Mesh(new THREE.ConeGeometry(w*.74,5,4),roofMat);
-  roof.position.set(x,14,z);roof.rotation.y=Math.PI/4;entrance.add(roof);
- }
- return entrance;
-}
 const baroviaEntranceVista=makeBaroviaEntranceVista();
 const riverZ=-35;
  // Small rounded stones and gravel along both road shoulders.
@@ -1873,7 +1872,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.47';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.48';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),

@@ -78,11 +78,23 @@
  #apiKeySteps .key-modal-cta{display:inline-block;margin:7px 0 0;padding:10px 15px;background:#ba935a;color:#1b1414;font:700 12px Arial,sans-serif;text-decoration:none;border-radius:5px}
  @media(max-width:650px){.beta-install-actions{gap:9px}.beta-install-actions .btn{width:min(100%,340px)}#apiKeySteps .key-modal-head{padding:17px}#apiKeySteps .key-modal-body{padding:16px 18px 21px}}
 </style>
+<style id="hero-primary-cta-style">
+/* Main browser adventure CTA: a single, prominent first action above install options. */
+.hero .hero-primary-action{display:flex;justify-content:center;margin:30px auto 0}
+.hero .hero-enter-adventure{display:inline-flex;align-items:center;justify-content:center;
+  min-width:min(380px,100%);min-height:64px;padding:20px 40px;
+  font:700 clamp(15px,1.4vw,18px)/1.25 Arial,sans-serif;letter-spacing:.13em;
+  background:linear-gradient(180deg,#f7d99d,#e5bf78);border:2px solid #ffe1a2;
+  box-shadow:0 10px 30px #0008,0 0 26px #d7a45a26}
+.hero .hero-enter-adventure:hover{background:linear-gradient(180deg,#ffe7b7,#efc87f);transform:translateY(-3px)}
+.hero .beta-install-actions{margin-top:19px}
+@media(max-width:480px){.hero .hero-enter-adventure{width:100%;min-width:0;padding:19px 20px}}
+</style>
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the maps</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">
-<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 public browser beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede"> RPGPOV is a first-person companion for tabletop roleplaying: faithful adventure maps, freedom to explore, and a location-aware AI Dungeon Master for solo or group play. Ravenloft I6 is our featured beta adventure.</p><div class="buttons"><a class="btn" href="#explore">Enter the Adventure</a><a class="btn ai-feature" href="#solo">Meet the AI Dungeon Master</a></div>
+<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 public browser beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede"> RPGPOV is a first-person companion for tabletop roleplaying: faithful adventure maps, freedom to explore, and a location-aware AI Dungeon Master for solo or group play. Ravenloft I6 is our featured beta adventure.</p><div class="buttons hero-primary-action"><a class="btn hero-enter-adventure" href="#explore">Enter the Adventure</a></div>
 <div class="beta-install-actions" aria-label="Windows beta installation options">
   <!-- Update this on-site link when the Basic Windows setup EXE is published. -->
   <a class="btn beta-install-basic" href="downloads/Ravenloft-I6_BASIC_v1.0_Setup.exe">⬇ Install Basic Beta</a>
@@ -90,7 +102,7 @@
 </div>
 <p class="beta-install-description">The Windows install is needed for the <strong>AI Dungeon Master</strong> and <strong>multiplayer</strong>. The browser beta is an exploration preview. Your own OpenAI API key is optional for AI play; multiplayer does not require an AI key.</p>
 <button type="button" id="showApiKeySteps" class="beta-key-guide-link" aria-haspopup="dialog" aria-controls="apiKeySteps">How do I get an OpenAI secret API key? <span aria-hidden="true">↗</span></button></div></div>
-<section id="explore"><div class="wrap"><div class="section-label">Choose your destination</div><h2 class="section-title">Explore the World of Ravenloft</h2><p class="section-intro">From the Old Svalich Road and Village of Barovia to the Vistani encampment and Castle Ravenloft, explore a connected world in first person. Discover roads, buildings, hidden locations, and castle chambers faithfully adapted from the original adventure maps. The four banners are entry points into the adventure, not the total number of places to explore. RPGPOV is built for tabletop adventures beyond one ruleset; Ravenloft I6 is the featured experience here.</p><div class="cards">
+<section id="explore"><div class="wrap"><div class="section-label">Choose your destination</div><h2 class="section-title">Explore the World of Ravenloft</h2><p class="section-intro">Explore the Old Svalich Road, walk the streets of Barovia, visit the Blood of the Vine Tavern, discover Tser Pool, and venture through two levels of Castle Ravenloft—all in first-person 3D, right in your browser.</p><div class="cards">
 <article class="card"><div class="screen">
 <svg aria-label="Illustration based on the beta: a wide dirt road between spruce woods, with the Last Chance Inn on the left" preserveaspectratio="xMidYMid slice" role="img" viewbox="0 0 640 312">
 <title>Old Svalich Road — the Last Chance Inn and spruce-lined approach</title>

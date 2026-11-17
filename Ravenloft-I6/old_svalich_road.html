@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.77 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v1.77 · Multiplayer + AI DM</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:160px;height:240px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
 </style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
@@ -23,6 +23,19 @@ html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;
 #svalichJourneyActions button:focus-visible{outline:3px solid #f8da95;outline-offset:2px}
 #svalichJourneyBadge{position:fixed;bottom:74px;left:50%;transform:translateX(-50%);z-index:45;background:#171721ef;border:1px solid #ad8952;border-radius:6px;color:#eac790;padding:8px 14px;font:13px Georgia,serif;text-align:center;max-width:calc(100vw - 26px);pointer-events:none}
 #svalichJourneyBadge[hidden]{display:none}
+#svalichJourneyBadge button{margin-left:11px;padding:5px 10px;border:1px solid #c5a474;border-radius:5px;background:#493627;color:#ffe2b0;font:12px Georgia,serif;cursor:pointer;pointer-events:auto}
+#svalichJourneyBadge button:hover{background:#75502d}
+#svalichTravelMist{position:fixed;inset:-5%;z-index:3;pointer-events:none;opacity:0;background:repeating-linear-gradient(105deg,transparent 0 9%,#b6bfd010 11%,transparent 12% 24%),radial-gradient(ellipse at 12% 64%,#b0bfca55,transparent 43%),radial-gradient(ellipse at 88% 43%,#bac7d060,transparent 44%);filter:blur(11px);-webkit-mask-image:linear-gradient(90deg,#000 0%,#000b 20%,transparent 41%,transparent 59%,#000b 80%,#000);mask-image:linear-gradient(90deg,#000 0%,#000b 20%,transparent 41%,transparent 59%,#000b 80%,#000);transition:opacity 1.4s ease;will-change:opacity,transform}
+#svalichTravelMist.active{opacity:.22;animation:svalichMistDrift 13s ease-in-out infinite alternate}
+#svalichTravelMist.active.moving{opacity:.55;animation-duration:3.6s;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+@keyframes svalichMistDrift{from{transform:translate3d(-5%,0,0) scaleX(1.04)}to{transform:translate3d(5%,0,0) scaleX(1.1)}}
+#svalichJourneyToast{position:fixed;top:17%;left:50%;transform:translate(-50%,-12px);z-index:48;opacity:0;visibility:hidden;width:min(490px,calc(100vw - 32px));box-sizing:border-box;text-align:center;padding:13px 17px;border:1px solid #bf9a64;border-radius:10px;background:#1c202bed;box-shadow:0 12px 38px #000a;color:#f1d2a0;font:14px/1.45 Georgia,serif;transition:opacity .4s ease,transform .4s ease,visibility .4s}
+#svalichJourneyToast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+#svalichJourneyToast strong{display:block;font-size:17px;margin-bottom:5px}
+#svalichJourneyToast small{display:block;color:#e2d5c0;font-size:12px}
+#svalichJourneyToast .journey-toast-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+#svalichJourneyToast button{padding:7px 13px;border:1px solid #cba56c;border-radius:5px;background:#523a28;color:#ffe0ac;cursor:pointer;font:bold 12px Georgia,serif}
+@media(prefers-reduced-motion:reduce){#svalichTravelMist.active{animation:none}#svalichTravelMist.active.moving{-webkit-backdrop-filter:none;backdrop-filter:none}#svalichJourneyToast{transition:none}}
 @media(max-width:700px){#svalichJourneyCard{padding:16px}#svalichJourneyCard h2{font-size:20px}#svalichJourneyBadge{bottom:90px}}
 </style></head><body><div id="hud"><b>DNDPOV · OLD SVALICH ROAD v1.47</b><p>Eastern Gates of Barovia · Svalich Woods</p><label for="day">Time</label> <select id="day" aria-label="Time of day"><option value="dawn">Dawn</option><option value="day">Day</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="weather">Weather</label> <select id="weather" aria-label="Atmosphere"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select> <button id="reset">Restart at inn</button> <p id="pos"></p></div><div id="minimap"><canvas id="map" width="160" height="240"></canvas><small>Old Svalich Road · position in gold</small></div><div id="notice"></div><div id="help">↑ ↓ walk &nbsp; ← → turn &nbsp; A / D sidestep &nbsp; Shift jog</div><div id="travelFade">The mists part... Barovia awaits.</div><div id="loading">Loading Old Svalich Road…</div><aside id="gamePanel"><h2 id="gamePlace">Adventure</h2><div class="smallCaption">MODULE · READ ALOUD</div><p class="readaloud" id="gameRead"></p><div class="dmnote" id="gameNotes" hidden></div><p id="gameHint" style="font-size:11px;color:#cdb99d">Walk near a keyed location and press E to explore.</p><div id="gameSideSummary" hidden></div></aside><div id="gameModal"><article><div class="top"><h2 id="gameModalTitle"></h2><button id="gameClose">Close ×</button></div><div id="gameModalBody"></div></article></div><div id="controlDeck"><div class="toolRow"><span class="toolLabel">AUDIO</span><button id="wolfToggle" title="Toggle ambient wolf howls">🐺 Wolves: ON</button> <button id="wolfTest" title="Play a wolf howl now">▶ Test Howl</button> <span id="wolfStatus" role="status" style="font-size:11px;color:#e8cda0"></span></div><div class="toolRow"><span class="toolLabel">MOVE</span><button id="turnLeft">◀ Turn</button><button id="turnRight">Turn ▶</button><button id="exploreBtn">Explore (E)</button></div><div class="toolRow"><span class="toolLabel">VIEW</span><button id="torchBtn">🔥 Torch: ON</button><button id="descBtn">Hide Descriptions</button><button id="keysBtn">Hide Key Locations</button><button id="mapBtn">Hide Map</button></div><div class="toolRow"><span class="toolLabel">DM</span><button id="dmBtn">DM: OFF</button><button id="encBtn">Encounters</button></div><div class="toolRow"><span class="toolLabel">TRAVEL</span><select id="jumpSelect"><option value="">Jump to landmark…</option></select><button id="villageBtn">Go to Village</button><button id="castleBtn">Go to Castle</button></div></div><script type="module">
 try {
@@ -644,6 +657,8 @@ window.DNDPOV_I6_SET_CAMPSITE=(x,z,visible)=>{
 };
 
 // Eastern Gates of Barovia, placed in the forest, NOT the village.
+// Keep all gate masonry and statues together when extending the distant road.
+const i6GateBuildStart=scene.children.length;
 const gateZ=0,gateL=new THREE.Group(),gateR=new THREE.Group();gateL.position.set(-4.5,0,gateZ);gateR.position.set(4.5,0,gateZ);scene.add(gateL,gateR);
 // v1.56 — towering rusted iron gates flanked by weathered HEADLESS stone guardians.
 // Keep hinge positions and the existing closure/Oracle event wiring unchanged.
@@ -768,6 +783,7 @@ function makeEasternGateCurtainWall(){
  return g;
 }
 const easternGateCurtainWall=makeEasternGateCurtainWall();
+const i6GateStructures=new Set(scene.children.slice(i6GateBuildStart));
 function blocksGateWall(x,z){
  return Math.abs(x)>4.35&&Math.abs(x)<121.5&&Math.abs(z-gateZ)<1.25;
 }
@@ -783,7 +799,7 @@ const atmospherePresets={
 };
 let timeOfDay='dusk',weatherMode='clear';
 document.querySelector('#day').value=timeOfDay;
-document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.77';
+document.querySelector('#hud b').textContent='DNDPOV · OLD SVALICH ROAD v1.77 · BASIC';
 const roadWeatherSelect=document.querySelector('#weather');
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
@@ -1268,7 +1284,7 @@ function travelToVillage(){
  target.searchParams.set('weather',effectiveRoadWeather());
  setTimeout(()=>{window.location.assign(target.href)},1700);
 }
-let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;const journeyLocked=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK||window.DNDPOV_INTRO_LOCK;if(journeyLocked){for(const k of Object.keys(keys))keys[k]=false;}if(!journeyLocked&&keys.arrowleft)player.angle-=t;if(!journeyLocked&&keys.arrowright)player.angle+=t;const f=journeyLocked?0:(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=journeyLocked?0:(keys.d?1:0)-(keys.a?1:0),speed=(keys.shift?10:5)*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*speed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*speed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
+let prev=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-prev)/1000,.05);prev=now;const t=2.2*dt;const journeyLocked=window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK||window.DNDPOV_INTRO_LOCK;if(journeyLocked){for(const k of Object.keys(keys))keys[k]=false;}if(!journeyLocked&&keys.arrowleft)player.angle-=t;if(!journeyLocked&&keys.arrowright)player.angle+=t;const f=journeyLocked?0:(keys.arrowup?1:0)-(keys.arrowdown?1:0),side=journeyLocked?0:(keys.d?1:0)-(keys.a?1:0),normalSpeed=(keys.shift?10:5)*dt,trailSpeed=(window.DNDPOV_I6_JOURNEY_PACE?.()??(keys.shift?10:5))*dt;const nextX=player.x+(Math.sin(player.angle)*f+Math.cos(player.angle)*side)*normalSpeed;const nextZ=player.z+(-Math.cos(player.angle)*f+Math.sin(player.angle)*side)*trailSpeed;if(innInside){player.x=Math.max(-7.7,Math.min(7.7,nextX));player.z=Math.max(-5.4,Math.min(5.4,nextZ));}else if(!blocksGateWall(nextX,nextZ)){player.x=nextX;player.z=nextZ;}if(!innInside){player.z=Math.max(-205,Math.min(194,player.z));player.x=Math.max(-100,Math.min(100,player.x));if(triggered&&player.z>-2){player.z=-2;/* Closed Barovian gates: no retreat, even around the flanking pillars or through the woods. */}if(triggered&&player.z<-175&&Math.abs(player.x-pathX(player.z))<8)travelToVillage();
 // I6 B: within fifty feet, the gates creak open before the party enters.
 if(!triggered&&!gateApproach&&player.z<=15.24&&player.z>=-1&&Math.abs(player.x)<8){
  gateApproach=true;
@@ -1282,7 +1298,262 @@ if(gateApproach&&!triggered&&gateOpenProgress<1){
 // Wait for the iron leaves to swing clear rather than walking through them.
 if(!triggered&&gateApproach&&gateOpenProgress<.88&&player.z<1.5&&Math.abs(player.x)<4.2)player.z=1.5;
 if(!triggered&&player.z<-2&&Math.abs(player.x)<6){triggered=true;window.dispatchEvent(new CustomEvent('dndpov:gate-closed',{detail:{location:'B',event:'Eastern Gates closed behind the party'}}));noticeUntil=now+3600;const n=document.querySelector('#notice');n.textContent='The iron gates slam shut behind you!';n.style.display='block'}if(triggered&&progress<1){const old=progress;progress=Math.min(1,progress+dt*.8);const v=progress*progress*(3-2*progress);gateL.rotation.y=leftOpen*gateOpenProgress*(1-v);gateR.rotation.y=rightOpen*gateOpenProgress*(1-v);if(old<1&&progress===1)clang()}if(triggered&&now>noticeUntil)document.querySelector('#notice').style.display='none';}
-camera.position.set(player.x,1.75,player.z);camera.rotation.set(0,-player.angle,0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();window.DNDPOV_I6_JOURNEY_TICK?.();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
+camera.position.set(window.DNDPOV_I6_SCENE_X?.(player.x,player.z)??player.x,1.75+(window.DNDPOV_I6_SCENE_Y?.(player.z)??0),window.DNDPOV_I6_SCENE_Z?.(player.z)??player.z);camera.rotation.set(window.DNDPOV_I6_SCENE_PITCH?.(player.z)??0,-player.angle-(window.DNDPOV_I6_SCENE_HEADING?.(player.z)??0),0,'YXZ');if(!innInside)updateRoadWeather(now);document.querySelector('#pos').textContent=`Position ${Math.round(player.x)}, ${Math.round(player.z)}`;if(!innInside)drawMap();window.DNDPOV_I6_JOURNEY_TICK?.();renderer.render(innInside?innScene:scene,camera)}requestAnimationFrame(loop);window.onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);resizePrecipitationCanvas()};document.querySelector('#loading').remove();
+
+// The Last Chance Inn, its grounds and the road immediately outside remain
+// EXACTLY as built. Only the forest beyond the inn's first road approach is
+// extended for the five-hour journey. Underlying game/map positions do not
+// change, so keyed locations, campsite, encounters and saves remain valid.
+const i6TrailScale=11,i6TrailAnchorZ=145;
+const i6TrailStretchZ=z=>z>=i6TrailAnchorZ?z:
+ i6TrailAnchorZ+(z-i6TrailAnchorZ)*i6TrailScale;
+// The unmapped inn approach stays exactly where it was. Farther into the
+// woods, alternating long bends and gentle grades make the road feel lived-in.
+// These are scenic curves, not changes to the original I6 keyed map.
+function i6TrailBend(z){
+ if(z>=i6TrailAnchorZ)return 0;
+ const t=i6TrailAnchorZ-z,u=Math.min(1,t/6),blend=u*u*(3-2*u);
+ // The first ~60 seconds contain two visible S-turns, not just a distant
+ // lateral drift that looks straight through the nighttime mist.
+ return blend*(11*Math.sin(t/2.2)+7*Math.sin(t/12.5));
+}
+function i6TrailRise(z){
+ if(z>=i6TrailAnchorZ)return 0;
+ const t=i6TrailAnchorZ-z,u=Math.min(1,t/5),blend=u*u*(3-2*u);
+ // A noticeable hill and dip occur before hour one, then recur through the
+ // forest. Keep troughs above the original ground to avoid buried roadway.
+ return blend*Math.max(.1,4.9+3.5*Math.sin(t/3.8-Math.PI/2)+1.1*Math.sin(t/9));
+}
+function i6TrailHeading(z){
+ if(z>=i6TrailAnchorZ)return 0;
+ const step=.15,gradient=(i6TrailBend(z+step)-i6TrailBend(z-step))
+  /(2*step*i6TrailScale);
+ return Math.max(-.48,Math.min(.48,Math.atan(-gradient)));
+}
+function i6TrailPitch(z){
+ if(z>=i6TrailAnchorZ)return 0;
+ const step=.15,grade=(i6TrailRise(z-step)-i6TrailRise(z+step))
+  /(2*step*i6TrailScale);
+ return Math.max(-.12,Math.min(.12,Math.atan(grade)));
+}
+const i6ExtendedWorld=new THREE.Group();scene.add(i6ExtendedWorld);
+const i6TrailObjects=scene.children.filter(o=>o!==i6ExtendedWorld&&o!==roadSkyDome&&
+ o!==roadMoon&&!o.isLight);
+for(const obj of i6TrailObjects)i6ExtendedWorld.add(obj);
+// Store the *uploaded* scene's original coordinates. No cumulative stretching
+// or reshaping is allowed when restarting, loading a save or making camp.
+const i6TrailSources=new Map();
+for(const obj of i6TrailObjects){
+ const source={x:obj.position.x,y:obj.position.y,z:obj.position.z};
+ if(obj.isInstancedMesh){
+  const m=new THREE.Matrix4();
+  source.instanceX=new Float32Array(obj.count);
+  source.instanceY=new Float32Array(obj.count);
+  source.instances=new Float32Array(obj.count);
+  for(let i=0;i<obj.count;i++){
+   obj.getMatrixAt(i,m);
+   source.instanceX[i]=m.elements[12];source.instanceY[i]=m.elements[13];
+   source.instances[i]=m.elements[14];
+  }
+ }
+ if(obj.name?.includes('joined earth shoulders')||
+    obj.name?.includes('continuous dirt surface')||
+    obj.name?.includes('Barovian valley')){
+  const coordinates=obj.geometry.attributes.position.array;
+  source.terrainX=coordinates.filter((_,i)=>i%3===0);
+  source.terrainY=coordinates.filter((_,i)=>i%3===1);
+  source.terrainZ=coordinates.filter((_,i)=>i%3===2);
+  const uv=obj.geometry.attributes.uv;
+  if(uv){
+   source.uvY=uv.array.filter((_,i)=>i%2===1);
+   let nearest=Infinity;
+   for(let i=0;i<source.terrainZ.length;i++){
+    const distance=Math.abs(source.terrainZ[i]-i6TrailAnchorZ);
+    if(distance<nearest){nearest=distance;source.seamUv=source.uvY[i];}
+   }
+  }
+ }
+ i6TrailSources.set(obj,source);
+}
+// The original ground still covers the inn. Extend its southern edge under
+// the lengthened trail without covering or moving the Last Chance Inn.
+const i6AddedGroundNear=-280,i6AddedGroundFar=i6TrailStretchZ(-285);
+const i6AddedGround=new THREE.Mesh(
+ new THREE.BoxGeometry(260,1.2,i6AddedGroundNear-i6AddedGroundFar),ground);
+i6AddedGround.position.set(0,-.61,(i6AddedGroundNear+i6AddedGroundFar)/2);
+i6AddedGround.visible=false;scene.add(i6AddedGround);
+// Follow the small rises and dips with actual grassy ground. Without this,
+// the elevated road and the tree roots would appear to float over flat earth.
+const i6RollingTerrainGeometry=new THREE.BufferGeometry();
+const i6RollingTerrainPositions=[],i6RollingTerrainIndices=[];
+const i6RollingTerrainSegments=2400; // Follow crests and troughs without long flat facets.
+for(let i=0;i<=i6RollingTerrainSegments;i++){
+ const z=i6TrailAnchorZ-(i/i6RollingTerrainSegments)*615;
+ const center=i6TrailBend(z),height=i6TrailRise(z)-.012;
+ const stretch=i6TrailStretchZ(z);
+ i6RollingTerrainPositions.push(center-160,height,stretch,center+160,height,stretch);
+ if(i<i6RollingTerrainSegments){const v=i*2;
+  i6RollingTerrainIndices.push(v,v+1,v+2,v+1,v+3,v+2);
+ }
+}
+i6RollingTerrainGeometry.setAttribute('position',new THREE.Float32BufferAttribute(i6RollingTerrainPositions,3));
+i6RollingTerrainGeometry.setIndex(i6RollingTerrainIndices);
+i6RollingTerrainGeometry.computeVertexNormals();
+const i6RollingTerrainMaterial=ground.clone();i6RollingTerrainMaterial.side=THREE.DoubleSide;
+const i6RollingTerrain=new THREE.Mesh(i6RollingTerrainGeometry,i6RollingTerrainMaterial);
+i6RollingTerrain.visible=false;scene.add(i6RollingTerrain);
+// Smooth high-resolution road ribbons for the extended forest only. The
+// original 270-segment ribbons are kept intact for the inn and normal map.
+// Transforming their two edges separately caused the large triangular kinks
+// seen on bends and hills. Instead, follow the *deformed centreline* and
+// construct each cross-section perpendicular to its actual world tangent.
+const i6OriginalRoadRibbons=i6TrailObjects.filter(o=>
+ o.name==='Old Svalich Road · joined earth shoulders'||
+ o.name==='Old Svalich Road · continuous dirt surface');
+const i6SmoothRoadCurve=new THREE.CatmullRomCurve3(
+ scenicRoadNodes.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
+const i6SmoothRoadSections=3900;
+const i6SmoothRoadSamples=[];
+const i6TrailSourceZ=worldZ=>worldZ>=i6TrailAnchorZ?worldZ:
+ i6TrailAnchorZ+(worldZ-i6TrailAnchorZ)/i6TrailScale;
+for(let i=0;i<=i6SmoothRoadSections;i++){
+ const p=i6SmoothRoadCurve.getPoint(i/i6SmoothRoadSections);
+ i6SmoothRoadSamples.push({x:p.x+i6TrailBend(p.z),
+  y:i6TrailRise(p.z),z:i6TrailStretchZ(p.z),sourceZ:p.z});
+}
+function i6MakeSmoothRoad(width,offset,mat,name){
+ const positions=[],uvs=[],indices=[];
+ let travelled=0;
+ for(let i=0;i<i6SmoothRoadSamples.length;i++){
+  const p=i6SmoothRoadSamples[i];
+  const before=i6SmoothRoadSamples[Math.max(0,i-1)];
+  const after=i6SmoothRoadSamples[Math.min(i6SmoothRoadSections,i+1)];
+  const dx=after.x-before.x,dz=after.z-before.z;
+  const inv=1/Math.max(1e-7,Math.hypot(dx,dz));
+  const nx=dz*inv,nz=-dx*inv;
+  if(i){const prev=i6SmoothRoadSamples[i-1];
+   travelled+=Math.hypot(p.x-prev.x,p.z-prev.z);}
+  for(const side of [1,-1]){
+   const x=p.x+nx*width*.5*side;
+   const z=p.z+nz*width*.5*side;
+   // Sample the actual terrain height at each edge. This avoids the grass
+   // clipping through the dirt on steep crests and the inside of S-bends.
+   const originalHeight=width>10?.008:.037;
+   const sourceZ=i6TrailSourceZ(z);
+   const ramp=Math.max(0,Math.min(1,(i6TrailAnchorZ-sourceZ)/5));
+   const smoothRamp=ramp*ramp*(3-2*ramp);
+   // The inn-side surface keeps its original height and road approach.
+   const y=i6TrailRise(sourceZ)+originalHeight+
+    (offset-originalHeight)*smoothRamp;
+   positions.push(x,y,z);
+   uvs.push(side===1?0:1,travelled/22);
+  }
+  if(i<i6SmoothRoadSections){const a=i*2;
+   indices.push(a,a+1,a+2,a+1,a+3,a+2);}
+ }
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+ geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+ geo.setIndex(indices);geo.computeVertexNormals();geo.computeBoundingSphere();
+ const material=mat.clone();material.side=THREE.DoubleSide;
+ const mesh=new THREE.Mesh(geo,material);mesh.name=name;
+ mesh.visible=false;scene.add(mesh);return mesh;
+}
+const i6SmoothRoadShoulder=i6MakeSmoothRoad(11,.065,edge,
+ 'Old Svalich Road · smooth extended shoulders');
+const i6SmoothRoadDirt=i6MakeSmoothRoad(9,.105,roadMat,
+ 'Old Svalich Road · smooth extended dirt');
+// Small, scattered stones soften the natural edge without covering the road.
+// These are scenery only, and disappear with the extended travel terrain.
+const i6ShoulderRockCount=620;
+const i6ShoulderRockMesh=new THREE.InstancedMesh(
+ new THREE.DodecahedronGeometry(.45,0),
+ new THREE.MeshStandardMaterial({color:'#67675e',roughness:1,flatShading:true}),
+ i6ShoulderRockCount);
+const i6ShoulderRockRand=spruceRandom(0x5A1A1C);
+const i6RockObject=new THREE.Object3D();
+let i6RocksPlaced=0;
+while(i6RocksPlaced<i6ShoulderRockCount){
+ const i=Math.floor(i6ShoulderRockRand()*i6SmoothRoadSections);
+ const p=i6SmoothRoadSamples[i];
+ if(p.sourceZ>141||p.sourceZ< -210)continue;
+ const before=i6SmoothRoadSamples[Math.max(0,i-1)];
+ const after=i6SmoothRoadSamples[Math.min(i6SmoothRoadSections,i+1)];
+ const dx=after.x-before.x,dz=after.z-before.z;
+ const inv=1/Math.max(1e-7,Math.hypot(dx,dz));
+ const side=i6ShoulderRockRand()<.5?-1:1;
+ const distance=5.7+i6ShoulderRockRand()*3.8;
+ const x=p.x+side*dz*inv*distance;
+ const z=p.z-side*dx*inv*distance;
+ const size=.45+i6ShoulderRockRand()*.95;
+ i6RockObject.position.set(x,i6TrailRise(i6TrailSourceZ(z))+.09,z);
+ i6RockObject.rotation.set(i6ShoulderRockRand()*.25,i6ShoulderRockRand()*6.28,0);
+ i6RockObject.scale.set(size,.38+i6ShoulderRockRand()*.32,size);
+ i6RockObject.updateMatrix();
+ i6ShoulderRockMesh.setMatrixAt(i6RocksPlaced++,i6RockObject.matrix);
+}
+i6ShoulderRockMesh.instanceMatrix.needsUpdate=true;
+i6ShoulderRockMesh.visible=false;scene.add(i6ShoulderRockMesh);
+let i6TrailExtended=false;
+function i6SetTrailLength(extended){
+ extended=Boolean(extended);if(extended===i6TrailExtended)return;
+ const matrix=new THREE.Matrix4();
+ for(const obj of i6TrailObjects){
+  const source=i6TrailSources.get(obj);
+  const width=obj.geometry?.parameters?.width||0;
+  const depth=obj.geometry?.parameters?.depth||0;
+  if(i6OriginalRoadRibbons.includes(obj)){
+   // Preserve the source road unchanged. Use the densely sampled smooth road
+   // for the journey, then restore the original at the inn or after camping.
+   obj.visible=!extended;
+  }else if(source.terrainZ){
+   const pos=obj.geometry.attributes.position,uv=obj.geometry.attributes.uv;
+   for(let i=0;i<source.terrainZ.length;i++){
+    const z=source.terrainZ[i];
+    pos.setXYZ(i,extended?source.terrainX[i]+i6TrailBend(z):source.terrainX[i],
+     extended?source.terrainY[i]+i6TrailRise(z):source.terrainY[i],
+     extended?i6TrailStretchZ(z):z);
+    if(source.uvY){
+     const v=source.uvY[i];
+     uv.setY(i,extended&&z<i6TrailAnchorZ?
+      source.seamUv+(v-source.seamUv)*i6TrailScale:v);
+    }
+   }
+   pos.needsUpdate=true;if(uv)uv.needsUpdate=true;
+   obj.geometry.computeVertexNormals();obj.geometry.computeBoundingSphere();
+  }else if(!source.instances&&!(width>=200&&depth>=300)){
+   // Treat the gatehouse, headless guardians and curtain walls as ONE landmark.
+   const gate=i6GateStructures.has(obj),landmarkZ=gate?0:source.z;
+   obj.position.set(extended?source.x+i6TrailBend(landmarkZ):source.x,
+    extended?source.y+i6TrailRise(landmarkZ):source.y,
+    extended?(gate?source.z+i6TrailStretchZ(0):i6TrailStretchZ(source.z)):source.z);
+  }
+  if(source.instances){
+   for(let i=0;i<obj.count;i++){
+    obj.getMatrixAt(i,matrix);
+    const z=source.instances[i];
+    matrix.elements[12]=extended?source.instanceX[i]+i6TrailBend(z):source.instanceX[i];
+    matrix.elements[13]=extended?source.instanceY[i]+i6TrailRise(z):source.instanceY[i];
+    matrix.elements[14]=extended?i6TrailStretchZ(source.instances[i]):source.instances[i];
+    obj.setMatrixAt(i,matrix);
+   }
+   obj.instanceMatrix.needsUpdate=true;
+   obj.computeBoundingSphere();
+  }
+ }
+ i6AddedGround.visible=extended;
+ i6RollingTerrain.visible=extended;
+ i6SmoothRoadShoulder.visible=extended;
+ i6SmoothRoadDirt.visible=extended;
+ i6ShoulderRockMesh.visible=extended;
+ i6TrailExtended=extended;
+}
+window.DNDPOV_I6_SCENE_Z=z=>i6TrailExtended?
+ i6TrailStretchZ(z):z;
+window.DNDPOV_I6_SCENE_X=(x,z)=>i6TrailExtended?x+i6TrailBend(z):x;
+window.DNDPOV_I6_SCENE_Y=z=>i6TrailExtended?i6TrailRise(z):0;
+window.DNDPOV_I6_SCENE_HEADING=z=>i6TrailExtended?i6TrailHeading(z):0;
+window.DNDPOV_I6_SCENE_PITCH=z=>i6TrailExtended?i6TrailPitch(z):0;
 
 // DNDPOV scenery-first gameplay integration v1.5
 const GAME_MAP=document.querySelector('#map')?.parentElement;
@@ -1648,7 +1919,9 @@ const i6JourneyBadge=document.createElement('div');
 i6JourneyBadge.id='svalichJourneyBadge';i6JourneyBadge.hidden=true;
 i6JourneyBadge.setAttribute('role','status');
 document.body.append(i6JourneyBadge);
-const i6HourZ=[151,116,82,47,16];
+// Checkpoints remain about a minute apart in visible walking distance.
+// The first is beyond the original inn grounds, shortly before the cart.
+const i6HourZ=[120,96,71,45,16];
 const i6HourText=[
  'One hour since midnight. The inn is lost behind you as cold mist gathers along the Old Svalich Road.',
  'Two hours on the road. Tree trunks crowd the path; the stars disappear above the thickening mists.',
@@ -1656,7 +1929,48 @@ const i6HourText=[
  'Four hours since the inn. The first grey hint of dawn barely penetrates the mist, now thick as fog.',
  'Five hours after departing the inn, the Eastern Gates of Barovia emerge from the dawn fog ahead.'
 ];
-let i6JourneyMode='choice',i6JourneyHours=0;
+let i6JourneyMode='choice',i6JourneyHours=0,i6JourneyLegStartZ=183;
+// The inn approach is ordinary walking. Only the later forest is longer;
+// sprint and walking remain at their ordinary visible speed throughout.
+window.DNDPOV_I6_JOURNEY_PACE=()=>{
+ if(!i6TrailExtended)return null;
+ return (keys.shift?10:5)/(player.z<i6TrailAnchorZ?i6TrailScale:1);
+};
+window.DNDPOV_I6_TRAVEL_ACTIVE=()=>i6JourneyMode==='walking';
+window.DNDPOV_I6_TRAVEL_MOVING=()=>i6JourneyMode==='walking'&&!innInside&&
+ !window.DNDPOV_INTRO_LOCK&&!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK&&
+ !!(keys.arrowup||keys.arrowdown||keys.a||keys.d);
+const i6TravelMist=document.createElement('div');i6TravelMist.id='svalichTravelMist';i6TravelMist.setAttribute('aria-hidden','true');document.body.append(i6TravelMist);
+const i6JourneyToast=document.createElement('div');i6JourneyToast.id='svalichJourneyToast';i6JourneyToast.setAttribute('role','status');document.body.append(i6JourneyToast);
+// A fleeting bank of mist covers the distance returning to ordinary scale
+// as the party arrives at the Eastern Gates. It never traps the controls.
+const i6ArrivalMist=document.createElement('div');
+i6ArrivalMist.setAttribute('aria-hidden','true');
+i6ArrivalMist.style.cssText='position:fixed;inset:0;z-index:8;pointer-events:none;opacity:0;transition:opacity .45s ease;background:radial-gradient(ellipse at center,#172333f5 0%,#0d1724f5 65%,#09121c 100%)';
+document.body.append(i6ArrivalMist);
+const i6JourneyCampButton=document.createElement('button');i6JourneyCampButton.type='button';i6JourneyCampButton.textContent='⛺ Make Camp';
+i6JourneyCampButton.onclick=()=>{if(!window.DNDPOV_INTRO_LOCK&&!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK)i6JourneyCamp();};
+let i6JourneyToastTimer=0;
+function i6JourneyDismissHour(){clearTimeout(i6JourneyToastTimer);i6JourneyToast.classList.remove('show');}
+function i6JourneyFlash(hour){
+ i6JourneyToast.replaceChildren();
+ const heading=document.createElement('strong');heading.textContent='OLD SVALICH ROAD · HOUR '+hour+' OF 5';
+ const description=document.createElement('small');description.textContent=i6HourText[hour-1];
+ const actions=document.createElement('div');actions.className='journey-toast-actions';
+ const keepWalking=document.createElement('button');keepWalking.type='button';keepWalking.textContent='Continue Walking';keepWalking.onclick=i6JourneyDismissHour;
+ const makeCamp=document.createElement('button');makeCamp.type='button';makeCamp.textContent='⛺ Make Camp';makeCamp.onclick=()=>{i6JourneyDismissHour();i6JourneyCamp();};
+ if(hour===5)keepWalking.textContent='Approach the Eastern Gates';
+ actions.append(keepWalking,makeCamp);
+ i6JourneyToast.append(heading,description,actions);i6JourneyToast.classList.add('show');
+ clearTimeout(i6JourneyToastTimer);
+ i6JourneyToastTimer=setTimeout(i6JourneyDismissHour,12000);
+}
+function i6JourneyVisuals(){
+ const active=i6JourneyMode==='walking';
+ i6TravelMist.classList.toggle('active',active);
+ i6TravelMist.classList.toggle('moving',!!window.DNDPOV_I6_TRAVEL_MOVING?.());
+}
+setInterval(i6JourneyVisuals,160);
 function i6JourneyClearKeys(){for(const k of Object.keys(keys))keys[k]=false;}
 function i6JourneyTime(phase){
  timeOfDay=phase;const s=document.getElementById('day');s.value=phase;
@@ -1680,13 +1994,15 @@ function i6JourneyUpdateBadge(){
  if(i6JourneyMode==='walking'){
   i6JourneyBadge.hidden=false;
   const hour=String(i6JourneyHours).padStart(2,'0');
-  i6JourneyBadge.textContent='Eastern Gates · '+hour+':00 AM · '+i6JourneyHours+' of 5 travel hours';
+  i6JourneyBadge.textContent='Eastern Gates · '+hour+':00 AM · '+i6JourneyHours+' of 5 travel hours · ~1 min/leg';
+  i6JourneyBadge.append(i6JourneyCampButton);
  }else if(i6JourneyMode==='camp_pending'){
   i6JourneyBadge.hidden=true; // The contextual tent prompt is already visible.
  }else if(i6JourneyMode==='camp'){
   i6JourneyBadge.hidden=false;
   i6JourneyBadge.textContent='Daybreak · you find yourselves nearer to the Gates of Barovia';
  }else i6JourneyBadge.hidden=true;
+ i6JourneyVisuals();
 }
 function i6JourneyWeather(mode){
  roadWeatherSelect.value=mode;
@@ -1696,7 +2012,9 @@ function i6JourneyRoadStart(mode){
  // Reuse the original public starting point, not any new five-hour geometry.
  innInside=false;player.x=0;player.z=183;player.angle=0;
  gameLast=-1;gameIndex=0;gameRender();gameUpdateLocation(player.x,player.z);
- i6JourneyMode=mode;i6JourneyHours=0;
+ i6JourneyMode=mode;i6JourneyHours=0;i6JourneyLegStartZ=player.z;
+ i6SetTrailLength(mode==='walking');
+ i6JourneyDismissHour();
  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=mode==='walking'?.036:0;
  i6JourneyWeather('mist');
  i6JourneyTime(mode==='camp'?'dawn':'night');
@@ -1713,9 +2031,10 @@ i6CampPrompt.style.cssText='position:fixed;bottom:119px;left:50%;transform:trans
 document.body.append(i6CampPrompt);
 function i6JourneyCamp(){
  window.DNDPOV_I6_TRAVEL_SCENE=null;
+ i6SetTrailLength(false);
  // If leaving the inn, the camp is nearby. Farther into the march it forms
  // in a clearing beside the party, never moving an encounter behind them.
- const alreadyWalking=i6JourneyMode==='walking';
+ const alreadyWalking=i6JourneyMode==='walking'||i6JourneyMode==='complete';
  const atZ=innInside?183:player.z;
  i6CampWakeZ=atZ>160?130:atZ>112?112.8:Math.max(26,atZ-27);
  i6CampSiteX=alreadyWalking?-14:14;
@@ -1723,6 +2042,7 @@ function i6JourneyCamp(){
  window.DNDPOV_I6_SET_CAMPSITE?.(i6CampSiteX,i6CampSiteZ,true);
  innInside=false;player.x=i6CampSiteX+1.5;player.z=i6CampSiteZ+5;player.angle=-.56;
  i6JourneyMode='camp_pending';i6JourneyHours=0;
+ i6JourneyDismissHour();
  gameLast=-1;gameIndex=0;gameRender();gameUpdateLocation(player.x,player.z);
  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
  i6JourneyWeather('mist');i6JourneyTime('night');
@@ -1764,7 +2084,7 @@ window.DNDPOV_I6_CAMP_REST=()=>{
 };
 function i6JourneyDepart(){
  i6JourneyShow('About the Five-Hour Journey',
-  'In the original I6 Ravenloft adventure, the road from the inn to the Eastern Gates takes five hours on foot. Rather than make you walk for five real-world hours, DNDPOV presents this one long journey through five brief atmospheric stages. The clock, weather and narration move forward as you travel. Once you reach the gates, free exploration resumes at your own pace; the rest of the adventure is not a choose-your-path sequence.',[
+  'The original Ravenloft I6 journey from the inn to the Eastern Gates takes five hours. This playable version lasts about five minutes of walking, with one minute per leg, drifting mists, and random encounter checks as you travel. At the end of each hour you can keep walking or choose to make camp. No chapter screen stops your movement.',[
    {label:'Begin Journey · Midnight',run:()=>i6JourneyRoadStart('walking')},
    {label:'Wait for dawn instead',run:i6JourneyCamp}
   ]);
@@ -1781,6 +2101,8 @@ window.DNDPOV_I6_START_WALK_FROM_INN=()=>{
  // The inn exit already placed the party outside. Do not teleport to gates
  // or past the messenger's cart; retain the original road geometry.
  i6JourneyMode='walking';i6JourneyHours=0;
+ i6SetTrailLength(true);
+ i6JourneyLegStartZ=player.z;i6JourneyDismissHour();
  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=.036;
  i6JourneyWeather('mist');i6JourneyTime('night');
  roadWeatherSelect.disabled=true;document.getElementById('day').disabled=true;
@@ -1790,7 +2112,7 @@ function i6JourneyOpening(){
  window.DNDPOV_I6_TRAVEL_SCENE=null;
  i6JourneyMode='choice';i6JourneyHours=0;i6JourneyUpdateBadge();
  i6JourneyShow('The Last Chance Inn · I6 Ravenloft',
-  'The original I6 module calls for a five-hour journey to the Eastern Gates of Barovia. This opening is presented in brief travel stages; afterward, you explore freely. The inn’s patrons warn against setting out after dark.',[ 
+  'The original I6 module calls for a five-hour journey to the Eastern Gates of Barovia. Walk through five uninterrupted travel legs of about one real minute each. Each hour offers a chance to make camp. The inn’s patrons warn against setting out after dark.',[ 
    {label:'Yes',run:i6JourneyCamp},
    {label:'No',run:i6JourneyNoCamp}
   ]);
@@ -1819,6 +2141,8 @@ window.DNDPOV_RESET_I6_JOURNEY=()=>{
  window.DNDPOV_I6_SET_CAMPSITE?.(0,0,false);
  document.getElementById('travelFade').classList.remove('active');
  innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;
+ i6SetTrailLength(false);
+ i6JourneyLegStartZ=183;i6JourneyDismissHour();
  gameIndex=0;gameLast=-1;gameRender();
  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
  roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
@@ -1834,36 +2158,40 @@ window.DNDPOV_I6_JOURNEY_TICK=()=>{
  }
  if(i6JourneyHours===4)i6JourneyTime('dawn');
  const current=i6JourneyHours;
- window.DNDPOV_I6_TRAVEL_SCENE={
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=current>=4?.057:current===3?.052:.036+current*.004;
+ const stage=window.DNDPOV_I6_TRAVEL_SCENE={
   hour:current,title:'A · The Old Svalich Road · Hour '+current+' of 5',
   text:i6HourText[current-1],
   moduleText:gameLocations.find(l=>l.id==='A')?.player||'The Old Svalich Road'
  };
- i6JourneyUpdateBadge();
- i6JourneyShow(window.DNDPOV_I6_TRAVEL_SCENE.title,i6HourText[current-1],[
-  {label:current===5?'Approach the Eastern Gates':'Continue the journey',run:()=>{
-    if(current===5){
-     i6JourneyMode='complete';
-     window.DNDPOV_I6_TRAVEL_SCENE=null;
-     roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
-     window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
-     setAtmosphere();
-     i6JourneyBadge.textContent='05:00 AM · Five-hour march complete · Eastern Gates of Barovia';
-    }
-    i6JourneyHide();
-  }},
-  ...(current<5?[{label:'Make camp until daybreak',run:i6JourneyCamp}]:[])
- ]);
+ i6JourneyLegStartZ=player.z;
+ // Narration and the optional camp prompt never interrupt movement.
+ i6JourneyUpdateBadge();i6JourneyFlash(current);
  // Reuse the exact text in the left read-aloud and the Adventure Journal.
  gameRender();
  const loc=svalichCurrentLocation();
  if(loc.location.startsWith('TRAVEL_'))window.DNDPOV_AI_SHOW_LOCATION?.();
  else window.DNDPOV_JOURNAL_SPECIAL?.(
-  window.DNDPOV_I6_TRAVEL_SCENE.title,
-  window.DNDPOV_I6_TRAVEL_SCENE.moduleText+'\n\n'+i6HourText[current-1],
+  stage.title,
+  stage.moduleText+'\n\n'+stage.text,
   'I6 AREA A · ORIGINAL READ-ALOUD + JOURNEY PROGRESS');
+ if(current===5){
+  i6JourneyMode='complete';
+  // The gates must approach through fog rather than jump closer in one frame.
+  i6ArrivalMist.style.opacity='1';
+  setTimeout(()=>{
+   i6SetTrailLength(false);
+   i6ArrivalMist.style.opacity='0';
+  },480);
+  window.DNDPOV_I6_TRAVEL_SCENE=null;
+  roadWeatherSelect.disabled=false;document.getElementById('day').disabled=false;
+  window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
+  setAtmosphere();i6JourneyVisuals();
+  i6JourneyBadge.textContent='05:00 AM · Five-hour march complete · Eastern Gates of Barovia';
+  gameRender();
+ }
 };
-// During a chapter card, block keyboard actions behind the dialog too.
+// Only the opening choice and actual campsite scene block keyboard actions.
 window.addEventListener('keydown',e=>{
  if(window.DNDPOV_INTRO_LOCK){e.preventDefault();e.stopImmediatePropagation()}
 },true);
@@ -1871,7 +2199,44 @@ i6JourneyOpening();
 
 
 gameEl('villageBtn').onclick=()=>travelToVillage();
-const jump=gameEl('jumpSelect');gameLocations.forEach((l,i)=>{const o=document.createElement('option');o.value=i;o.textContent=l.id+' · '+l.name;jump.append(o)});jump.onchange=()=>{if(jump.value==='')return;gameIndex=+jump.value;gameRender();gameOpen()};
+const jump=gameEl('jumpSelect');
+gameLocations.forEach((l,i)=>{const o=document.createElement('option');o.value=i;o.textContent=l.id+' · '+l.name;jump.append(o)});
+jump.onchange=()=>{
+ if(jump.value==='')return;
+ const destination=gameLocations[Number(jump.value)];
+ if(!destination)return;
+ // D, F-I live on the Tser road, E in the village, and J at the castle.
+ // The former selector changed only read-aloud text, which the location
+ // tracker immediately replaced because the player had not actually moved.
+ if(!destination.r){
+  if(destination.id==='E'){window.location.href='village_of_barovia.html';return;}
+  if(destination.id==='J'){window.location.href='ravenloft.html?arrival=carriage&floor=walls';return;}
+  try{sessionStorage.setItem('rpgpov_direct_road_landmark_v1',destination.id)}catch(e){console.warn(e)}
+  window.location.href='road_to_tser.html';return;
+ }
+ gameClose();
+ i6JourneyMode='';i6JourneyHours=0;
+ i6SetTrailLength(false);
+ window.DNDPOV_I6_TRAVEL_SCENE=null;
+ window.DNDPOV_I6_TRAVEL_FOG_DENSITY=0;
+ window.DNDPOV_I6_SET_CAMPSITE?.(0,0,false);
+ gameEl('day').disabled=false;gameEl('weather').disabled=false;
+ i6JourneyHide();i6JourneyUpdateBadge();
+ // Reset the one-way gate when intentionally using the adventure's direct
+ // jump controls; ordinary walking still preserves its original lock.
+ triggered=destination.id==='C';progress=triggered?1:0;
+ gateApproach=false;gateOpenProgress=0;gateL.rotation.y=0;gateR.rotation.y=0;
+ if(destination.id==='INN'){
+  enterInn();
+ }else{
+  innInside=false;
+  player.x=destination.x;player.z=destination.id==='B'?12:destination.z;
+  player.angle=0;
+ }
+ gameIndex=Number(jump.value);gameLast=-1;
+ gameUpdateLocation(player.x,player.z);gameRender();drawMap();
+ window.DNDPOV_AI_SHOW_LOCATION?.();
+};
 function gameRoll(){const die=1+Math.floor(Math.random()*6);const hit=night?die<=2:die===1;gameShowModal('Outdoor Encounter Check','<p>1d6: <b>'+die+'</b> · '+(night?'Night':'Day')+' · '+(hit?'Encounter triggered':'No encounter')+'</p><p>Resolve the encounter using the original module tables.</p>')}
 function gameEncounter(){let body='<p>DM reference · Lands of Barovia</p><button id="rollNow">Roll Encounter (1d6)</button>';for(const a of gameEncounterTable){body+='<p><b>'+gameEscape(a[0])+'</b></p><div class="dmnote">'+(gameDM?gameEscape(a[1]):'Enable DM mode for encounter details.')+'</div>'}gameShowModal('Lands of Barovia · Encounter Summary',body);gameEl('rollNow').onclick=gameRoll}
 
@@ -1920,7 +2285,25 @@ window.DNDPOV_JOURNAL_FALLBACK=(id,position)=>{
 };
 // Local multiplayer bridge — the forest, weather and road are untouched.
 window.DNDPOV_ZONE_BRIDGE={getPosition:()=>({x:innInside?innDoorX:player.x,y:innInside?innDoorZ:player.z,
- a:player.angle,floor:101,room:svalichCurrentLocation().roomName}),redrawMap:()=>drawMap()};
+ a:player.angle,floor:101,room:svalichCurrentLocation().roomName}),
+ getSave:()=>({x:player.x,z:player.z,angle:player.angle,innInside,
+  journeyMode:i6JourneyMode,journeyHours:i6JourneyHours,journeyLegStartZ:i6JourneyLegStartZ}),
+ restoreSave:s=>{
+  if(![s.x,s.z,s.angle].every(Number.isFinite))throw Error('Invalid Svalich save');
+  player.x=s.x;player.z=s.z;player.angle=s.angle;
+  innInside=!!s.innInside;i6JourneyMode=s.journeyMode||'';
+  i6JourneyHours=Number(s.journeyHours)||0;
+  i6SetTrailLength(i6JourneyMode==='walking');
+  i6JourneyLegStartZ=Number.isFinite(s.journeyLegStartZ)?s.journeyLegStartZ:
+   (i6JourneyHours?i6HourZ[Math.min(i6JourneyHours-1,4)]:183);
+  if(i6JourneyMode==='walking'){
+   window.DNDPOV_I6_TRAVEL_FOG_DENSITY=i6JourneyHours>=3?.052:.036;
+   roadWeatherSelect.disabled=true;document.getElementById('day').disabled=true;
+  }
+  i6JourneyHide();i6JourneyUpdateBadge();
+  gameEl('gameModal').style.display='none';
+  gameLast=-1;gameUpdateLocation(player.x,player.z);gameRender();drawMap();
+ },redrawMap:()=>drawMap()};
 const svalichDrawBeforeMp=drawMap;
 drawMap=function(){svalichDrawBeforeMp();
  
@@ -2114,7 +2497,7 @@ drawMap=function(){svalichDrawBeforeMp();
 <h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
 </section>
 <aside id="mpEncounterToast" hidden role="alert"><strong id="mpEncounterTitle">ENCOUNTER</strong><p id="mpEncounterMessage"></p><button id="mpEncounterDismiss" type="button">Close</button></aside>
-<script id="dndpovMpController" type="application/x-dndpov-private-multiplayer">
+<script id="dndpovMpController">
 (()=>{
  'use strict';
  const $=id=>document.getElementById(id);
@@ -2218,7 +2601,7 @@ drawMap=function(){svalichDrawBeforeMp();
  if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
 })();
 </script>
-<script id="dndpovMpDockFix" type="application/x-dndpov-private-multiplayer">
+<script id="dndpovMpDockFix">
 /* Dock the shared multiplayer controls outside the scene's options window. */
 (()=>{
  const button=document.getElementById('mpButton');
@@ -2359,14 +2742,13 @@ drawMap=function(){svalichDrawBeforeMp();
 #aiDmPartyBox .partyPreviewNote{margin-top:14px}
 @media(max-width:610px){#aiDmPartyBox .partySections{grid-template-columns:1fr}}
 </style>
-<style id="dndpov-public-beta-controls">#mpButton,#mpPanel,#mpEncounterToast,#aiDmCompose,#aiDmToggle,#aiDmPartyButton,#aiDmPartyBox{display:none!important}</style>
 <script id="aiDmCompanion">(()=>{
 const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
 btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
-const journalAutoOpenKey='dndpov_svalich_public_auto_open_journal';
+const journalAutoOpenKey='dndpov_svalich_private_auto_open_journal';
 let journalAutoOpen=localStorage.getItem(journalAutoOpenKey)==='on';
 const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · Old Svalich v1.76</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button" disabled aria-disabled="true" title="Character sheets unavailable in public beta">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM unavailable in public beta</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
+panel.innerHTML='<header><b>Adventure Journal · Old Svalich v1.77</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM · Local edition</label></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
 document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
@@ -2417,7 +2799,7 @@ function updatePartyPreview(){
 partySheet.addEventListener('input',updatePartyPreview);
 const partyClear=()=>{editingPartyId='';partyName.value='';partySheet.value='';partyBox.querySelector('#partyFile').value='';updatePartyPreview()};
 async function partyRefresh(){const d=await partyApi('/api/character/list',{});const target=partyBox.querySelector('#partyRoster');target.replaceChildren();partyBox.querySelector('#partyCount').textContent=d.characters.length+' / 8 characters';for(const c of d.characters){const row=document.createElement('div');row.className='partyRow';const name=document.createElement('strong');name.textContent=c.name;const edit=document.createElement('button');edit.textContent='Edit';edit.onclick=()=>{editingPartyId=c.id;partyName.value=c.name;partySheet.value=c.sheet;updatePartyPreview()};const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{if(!confirm('Remove '+c.name+'?'))return;await partyApi('/api/character/delete',{id:c.id});if(editingPartyId===c.id)partyClear();partyRefresh()};row.append(name,edit,del);target.append(row)}if(!d.characters.length)target.textContent='No characters added yet.'}
-// Party / Sheets disabled in public beta.
+panel.querySelector('#aiDmPartyOpen').onclick=()=>{partyBox.hidden=false;partyRefresh().catch(e=>partyMsg.textContent=e.message)};
 partyBox.querySelector('#partyClose').onclick=()=>partyBox.hidden=true;
 partyBox.querySelector('#partyClear').onclick=partyClear;
 partyBox.querySelector('#partyFile').onchange=async(e)=>{const file=e.target.files?.[0];if(!file)return;if(file.size>3000000){partyMsg.textContent='PDF exceeds 3 MB';return}partyMsg.textContent='Reading PDF…';try{const b64=await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(String(fr.result).split(',')[1]);fr.onerror=reject;fr.readAsDataURL(file)});const d=await partyApi('/api/character/upload',{filename:file.name,pdf_base64:b64});partySheet.value=d.extracted;updatePartyPreview();partyName.value=partyName.value||file.name.replace(/\.pdf$/i,'').replace(/[_-]/g,' ');editingPartyId='';partyMsg.textContent='PDF extracted. Review the text and click Save character.'}catch(err){partyMsg.textContent=err.message}};
@@ -2543,7 +2925,7 @@ function buildRoadDmMessage(message,c){
  const discovery=window.DNDPOV_AI_LAST_DISCOVERY?.slice(0,300)||'';
  return (header+'\n'+limits+'\n'+seen+'\n'+discovery+'\nPlayer says: '+message.slice(0,650)).slice(0,1950);
 }
-async function send(message){return; if(busy||!toggle.checked||!message.trim())return;await checkLocation();busy=true;syncControls();addCard('user','YOU',message);input.value='';
+async function send(message){if(busy||!toggle.checked||!message.trim())return;await checkLocation();busy=true;syncControls();addCard('user','YOU',message);input.value='';
  try{const response=await fetch('/api/dm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session,...context(),message:buildRoadDmMessage(message,context())})});const data=await response.json();if(!response.ok)throw Error(data.error||'Request failed');addCard('dm','AI DUNGEON MASTER',data.reply)}catch(e){addCard('error','ERROR',e.message)}finally{busy=false;syncControls()}}
 panel.querySelector('#aiDmSend').onclick=()=>send(input.value);panel.querySelector('#aiDmConference').onclick=()=>send('We have a conference. Have the party members discuss our present situation and possible next steps, without deciding for me.');
 input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input.value)}});
@@ -2612,8 +2994,10 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  const stateKey='dndpov_local_auto_dm_'+leg+'_v1';
  const logKey='dndpov_local_oracle_'+leg+'_v1';
  const readJSON=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))||fallback}catch{return fallback}};
- const state=Object.assign({enabled:true,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
+ // Automatic encounters are opt-in; DM notes visibility is a separate setting.
+ const state=Object.assign({enabled:false,visited:[],lastLocation:'',woodsTurns:0,woodsLetter:false,
   wolvesHowling:false,howlingRounds:0,wolvesAttacked:false,turns:0},readJSON(stateKey,{}));
+ state.enabled=state.enabled===true;
  let history=readJSON(logKey,[]);if(!Array.isArray(history))history=[];
  const persist=()=>{try{localStorage.setItem(stateKey,JSON.stringify(state));localStorage.setItem(logKey,JSON.stringify(history))}catch{}};
  const $=id=>document.getElementById(id);
@@ -2643,9 +3027,19 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  .dndpovDmPane .entry button,.dndpovDmPane .pane-action{padding:6px 10px;margin:5px 5px 3px 0;border:1px solid #98744f;border-radius:4px;background:#443226;color:#f6deb9}
  .dndpovDmPane .log-row{padding:9px;border:1px solid #57535c;border-radius:5px;margin:8px 0;background:#323239}
  .dndpovDmPane .log-row small{display:block;color:#b7a6c4}
- #dndpovEncounterBanner{position:fixed;top:78px;right:20px;z-index:191;display:none;width:min(330px,calc(100vw - 40px));padding:15px;background:#201b19f5;border:2px solid #c28b52;border-radius:8px;color:#ffe4bc;box-shadow:0 8px 38px #000d;font:14px/1.45 Georgia,serif}
- #dndpovEncounterBanner strong{display:block;color:#f9d39a;font-size:18px;margin-bottom:6px}
- #dndpovEncounterBanner button{display:block;margin-top:12px;padding:8px;background:#5c3e2d;border:1px solid #bd8655;color:#ffe9c6;border-radius:5px}
+ #dndpovEncounterBanner{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at center,#441b2344 0%,#070407bd 78%);color:#ffe4bc;font:15px/1.5 Georgia,serif;pointer-events:none}
+ #dndpovEncounterBanner .encounter-card{width:min(530px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:22px 29px 27px;text-align:center;background:linear-gradient(145deg,#392229,#1e181a 58%,#160f12);border:3px double #e7b46b;border-radius:17px;box-shadow:0 0 0 5px #090508dd,0 0 65px #c345365b,0 28px 90px #000e;pointer-events:auto;animation:encounterArrive .3s ease-out}
+ #dndpovEncounterBanner .encounter-eyebrow{font:bold 12px/1.4 Georgia,serif;letter-spacing:.23em;color:#f9c377;text-transform:uppercase}
+ #dndpovEncounterBanner .encounter-sigil{display:grid;place-items:center;width:108px;height:108px;margin:2px auto 9px;filter:drop-shadow(0 0 16px #c95e3a99)}
+ #dndpovEncounterBanner .encounter-sigil svg{width:100%;height:100%}
+ #dndpovEncounterBanner strong{display:block;color:#ffe0a2;font:bold clamp(23px,4vw,30px)/1.18 Georgia,serif;margin:4px 0 13px;text-shadow:0 3px 0 #150b0c}
+ #dndpovEncounterBanner .encounter-description{color:#f4e3cf;text-align:left;padding:12px 16px;border:1px solid #916349;background:#0f0d12ab;border-radius:8px}
+ #dndpovEncounterBanner .encounter-status{margin:14px 0 2px;color:#ffc37c;font:bold 13px/1.45 Georgia,serif}
+ #dndpovEncounterBanner button{display:block;width:min(100%,350px);margin:18px auto 0;padding:14px 18px;background:linear-gradient(180deg,#f4cc83,#bf783d);border:2px solid #ffe0a2;border-radius:8px;color:#21120e;font:bold 15px/1.25 Georgia,serif;cursor:pointer}
+ #dndpovEncounterBanner button:hover,#dndpovEncounterBanner button:focus-visible{background:#ffe6a9;box-shadow:0 0 0 3px #ffe5ac45,0 4px 23px #ffb35c88}
+ @keyframes encounterArrive{from{opacity:.3;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+ @media(prefers-reduced-motion:reduce){#dndpovEncounterBanner .encounter-card{animation:none}}
+ @media(max-width:540px){#dndpovEncounterBanner{padding:10px}#dndpovEncounterBanner .encounter-card{max-height:calc(100dvh - 20px);padding:15px 16px 20px}#dndpovEncounterBanner .encounter-sigil{width:82px;height:82px}}
  @media(max-width:760px){.dndpovDmPane{right:8px;bottom:84px;width:min(420px,calc(100vw - 16px));max-height:67vh}#dndpovToolsTray{max-height:48vh}}`;
  document.head.append(style);
  const dock=document.createElement('aside');dock.id='dndpovToolsDock';
@@ -2656,14 +3050,14 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  '<button type="button" id="localOracle">✦ Oracle · Decision Report</button>'+
  '<button type="button" id="localEncounters">📜 Encounters</button>'+
  '<button type="button" id="localModuleContents" disabled>📚 Module Contents · Scenes & Letters</button>'+
- '<small>Auto DM handles local scripted checks. AI DM conversation is separate.</small>'+
+ '<small>Auto DM controls automatic encounter checks independently of DM notes. AI DM conversation is separate.</small>'+
  '<div class="tool-section">EXPLORATION & SETTINGS</div>'+
  '<button type="button" id="localRead">📖 Read Scene / Read Again</button>'+
  '<button type="button" id="localJournalAuto">📖 Auto-open Journal: OFF</button>'+
  '<button type="button" id="localMap">⌖ Toggle Map</button>'+
  '<button type="button" id="localReset">↺ Restart Location</button></div>';
  document.body.append(dock);
- const journalAutoOpenKey='dndpov_svalich_public_auto_open_journal';
+ const journalAutoOpenKey='dndpov_svalich_private_auto_open_journal';
  let journalAutoOpen=localStorage.getItem(journalAutoOpenKey)==='on';
  const autoJournalButton=document.getElementById('localJournalAuto');
  function syncJournalAutoButton(){autoJournalButton.textContent='📖 Auto-open Journal: '+(journalAutoOpen?'ON':'OFF');autoJournalButton.classList.toggle('active',journalAutoOpen);autoJournalButton.setAttribute('aria-pressed',String(journalAutoOpen));}
@@ -2678,18 +3072,27 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  const encounterBody=makePane('dndpovEncounters','Auto DM · '+titles[leg]+' Encounters');
  const moduleBody=makePane('dndpovModuleContents',titles[leg]+' · Module Contents');
  const banner=document.createElement('section');banner.id='dndpovEncounterBanner';banner.setAttribute('role','alertdialog');
+ banner.setAttribute('aria-labelledby','dndpovEncounterTitle');banner.setAttribute('aria-describedby','dndpovEncounterDetails');
+ const bannerCard=document.createElement('div');bannerCard.className='encounter-card';
+ const bannerEyebrow=document.createElement('div');bannerEyebrow.className='encounter-eyebrow';bannerEyebrow.textContent='⚔ The mists stir ⚔';
+ const bannerSigil=document.createElement('div');bannerSigil.className='encounter-sigil';
+ bannerSigil.innerHTML='<svg viewBox="0 0 108 108" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M54 6 93 28 93 79 54 101 15 79 15 28Z" fill="#49222b" stroke="#e8b569" stroke-width="4"/><path d="M54 6 15 79 93 79 M15 28 93 79 M93 28 15 79" fill="none" stroke="#ce985f" stroke-width="2.5"/><path d="M54 24 80 43 70 75H38L28 43Z" fill="#231a24" stroke="#ffdf9c" stroke-width="2"/><text x="54" y="63" text-anchor="middle" fill="#ffe1a6" font-family="Georgia,serif" font-size="30" font-weight="bold">20</text></svg>';
  const bannerHead=document.createElement('strong'),bannerText=document.createElement('div'),bannerClose=document.createElement('button');
- bannerClose.textContent='Battle handled / Continue';bannerClose.onclick=()=>{banner.style.display='none';window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
- banner.append(bannerHead,bannerText,bannerClose);document.body.append(banner);
+ bannerHead.id='dndpovEncounterTitle';bannerText.id='dndpovEncounterDetails';bannerText.className='encounter-description';
+ const bannerStatus=document.createElement('p');bannerStatus.className='encounter-status';bannerStatus.textContent='⚠ MOVEMENT PAUSED — resolve this event before continuing.';
+ bannerClose.type='button';bannerClose.textContent='✓ Encounter resolved — Resume exploring';bannerClose.onclick=()=>{banner.style.display='none';window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;record('Encounter completed',bannerHead.textContent,'Player confirmed completion')};
+ bannerCard.append(bannerEyebrow,bannerSigil,bannerHead,bannerText,bannerStatus,bannerClose);
+ banner.append(bannerCard);document.body.append(banner);
  window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;
  let localDm=false,lastContext='',lastCoords=null,travelDistance=0,location='',position='';
+ let lastScanAt=performance.now(),journeyTurnMs=0;
  const isSvalichWoods=()=>leg==='svalich'&&location==='C';
  const context=()=>window.DNDPOV_SVALICH_LOCATION?.()||window.DNDPOV_AI_CONTEXT?.();
  const currentEntry=()=>entries.find(e=>e.id===location);
  function record(kind,detail,result=''){
   history.unshift({at:new Date().toLocaleTimeString(),kind,detail,result});history=history.slice(0,100);persist();renderOracle();
  }
- function notice(title,description){if(!state.enabled)return;window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=true;bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='block';document.exitPointerLock?.();}
+ function notice(title,description){if(!state.enabled)return;window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=true;bannerHead.textContent=title;bannerText.textContent=description;banner.style.display='flex';document.exitPointerLock?.();bannerClose.focus({preventScroll:true});}
  function renderOracle(){oracleBody.replaceChildren();
   const heartbeat=document.createElement('div');heartbeat.className='entry';
   const head=document.createElement('strong');head.textContent='AUTO DM · ORACLE HEARTBEAT';
@@ -2715,6 +3118,7 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
  function conditions(){return 'Time: '+gameTime()+' · Weather: '+(document.getElementById('weather')?.value||'clear')+' · '+(location||'Road');}
  function dice(count,sides){const values=Array.from({length:count},()=>roll(sides));return {total:values.reduce((a,b)=>a+b,0),detail:count+'d'+sides+' ['+values.join(', ')+']'};}
  function wildernessEncounter(){
+  if(!state.enabled)return;
   const night=['night','dusk','dawn'].includes(gameTime());
   const threshold=night?'1–2':'1';const check=roll(6);
   record('I6 Barovia · Random encounter check','Turn '+state.turns+' · '+conditions()+' · 1d6='+check,
@@ -2813,19 +3217,31 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   record('B · Gates of Barovia','Gate crossing confirmed','Iron gates slammed shut behind the party; passage back is blocked');
   renderEncounters();
  });
- function scan(){let c=context();if(!c)return;
+ function scan(){
+  const now=performance.now(),elapsedMs=Math.max(0,Math.min(1500,now-lastScanAt));lastScanAt=now;
+  let c=context();if(!c)return;
   if(leg==='tser'&&c.location==='G'&&c.position==='inside')
    c={...c,location:'G1',roomName:'Madame Eva’s Tent'};
   const key=String(c.location||'')+'|'+String(c.position||'');
   if(key!==lastContext){lastContext=key;location=String(c.location||'');position=String(c.position||'');onEnter(c);renderEncounters();renderOracle();}
-  // The real module's wolf checks happen by exploration turns. Walking distance
-  // is only a proxy; nonmovement actions can advance turns with the manual button.
+  // In the five-hour walk, ten seconds of actual movement = one ten-minute
+  // exploration turn (six checks per hour). Pausing or an encounter pauses time.
+  // Outside that journey, use the original distance-based exploration check.
   if(leg==='svalich'&&state.enabled&&!window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK){
-   const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();if(!p)return;
-   if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
-    if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
-   lastCoords={x:p.x,y:p.y};
-  }else lastCoords=null;
+   if(window.DNDPOV_I6_TRAVEL_ACTIVE?.()){
+    lastCoords=null;travelDistance=0;
+    if(window.DNDPOV_I6_TRAVEL_MOVING?.()){
+     journeyTurnMs+=elapsedMs;
+     if(journeyTurnMs>=10000){journeyTurnMs-=10000;advanceTurn();}
+    }
+   }else{
+    journeyTurnMs=0;
+    const p=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();if(!p)return;
+    if(lastCoords){const step=Math.hypot(p.x-lastCoords.x,p.y-lastCoords.y);
+     if(step<4){travelDistance+=step;if(travelDistance>=30){travelDistance-=30;advanceTurn();}}}
+    lastCoords={x:p.x,y:p.y};
+   }
+  }else{lastCoords=null;if(!window.DNDPOV_I6_TRAVEL_ACTIVE?.())journeyTurnMs=0;}
   if(leg==='village'){
    const toast=$('cemeteryEncounterToast');if(toast&&!toast.hidden&&!state.zombieNoticed){
     state.zombieNoticed=true;record('E7 · Zombie encounter','Existing cemetery event triggered','Four zombies · roll initiative');
@@ -2916,12 +3332,12 @@ setInterval(checkLocation,300);setTimeout(checkLocation,1000);
   if(b)localDm=/\bON\b/.test(b.textContent)&&!/\bOFF\b/.test(b.textContent);
   dmModeButton.textContent='⚿ DM: '+(localDm?'ON':'OFF');dmModeButton.classList.toggle('active',localDm);
   autoButton.textContent='⚙ Auto DM: '+(state.enabled?'ON':'OFF');autoButton.classList.toggle('auto-active',state.enabled);
-  autoButton.disabled=!localDm; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
+  autoButton.disabled=false; $('localOracle').disabled=!localDm;$('localEncounters').disabled=!localDm;
   $('localModuleContents').disabled=!localDm;
   if(!localDm){$('dndpovOracle').classList.remove('open');$('dndpovEncounters').classList.remove('open');$('dndpovModuleContents').classList.remove('open');}
  }
  dmModeButton.onclick=()=>{if(actualDmId)$(actualDmId)?.click();else localDm=!localDm;sync()};
- autoButton.onclick=()=>{if(!localDm)return;state.enabled=!state.enabled;if(!state.enabled){window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;banner.style.display='none';}persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
+ autoButton.onclick=()=>{state.enabled=!state.enabled;if(!state.enabled){window.DNDPOV_AUTO_DM_ENCOUNTER_LOCK=false;banner.style.display='none';journeyTurnMs=0;travelDistance=0;}persist();record('Auto DM',titles[leg],state.enabled?'Checks enabled':'Checks paused');sync();renderEncounters()};
  $('localOracle').onclick=()=>{if(!localDm)return;renderOracle();$('dndpovOracle').classList.add('open');$('dndpovEncounters').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localEncounters').onclick=()=>{if(!localDm)return;renderEncounters();$('dndpovEncounters').classList.add('open');$('dndpovOracle').classList.remove('open');dock.classList.remove('open');document.exitPointerLock?.()};
  $('localModuleContents').onclick=()=>{
@@ -3028,7 +3444,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 })();
 </script>
 
-<script id="dndpovContextDockScript" data-edition="public" data-leg="svalich">
+<script id="dndpovContextDockScript" data-edition="full" data-leg="svalich">
 (()=>{
   'use strict';
   const script=document.currentScript;
@@ -3041,7 +3457,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
   dock.setAttribute('aria-label','Current location and Dungeon Master tools');
   dock.innerHTML='<div id="dndpovContextDockHead"><strong>📍 '+label+' · Location</strong><button id="dndpovContextFold" type="button" aria-expanded="true" aria-label="Collapse location panel">−</button></div>'+
     '<div id="dndpovContextDockBody"><div id="dndpovContextWhere">Finding your location…</div><p id="dndpovContextExcerpt">Explore to discover room and landmark descriptions.</p>'+
-    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: ON</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button><button id="dndpovContextReference" type="button" disabled>📚 Module Text</button></div>'+
+    '<div class="contextCommands"><button id="dndpovContextRead" type="button">📜 Read scene</button><button id="dndpovContextDm" type="button">DM notes: OFF</button><button id="dndpovContextAuto" type="button">Auto DM: OFF</button><button id="dndpovContextOracle" type="button">✦ Oracle</button><button id="dndpovContextEncounters" type="button">⚔ Encounters</button><button id="dndpovContextReference" type="button" disabled>📚 Module Text</button></div>'+
     '<div id="dndpovContextDmInfo" aria-live="off">DM notes hidden. Enable them only if you are running the adventure.</div>'+
     '<small class="contextEdition">'+(publicBeta?'Public beta · Local DM tools available. AI chat and multiplayer require the local edition.':'Descriptions update here as you explore. The AI conversation is opened separately.')+'</small></div>';
   document.body.append(dock);
@@ -3106,7 +3522,9 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
     const notes=dmEnabled();
     $('dndpovContextDm').textContent='DM notes: '+(notes?'ON':'OFF');
     $('dndpovContextDm').classList.toggle('active',notes);
-    for(const id of ['dndpovContextAuto','dndpovContextOracle','dndpovContextEncounters','dndpovContextReference'])$(id).disabled=!notes;
+    // The Auto DM switch must remain usable even with private DM notes hidden.
+    $('dndpovContextAuto').disabled=false;
+    for(const id of ['dndpovContextOracle','dndpovContextEncounters','dndpovContextReference'])$(id).disabled=!notes;
     const auto=window.DNDPOV_AUTO_DM_TOOLS?.getState?.()?.enabled;
     $('dndpovContextAuto').textContent='Auto DM: '+(auto?'ON':'OFF');
     $('dndpovContextAuto').classList.toggle('active',Boolean(auto));
@@ -3118,7 +3536,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 })();
 </script>
 <style id="dndpovAntiqueGoldToolsButton">
-/* Accessible DNDPOV tool launcher: shared PUBLIC and PRIVATE design standard. */
+/* Accessible DNDPOV tool launcher: shared PUBLIC and BASIC design standard. */
 #dndpovToolsButton,#dungeonToolToggle{
  background:linear-gradient(145deg,#deb770 0%,#bd914b 62%,#a87834 100%)!important;
  color:#21180f!important;
@@ -3139,65 +3557,115 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 }
 </style>
 
-<style id="svalich177FeatureCss">
-#svalichBetaFeatures{display:flex;gap:7px;margin:8px 0;flex-wrap:wrap}
-#svalichBetaFeatures button{flex:1 1 125px;min-height:34px;font:bold 13px Georgia,serif!important;
- padding:6px 10px!important;border:1px solid #d9ac68!important;border-radius:5px!important;
- background:linear-gradient(155deg,#654928,#35251c)!important;color:#ffeac0!important;
- box-shadow:inset 0 1px #e4c6924d,0 2px 8px #0008}
-#svalichBetaFeatures button:hover,#svalichBetaFeatures button:focus-visible{
- background:linear-gradient(155deg,#88633c,#4d3425)!important;outline-offset:2px}
-#svalichBetaOverlay[hidden]{display:none!important}
-#svalichBetaOverlay{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;
- background:rgba(4,5,8,.88);box-sizing:border-box;padding:15px}
-#svalichBetaModal{position:relative;max-height:86vh;overflow-y:auto;box-sizing:border-box;
- width:min(550px,98vw);background:linear-gradient(150deg,#282229,#18191e);
- color:#f2e0be;border:2px solid #c3995e;border-radius:11px;padding:28px;
- box-shadow:0 18px 65px #000f;font:15px/1.65 Georgia,serif}
-#svalichBetaModal h2{color:#f0c786;font-size:25px;line-height:1.3;margin:0 35px 10px 0}
-#svalichBetaModal p{margin:0 0 14px}
-#svalichBetaNote{border-left:4px solid #e4ba73;background:#453120;padding:10px 12px;font-weight:bold}
-#svalichBetaModal .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
-#svalichBetaModal .actions a,#svalichBetaModal .actions button{
- color:#fff0cc;background:#60452e;border:1px solid #d9b178;border-radius:4px;
- padding:10px 12px;text-decoration:none;font:bold 14px Georgia,serif;margin:0}
-#svalichBetaModal .actions a:hover,#svalichBetaModal .actions button:hover{background:#80603e}
-#svalichBetaClose{position:absolute;top:12px;right:12px;color:#f4d6a7;
- background:#4c3830;border:1px solid #c3995e;border-radius:4px;padding:5px 10px}
-@media(max-width:600px){#svalichBetaModal{padding:17px;max-height:91vh}}
+
+
+<style id="dndpovPrivateQuickLaunchCss">
+#dndpovPrivateQuickLaunch{display:flex;gap:7px;margin:9px 0 7px;flex-wrap:wrap}
+#dndpovPrivateQuickLaunch button{flex:1 1 120px;margin:0!important;min-height:34px;
+ background:linear-gradient(155deg,#76532d,#3f2b20)!important;color:#ffebc7!important;
+ border:1px solid #d8b478!important;border-radius:5px!important;
+ font:bold 13px Georgia,serif!important;padding:7px 8px!important;
+ box-shadow:inset 0 1px #ffe9b53a,0 3px 8px #0008}
+#dndpovPrivateQuickLaunch button:hover,#dndpovPrivateQuickLaunch button:focus-visible{
+ background:linear-gradient(155deg,#9b7643,#5d402c)!important;
+ outline:2px solid #dfb977;outline-offset:2px}
 </style>
-<script id="svalich177FeatureJs">
+<script id="dndpovPrivateQuickLaunchScript">
 (()=>{
  const hud=document.getElementById('hud');if(!hud)return;
- const bar=document.createElement('div');bar.id='svalichBetaFeatures';
- bar.setAttribute('role','group');bar.setAttribute('aria-label','Features in the downloadable local edition');
- bar.innerHTML='<button type="button" data-feature="ai" aria-haspopup="dialog">✦ AI DM</button><button type="button" data-feature="multi" aria-haspopup="dialog">♟ Multiplayer</button>';
- hud.querySelector('b')?.insertAdjacentElement('afterend',bar);
- const overlay=document.createElement('div');overlay.id='svalichBetaOverlay';overlay.hidden=true;
- overlay.innerHTML='<section id="svalichBetaModal" role="dialog" aria-modal="true" aria-labelledby="svalichBetaHeading" tabindex="-1"><button type="button" id="svalichBetaClose" aria-label="Close information">✕</button><h2 id="svalichBetaHeading"></h2><p id="svalichBetaNote">Not available in the browser-based public beta.</p><p id="svalichBetaDescription"></p><div class="actions"><a id="svalichBetaLink" target="_blank" rel="noopener noreferrer"></a><button type="button" id="svalichBetaBack">Back to the adventure</button></div></section>';
- document.body.append(overlay);
- const data={
-  ai:{name:'AI Dungeon Master',desc:'In the downloadable local edition, the AI Dungeon Master can converse with players and NPCs, use location context, and help manage battles. The regular DM toggle, Auto DM, Oracle, encounters, and scene descriptions remain available in this browser beta.',href:'https://rpgpov.com/#solo',label:'View AI DM information and gallery ↗'},
-  multi:{name:'Multiplayer',desc:'The downloadable local edition supports the multiplayer experience shown in the RPGPOV gallery. The browser-based public beta is for solo exploration; multiplayer requires a locally run setup.',href:'https://rpgpov.com/#multiplayer',label:'View multiplayer information and gallery ↗'}
- };
- let opener=null;
- function close(){overlay.hidden=true;opener?.focus();opener=null;}
- function show(key,button){const feature=data[key];if(!feature)return;opener=button;
+ const heading=hud.querySelector('h2,b');if(!heading)return;
+ const bar=document.createElement('div');bar.id='dndpovPrivateQuickLaunch';
+ bar.setAttribute('role','group');bar.setAttribute('aria-label','Local edition features');
+ bar.innerHTML='<button type="button" id="dndpovPrivateAiLaunch" title="Open the AI DM and journal">✦ AI DM</button><button type="button" id="dndpovPrivateMpLaunch" title="Open local multiplayer controls">♟ Multiplayer</button>';
+ heading.insertAdjacentElement('afterend',bar);
+ bar.querySelector('#dndpovPrivateAiLaunch').addEventListener('click',()=>{
   document.exitPointerLock?.();
-  overlay.querySelector('#svalichBetaHeading').textContent=feature.name;
-  overlay.querySelector('#svalichBetaDescription').textContent=feature.desc;
-  const link=overlay.querySelector('#svalichBetaLink');link.href=feature.href;link.textContent=feature.label;
-  overlay.hidden=false;overlay.querySelector('#svalichBetaClose').focus();}
- bar.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>show(button.dataset.feature,button)));
- overlay.querySelector('#svalichBetaClose').addEventListener('click',close);
- overlay.querySelector('#svalichBetaBack').addEventListener('click',close);
- overlay.addEventListener('click',event=>{if(event.target===overlay)close();});
- document.addEventListener('keydown',event=>{
-  if(overlay.hidden)return;
-  if(event.key==='Escape'){event.preventDefault();close();}
-  else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','w','a','s','d'].includes(event.key))event.preventDefault();
-  event.stopImmediatePropagation();
- },true);
+  const panel=document.getElementById('aiDmPanel'),btn=document.getElementById('aiDmButton');
+  if(btn&&(!panel||panel.hidden))btn.click();
+  else if(panel)panel.hidden=false;
+ });
+ bar.querySelector('#dndpovPrivateMpLaunch').addEventListener('click',()=>{
+  document.exitPointerLock?.();
+  const panel=document.getElementById('mpPanel'),btn=document.getElementById('mpButton');
+  if(btn&&(!panel||panel.style.display!=='block'))btn.click();
+  else if(panel)panel.style.display='block';
+ });
+})();
+</script>
+<style id="rpgpovAiBattleChoiceStyles">
+#dndpovEncounterBanner .encounter-ai-action{background:linear-gradient(180deg,#9a6bd4,#583383);border-color:#e2c3ff;color:#fff3ff;box-shadow:0 0 22px #8c51c64f}
+#dndpovEncounterBanner .encounter-ai-action:hover,#dndpovEncounterBanner .encounter-ai-action:focus-visible{background:#ab7deb;color:white}
+#dndpovEncounterBanner .encounter-ai-action[hidden]{display:none!important}
+#rpgpovAiCombatDock[hidden]{display:none!important}
+#rpgpovAiCombatDock{position:fixed;top:164px;left:calc(50% - 240px);transform:translateX(-50%);z-index:9001;width:min(435px,calc(100vw - 24px));box-sizing:border-box;padding:13px 15px;background:#251e2df2;border:2px solid #af86e2;border-radius:12px;box-shadow:0 12px 40px #000c;color:#f5e9ff;text-align:center;font:13px/1.4 Georgia,serif}
+#rpgpovAiCombatDock strong{display:block;color:#e4c6ff;font-size:16px}
+#rpgpovAiCombatDock p{margin:6px 0 11px;font-size:12px}
+#rpgpovAiCombatDock .battle-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#rpgpovAiCombatDock button{padding:9px 12px;border:1px solid #c4a0e6;border-radius:7px;background:#604183;color:#f9efff;font:bold 12px/1.35 Georgia,serif;cursor:pointer}
+#rpgpovAiCombatDock button:last-child{background:#92613f;color:#fff1d2;border-color:#e3b576}
+@media(max-width:950px){#rpgpovAiCombatDock{left:50%;top:145px}}
+</style>
+<script id="rpgpovAiBattleChoice">
+(()=>{
+ const banner=document.getElementById('dndpovEncounterBanner');
+ const card=banner?.querySelector('.encounter-card');
+ const head=banner?.querySelector('#dndpovEncounterTitle');
+ const details=banner?.querySelector('#dndpovEncounterDetails');
+ const manual=card?.querySelector('button');
+ if(!banner||!card||!head||!details||!manual)return;
+ const ai=document.createElement('button');ai.type='button';ai.className='encounter-ai-action';
+ ai.textContent='⚔ Let AI Dungeon Master Run the Battle';ai.hidden=true;card.insertBefore(ai,manual);
+ const dock=document.createElement('aside');dock.id='rpgpovAiCombatDock';dock.hidden=true;dock.setAttribute('role','status');
+ const combatTitle=document.createElement('strong');
+ const help=document.createElement('p');help.textContent='Movement stays paused. Choose your actions in the AI Journal and finish only after the encounter is resolved.';
+ const actions=document.createElement('div');actions.className='battle-actions';
+ const returnToAi=document.createElement('button');returnToAi.type='button';returnToAi.textContent='✦ Return to AI DM';
+ const finish=document.createElement('button');finish.type='button';finish.textContent='✓ Finish Battle & Resume';
+ actions.append(returnToAi,finish);dock.append(combatTitle,help,actions);document.body.append(dock);
+ let battleActive=false,starting=false;
+ const isCombat=(title,description)=>/^(RANDOM ENCOUNTER|ENCOUNTER|WORG WOLVES ATTACK)/i.test(title)&&
+  !/Role-play or acknowledge this encounter|non-hostile unless/i.test(description);
+ const sync=()=>{if(battleActive)return;ai.hidden=banner.style.display==='none'||
+  getComputedStyle(banner).display==='none'||!isCombat(head.textContent,details.textContent);};
+ new MutationObserver(sync).observe(banner,{attributes:true,attributeFilter:['style']});sync();
+ const openPanel=()=>{
+  const panel=document.getElementById('aiDmPanel');
+  if(panel?.hidden)document.getElementById('aiDmButton')?.click();
+  return panel&&!panel.hidden?panel:null;
+ };
+ returnToAi.onclick=()=>{openPanel();document.getElementById('aiDmInput')?.focus();};
+ finish.onclick=()=>{
+  if(!confirm('Has AI DM finished the encounter? Resume movement?'))return;
+  battleActive=false;dock.hidden=true;manual.click();
+ };
+ ai.onclick=async()=>{
+  if(starting||battleActive)return;
+  starting=true;ai.disabled=true;
+  try{
+   document.exitPointerLock?.();
+   const response=await fetch('/api/desktop/status',{cache:'no-store',signal:AbortSignal.timeout(3000)}).catch(()=>null);
+   if(response?.ok&&!(await response.json()).key_configured){
+    const keyButton=document.getElementById('rpgpovKey');
+    if(keyButton)keyButton.click();else alert('Set up your OpenAI API key to use AI DM.');
+    return;
+   }
+   const panel=openPanel();
+   const input=panel?.querySelector('#aiDmInput'),send=panel?.querySelector('#aiDmSend');
+   if(!panel||!input||!send||send.disabled||!panel.querySelector('#aiDmToggle')?.checked){
+    alert('AI DM is not connected. Use the manual encounter option, or open Set Up AI in the Windows app.');
+    return;
+   }
+   const title=head.textContent,description=details.textContent;
+   input.value='Run this Ravenloft I6 encounter as an interactive Dungeon Master for my saved party. Encounter: '+title+
+    '. '+description.slice(0,210)+
+    ' Determine reaction first where appropriate. Ask for player actions each round, roll initiative and enemy attacks, and track rounds and HP from real character sheets; request missing stats instead of inventing them. Do not decide player actions or end the fight early. Tell me when combat is resolved.';
+   input.dispatchEvent(new Event('input',{bubbles:true}));
+   battleActive=true;combatTitle.textContent='⚔ AI COMBAT · '+title;
+   banner.style.display='none';dock.hidden=false;
+   send.click();
+  }catch(err){alert('Could not start AI combat: '+err.message);}
+  finally{starting=false;ai.disabled=false;}
+ };
 })();
 </script>
 </body></html>

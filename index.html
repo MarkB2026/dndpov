@@ -154,6 +154,42 @@
 @media(max-width:1050px){.hero .edition-choices{grid-template-columns:repeat(2,minmax(0,1fr));max-width:860px}.hero .edition-choice.adventure{grid-column:1/-1;max-width:430px;width:100%;margin:0 auto}}
 @media(max-width:680px){.hero .edition-choice{padding:7px}.hero .edition-choice .btn{padding:0}.hero .edition-card-header{padding:19px 25px}.hero .edition-card-body{padding:8px 16px 18px}}
 @media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr;max-width:500px}.hero .edition-choice.adventure{grid-column:auto;max-width:none}}
+
+/* Collapsible adventure-package contents: closed by default to match other card heights. */
+.hero .edition-choice.adventure{cursor:default;opacity:.83}
+.hero .edition-choice.adventure .edition-locked-card{display:flex;flex-direction:column}
+.hero .edition-choice.adventure .edition-card-body{display:flex;flex:1;flex-direction:column}
+.hero .edition-choice.adventure .edition-details{
+  margin-top:12px;border:1px solid #817b80;border-radius:5px;
+  background:linear-gradient(110deg,#494549,#302d30);
+  overflow:hidden;color:#e1dcde;
+}
+.hero .edition-choice.adventure .edition-details:first-of-type{margin-top:19px}
+.hero .edition-choice.adventure .edition-details summary{
+  position:relative;display:flex;align-items:center;gap:8px;min-height:43px;
+  padding:10px 35px 10px 12px;list-style:none;cursor:pointer;
+  font:700 13px/1.35 Georgia,'Times New Roman',serif;
+  letter-spacing:.025em;user-select:none;
+}
+.hero .edition-choice.adventure .edition-details summary::-webkit-details-marker{display:none}
+.hero .edition-choice.adventure .edition-details summary::after{
+  content:"⌄";position:absolute;right:12px;top:50%;transform:translateY(-55%);
+  color:#e7dfe3;font:700 22px/1 Arial,sans-serif;transition:transform .16s ease;
+}
+.hero .edition-choice.adventure .edition-details[open] summary::after{transform:translateY(-45%) rotate(180deg)}
+.hero .edition-choice.adventure .edition-details summary:hover{background:#ffffff0e}
+.hero .edition-choice.adventure .edition-details summary:focus-visible{outline:2px solid #d8c9d1;outline-offset:-3px}
+.hero .edition-choice.adventure .edition-detail-count{
+  margin-left:auto;color:#c9c1c5;white-space:nowrap;
+  font:600 11px/1.3 Arial,sans-serif;letter-spacing:.01em;
+}
+.hero .edition-choice.adventure .edition-details .edition-levels{
+  margin:0;padding:4px 9px 10px;border-top:1px solid #817b8060;
+  max-height:280px;overflow-y:auto;overscroll-behavior:contain;
+}
+.hero .edition-choice.adventure .edition-details .edition-level-tag strong{min-width:64px}
+.hero .edition-choice.adventure .edition-coming-soon{margin-top:auto;transform:translateY(9px)}
+
 </style>
 </head>
 <body>
@@ -223,10 +259,10 @@
   </div>
  </div>
  <div class="edition-choice adventure" aria-label="Full Adventure Package coming soon">
-  <div class="edition-locked-card" aria-disabled="true">
+  <div class="edition-locked-card">
    <div class="edition-card-header">
     <span class="edition-button-title">Full Adventure Package</span>
-    <span class="edition-button-subtitle">Coming Soon · Complete Castle Ravenloft</span>
+    <span class="edition-button-subtitle">Coming Soon · All of Barovia &amp; All Castle Levels</span>
    </div>
    <div class="edition-card-body">
     <span class="edition-list-heading">Features</span>
@@ -238,18 +274,38 @@
     <span class="edition-list-heading">Locations</span>
     <ul class="edition-points">
      <li class="included">Old Svalich Road</li>
-     <li class="included">Barovia and Blood of the Vine Tavern</li>
      <li class="included">Tser Pool</li>
+     <li class="included">Entire Village of Barovia — all landmarks</li>
      <li class="included">Complete Castle Ravenloft</li>
     </ul>
-    <span class="edition-list-heading edition-access-title">All Castle Levels: 2–12</span>
-    <div class="edition-levels edition-levels-full">
-     <span class="edition-level-tag"><strong>2–3</strong> Walls of Ravenloft · Main Floor</span>
-     <span class="edition-level-tag"><strong>4–5</strong> Court of the Count · Rooms of Weeping</span>
-     <span class="edition-level-tag"><strong>6–8</strong> Lower, Middle &amp; Upper Spires</span>
-     <span class="edition-level-tag"><strong>9–10</strong> North &amp; High Tower Peaks</span>
-     <span class="edition-level-tag"><strong>11–12</strong> Larders of Ill Omen · Dungeon and Catacombs</span>
-    </div>
+    <details class="edition-details">
+     <summary>Village of Barovia <span class="edition-detail-count">7 locations</span></summary>
+     <div class="edition-levels edition-landmarks">
+      <span class="edition-level-tag"><strong>E1</strong> Bildrath's Mercantile (shop)</span>
+      <span class="edition-level-tag"><strong>E2</strong> Blood of the Vine Tavern</span>
+      <span class="edition-level-tag"><strong>E3</strong> Mad Mary's House</span>
+      <span class="edition-level-tag"><strong>E4</strong> Burgomaster's Mansion (manor)</span>
+      <span class="edition-level-tag"><strong>E5</strong> Guest House</span>
+      <span class="edition-level-tag"><strong>E6</strong> Church of Barovia</span>
+      <span class="edition-level-tag"><strong>E7</strong> Village Cemetery</span>
+     </div>
+    </details>
+    <details class="edition-details">
+     <summary>Castle Ravenloft <span class="edition-detail-count">Levels 2–12</span></summary>
+     <div class="edition-levels edition-levels-full">
+      <span class="edition-level-tag"><strong>Level 2</strong> Walls of Ravenloft</span>
+      <span class="edition-level-tag"><strong>Level 3</strong> Main Floor</span>
+      <span class="edition-level-tag"><strong>Level 4</strong> Court of the Count</span>
+      <span class="edition-level-tag"><strong>Level 5</strong> Rooms of Weeping</span>
+      <span class="edition-level-tag"><strong>Level 6</strong> Lower Spires</span>
+      <span class="edition-level-tag"><strong>Level 7</strong> Middle Spires</span>
+      <span class="edition-level-tag"><strong>Level 8</strong> Upper Spires</span>
+      <span class="edition-level-tag"><strong>Level 9</strong> North Tower Peak</span>
+      <span class="edition-level-tag"><strong>Level 10</strong> High Tower Peak</span>
+      <span class="edition-level-tag"><strong>Level 11</strong> Larders of Ill Omen</span>
+      <span class="edition-level-tag"><strong>Level 12</strong> Dungeon and Catacombs</span>
+     </div>
+    </details>
     <span class="edition-coming-soon">Unavailable in the current beta</span>
    </div>
   </div>

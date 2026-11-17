@@ -1,6 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.45 · Public Beta</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Road to Tser Pool v3.46 · Public Beta</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f4e4c6;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#202327ee;border:1px solid #b08b57;padding:13px;z-index:5;width:290px}#hud h2{margin:0 0 8px;color:#ebc28b;font-size:19px}#hud p{line-height:1.5}select,button{background:#342b25;border:1px solid #a8895a;color:#f5e5c7;padding:7px;margin:3px;cursor:pointer}#map{position:fixed;right:15px;top:15px;background:#1c2526e8;border:1px solid #ac8c62;z-index:5;width:210px;height:280px}#help{position:fixed;bottom:12px;left:12px;background:#171c1ddd;padding:9px;z-index:5}#notice{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);background:#171b1ef0;border:1px solid #c5a16a;padding:20px;text-align:center;display:none;z-index:8;max-width:380px}#notice a{color:#ebc28b}#error{position:fixed;left:20%;top:40%;background:#511;color:white;padding:15px;display:none;z-index:20}
-#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.45</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
+#fade{position:fixed;inset:0;background:#11191c;opacity:0;pointer-events:none;z-index:30;transition:opacity 2.3s ease}#fade.active{opacity:1;pointer-events:auto}</style></head><body><div id="fade"></div><div id="hud"><h2>DNDPOV · ROAD TO TSER POOL v3.46</h2><p id="place">Leaving the Village of Barovia</p><p id="description">The road winds into the dark Svalich Woods. Somewhere beyond the mist lies Castle Ravenloft.</p><label>Time <select id="day"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select></label><label>Weather <select id="weather"><option value="mist">Mist</option><option value="clear">Clear</option><option value="fog">Fog</option></select></label><p><button id="reset">Restart Road</button></p><p><button id="wolfToggle">🐺 Wolves: ON</button><button id="wolfTest">▶ Test Howl</button></p><p id="wolfStatus" style="font:12px system-ui;color:#e8cda0">Wolves silent until dusk</p></div><canvas id="map" width="210" height="280"></canvas><div id="help">↑ ↓ walk · ← → turn · A / D sidestep · Shift jog</div><div id="notice"></div><div id="error"></div><script type="module">
 try{
 let THREE;for(const u of ['https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js','https://unpkg.com/three@0.170.0/build/three.module.js']){try{THREE=await import(u);break}catch(e){console.warn(e)}}if(!THREE)throw Error('Three.js could not load. Internet connection required.');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x899394);scene.fog=new THREE.FogExp2(0x899394,.016);
@@ -622,25 +622,49 @@ const westGateCurve=new THREE.CatmullRomCurve3(
  westGateRoadPoints.map(([x,z])=>new THREE.Vector3(x,0,z)),false,'centripetal');
 const westGateSamples=westGateCurve.getPoints(175);
 for(const sample of westGateSamples)sample.y=westernForkTerrain(sample.x,sample.z)+.17;
-const westGateVertices=[],westGateUV=[],westGateIndices=[];
+// v3.46: The western B-road is a worn continuation of the same Svalich dirt.
+// Feather both shoulders and the first 12m of the junction into the existing
+// road/forest, instead of drawing a hard-edged contrasting strip over it.
+const westGateVertices=[],westGateUV=[],westGateColors=[],westGateIndices=[];
+const westGateCross=[-1.29,-1.00,-.80,.80,1.00,1.29];
+const westGateAlpha=[0,.48,1,1,.48,0];
 for(let i=0;i<westGateSamples.length;i++){
  const p=westGateSamples[i],a=westGateSamples[Math.max(0,i-1)],
   b=westGateSamples[Math.min(westGateSamples.length-1,i+1)];
  const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz)||1;
  const normalX=-dz/len,normalZ=dx/len;
- for(const side of [-1,1]){
-  const width=4.13+.08*Math.sin(i*.81+side);
-  westGateVertices.push(p.x+side*width*normalX,p.y+.008*Math.sin(i*.51+side),
-   p.z+side*width*normalZ);
-  westGateUV.push(side<0?0:1,i*.16);
+ const width=4.13+.12*Math.sin(i*.81)+.07*Math.sin(i*1.61);
+ // The western road merges gradually with the raised main-road surface.
+ const entryFade=THREE.MathUtils.smoothstep(i,0,12);
+ for(let k=0;k<westGateCross.length;k++){
+  const across=westGateCross[k],offset=across*width;
+  westGateVertices.push(p.x+offset*normalX,p.y+.012+.006*Math.sin(i*.51+k),
+   p.z+offset*normalZ);
+  westGateUV.push((across+1.29)/2.58,i*.16);
+  westGateColors.push(1,1,1,westGateAlpha[k]*entryFade);
  }
- if(i){const j=i*2;westGateIndices.push(j-2,j-1,j,j-1,j+1,j)}
+ if(i){
+  const prev=(i-1)*westGateCross.length,cur=i*westGateCross.length;
+  for(let k=0;k<westGateCross.length-1;k++)
+   westGateIndices.push(prev+k,prev+k+1,cur+k,prev+k+1,cur+k+1,cur+k);
+ }
 }
 const westGateGeometry=new THREE.BufferGeometry();
 westGateGeometry.setAttribute('position',new THREE.Float32BufferAttribute(westGateVertices,3));
 westGateGeometry.setAttribute('uv',new THREE.Float32BufferAttribute(westGateUV,2));
+westGateGeometry.setAttribute('color',new THREE.Float32BufferAttribute(westGateColors,4));
 westGateGeometry.setIndex(westGateIndices);westGateGeometry.computeVertexNormals();
-const westGateRoad=new THREE.Mesh(westGateGeometry,campDirtMat);
+// Use the main road's exact dirt palette and grain; only the western branch
+// is translucent at its shoulders. The castle and camp roads are untouched.
+const westGateDirtMat=roadmat.clone();
+westGateDirtMat.transparent=true;
+westGateDirtMat.depthWrite=false;
+westGateDirtMat.vertexColors=true;
+westGateDirtMat.polygonOffset=true;
+westGateDirtMat.polygonOffsetFactor=-1;
+westGateDirtMat.polygonOffsetUnits=-1;
+const westGateRoad=new THREE.Mesh(westGateGeometry,westGateDirtMat);
+westGateRoad.renderOrder=2;
 westGateRoad.name='I6 western road to Gates of Barovia (B)';scene.add(westGateRoad);
 
 function nearWesternGateRoad(x,z,margin=4.1){
@@ -1387,7 +1411,7 @@ function animateCampfire(now){
  firelight.intensity=2.6+.55*Math.sin(t*9.7)+.28*Math.sin(t*17.3);
 }
 
-// v3.45 — the ten Vistani of encounter G are represented by individual figures.
+// v3.46 — the ten Vistani of encounter G are represented by individual figures.
 // They are scenery only: their clothing does not change encounter rolls or travel.
 const vistaniCloth=['#71394d','#355c64','#875b3f','#704875','#4d624b','#9b6041','#4e4e73','#8c4149','#5c6351','#7a4862'];
 const vistaniSkin=['#b68161','#c3926e','#946447','#d0a17e','#af7754','#9d664d'];
@@ -1779,10 +1803,13 @@ treeTrunks.count=usedTrunks;treeTrunks.instanceMatrix.needsUpdate=true;scene.add
   const x=pathX(z),dx=pathX(z-1)-pathX(z+1),len=Math.hypot(dx,2),nx=2/len,nz=dx/len;
   for(const side of [-1,1]){
    const wobble=Math.sin(z*1.91+side*7)*.72;
-   // Leave full wagon clearance even where the raised road curves.
-   const dist=6.65+wobble;
-   const size=.35+.3*(.5+.5*Math.sin(z*2.17+side*4));
-   obj.position.set(x+side*dist*nx,hillHeight(z)+.16+size*.26,z+side*dist*nz);
+   // v3.46: Move boulders back into the verge, and leave both the western
+   // fork and its turning radius free of stones (not just small gravel).
+   const dist=9.4+wobble*1.3;
+   const size=.30+.24*(.5+.5*Math.sin(z*2.17+side*4));
+   const sx=x+side*dist*nx,sz=z+side*dist*nz;
+   if(onFork(sx,sz,10.2)||Math.hypot(sx-westGateForkX,sz-westGateForkZ)<16)continue;
+   obj.position.set(sx,hillHeight(z)+.13+size*.24,sz);
    obj.rotation.set(z*.17,z*.23,z*.07);obj.scale.set(size*1.3,size*.65,size);obj.updateMatrix();stones.setMatrixAt(n++,obj.matrix);
   }
  }
@@ -1840,7 +1867,7 @@ if(['day','dawn','dusk','night'].includes(suppliedTime))time=suppliedTime;
 if(['clear','cloudy','rain','thunderstorm','mist','fog','random'].includes(suppliedWeather))weather=suppliedWeather;
 document.querySelector('#day').value=time;
 const roadWeatherSelect=document.querySelector('#weather');
-document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.45';
+document.querySelector('#hud h2').textContent='DNDPOV · ROAD TO TSER POOL v3.46';
 roadWeatherSelect.replaceChildren(
  new Option('Clear','clear'),new Option('Cloudy','cloudy'),
  new Option('Rain','rain'),new Option('Thunderstorm','thunderstorm'),

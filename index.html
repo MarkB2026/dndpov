@@ -87,21 +87,73 @@
 <style id="hero-primary-cta-style">
 /* Two clear beta choices, with support links only on the Windows edition. */
 .hero .edition-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:900px;margin:30px auto 0;text-align:center}
-.hero .edition-choice{padding:20px 18px 18px;background:linear-gradient(140deg,#251d24,#1b181e);border:1px solid #775a48;border-radius:12px;box-shadow:0 12px 30px #0005}
+.hero .edition-choice{display:flex;flex-direction:column;padding:9px;background:linear-gradient(140deg,#251d24,#1b181e);border:1px solid #775a48;border-radius:12px;box-shadow:0 12px 30px #0005}
 .hero .edition-choice.download{border-color:#9b774c;background:linear-gradient(140deg,#292122,#201a22)}
-.hero .edition-choice .btn{display:flex;justify-content:center;align-items:center;width:100%;min-height:66px;padding:17px 14px;font:700 clamp(14px,1.5vw,18px)/1.25 Arial,sans-serif;letter-spacing:.05em;text-align:center;white-space:normal;border-radius:5px;box-shadow:0 5px 15px #0005}
+.hero .edition-choice .btn{display:block;flex:1;width:100%;padding:18px 20px;font:400 14px/1.45 Arial,sans-serif;letter-spacing:normal;text-align:left;text-transform:none;white-space:normal;border-radius:5px;box-shadow:0 5px 15px #0005}
 .hero .edition-choice.browser .btn{color:#24160c;background:linear-gradient(180deg,#ffdfa1,#dcb26d);border:2px solid #ffe2aa}
 .hero .edition-choice.browser .btn:hover{background:#ffe9bd}
 .hero .edition-choice.download .btn{color:#f2fff2;background:linear-gradient(180deg,#307456,#20513e);border:2px solid #7cc49b}
 .hero .edition-choice.download .btn:hover{background:#398463}
-.hero .edition-choice-description{margin:14px auto 0;color:#e3d6ce;font-size:14px;line-height:1.5}
-.hero .edition-choice-description strong{color:#f4dfb9}
-.hero .edition-support{display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:4px 16px;margin:11px auto 0}
+.hero .edition-button-title{display:block;text-align:center;font:700 clamp(16px,1.55vw,20px)/1.25 Arial,sans-serif;letter-spacing:.045em;text-transform:uppercase}
+.hero .edition-button-subtitle{display:block;margin:8px auto 15px;text-align:center;font:600 13px/1.4 Arial,sans-serif}
+.hero .edition-list-heading{display:block;margin:13px 0 6px;padding-top:8px;border-top:1px solid #7777;font:700 12px/1.4 Arial,sans-serif;letter-spacing:.13em;text-transform:uppercase}
+.hero .edition-points{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.hero .edition-points li{position:relative;margin:0;padding:0 0 0 23px;font:500 13px/1.4 Arial,sans-serif}
+.hero .edition-points li::before{content:"";position:absolute;left:1px;top:.18em;width:13px;height:13px;border:2px solid currentColor;border-radius:50%}
+.hero .edition-points li.included::after{content:"";position:absolute;left:5px;top:calc(.18em + 4px);width:5px;height:5px;border-radius:50%;background:currentColor}
+.hero .edition-points li.not-included{opacity:.66}
+.hero .edition-support{display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:4px 16px;padding:8px 7px 2px}
 .hero .edition-support a,.hero .edition-support button{margin:0;padding:4px 0;border:0;background:transparent;color:#f0cc93;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font:700 12px/1.5 Arial,sans-serif;letter-spacing:0;white-space:normal}
 .hero .edition-support a:hover,.hero .edition-support button:hover{color:#fff0cb}
-.hero .edition-coverage-note{max-width:870px;margin:17px auto 0;color:#d9c9bd;font-size:14px;line-height:1.55}
-.hero .edition-coverage-note strong{color:#f2d7a5}
-@media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr;max-width:500px}.hero .edition-choice{padding:15px}.hero .edition-choice .btn{min-height:59px}}
+@media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr;max-width:500px}.hero .edition-choice{padding:9px}.hero .edition-choice .btn{padding:17px}}
+</style>
+<style id="edition-fantasy-theme">
+/* Carved edition cards: amethyst and slate for browser, gold and bronze for Windows. */
+.hero .edition-choices{gap:21px;max-width:940px}
+.hero .edition-choice{padding:8px;border-radius:11px;box-shadow:0 15px 34px #0009,inset 0 0 0 1px #f7e2a01d}
+.hero .edition-choice.browser{--edition-gem:#c6a3ff;--edition-glow:#b589e6a8;background:linear-gradient(135deg,#5a4871,#292631);border:2px solid #9b7bbd}
+.hero .edition-choice.download{--edition-gem:#f4d18a;--edition-glow:#e9b55294;background:linear-gradient(135deg,#c4974e,#473123);border:2px solid #d7b170}
+.hero .edition-choice .btn{padding:0;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1px #fff2c512,0 6px 15px #0007}
+.hero .edition-choice.browser .btn{color:#f1edf5;background:linear-gradient(155deg,#403b47,#302e38 58%,#29272f);border:1px solid #85739d}
+.hero .edition-choice.browser .btn:hover{background:linear-gradient(155deg,#484251,#34303d 58%,#2e2935)}
+.hero .edition-choice.download .btn{color:#f2e5cd;background:linear-gradient(155deg,#3a2e26,#2d251f 58%,#26201d);border:1px solid #b58b4d}
+.hero .edition-choice.download .btn:hover{background:linear-gradient(155deg,#443326,#35291f 58%,#2d241d)}
+.hero .edition-card-header{display:block;position:relative;padding:21px 31px 19px;text-align:center;border-bottom:2px solid #ffffff30}
+.hero .edition-card-header::before,.hero .edition-card-header::after{content:"✦";position:absolute;top:20px;font:20px/1 Georgia,serif;opacity:.8}
+.hero .edition-card-header::before{left:12px}.hero .edition-card-header::after{right:12px}
+.hero .edition-choice.browser .edition-card-header{color:#f8f0ff;background:linear-gradient(120deg,#8863ae,#5e3f85 54%,#412657);border-bottom-color:#b495d3;text-shadow:0 2px 6px #1b0e28}
+.hero .edition-choice.download .edition-card-header{color:#3a210e;background:linear-gradient(120deg,#f8e4af,#d7af69 49%,#a77834);border-bottom-color:#f6dc98;text-shadow:0 1px 0 #fff4c755}
+.hero .edition-card-body{display:block;padding:8px 21px 23px}
+.hero .edition-button-title{font:700 clamp(18px,1.65vw,23px)/1.2 Georgia,'Times New Roman',serif;letter-spacing:.055em}
+.hero .edition-button-subtitle{margin:7px 0 0;font:600 12px/1.4 Arial,sans-serif;letter-spacing:.025em}
+.hero .edition-list-heading{margin:13px 0 9px;padding:8px 0 0;border-top:1px solid #baabb033;color:var(--edition-gem);font:700 12px/1.4 Georgia,serif;letter-spacing:.15em}
+.hero .edition-points{gap:9px}
+.hero .edition-points li{padding-left:30px;font:500 13px/1.45 Arial,sans-serif}
+.hero .edition-points li::before{left:0;top:.03em;width:20px;height:20px;border:2px solid var(--edition-gem);background:radial-gradient(circle at 35% 25%,#666070,#1e1b24 78%);box-shadow:0 0 0 1px #0c090b,inset 0 1px 3px #000b,0 0 8px var(--edition-glow)}
+.hero .edition-choice.download .edition-points li::before{background:radial-gradient(circle at 35% 25%,#786049,#221a16 78%)}
+.hero .edition-points li.included::after{left:5px;top:calc(.03em + 5px);width:10px;height:10px;background:radial-gradient(circle at 30% 30%,#fffce5,var(--edition-gem) 48%,#755c8c 100%);box-shadow:0 0 7px var(--edition-gem)}
+.hero .edition-points li.not-included{color:#b6b1ba;opacity:1}
+.hero .edition-points li.not-included::before{border-color:#716b79;background:#2b2930;box-shadow:inset 0 1px 4px #000a}
+.hero .edition-support{padding:10px 7px 3px}
+.hero .edition-support a,.hero .edition-support button{color:#ffe0a0}
+.hero .edition-support a:hover,.hero .edition-support button:hover{color:#fff3d9}
+.hero .edition-choices{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1160px}
+.hero .edition-access-title{margin-top:19px;font-size:12px;letter-spacing:.09em}
+.hero .edition-levels{display:grid;gap:7px;margin:10px 0 0}
+.hero .edition-level-tag{display:block;padding:8px 10px;border:1px solid var(--edition-gem);border-left:4px solid var(--edition-gem);border-radius:5px;background:linear-gradient(100deg,#ffffff12,#00000022);color:inherit;font:500 12px/1.4 Arial,sans-serif}
+.hero .edition-level-tag strong{display:inline-block;min-width:63px;margin-right:5px;color:var(--edition-gem);font:700 12px/1.4 Georgia,serif;letter-spacing:.04em;text-transform:uppercase}
+.hero .edition-choice.adventure{--edition-gem:#bebaba;--edition-glow:#88888855;border:2px solid #646064;background:linear-gradient(140deg,#5b5658,#292628);filter:saturate(.12);opacity:.68;cursor:not-allowed}
+.hero .edition-locked-card{display:block;flex:1;width:100%;text-align:left;color:#d3cfd0;background:linear-gradient(155deg,#3b383b,#29272a);border:1px solid #817b80;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1px #ffffff11,0 6px 15px #0007}
+.hero .edition-choice.adventure .edition-card-header{color:#e8e4e5;background:linear-gradient(120deg,#767175,#534f53,#3e3a3e);border-bottom-color:#8c858a}
+.hero .edition-choice.adventure .edition-list-heading{color:#d1caca}
+.hero .edition-choice.adventure .edition-points li::before{border-color:#a6a0a4;background:radial-gradient(circle at 30% 20%,#797277,#29262a 80%);box-shadow:inset 0 1px 3px #000c}
+.hero .edition-choice.adventure .edition-points li.included::after{background:#aaa4a8;box-shadow:none}
+.hero .edition-choice.adventure .edition-level-tag{border-color:#777074;border-left-color:#a39ba0}
+.hero .edition-choice.adventure .edition-level-tag strong{min-width:46px;color:#e5dde0}
+.hero .edition-coming-soon{display:block;margin-top:17px;padding:8px;border:1px dashed #b6acae;border-radius:4px;text-align:center;font:700 11px/1.3 Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+@media(max-width:1050px){.hero .edition-choices{grid-template-columns:repeat(2,minmax(0,1fr));max-width:860px}.hero .edition-choice.adventure{grid-column:1/-1;max-width:430px;width:100%;margin:0 auto}}
+@media(max-width:680px){.hero .edition-choice{padding:7px}.hero .edition-choice .btn{padding:0}.hero .edition-card-header{padding:19px 25px}.hero .edition-card-body{padding:8px 16px 18px}}
+@media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr;max-width:500px}.hero .edition-choice.adventure{grid-column:auto;max-width:none}}
 </style>
 </head>
 <body>
@@ -110,21 +162,101 @@
 <div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 Beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede">Explore Ravenloft I6 in first person. Play in your browser or download the Windows beta for AI Dungeon Master and multiplayer.</p>
 <div class="edition-choices" aria-label="Choose your Ravenloft I6 beta">
  <div class="edition-choice browser">
-  <a class="btn hero-enter-adventure" href="#explore">Explore Browser Beta</a>
-  <p class="edition-choice-description"><strong>Play instantly in your browser.</strong><br/>Includes Auto DM and all the beta locations.</p>
+  <a class="btn hero-enter-adventure" href="#explore">
+   <div class="edition-card-header">
+    <span class="edition-button-title">Explore Browser Beta</span>
+    <span class="edition-button-subtitle">Play instantly · No installation</span>
+   </div>
+   <div class="edition-card-body">
+   <span class="edition-list-heading">Features</span>
+   <ul class="edition-points">
+    <li class="included">Auto DM</li>
+    <li class="not-included">AI Dungeon Master — download only</li>
+    <li class="not-included">Multiplayer — download only</li>
+   </ul>
+   <span class="edition-list-heading">Locations</span>
+   <ul class="edition-points">
+    <li class="included">Old Svalich Road</li>
+    <li class="included">Barovia streets and Blood of the Vine Tavern</li>
+    <li class="included">Tser Pool</li>
+    <li class="included">Castle Ravenloft (levels below)</li>
+   </ul>
+   <span class="edition-list-heading edition-access-title">Castle levels included: 2 &amp; 3</span>
+   <div class="edition-levels">
+    <span class="edition-level-tag"><strong>Level 2</strong> Walls of Ravenloft</span>
+    <span class="edition-level-tag"><strong>Level 3</strong> Main Floor</span>
+   </div>
+   </div>
+  </a>
  </div>
  <div class="edition-choice download">
-  <a class="btn beta-install-basic" href="downloads/Ravenloft-I6_BASIC_v1.0_Setup.exe">⬇ Download Full Beta</a>
-  <p class="edition-choice-description"><strong>Windows download.</strong><br/>Same locations and Auto DM, plus <strong>AI Dungeon Master + Multiplayer.</strong></p>
+  <a class="btn beta-install-basic" href="downloads/Ravenloft-I6_BASIC_v1.0_Setup.exe">
+   <div class="edition-card-header">
+    <span class="edition-button-title">⬇ Download Full Beta</span>
+    <span class="edition-button-subtitle">Windows installer · Same map coverage</span>
+   </div>
+   <div class="edition-card-body">
+   <span class="edition-list-heading">Features</span>
+   <ul class="edition-points">
+    <li class="included">Auto DM</li>
+    <li class="included">AI Dungeon Master (your own API key required)</li>
+    <li class="included">Multiplayer</li>
+   </ul>
+   <span class="edition-list-heading">Locations</span>
+   <ul class="edition-points">
+    <li class="included">Old Svalich Road</li>
+    <li class="included">Barovia streets and Blood of the Vine Tavern</li>
+    <li class="included">Tser Pool</li>
+    <li class="included">Castle Ravenloft (levels below)</li>
+   </ul>
+   <span class="edition-list-heading edition-access-title">Castle levels included: 2 &amp; 3</span>
+   <div class="edition-levels">
+    <span class="edition-level-tag"><strong>Level 2</strong> Walls of Ravenloft</span>
+    <span class="edition-level-tag"><strong>Level 3</strong> Main Floor</span>
+   </div>
+   </div>
+  </a>
   <div class="edition-support" aria-label="Windows beta setup help">
    <button type="button" id="showApiKeySteps" class="beta-key-guide-link" aria-haspopup="dialog" aria-controls="apiKeySteps">How to get your AI secret key</button>
    <a href="#multiplayer-video">▶ Multiplayer video</a>
    <a href="#ai-dm-videos">▶ AI DM video</a>
   </div>
  </div>
+ <div class="edition-choice adventure" aria-label="Full Adventure Package coming soon">
+  <div class="edition-locked-card" aria-disabled="true">
+   <div class="edition-card-header">
+    <span class="edition-button-title">Full Adventure Package</span>
+    <span class="edition-button-subtitle">Coming Soon · Complete Castle Ravenloft</span>
+   </div>
+   <div class="edition-card-body">
+    <span class="edition-list-heading">Features</span>
+    <ul class="edition-points">
+     <li class="included">Auto DM</li>
+     <li class="included">AI Dungeon Master</li>
+     <li class="included">Multiplayer</li>
+    </ul>
+    <span class="edition-list-heading">Locations</span>
+    <ul class="edition-points">
+     <li class="included">Old Svalich Road</li>
+     <li class="included">Barovia and Blood of the Vine Tavern</li>
+     <li class="included">Tser Pool</li>
+     <li class="included">Complete Castle Ravenloft</li>
+    </ul>
+    <span class="edition-list-heading edition-access-title">All Castle Levels: 2–12</span>
+    <div class="edition-levels edition-levels-full">
+     <span class="edition-level-tag"><strong>2–3</strong> Walls of Ravenloft · Main Floor</span>
+     <span class="edition-level-tag"><strong>4–5</strong> Court of the Count · Rooms of Weeping</span>
+     <span class="edition-level-tag"><strong>6–8</strong> Lower, Middle &amp; Upper Spires</span>
+     <span class="edition-level-tag"><strong>9–10</strong> North &amp; High Tower Peaks</span>
+     <span class="edition-level-tag"><strong>11–12</strong> Larders of Ill Omen · Dungeon and Catacombs</span>
+    </div>
+    <span class="edition-coming-soon">Unavailable in the current beta</span>
+   </div>
+  </div>
+ </div>
 </div>
-<p class="edition-coverage-note"><strong>Both versions have the same maps and Auto DM:</strong> Old Svalich Road, Barovia streets, the Blood of the Vine Tavern, Tser Pool, and two Castle Ravenloft dungeon levels. AI DM requires your own OpenAI API key.</p></div></div>
-<section id="explore"><div class="wrap"><div class="section-label">Choose your destination</div><h2 class="section-title">Explore the World of Ravenloft</h2><p class="section-intro">Explore the Old Svalich Road, walk the streets of Barovia, visit the Blood of the Vine Tavern, discover Tser Pool, and venture through two levels of Castle Ravenloft—all in first-person 3D, right in your browser.</p><div class="cards">
+</div></div>
+<section id="explore"><div class="wrap"><div class="section-label">Choose your destination</div><h2 class="section-title">Explore the World of Ravenloft</h2><p class="section-intro">Explore the Old Svalich Road, walk the streets of Barovia, visit the Blood of the Vine Tavern, discover Tser Pool, and enter Castle Ravenloft's two beta levels: Level 2 — Walls of Ravenloft and Level 3 — Main Floor.</p><div class="cards">
 <article class="card"><div class="screen">
 <svg aria-label="Illustration based on the beta: a wide dirt road between spruce woods, with the Last Chance Inn on the left" preserveaspectratio="xMidYMid slice" role="img" viewbox="0 0 640 312">
 <title>Old Svalich Road — the Last Chance Inn and spruce-lined approach</title>

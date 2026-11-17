@@ -85,30 +85,45 @@
  @media(max-width:650px){.beta-install-actions{gap:9px}.beta-install-actions .btn{width:min(100%,340px)}#apiKeySteps .key-modal-head{padding:17px}#apiKeySteps .key-modal-body{padding:16px 18px 21px}}
 </style>
 <style id="hero-primary-cta-style">
-/* Main browser adventure CTA: a single, prominent first action above install options. */
-.hero .hero-primary-action{display:flex;justify-content:center;margin:30px auto 0}
-.hero .hero-enter-adventure{display:inline-flex;align-items:center;justify-content:center;
-  min-width:min(380px,100%);min-height:64px;padding:20px 40px;
-  font:700 clamp(15px,1.4vw,18px)/1.25 Arial,sans-serif;letter-spacing:.13em;
-  background:linear-gradient(180deg,#f7d99d,#e5bf78);border:2px solid #ffe1a2;
-  box-shadow:0 10px 30px #0008,0 0 26px #d7a45a26}
-.hero .hero-enter-adventure:hover{background:linear-gradient(180deg,#ffe7b7,#efc87f);transform:translateY(-3px)}
-.hero .beta-install-actions{margin-top:19px}
-@media(max-width:480px){.hero .hero-enter-adventure{width:100%;min-width:0;padding:19px 20px}}
+/* Two clear beta choices, with support links only on the Windows edition. */
+.hero .edition-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:900px;margin:30px auto 0;text-align:center}
+.hero .edition-choice{padding:20px 18px 18px;background:linear-gradient(140deg,#251d24,#1b181e);border:1px solid #775a48;border-radius:12px;box-shadow:0 12px 30px #0005}
+.hero .edition-choice.download{border-color:#9b774c;background:linear-gradient(140deg,#292122,#201a22)}
+.hero .edition-choice .btn{display:flex;justify-content:center;align-items:center;width:100%;min-height:66px;padding:17px 14px;font:700 clamp(14px,1.5vw,18px)/1.25 Arial,sans-serif;letter-spacing:.05em;text-align:center;white-space:normal;border-radius:5px;box-shadow:0 5px 15px #0005}
+.hero .edition-choice.browser .btn{color:#24160c;background:linear-gradient(180deg,#ffdfa1,#dcb26d);border:2px solid #ffe2aa}
+.hero .edition-choice.browser .btn:hover{background:#ffe9bd}
+.hero .edition-choice.download .btn{color:#f2fff2;background:linear-gradient(180deg,#307456,#20513e);border:2px solid #7cc49b}
+.hero .edition-choice.download .btn:hover{background:#398463}
+.hero .edition-choice-description{margin:14px auto 0;color:#e3d6ce;font-size:14px;line-height:1.5}
+.hero .edition-choice-description strong{color:#f4dfb9}
+.hero .edition-support{display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:4px 16px;margin:11px auto 0}
+.hero .edition-support a,.hero .edition-support button{margin:0;padding:4px 0;border:0;background:transparent;color:#f0cc93;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font:700 12px/1.5 Arial,sans-serif;letter-spacing:0;white-space:normal}
+.hero .edition-support a:hover,.hero .edition-support button:hover{color:#fff0cb}
+.hero .edition-coverage-note{max-width:870px;margin:17px auto 0;color:#d9c9bd;font-size:14px;line-height:1.55}
+.hero .edition-coverage-note strong{color:#f2d7a5}
+@media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr;max-width:500px}.hero .edition-choice{padding:15px}.hero .edition-choice .btn{min-height:59px}}
 </style>
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the maps</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">
-<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 public browser beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede"> RPGPOV is a first-person companion for tabletop roleplaying: faithful adventure maps, freedom to explore, and a location-aware AI Dungeon Master for solo or group play. Ravenloft I6 is our featured beta adventure.</p><div class="buttons hero-primary-action"><a class="btn hero-enter-adventure" href="#explore">Enter the Adventure</a></div>
-<div class="beta-install-actions" aria-label="Windows beta installation options">
-  <!-- Update this on-site link when the Basic Windows setup EXE is published. -->
-  <a class="btn beta-install-basic" href="downloads/Ravenloft-I6_BASIC_v1.0_Setup.exe">⬇ Install Basic Beta</a>
-  <button class="btn beta-install-full" type="button" disabled aria-label="Full Beta installer coming soon">Full Beta — Coming Soon</button>
+<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 Beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede">Explore Ravenloft I6 in first person. Play in your browser or download the Windows beta for AI Dungeon Master and multiplayer.</p>
+<div class="edition-choices" aria-label="Choose your Ravenloft I6 beta">
+ <div class="edition-choice browser">
+  <a class="btn hero-enter-adventure" href="#explore">Explore Browser Beta</a>
+  <p class="edition-choice-description"><strong>Play instantly in your browser.</strong><br/>Includes Auto DM and all the beta locations.</p>
+ </div>
+ <div class="edition-choice download">
+  <a class="btn beta-install-basic" href="downloads/Ravenloft-I6_BASIC_v1.0_Setup.exe">⬇ Download Full Beta</a>
+  <p class="edition-choice-description"><strong>Windows download.</strong><br/>Same locations and Auto DM, plus <strong>AI Dungeon Master + Multiplayer.</strong></p>
+  <div class="edition-support" aria-label="Windows beta setup help">
+   <button type="button" id="showApiKeySteps" class="beta-key-guide-link" aria-haspopup="dialog" aria-controls="apiKeySteps">How to get your AI secret key</button>
+   <a href="#multiplayer-video">▶ Multiplayer video</a>
+   <a href="#ai-dm-videos">▶ AI DM video</a>
+  </div>
+ </div>
 </div>
-<p class="beta-install-description"><strong>Free Windows Basic Beta:</strong> Explore the same limited Barovia preview and two Castle Ravenloft levels, now with <strong>Auto DM, AI Dungeon Master, and multiplayer</strong> to test. Full Barovia is coming in the Full Beta. <strong>AI DM requires your own OpenAI API key.</strong></p>
-<div class="beta-demo-links"><a href="#ai-dm-videos">▶ View AI DM Videos</a><a href="#multiplayer-video">▶ View Multiplayer Video</a></div>
-<button type="button" id="showApiKeySteps" class="beta-key-guide-link" aria-haspopup="dialog" aria-controls="apiKeySteps">How do I get an OpenAI secret API key? <span aria-hidden="true">↗</span></button></div></div>
+<p class="edition-coverage-note"><strong>Both versions have the same maps and Auto DM:</strong> Old Svalich Road, Barovia streets, the Blood of the Vine Tavern, Tser Pool, and two Castle Ravenloft dungeon levels. AI DM requires your own OpenAI API key.</p></div></div>
 <section id="explore"><div class="wrap"><div class="section-label">Choose your destination</div><h2 class="section-title">Explore the World of Ravenloft</h2><p class="section-intro">Explore the Old Svalich Road, walk the streets of Barovia, visit the Blood of the Vine Tavern, discover Tser Pool, and venture through two levels of Castle Ravenloft—all in first-person 3D, right in your browser.</p><div class="cards">
 <article class="card"><div class="screen">
 <svg aria-label="Illustration based on the beta: a wide dirt road between spruce woods, with the Last Chance Inn on the left" preserveaspectratio="xMidYMid slice" role="img" viewbox="0 0 640 312">

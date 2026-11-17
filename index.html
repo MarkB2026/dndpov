@@ -190,6 +190,28 @@
 .hero .edition-choice.adventure .edition-details .edition-level-tag strong{min-width:64px}
 .hero .edition-choice.adventure .edition-coming-soon{margin-top:auto;transform:translateY(9px)}
 
+/* Overlay dropdowns: expanding a list never changes card or grid height. */
+.hero{overflow:visible;isolation:isolate}
+.hero .edition-choices{position:relative;z-index:2}
+.hero .edition-choice.adventure{position:relative;z-index:3}
+.hero .edition-choice.adventure .edition-locked-card{overflow:visible}
+.hero .edition-choice.adventure .edition-card-header{border-radius:6px 6px 0 0}
+.hero .edition-choice.adventure .edition-details{position:relative;overflow:visible}
+.hero .edition-choice.adventure .edition-details[open]{z-index:20}
+.hero .edition-choice.adventure .edition-details[open] > .edition-levels{
+  position:absolute;top:calc(100% + 3px);left:-1px;width:calc(100% + 2px);
+  max-height:min(350px,55vh);margin:0;padding:8px;
+  border:1px solid #a19a9e;border-radius:0 0 6px 6px;
+  background:linear-gradient(160deg,#39353a,#242126);
+  box-shadow:0 16px 36px #000d;overflow-y:auto;z-index:21;
+}
+/* The exact supplied artwork gets a larger, seamless treatment without losing its details. */
+.hero .hero-logo{
+  width:min(94%,850px);height:auto;margin:15px auto 4px;
+  mix-blend-mode:screen;filter:brightness(1.04) contrast(1.08) saturate(1.06);
+}
+@media(max-width:760px){.hero .hero-logo{width:min(98%,650px)}}
+
 </style>
 </head>
 <body>
@@ -278,7 +300,7 @@
      <li class="included">Entire Village of Barovia — all landmarks</li>
      <li class="included">Complete Castle Ravenloft</li>
     </ul>
-    <details class="edition-details">
+    <details class="edition-details" name="adventure-package-lists">
      <summary>Village of Barovia <span class="edition-detail-count">7 locations</span></summary>
      <div class="edition-levels edition-landmarks">
       <span class="edition-level-tag"><strong>E1</strong> Bildrath's Mercantile (shop)</span>
@@ -290,7 +312,7 @@
       <span class="edition-level-tag"><strong>E7</strong> Village Cemetery</span>
      </div>
     </details>
-    <details class="edition-details">
+    <details class="edition-details" name="adventure-package-lists">
      <summary>Castle Ravenloft <span class="edition-detail-count">Levels 2–12</span></summary>
      <div class="edition-levels edition-levels-full">
       <span class="edition-level-tag"><strong>Level 2</strong> Walls of Ravenloft</span>

@@ -164,7 +164,7 @@
   background:linear-gradient(110deg,#494549,#302d30);
   overflow:hidden;color:#e1dcde;
 }
-.hero .edition-choice.adventure .edition-details:first-of-type{margin-top:19px}
+.hero .edition-choice.adventure .edition-details:first-of-type{margin-top:0}
 .hero .edition-choice.adventure .edition-details summary{
   position:relative;display:flex;align-items:center;gap:8px;min-height:43px;
   padding:10px 35px 10px 12px;list-style:none;cursor:pointer;
@@ -191,6 +191,32 @@
 .hero .edition-choice.adventure .edition-coming-soon{margin-top:auto;transform:translateY(9px)}
 
 /* Overlay dropdowns: expanding a list never changes card or grid height. */
+/* Keep text compact while lining up the level buttons across all three cards. */
+.hero .edition-points{align-content:start}
+.hero .edition-choice.adventure .edition-access-spacer{display:none}
+@media(min-width:1051px){
+  .hero .edition-choice .edition-card-header{min-height:136px;box-sizing:border-box}
+  .hero .edition-choice .edition-card-body,
+  .hero .edition-choice.adventure .edition-card-body{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto minmax(110px,max-content) auto minmax(174px,max-content) auto auto 1fr;
+    align-content:start;
+  }
+  .hero .edition-choice.adventure .edition-access-spacer{display:block;visibility:hidden}
+  .hero .edition-choice.adventure .edition-package-select{margin-top:10px}
+  .hero .edition-choice.adventure .edition-package-select>.edition-details,
+  .hero .edition-choice.adventure .edition-package-select>.edition-details:first-of-type{margin:0}
+  .hero .edition-choice.adventure .edition-package-select .edition-details summary{
+    min-height:35px;padding:8px 35px 8px 12px;
+  }
+}
+.hero .edition-choice.download{position:relative}
+.hero .edition-choice.download>.btn{padding-bottom:76px}
+.hero .edition-choice.download>.edition-support{
+  position:absolute;bottom:14px;left:18px;right:18px;
+  padding:12px 5px 0;border-top:1px solid #d7b17044;
+  z-index:1;
+}
 .hero{overflow:visible;isolation:isolate}
 .hero .edition-choices{position:relative;z-index:2}
 .hero .edition-choice.adventure{position:relative;z-index:3}
@@ -478,6 +504,8 @@
      <li class="included">Entire Village of Barovia — all landmarks and interiors</li>
      <li class="included">Complete Castle Ravenloft</li>
     </ul>
+    <span class="edition-list-heading edition-access-title edition-access-spacer" aria-hidden="true">Castle levels included</span>
+    <div class="edition-levels edition-package-select">
     <details class="edition-details" name="adventure-package-lists">
      <summary>Village of Barovia <span class="edition-detail-count">7 locations</span></summary>
      <div class="edition-levels edition-landmarks">
@@ -506,6 +534,7 @@
       <span class="edition-level-tag"><strong>Level 12</strong> Dungeon and Catacombs</span>
      </div>
     </details>
+    </div>
     <span class="edition-coming-soon">Unavailable in the current beta</span>
    </div>
   </div>

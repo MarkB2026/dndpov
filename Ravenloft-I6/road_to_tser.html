@@ -270,6 +270,18 @@ for(let z=-53;z>=-258;z-=3){
  const x=pathX(z)+25+65*bend+5*Math.sin((z+53)*.034);
  followRiverPts.push(new THREE.Vector3(x,.105,z));
 }
+// v3.51 — physically join the winding river to BOTH crossing surfaces.
+// The earlier cosmetic wash did not extend the channel far enough into them.
+const firstChannelPoint=followRiverPts[0];
+followRiverPts.unshift(
+ new THREE.Vector3(firstChannelPoint.x-4.0,.105,-43),
+ new THREE.Vector3(firstChannelPoint.x-2.0,.105,-48)
+);
+const joinFallsX=pathX(-276);
+const joinFallsAngle=Math.atan((pathX(-274)-pathX(-278))/4);
+for(const along of [80,68])followRiverPts.push(new THREE.Vector3(
+ joinFallsX+along*Math.cos(joinFallsAngle),.105,-276-along*Math.sin(joinFallsAngle)
+));
 const followRiverCurve=new THREE.CatmullRomCurve3(followRiverPts);
 const followRiverSamples=followRiverCurve.getPoints(90);
 const followRiverVerts=[],followRiverIndices=[];
@@ -277,7 +289,13 @@ for(let i=0;i<followRiverSamples.length;i++){
  const p=followRiverSamples[i],pr=followRiverSamples[Math.max(0,i-1)],ne=followRiverSamples[Math.min(followRiverSamples.length-1,i+1)];
  const dx=ne.x-pr.x,dz=ne.z-pr.z,l=Math.hypot(dx,dz)||1;
  const nx=-dz/l,nz=dx/l;
- for(const side of [-1,1])followRiverVerts.push(p.x+nx*side*6,.105,p.z+nz*side*6);
+// Flared mouths make the joining channel read as one connected waterway.
+ const t=i/(followRiverSamples.length-1);
+ const start=Math.max(0,1-t/.13),end=Math.max(0,Math.min(1,(t-.81)/.19));
+ const easeStart=start*start*(3-2*start),easeEnd=end*end*(3-2*end);
+ const halfWidth=6+4.5*easeStart+10.5*easeEnd;
+ for(const side of [-1,1])followRiverVerts.push(
+  p.x+nx*side*halfWidth,.105,p.z+nz*side*halfWidth);
  if(i){const j=i*2;followRiverIndices.push(j-2,j-1,j,j-1,j+1,j)}
 }
 const followRiverGeo=new THREE.BufferGeometry();followRiverGeo.setAttribute('position',new THREE.Float32BufferAttribute(followRiverVerts,3));followRiverGeo.setIndex(followRiverIndices);followRiverGeo.computeVertexNormals();scene.add(new THREE.Mesh(followRiverGeo,watermat));
@@ -289,6 +307,108 @@ function fallsBox(x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,
 fallsBox(0,.43,0,11,.85,19,wood);
 for(const side of [-1,1]){fallsBox(side*5.15,1.38,0,.3,.3,19,wood);for(let z=-8;z<=8;z+=2.7)fallsBox(side*5.15,.9,z,.34,1.5,.34,wood)}
 for(let z=-8;z<=8;z+=1.15)fallsBox(0,.9,z,10,.12,.12,plankMat);
+// v3.51 — true water confluences: wide, terrain-level water geometry
+// overlaps the original crossing planes and the now-extended winding channel.
+// Whitewater is a surface effect, not a substitute for connecting the water.
+{
+ const riverMouth=followRiverSamples[followRiverSamples.length-1];
+ const a=fallsGroup.rotation.y;
+ const fallsMouthX=fallsX+80*Math.cos(a),fallsMouthZ=fallsZ-80*Math.sin(a);
+ const washX=(riverMouth.x+fallsMouthX)*.5;
+ const washZ=(riverMouth.z+fallsMouthZ)*.5;
+ function joinWaterAt(x,z,rx,rz,seed){
+  const outline=new THREE.Shape();
+  for(let i=0;i<=32;i++){
+   const theta=2*Math.PI*i/32;
+   const wobble=1+.075*Math.sin(theta*5+seed)+.05*Math.cos(theta*7-seed);
+   const px=Math.cos(theta)*rx*wobble,pz=Math.sin(theta)*rz*wobble;
+   if(i)outline.lineTo(px,-pz);else outline.moveTo(px,-pz);
+  }
+  outline.closePath();
+  const joined=new THREE.Mesh(new THREE.ShapeGeometry(outline),
+   new THREE.MeshStandardMaterial({color:0x293f4a,roughness:.28,
+    metalness:.2,transparent:true,opacity:.89,side:THREE.DoubleSide,
+    depthWrite:false}));
+  joined.rotation.x=-Math.PI/2;
+  joined.position.set(x,.116,z);
+  joined.renderOrder=2;scene.add(joined);
+ }
+ // Both junctions are now broad water surfaces, not pointed V-shaped seams.
+ joinWaterAt(washX,washZ,25,19,1.4);
+ const firstMouth=followRiverSamples[0];
+ joinWaterAt(firstMouth.x+1.4,firstMouth.z-1.4,15,13,2.3);
+ const washCanvas=document.createElement('canvas');
+ washCanvas.width=washCanvas.height=512;
+ const q=washCanvas.getContext('2d');
+ const mist=q.createRadialGradient(256,256,10,256,256,250);
+ mist.addColorStop(0,'rgba(215,242,236,.33)');
+ mist.addColorStop(.38,'rgba(198,229,223,.18)');
+ mist.addColorStop(.75,'rgba(198,229,223,.07)');
+ mist.addColorStop(1,'rgba(198,229,223,0)');
+ q.fillStyle=mist;q.fillRect(0,0,512,512);
+ let washSeed=814209;
+ function washRand(){washSeed=(Math.imul(washSeed,1664525)+1013904223)>>>0;return washSeed/4294967296;}
+ for(let i=0;i<400;i++){
+  const theta=washRand()*Math.PI*2,r=Math.sqrt(washRand())*229;
+  const x=256+Math.cos(theta)*r,y=256+Math.sin(theta)*r*.86;
+  const strength=Math.max(0,1-r/244);
+  q.strokeStyle=`rgba(229,247,241,${(.17+washRand()*.52)*strength})`;
+  q.lineWidth=.9+washRand()*3;
+  q.beginPath();q.ellipse(x,y,5+washRand()*27,1+washRand()*4,
+   -.35+washRand()*.25,-.55,Math.PI*.93);q.stroke();
+ }
+ const washTexture=new THREE.CanvasTexture(washCanvas);
+ washTexture.colorSpace=THREE.SRGBColorSpace;
+ const washMat=new THREE.MeshBasicMaterial({map:washTexture,transparent:true,
+  opacity:.95,depthWrite:false,side:THREE.DoubleSide});
+ function washAt(x,z,w,d){
+  const surface=new THREE.Mesh(new THREE.PlaneGeometry(w,d),washMat);
+  surface.rotation.x=-Math.PI/2;
+  surface.position.set(x,.20,z);surface.renderOrder=5;scene.add(surface);
+ }
+ washAt(washX,washZ,45,34);
+ washAt(firstMouth.x+1.4,firstMouth.z-1.4,27,23);
+ // Angular rocks embedded in the wet banks and the meeting water, not floating.
+ const rockGeo=new THREE.DodecahedronGeometry(1,0);
+ const rockMats=[0x60675f,0x77776c,0x505850,0x858476].map(color=>
+  new THREE.MeshStandardMaterial({color,roughness:1,flatShading:true}));
+ let rockSeed=512041;
+ function rockRand(){rockSeed=(Math.imul(rockSeed,1664525)+1013904223)>>>0;return rockSeed/4294967296;}
+ function putRiverBoulder(x,z,r,submerged=false){
+  const mesh=new THREE.Mesh(rockGeo,rockMats[Math.floor(rockRand()*rockMats.length)]);
+  const h=r*(.75+rockRand()*.32);
+  mesh.scale.set(r*(1.05+rockRand()*.3),h,r*(.82+rockRand()*.28));
+  // Bury the lower half so every boulder meets ground or the riverbed.
+  mesh.position.set(x,(submerged?.08:0)+h*.28,z);
+  mesh.rotation.set(rockRand()*.36,rockRand()*Math.PI*2,rockRand()*.34);
+  scene.add(mesh);
+  if(submerged){
+   const foam=new THREE.Mesh(new THREE.RingGeometry(r*.73,r*1.28,26),
+    new THREE.MeshBasicMaterial({color:0xc7e1da,transparent:true,opacity:.21,
+     depthWrite:false,side:THREE.DoubleSide}));
+   foam.rotation.x=-Math.PI/2;foam.position.set(x,.185,z);
+   foam.renderOrder=4;scene.add(foam);
+  }
+ }
+ const mouthRocks=[
+  [-8,5,1.75,false],[-4,10,1.3,false],[5,9,2.05,false],
+  [10,3,1.65,false],[11,-6,2.0,false],[-9,-7,1.7,false],
+  [-4,-3,1.05,true],[1,1,1.4,true],[5,-4,1.15,true],
+  [-2,7,.9,true],[7,0,.85,true]
+ ];
+ for(const [dx,dz,r,wet] of mouthRocks)putRiverBoulder(washX+dx,washZ+dz,r,wet);
+ // Break up the straight Tser shoreline with scattered rocks on both banks.
+ // All are outside the bridge's railings and the road's travelling surface.
+ for(let i=0;i<26;i++){
+  const localX=(i%2?1:-1)*(17+rockRand()*61);
+  const side=i%4<2?-1:1;
+  const localZ=side*(6.0+rockRand()*3.0);
+  const x=fallsX+localX*Math.cos(a)+localZ*Math.sin(a);
+  const z=fallsZ-localX*Math.sin(a)+localZ*Math.cos(a);
+  if(Math.hypot(x-washX,z-washZ)<10)continue;
+  putRiverBoulder(x,z,.68+rockRand()*1.25,Math.abs(localZ)<6.65);
+ }
+}
 // v3.16: Living river surfaces. Fine translucent foam moves with the current;
 // shallow ripples rise and fall, with little eddies beside the bridge timbers.
 // The underlying river, banks, crossings and walkable road remain unchanged.
@@ -1772,7 +1892,14 @@ function inRiverWater(x,z){
  if(inCrossingWater(x,z,bridgeX,riverZ,bridgeAngle,170,9))return true;
  if(inCrossingWater(x,z,fallsX,fallsZ,fallsGroup.rotation.y,85,6))return true;
  // The winding tributary extends from the first crossing past the camp.
- if(z<=-48&&z>=-265&&followRiverSamples.some(p=>Math.hypot(p.x-x,p.z-z)<9.5))return true;
+ if(z<=-43&&z>=-266&&followRiverSamples.some(p=>Math.hypot(p.x-x,p.z-z)<17.8))return true;
+ // Both joining pools are water, including the formerly exposed V-shaped banks.
+ const fallsMouthX=fallsX+74*Math.cos(fallsGroup.rotation.y);
+ const fallsMouthZ=fallsZ-74*Math.sin(fallsGroup.rotation.y);
+ if(((x-fallsMouthX)/29)**2+((z-fallsMouthZ)/22)**2<1)return true;
+ const bridgeMouthX=followRiverSamples[0].x+1.4;
+ const bridgeMouthZ=followRiverSamples[0].z-1.4;
+ if(((x-bridgeMouthX)/19)**2+((z-bridgeMouthZ)/16)**2<1)return true;
  return false;
 }
 let seed=93471;function rand(){seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/4294967296}const temp=new THREE.Object3D();const counts=[0,0,0,0];let usedTrunks=0;
@@ -1808,7 +1935,11 @@ treeTrunks.count=usedTrunks;treeTrunks.instanceMatrix.needsUpdate=true;scene.add
    const size=.30+.24*(.5+.5*Math.sin(z*2.17+side*4));
    const sx=x+side*dist*nx,sz=z+side*dist*nz;
    if(onFork(sx,sz,10.2)||Math.hypot(sx-westGateForkX,sz-westGateForkZ)<16)continue;
-   obj.position.set(sx,hillHeight(z)+.13+size*.24,sz);
+   // Ground the boulders on the actual sloping terrain, not the road height.
+   const lateral=Math.abs(sx-pathX(sz));
+   const shoulder=Math.max(0,1-Math.pow(Math.min(lateral,38)/38,1.7));
+   const groundY=Math.max(0,hillHeight(sz)*shoulder-.22);
+   obj.position.set(sx,groundY+.13+size*.24,sz);
    obj.rotation.set(z*.17,z*.23,z*.07);obj.scale.set(size*1.3,size*.65,size);obj.updateMatrix();stones.setMatrixAt(n++,obj.matrix);
   }
  }
@@ -1834,6 +1965,57 @@ treeTrunks.count=usedTrunks;treeTrunks.instanceMatrix.needsUpdate=true;scene.add
  scene.add(trunks);scene.add(leaves);
 }
 
+// v3.51 — large visible boulders immediately outside both carriage-road
+// shoulders.  They follow the hillside and leave the road/fork unobstructed.
+{
+ const largeRockGeo=new THREE.DodecahedronGeometry(1,0);
+ const largeRockMats=[0x73766f,0x89877c,0x626861,0x97958a].map(color=>
+  new THREE.MeshStandardMaterial({color,roughness:1,flatShading:true}));
+ let largeRockSeed=390711;
+ function largeRand(){largeRockSeed=(Math.imul(largeRockSeed,1664525)+1013904223)>>>0;return largeRockSeed/4294967296;}
+ function slopeGround(x,z){
+  const lateral=Math.abs(x-pathX(z));
+  const shoulder=Math.max(0,1-Math.pow(Math.min(lateral,38)/38,1.7));
+  return Math.max(0,hillHeight(z)*shoulder-.22);
+ }
+ let visibleBoulderCount=0;
+ function addAscentBoulder(z,side,dist,r){
+  const dx=pathX(z-1)-pathX(z+1),len=Math.hypot(dx,2);
+  const nx=2/len,nz=dx/len;
+  const x=pathX(z)+side*dist*nx,zz=z+side*dist*nz;
+  // Keep the western gate road, gate wall and carriage pull-out clear.
+  if(onFork(x,zz,9.3)||nearWesternGateWall(x,zz,7.0)||
+     Math.hypot(x-westGateForkX,zz-westGateForkZ)<17||
+     Math.hypot(x-carriageX,zz-carriageZ)<18)return;
+  const rock=new THREE.Mesh(largeRockGeo,
+   largeRockMats[Math.floor(largeRand()*largeRockMats.length)]);
+  const h=r*(1.18+largeRand()*.24);
+  const width=r*(1.06+largeRand()*.17);
+  rock.scale.set(width,h,r*(.82+largeRand()*.19));
+  // These are close to the road so the hill drops only a little; sink the
+  // lower portion into the real shoulder rather than placing at road height.
+  rock.position.set(x,slopeGround(x,zz)+h*.12,zz);
+  rock.rotation.set((largeRand()-.5)*.22,largeRand()*Math.PI*2,(largeRand()-.5)*.27);
+  scene.add(rock);visibleBoulderCount++;
+ }
+ // Staggered boulders every ~15m, from the carriage to the castle approach.
+ // The centreline stays >= 9.5m from each rock's centre, outside the 4.6m road.
+ for(let i=0,z=-365;z>=-618;i++,z-=15.3){
+  for(const side of [-1,1]){
+   const offset=9.7+largeRand()*2.7;
+   const radius=2.45+largeRand()*1.0;
+   addAscentBoulder(z+(largeRand()-.5)*5.0+side*3,side,offset,radius);
+   if(largeRand()<.55){
+    // Companion stones are lower, further from the road and clustered naturally.
+    addAscentBoulder(z-4-largeRand()*5,side,offset+3.5+largeRand()*1.5,
+     .95+largeRand()*.90);
+   }
+  }
+ }
+ // A handful of memorable craggy outcrops near the larger bends.
+ for(const [z,side] of [[-376,-1],[-447,1],[-493,-1],[-544,1],[-585,-1],[-610,1]])
+  addAscentBoulder(z,side,11.9,3.65);
+}
 // Eyes in the dark: pairs glow and blink sporadically from the tree line.
 const eyePairs=[];let eyeSeed=7812;
 function eyeRand(){eyeSeed=(Math.imul(1664525,eyeSeed)+1013904223)>>>0;return eyeSeed/4294967296}
@@ -2846,7 +3028,6 @@ minimap=function(){tserDrawBeforeMp();
 }catch(e){const box=document.querySelector('#error');box.style.display='block';box.textContent='Unable to start: '+e.message;console.error(e)}
 
 </script><div id="carriageOffer" style="display:none;position:fixed;z-index:1000;left:50%;top:45%;transform:translate(-50%,-50%);width:min(420px,90vw);padding:23px;background:rgba(20,22,23,.96);border:2px solid #b58b51;color:#f0d8ad;font-family:Georgia,serif;box-shadow:0 8px 40px #000a;text-align:center"><div style="font-size:22px;font-weight:bold;margin-bottom:12px">The Black Carriage</div><p>A driverless black carriage waits beside the road. Will you take the carriage to Castle Ravenloft?</p><button id="carriageYes" style="padding:9px 25px;margin:7px;background:#49301e;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">Yes — Board</button><button id="carriageNo" style="padding:9px 25px;margin:7px;background:#282828;color:#f8e3c0;border:1px solid #d2a46b;cursor:pointer">No — Walk</button></div>
-<!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
 <style id="aiDmStyle">
 #hud{width:274px;max-width:310px;border-radius:7px}
 #hud #description{display:none!important}
@@ -3516,7 +3697,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 @media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
 </style>
 
-<script id="dndpovContextDockScript" data-edition="full" data-leg="tser">
+<script id="dndpovContextDockScript" data-edition="public" data-leg="tser">
 (()=>{
   'use strict';
   const script=document.currentScript;

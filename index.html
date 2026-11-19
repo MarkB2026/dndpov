@@ -899,6 +899,45 @@ summary>.rpgpov-panel-icon {
 #multiplayer .multiplayer-feature-in-panel img{max-width:100%;}
 #multiplayer{scroll-margin-top:85px}
 @media(max-width:650px){.hero .ravenloft-i6-hero-banner{margin:10px auto 15px}#multiplayer .multiplayer-feature-in-panel>.wrap{width:calc(100% - 12px)}}
+</style><style id="edition-comparison-cinematic-v2">
+/* Cinematic edition comparison: self-contained, no new image dependencies. */
+.hero .edition-choices{max-width:1160px;gap:18px;align-items:stretch;text-align:left}
+.hero .edition-choice{--accent:#b993e4;--accent2:#65418b;position:relative;min-width:0;padding:6px;border:1px solid var(--accent)!important;border-radius:12px;background:linear-gradient(150deg,#362642,#16131b 58%,#211729)!important;box-shadow:0 20px 38px #0009,0 0 20px #9d6fd21b!important;filter:none!important;opacity:1!important;overflow:visible}
+.hero .edition-choice.download{--accent:#edbf6d;--accent2:#8b5d26;background:linear-gradient(150deg,#49331f,#181412 58%,#2c2017)!important}
+.hero .edition-choice.adventure{--accent:#c66b73;--accent2:#72242e;background:linear-gradient(150deg,#43232b,#191316 58%,#29181e)!important}
+.hero .edition-choice::before{content:'✧';position:absolute;top:-17px;left:50%;transform:translateX(-50%);color:var(--accent);background:#1c151d;border:1px solid var(--accent);border-radius:6px;padding:1px 12px;font-size:20px;z-index:3;line-height:1.2}
+.hero .edition-choice .btn,.hero .edition-choice .edition-locked-card{display:flex!important;flex-direction:column!important;flex:1;min-height:100%;width:100%;padding:0!important;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)!important;border-radius:8px!important;background:linear-gradient(180deg,#2c2234,#19161e 48%,#211a28)!important;color:#f4e9f6!important;text-decoration:none;box-shadow:none!important;overflow:visible}
+.hero .edition-choice.download .btn{background:linear-gradient(180deg,#34271d,#1e1916 48%,#291e18)!important;color:#fff0d6!important;padding-bottom:100px!important}
+.hero .edition-choice.adventure .edition-locked-card{background:linear-gradient(180deg,#322027,#1b171a 48%,#261a20)!important;color:#f3e4e5!important}
+.hero .edition-card-header{min-height:165px!important;display:flex!important;flex-direction:column;justify-content:flex-end;align-items:center;padding:48px 14px 17px!important;border-radius:7px 7px 0 0!important;border-bottom:1px solid var(--accent)!important;text-align:center;background:radial-gradient(ellipse at 70% 15%,#d7c1ff44,transparent 33%),linear-gradient(0deg,#1c1427 0%,#1c1427aa 48%,#433457 100%)!important}
+.hero .edition-choice.download .edition-card-header{background:radial-gradient(ellipse at 70% 15%,#ffc66b55,transparent 33%),linear-gradient(0deg,#281a10 0%,#281a10aa 48%,#6c4a28 100%)!important}
+.hero .edition-choice.adventure .edition-card-header{background:radial-gradient(ellipse at 70% 15%,#df798a44,transparent 33%),linear-gradient(0deg,#291219 0%,#291219aa 48%,#622c39 100%)!important}
+.hero .edition-card-header::before,.hero .edition-card-header::after{display:none!important}
+.hero .edition-button-title{font:700 clamp(20px,2vw,27px)/1.06 Georgia,serif!important;text-transform:uppercase;letter-spacing:.035em!important;color:#fff3df;text-shadow:0 3px 9px #000}
+.hero .edition-button-subtitle{margin-top:12px!important;padding:7px 10px;border-radius:3px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 60%,#31202c),transparent);color:#fff5e8!important;font:700 11px/1.4 Arial,sans-serif!important}
+.hero .edition-card-body{display:flex!important;flex:1!important;flex-direction:column!important;padding:13px 17px 22px!important;gap:0;grid-template-rows:none!important}
+.hero .edition-list-heading{margin:14px 0 9px!important;padding:0 0 7px!important;border-top:0!important;border-bottom:1px solid color-mix(in srgb,var(--accent) 32%,transparent);font:700 13px Georgia,serif!important;letter-spacing:.08em!important;color:var(--accent)!important}
+.hero .edition-points{display:grid;gap:8px!important;min-height:0!important;margin:0!important}
+.hero .edition-choice .edition-points li{font:12px/1.48 Arial,sans-serif!important;padding-left:21px!important;color:#f0e7e8}
+.hero .edition-choice .edition-points li.not-included{color:#a9a0aa!important}
+.hero .edition-choice .edition-points li::before{color:var(--accent)!important}
+.hero .edition-choice .edition-points li.not-included::before{color:#8b8088!important}
+.hero .edition-access-title{margin-top:19px!important}
+.hero .edition-levels{margin:2px 0 0!important;gap:8px!important}
+.hero .edition-level-tag{border:1px solid var(--accent)!important;border-left:3px solid var(--accent)!important;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 19%,#17131a),#17131a)!important;color:#f5ebeb!important;padding:9px!important;font-size:12px!important}
+.hero .edition-level-tag strong{color:var(--accent)!important}
+.hero .edition-choice.browser .edition-card-body::after{content:'▶  ENTER BROWSER ADVENTURE';display:block;margin-top:auto;padding:13px 8px;border:1px solid #d9b6fa;border-radius:6px;text-align:center;background:linear-gradient(#7640a0,#482267);color:white;font:700 12px Arial,sans-serif;box-shadow:0 0 15px #7d43a655}
+.hero .edition-choice.download .edition-card-body::after{content:'⬇  DOWNLOAD WINDOWS BETA';display:block;margin-top:auto;padding:13px 8px;border:1px solid #f5d392;border-radius:6px;text-align:center;background:linear-gradient(#b07c32,#70491d);color:#fff7e7;font:700 12px Arial,sans-serif;box-shadow:0 0 15px #c48b3555}
+.hero .edition-choice.browser .edition-card-body,.hero .edition-choice.download .edition-card-body{padding-bottom:24px!important}
+.hero .edition-choice.download>.edition-support{bottom:14px!important;left:15px!important;right:15px!important;gap:4px 12px!important}
+.hero .edition-choice.download>.edition-support a,.hero .edition-choice.download>.edition-support button{font-size:11px!important}
+.hero .edition-choice.adventure .edition-details{border-color:#9c656b!important;background:#32242b!important}
+.hero .edition-choice.adventure .edition-coming-soon{margin-top:auto!important;transform:none!important;padding:13px 7px!important;border:1px solid #a46b71!important;background:#38252b;color:#e5c5c8}
+.hero .edition-choice.adventure .edition-access-spacer{display:none!important}
+.hero .edition-choice.adventure .edition-package-select{margin-top:24px!important}
+.hero .edition-choice.adventure .edition-details[open]>.edition-levels{background:#2a2027!important}
+@media(max-width:1050px){.hero .edition-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .edition-choice.adventure{grid-column:1/-1;max-width:430px;margin:auto}}
+@media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr}.hero .edition-choice.adventure{grid-column:auto;max-width:none}.hero .edition-card-header{min-height:145px!important}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
@@ -918,7 +957,6 @@ summary>.rpgpov-panel-icon {
 <div class="core-entry-links"><a href="#explore">Choose another adventure location</a><a href="#edition-comparison">Compare editions &amp; setup</a></div>
 </div>
 </div></div>
-
 <div aria-label="RPGPOV exploration and guides" class="rpgpov-section-accordions"><details class="rpgpov-section-panel rpgpov-media-panel rpgpov-refined-panel"><summary><span class="rpgpov-panel-index">01</span><span class="rpgpov-panel-glyph rpgpov-uniform-icon">▣</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">See the Adventure</strong><small>3D screenshots and scenes from Ravenloft</small></span><span class="rpgpov-panel-action">12 screenshots</span></summary><section aria-labelledby="rpgpov-gallery-title" id="rpgpov-image-gallery">
 <div class="wrap">
 <h2 class="section-title" id="rpgpov-gallery-title">Scenes</h2>

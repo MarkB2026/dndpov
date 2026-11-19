@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="trapper">
+ <title>Trapper</title>
+ <defs>
+  <filter id="trapper-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="trapper-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="trapper-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="trapper-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" seed="73" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.56 0.81" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="trapper-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="73" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="trapper-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="trapper-skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a464e"/><stop offset="0.5" stop-color="#2a2730"/><stop offset="1" stop-color="#0e0d10"/></linearGradient><radialGradient id="trapper-maw" cx="0.5" cy="0.4" r="0.5"><stop offset="0" stop-color="#5a0e14"/><stop offset="0.7" stop-color="#240608"/><stop offset="1" stop-color="#0a0203"/></radialGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="130" ry="10" fill="url(#trapper-shadow)"/>
+<g filter="url(#trapper-shag)"><g filter="url(#trapper-tex)"><path d="M20 214 C30 196 46 186 60 176 C72 150 92 120 118 104 C134 94 148 84 160 70 C172 84 186 94 202 104 C228 120 248 150 260 176 C274 186 290 196 300 214 C280 208 264 214 248 208 C230 214 212 208 196 214 C176 208 144 208 124 214 C108 208 90 214 72 208 C56 214 40 208 20 214 Z" fill="url(#trapper-skin)"/></g></g>
+<ellipse cx="96" cy="160" rx="16" ry="8" fill="#5a5660" opacity=".35"/>
+<ellipse cx="220" cy="158" rx="18" ry="9" fill="#5a5660" opacity=".35"/>
+<ellipse cx="160" cy="112" rx="14" ry="7" fill="#5a5660" opacity=".35"/>
+<ellipse cx="130" cy="190" rx="12" ry="6" fill="#5a5660" opacity=".35"/>
+<ellipse cx="196" cy="192" rx="14" ry="6" fill="#5a5660" opacity=".35"/>
+<ellipse cx="60" cy="196" rx="10" ry="5" fill="#5a5660" opacity=".35"/>
+<ellipse cx="262" cy="196" rx="10" ry="5" fill="#5a5660" opacity=".35"/>
+<path d="M118 104 C134 96 148 86 160 72 M60 176 C72 152 92 124 118 104" fill="none" stroke="#7a7682" stroke-width="1.6" opacity=".5"/>
+<path d="M104 176 C112 146 134 132 160 132 C186 132 208 146 216 176 C196 188 124 188 104 176Z" fill="url(#trapper-maw)"/>
+<path d="M110 170 l3 6.0 l3 -6.0 M117 162.1 l3 6.4 l3 -6.4 M124 159.1 l3 6.8 l3 -6.8 M131 156.2 l3 7.3 l3 -7.3 M138 153.2 l3 7.7 l3 -7.7 M145 150.3 l3 8.1 l3 -8.1 M152 147.4 l3 8.5 l3 -8.5 M159 144.4 l3 8.9 l3 -8.9 M166 146.5 l3 8.6 l3 -8.6 M173 149.5 l3 8.2 l3 -8.2 M180 152.4 l3 7.8 l3 -7.8 M187 155.3 l3 7.4 l3 -7.4 M194 158.3 l3 7.0 l3 -7.0 M201 161.2 l3 6.5 l3 -6.5 M208 164.2 l3 6.1 l3 -6.1" fill="#d8ceb4" transform="translate(0 -6)"/>
+<path d="M116 184 l3 -5.8 l3 5.8 M124 184 l3 -6.2 l3 6.2 M132 184 l3 -6.6 l3 6.6 M140 184 l3 -7.0 l3 7.0 M148 184 l3 -7.4 l3 7.4 M156 184 l3 -7.8 l3 7.8 M164 184 l3 -7.8 l3 7.8 M172 184 l3 -7.4 l3 7.4 M180 184 l3 -7.0 l3 7.0 M188 184 l3 -6.6 l3 6.6 M196 184 l3 -6.2 l3 6.2" fill="#c8bea4"/>
+<path d="M140 168 C150 160 170 160 180 168" fill="none" stroke="#000" stroke-width="5" opacity=".5"/>
+<ellipse cx="146" cy="108" rx="7.2" ry="4.8" fill="#c23849" opacity="0.85" filter="url(#trapper-glow)" transform="rotate(-20 146 108)"/>
+<ellipse cx="174" cy="108" rx="7.2" ry="4.8" fill="#c23849" opacity="0.85" filter="url(#trapper-glow)" transform="rotate(20 174 108)"/>
+<ellipse cx="134" cy="118" rx="4.8" ry="3.4" fill="#c23849" opacity="0.85" filter="url(#trapper-glow)" transform="rotate(-24 134 118)"/>
+<ellipse cx="186" cy="118" rx="4.8" ry="3.4" fill="#c23849" opacity="0.85" filter="url(#trapper-glow)" transform="rotate(24 186 118)"/>
+<ellipse cx="146" cy="108" rx="3" ry="2" fill="#c23849" transform="rotate(-20 146 108)"/>
+<ellipse cx="145.6" cy="107.7" rx="1.4" ry="0.8" fill="#fff4e8" opacity=".9" transform="rotate(-20 146 108)"/>
+<ellipse cx="174" cy="108" rx="3" ry="2" fill="#c23849" transform="rotate(20 174 108)"/>
+<ellipse cx="173.6" cy="107.7" rx="1.4" ry="0.8" fill="#fff4e8" opacity=".9" transform="rotate(20 174 108)"/>
+<ellipse cx="134" cy="118" rx="2" ry="1.4" fill="#c23849" transform="rotate(-24 134 118)"/>
+<ellipse cx="133.7" cy="117.8" rx="0.9" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(-24 134 118)"/>
+<ellipse cx="186" cy="118" rx="2" ry="1.4" fill="#c23849" transform="rotate(24 186 118)"/>
+<ellipse cx="185.7" cy="117.8" rx="0.9" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(24 186 118)"/>
+</svg>

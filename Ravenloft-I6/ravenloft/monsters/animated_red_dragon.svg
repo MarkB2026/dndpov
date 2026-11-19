@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" role="img" aria-label="Animated stone dragon with long snout, wings, claws, and curling tail">
+<title>Animated Stone Dragon</title>
+<g stroke="#171a20" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<!-- curling tail -->
+<path d="M318 253 Q411 246 428 185 Q437 144 406 137 Q380 135 383 162 Q396 155 400 172 Q400 211 332 210 Z" fill="#434750"/>
+<!-- broad folded wings -->
+<path d="M215 170 Q137 102 79 42 L95 139 L42 112 L82 218 L147 204 L184 239 Z" fill="#414650"/>
+<path d="M275 170 Q352 88 424 58 L398 151 L451 130 L402 233 L325 210 L294 235 Z" fill="#454a54"/>
+<path d="M215 171 L103 91 L129 176 L79 153 L131 215" fill="none" stroke="#717782" stroke-width="4"/>
+<path d="M274 171 L396 99 L365 185 L411 165 L356 218" fill="none" stroke="#777d86" stroke-width="4"/>
+<!-- heavy hindquarters and muscular body -->
+<path d="M171 197 Q177 155 226 145 L287 154 Q326 176 329 226 L312 280 L276 295 L195 289 L161 265 Z" fill="#565b65"/>
+<path d="M193 221 Q214 208 240 223 Q263 204 293 223" fill="none" stroke="#888e98" stroke-width="5"/>
+<path d="M184 250 L157 296 L139 303 L141 317 L167 314 L185 302 L211 266" fill="#454a53"/>
+<path d="M287 248 L317 292 L340 299 L340 314 L315 315 L296 301 L269 271" fill="#454a53"/>
+<!-- muscular forearms and talons -->
+<path d="M199 205 Q170 217 170 254 L153 285 L164 298 L182 293 L203 263 L225 230 Z" fill="#636873"/>
+<path d="M277 205 Q311 217 311 253 L329 285 L317 299 L300 293 L276 261 L255 230 Z" fill="#636873"/>
+<path d="M154 286 L145 306 M165 292 L161 310 M176 290 L179 309 M326 287 L338 307 M316 293 L318 312 M304 292 L298 309" fill="none" stroke="#b7b7ae" stroke-width="5"/>
+<!-- neck, shoulders and horned head -->
+<path d="M208 192 Q205 152 221 128 L214 108 L236 116 L251 90 L270 118 L292 108 L285 135 Q302 164 282 200 Z" fill="#626873"/>
+<path d="M215 126 L193 76 L226 97 L233 57 L253 94 L283 61 L277 106 L307 83 L290 141" fill="#444b56"/>
+<!-- elongated dragon muzzle, distinct from rounded gargoyle -->
+<path d="M211 140 Q229 124 249 132 Q270 124 286 142 L303 180 L290 202 L269 207 L253 197 L235 207 L211 202 L197 182 Z" fill="#777d85"/>
+<path d="M206 169 Q234 177 249 171 Q275 179 294 168 L290 193 Q267 207 249 196 Q226 208 209 191 Z" fill="#4b5059"/>
+<path d="M214 186 L225 198 L233 184 L243 199 L254 185 L266 198 L275 183 L286 195" fill="none" stroke="#d4c9aa" stroke-width="3"/>
+<path d="M213 152 L235 149 L230 158 L217 158 Z M266 149 L286 152 L282 158 L270 158 Z" fill="#f0a448" stroke="#4b3030" stroke-width="2"/>
+<path d="M226 179 L230 181 M276 179 L272 181" stroke="#171a20" stroke-width="5"/>
+<!-- stone texture accents -->
+<path d="M182 233 L191 242 M299 236 L290 245 M236 261 L245 272 M259 260 L270 271" stroke="#969ba3" stroke-width="3"/>
+</g></svg>

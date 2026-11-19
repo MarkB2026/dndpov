@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="iron golem">
+ <title>Iron Golem</title>
+ <defs>
+  <filter id="iron_golem-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="iron_golem-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="iron_golem-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="iron_golem-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3" seed="83" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.44 0.75" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="iron_golem-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="83" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="iron_golem-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="iron_golem-m" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#16161a"/><stop offset="0.35" stop-color="#5a5a62"/><stop offset="0.5" stop-color="#7a7a84"/><stop offset="0.7" stop-color="#3a3a42"/><stop offset="1" stop-color="#0e0e12"/></linearGradient><radialGradient id="iron_golem-fur" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff0b0"/><stop offset="0.4" stop-color="#ff9a3a"/><stop offset="0.8" stop-color="#c03a10"/><stop offset="1" stop-color="#400a04"/></radialGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="92" ry="9" fill="url(#iron_golem-shadow)"/>
+<g filter="url(#iron_golem-tex)">
+<path d="M118 160 L150 160 L152 210 L156 218 L112 218 L116 210Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.4"/>
+<path d="M117 186 L151 186" stroke="#08080a" stroke-width="1.6"/>
+<path d="M170 160 L202 160 L204 210 L208 218 L164 218 L168 210Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.4"/>
+<path d="M169 186 L203 186" stroke="#08080a" stroke-width="1.6"/>
+<path d="M100 84 C120 70 200 70 220 84 L212 126 C206 146 194 160 182 166 L138 166 C126 160 114 146 108 126Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.6"/>
+<path d="M78 82 C84 70 104 68 114 78 L116 106 C104 112 86 110 78 102Z M242 82 C236 70 216 68 206 78 L204 106 C216 112 234 110 242 102Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.6"/>
+<path d="M84 104 L108 104 L104 150 L82 150Z M236 104 L212 104 L216 150 L238 150Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.4"/>
+<path d="M76 150 C76 144 110 144 110 150 L110 176 C110 184 76 184 76 176Z M210 150 C210 144 244 144 244 150 L244 176 C244 184 210 184 210 176Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.6"/>
+<path d="M84 152 L84 180 M93 152 L93 182 M102 152 L102 180 M218 152 L218 180 M227 152 L227 182 M236 152 L236 180" stroke="#08080a" stroke-width="1.2"/>
+</g>
+<ellipse cx="160" cy="120" rx="30" ry="24" fill="#ff7020" opacity=".4" filter="url(#iron_golem-glow)"/>
+<path d="M136 104 L184 104 L180 136 L140 136Z" fill="url(#iron_golem-fur)"/>
+<path d="M138 112 L182 112 M139 120 L181 120 M140 128 L180 128 M152 104 L150 136 M168 104 L170 136" stroke="#1a1414" stroke-width="2.4"/>
+<circle cx="110" cy="90" r="2" fill="#8a8a94"/><circle cx="110.4" cy="90.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="122" cy="82" r="2" fill="#8a8a94"/><circle cx="122.4" cy="82.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="198" cy="82" r="2" fill="#8a8a94"/><circle cx="198.4" cy="82.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="210" cy="90" r="2" fill="#8a8a94"/><circle cx="210.4" cy="90.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="130" cy="150" r="2" fill="#8a8a94"/><circle cx="130.4" cy="150.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="190" cy="150" r="2" fill="#8a8a94"/><circle cx="190.4" cy="150.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="120" cy="130" r="2" fill="#8a8a94"/><circle cx="120.4" cy="130.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="200" cy="130" r="2" fill="#8a8a94"/><circle cx="200.4" cy="130.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="88" cy="86" r="2" fill="#8a8a94"/><circle cx="88.4" cy="86.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="232" cy="86" r="2" fill="#8a8a94"/><circle cx="232.4" cy="86.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="96" cy="96" r="2" fill="#8a8a94"/><circle cx="96.4" cy="96.5" r="1.2" fill="#1a1a1e"/>
+<circle cx="224" cy="96" r="2" fill="#8a8a94"/><circle cx="224.4" cy="96.5" r="1.2" fill="#1a1a1e"/>
+<path d="M144 56 C144 44 176 44 176 56 L178 80 L142 80Z" fill="url(#iron_golem-m)" stroke="#08080a" stroke-width="1.4" filter="url(#iron_golem-tex)"/>
+<path d="M146 58 L174 58 L172 64 L148 64Z" fill="#0a0606"/>
+<ellipse cx="160" cy="61" rx="24.2" ry="3.5" fill="#e8602a" opacity="0.85" filter="url(#iron_golem-glow)"/>
+<ellipse cx="160" cy="61" rx="11" ry="1.6" fill="#e8602a"/>
+<ellipse cx="158.3" cy="60.8" rx="5" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<path d="M150 70 L170 70 M150 74 L170 74" stroke="#08080a" stroke-width="1.2"/>
+<path d="M118 96 C120 110 116 122 118 132 M206 92 C204 104 208 116 204 126 M134 176 L134 200" stroke="#7a3a1e" stroke-width="2" opacity=".5"/>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="shadow demon">
+ <title>Shadow Demon</title>
+ <defs>
+  <filter id="shadow_demon-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="shadow_demon-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="shadow_demon-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="shadow_demon-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="79" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.72 0.38" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="shadow_demon-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="79" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="shadow_demon-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="shadow_demon-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c2836"/><stop offset="0.6" stop-color="#0e0c14"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient><linearGradient id="shadow_demon-wing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24202c"/><stop offset="1" stop-color="#08070c" stop-opacity="0.4"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="130" rx="110" ry="80" fill="#000" opacity=".35" filter="url(#shadow_demon-mist)"/>
+<path d="M176 96 C200 70 236 46 290 30 C282 56 288 80 300 104 C280 100 268 108 262 126 C248 114 232 116 222 132 C212 120 196 120 184 128 Z" fill="url(#shadow_demon-wing)" filter="url(#shadow_demon-shag)"/>
+<path d="M180 98 L290 30 M236 52 L262 126 M254 44 L300 104 M214 66 L222 132" fill="none" stroke="#3e384a" stroke-width="2" stroke-linecap="round"/>
+<path d="M144 96 C120 70 84 46 30 30 C38 56 32 80 20 104 C40 100 52 108 58 126 C72 114 88 116 98 132 C108 120 124 120 136 128 Z" fill="url(#shadow_demon-wing)" filter="url(#shadow_demon-shag)"/>
+<path d="M140 98 L30 30 M84 52 L58 126 M66 44 L20 104 M106 66 L98 132" fill="none" stroke="#3e384a" stroke-width="2" stroke-linecap="round"/>
+<g filter="url(#shadow_demon-shag)"><path d="M136 82 C128 92 124 108 128 124 C132 142 140 160 146 182 C150 200 156 216 160 232 C164 216 170 200 174 182 C180 160 188 142 192 124 C196 108 192 92 184 82 C176 74 144 74 136 82 Z" fill="url(#shadow_demon-dark)"/></g>
+<path d="M150 190 C140 204 146 220 134 232 M170 190 C182 206 174 220 188 232" fill="none" stroke="#1a1622" stroke-width="5" opacity=".6" filter="url(#shadow_demon-soft)"/>
+<path d="M134 90 L106 120" stroke="#16131c" stroke-width="12" stroke-linecap="round"/>
+<path d="M106 120 L92 150" stroke="#16131c" stroke-width="8" stroke-linecap="round"/>
+<path d="M186 90 L214 120" stroke="#16131c" stroke-width="12" stroke-linecap="round"/>
+<path d="M214 120 L228 150" stroke="#16131c" stroke-width="8" stroke-linecap="round"/>
+<path d="M92 152 L93.6 160.3 L93.5 168 L92 174.6" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M90.7 174 L89.8 179.1 L93.2 175.2Z" fill="#c8c0d8"/>
+<path d="M92 152 L91.5 162 L89.1 170.7 L85.5 177.8" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M84.4 176.9 L82.4 181.7 L86.6 178.7Z" fill="#c8c0d8"/>
+<path d="M92 152 L89.1 161.6 L84.7 169.4 L79.5 175.5" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M78.6 174.4 L75.5 178.5 L80.3 176.6Z" fill="#c8c0d8"/>
+<path d="M92 152 L87.6 159.3 L82.4 164.9 L76.8 168.8" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M76.3 167.5 L72.2 170.7 L77.4 170.1Z" fill="#c8c0d8"/>
+<path d="M228 152 L232.4 159.3 L237.6 164.9 L243.2 168.8" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M242.6 170.1 L247.8 170.7 L243.7 167.5Z" fill="#c8c0d8"/>
+<path d="M228 152 L230.9 161.6 L235.3 169.4 L240.5 175.5" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M239.7 176.6 L244.5 178.5 L241.4 174.4Z" fill="#c8c0d8"/>
+<path d="M228 152 L228.5 162 L230.9 170.7 L234.5 177.8" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M233.4 178.7 L237.6 181.7 L235.6 176.9Z" fill="#c8c0d8"/>
+<path d="M228 152 L226.4 160.3 L226.5 168 L228 174.6" fill="none" stroke="#16131c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M226.8 175.2 L230.2 179.1 L229.3 174Z" fill="#c8c0d8"/>
+<path d="M146 58 C138 44 132 32 128 18 C140 28 148 40 152 52 Z M174 58 C182 44 188 32 192 18 C180 28 172 40 168 52 Z" fill="#1e1a26"/>
+<g filter="url(#shadow_demon-shag)"><path d="M142 64 C142 50 178 50 178 64 C178 78 170 92 160 96 C150 92 142 78 142 64Z" fill="#14121a"/></g>
+<ellipse cx="151" cy="68" rx="10.4" ry="4.7" fill="#c23849" opacity="0.85" filter="url(#shadow_demon-glow)" transform="rotate(18 151 68)"/>
+<ellipse cx="169" cy="68" rx="10.4" ry="4.7" fill="#c23849" opacity="0.85" filter="url(#shadow_demon-glow)" transform="rotate(-18 169 68)"/>
+<ellipse cx="151" cy="68" rx="4" ry="1.8" fill="#c23849" transform="rotate(18 151 68)"/>
+<ellipse cx="150.4" cy="67.7" rx="1.8" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(18 151 68)"/>
+<ellipse cx="169" cy="68" rx="4" ry="1.8" fill="#c23849" transform="rotate(-18 169 68)"/>
+<ellipse cx="168.4" cy="67.7" rx="1.8" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(-18 169 68)"/>
+<path d="M150 82 C156 86 164 86 170 82 L166 88 L163 85 L160 89 L157 85 L154 88 Z" fill="#c23849" opacity=".7"/>
+</svg>

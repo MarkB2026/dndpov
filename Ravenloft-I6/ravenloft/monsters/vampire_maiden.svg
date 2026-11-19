@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="vampire maiden">
+ <title>Vampire Maiden</title>
+ <defs>
+  <filter id="vampire_maiden-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="vampire_maiden-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="vampire_maiden-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="vampire_maiden-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="91" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.72 0.38" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="vampire_maiden-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="91" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="vampire_maiden-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="vampire_maiden-skin" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#ece4e6"/><stop offset="0.7" stop-color="#b6aeb8"/><stop offset="1" stop-color="#7a7280"/></radialGradient><linearGradient id="vampire_maiden-gown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1a26"/><stop offset="0.6" stop-color="#1a0c14"/><stop offset="1" stop-color="#08040a"/></linearGradient><linearGradient id="vampire_maiden-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16121a"/><stop offset="1" stop-color="#060508"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="76" ry="8" fill="url(#vampire_maiden-shadow)"/>
+<path d="M138 50 C128 80 126 120 118 150 C130 146 136 130 140 112 L180 112 C184 130 190 146 202 150 C194 120 192 80 182 50 Z" fill="url(#vampire_maiden-hair)"/>
+<g filter="url(#vampire_maiden-tex)"><path d="M140 84 C148 80 172 80 180 84 L184 120 C196 150 212 190 224 218 Q192 212 160 220 Q128 212 96 218 C108 190 124 150 136 120Z" fill="url(#vampire_maiden-gown)"/></g>
+<path d="M150 124 C146 160 136 196 128 216 M170 124 C174 160 184 196 192 216 M160 124 L160 218" fill="none" stroke="#000" stroke-width="3" opacity=".35"/>
+<path d="M142 86 C150 98 170 98 178 86 L176 94 C168 104 152 104 144 94Z" fill="#d6ced4"/>
+<path d="M138 118 L182 118" stroke="#5a1a28" stroke-width="3"/>
+<path d="M142 90 L122 116" stroke="#2a1420" stroke-width="9" stroke-linecap="round"/>
+<path d="M122 116 L102 120" stroke="#2a1420" stroke-width="7" stroke-linecap="round"/>
+<path d="M178 90 L198 116" stroke="#2a1420" stroke-width="9" stroke-linecap="round"/>
+<path d="M198 116 L218 120" stroke="#2a1420" stroke-width="7" stroke-linecap="round"/>
+<ellipse cx="101.8" cy="120.9" rx="3.7" ry="2.9" fill="#d0c8d0" transform="rotate(178 101.8 120.9)"/>
+<path d="M100 121 L95.4 123.1 L91.2 126 L88.1 129" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M87 128.2 L85.2 133.1 L89.3 129.8Z" fill="#5a1420"/>
+<path d="M100 121 L94.1 122 L88.4 124 L84.1 126.5" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M83.2 125.4 L80.2 129.6 L85 127.5Z" fill="#5a1420"/>
+<path d="M100 121 L94 120.4 L88 120.9 L83.2 122.1" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M82.6 120.9 L78.7 124.2 L83.8 123.4Z" fill="#5a1420"/>
+<path d="M100 121 L95.2 119.2 L90.2 118.3 L86 118.2" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M85.7 116.9 L81 119.1 L86.2 119.6Z" fill="#5a1420"/>
+<ellipse cx="218.2" cy="120.9" rx="3.7" ry="2.9" fill="#d0c8d0" transform="rotate(2 218.2 120.9)"/>
+<path d="M220 121 L224.8 119.2 L229.8 118.3 L234 118.2" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M233.8 119.6 L239 119.1 L234.3 116.9Z" fill="#5a1420"/>
+<path d="M220 121 L226 120.4 L232 120.9 L236.8 122.1" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M236.2 123.4 L241.3 124.2 L237.4 120.9Z" fill="#5a1420"/>
+<path d="M220 121 L225.9 122 L231.6 124 L235.9 126.5" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M235 127.5 L239.8 129.6 L236.8 125.4Z" fill="#5a1420"/>
+<path d="M220 121 L224.6 123.1 L228.8 126 L231.9 129" fill="none" stroke="#d0c8d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M230.7 129.8 L234.8 133.1 L233 128.2Z" fill="#5a1420"/>
+<path d="M155 70 L165 70 L166 86 L154 86Z" fill="#b6aeb8"/>
+<path d="M146 52 C146 36 174 36 174 52 C174 66 168 76 160 78 C152 76 146 66 146 52Z" fill="url(#vampire_maiden-skin)"/>
+<path d="M149 53 Q154 49 158 53 Q154 57 149 53Z M171 53 Q166 49 162 53 Q166 57 171 53Z" fill="#2a1a22" opacity=".8"/>
+<path d="M148 48 L158 51 M172 48 L162 51" stroke="#141014" stroke-width="1.2" stroke-linecap="round"/>
+<ellipse cx="154" cy="53" rx="5.3" ry="3.3" fill="#e55b60" opacity="0.85" filter="url(#vampire_maiden-glow)" transform="rotate(10 154 53)"/>
+<ellipse cx="166" cy="53" rx="5.3" ry="3.3" fill="#e55b60" opacity="0.85" filter="url(#vampire_maiden-glow)" transform="rotate(-10 166 53)"/>
+<ellipse cx="154" cy="53" rx="2.4" ry="1.5" fill="#e55b60" transform="rotate(10 154 53)"/>
+<ellipse cx="153.6" cy="52.8" rx="1.1" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(10 154 53)"/>
+<ellipse cx="166" cy="53" rx="2.4" ry="1.5" fill="#e55b60" transform="rotate(-10 166 53)"/>
+<ellipse cx="165.6" cy="52.8" rx="1.1" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(-10 166 53)"/>
+<path d="M160 55 L158 63 L161 64" fill="none" stroke="#8a828e" stroke-width="1"/>
+<path d="M154 68 Q160 66 166 68 Q160 71 154 68Z" fill="#5a1420"/>
+<path d="M156 68 l1 4 l1 -4 M162 68 l1 4 l1 -4" fill="#f4eee4"/>
+<path d="M144 58 C140 36 154 30 162 32 C172 32 182 40 178 60 C176 48 170 42 160 44 C152 46 148 50 144 58Z" fill="url(#vampire_maiden-hair)"/>
+<path d="M146 50 C138 72 140 96 132 120 M174 50 C182 72 180 96 188 120" fill="none" stroke="#0a080c" stroke-width="3"/>
+<path d="M150 38 C154 34 160 33 164 34" fill="none" stroke="#5a5466" stroke-width="1" opacity=".7"/>
+<path d="M158 70 L157 76 M162 70 L163 75" stroke="#8a1420" stroke-width="1" opacity=".9"/>
+</svg>

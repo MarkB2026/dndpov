@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="witch">
+ <title>Barovian Witch</title>
+ <defs>
+  <filter id="barovian_witch-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="barovian_witch-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="barovian_witch-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="barovian_witch-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="97" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.32 0.69" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="barovian_witch-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="97" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="barovian_witch-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="barovian_witch-skin" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#a8ae96"/><stop offset="0.7" stop-color="#6e7460"/><stop offset="1" stop-color="#3e4234"/></radialGradient><linearGradient id="barovian_witch-robe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e2a30"/><stop offset="1" stop-color="#0e0c10"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="80" ry="8" fill="url(#barovian_witch-shadow)"/>
+<path d="M218 40 C222 90 216 150 220 216" stroke="#3a2a1e" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M218 40 C222 90 216 150 220 216" stroke="#6a5038" stroke-width="1.4" fill="none" opacity=".7"/>
+<path d="M210 30 C210 20 228 20 228 30 C228 38 224 40 222 42 L214 42 C212 40 210 38 210 30Z" fill="#cfc6ac"/><ellipse cx="215" cy="30" rx="2.4" ry="2.2" fill="#1a1612"/><ellipse cx="223" cy="30" rx="2.4" ry="2.2" fill="#1a1612"/>
+<ellipse cx="219" cy="30" rx="12" ry="12" fill="#8acb6a" opacity=".25" filter="url(#barovian_witch-glow)"/>
+<g filter="url(#barovian_witch-shag)"><g filter="url(#barovian_witch-tex)"><path d="M132 78 C112 92 104 130 98 170 C94 196 92 210 88 220 Q110 212 128 220 Q146 212 160 220 Q178 212 196 220 Q214 212 230 220 C224 196 214 160 206 130 C200 104 194 88 180 78 C166 72 146 72 132 78Z" fill="url(#barovian_witch-robe)"/></g></g>
+<path d="M140 92 C132 130 128 170 120 214 M178 92 C184 130 190 170 198 214" fill="none" stroke="#000" stroke-width="3" opacity=".35"/>
+<path d="M184 92 L204 112" stroke="#1e1a20" stroke-width="12" stroke-linecap="round"/>
+<path d="M204 112 L216 108" stroke="#1e1a20" stroke-width="9" stroke-linecap="round"/>
+<ellipse cx="216.3" cy="106.6" rx="3.7" ry="2.9" fill="#7e846c" transform="rotate(-20 216.3 106.6)"/>
+<path d="M218 106 L222.2 103.1 L226.4 103.4 L228.8 105.8" fill="none" stroke="#7e846c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M227.4 106 L229.3 110.8 L230.2 105.7Z" fill="#1a1612"/>
+<path d="M218 106 L223.4 103.5 L228.3 104.8 L230.6 108" fill="none" stroke="#7e846c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M229.2 107.9 L230.1 113 L232 108.2Z" fill="#1a1612"/>
+<path d="M218 106 L223.8 104.4 L228.3 106.6 L230 110.2" fill="none" stroke="#7e846c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M228.7 109.8 L228.7 115 L231.4 110.5Z" fill="#1a1612"/>
+<path d="M218 106 L223.1 105.6 L226.6 108 L227.4 111.3" fill="none" stroke="#7e846c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M226.2 110.7 L225.3 115.8 L228.7 111.9Z" fill="#1a1612"/>
+<path d="M136 92 L112 120" stroke="#1e1a20" stroke-width="12" stroke-linecap="round"/>
+<path d="M112 120 L92 126" stroke="#1e1a20" stroke-width="9" stroke-linecap="round"/>
+<ellipse cx="92.4" cy="127" rx="5" ry="3.8" fill="#7e846c" transform="rotate(180 92.4 127)"/>
+<path d="M90 127 L83.7 129.6 L78.8 133 L75.3 136.7" fill="none" stroke="#7e846c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M74.1 135.9 L72.7 140.9 L76.5 137.4Z" fill="#1a1612"/>
+<path d="M90 127 L82.1 128 L75.5 130.4 L70.4 133.5" fill="none" stroke="#7e846c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M69.4 132.5 L66.7 137 L71.3 134.5Z" fill="#1a1612"/>
+<path d="M90 127 L82.1 126 L75.1 126.5 L69.3 128.2" fill="none" stroke="#7e846c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M68.7 127 L64.9 130.6 L70 129.4Z" fill="#1a1612"/>
+<path d="M90 127 L83.7 124.4 L77.9 123.3 L72.8 123.4" fill="none" stroke="#7e846c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M72.4 122.1 L67.9 124.6 L73.1 124.8Z" fill="#1a1612"/>
+<path d="M140 60 C132 80 134 100 126 116 M144 62 C140 84 142 100 136 120 M176 60 C184 80 182 100 190 116 M172 62 C176 84 174 100 180 120" fill="none" stroke="#8a8a88" stroke-width="1.6" opacity=".8"/>
+<path d="M144 58 C144 44 176 44 176 58 C177 72 172 84 160 88 C148 84 143 72 144 58Z" fill="url(#barovian_witch-skin)" filter="url(#barovian_witch-tex)"/>
+<path d="M158 62 C164 66 170 74 166 80 C164 78 160 76 158 72Z" fill="#7e846c" stroke="#3e4234" stroke-width=".8"/>
+<circle cx="167" cy="77" r="1.3" fill="#5a5e48"/>
+<path d="M150 80 C154 84 160 84 164 82" fill="none" stroke="#1a1214" stroke-width="1.6"/><path d="M152 81 l1 3 l1 -3" fill="#d8ccb0"/>
+<path d="M146 56 L156 58 M174 56 L164 58" stroke="#2a2a24" stroke-width="1.8" stroke-linecap="round"/>
+<ellipse cx="151" cy="61" rx="4.8" ry="3.5" fill="#c23849" opacity="0.85" filter="url(#barovian_witch-glow)"/>
+<ellipse cx="169" cy="61" rx="4.8" ry="3.5" fill="#c23849" opacity="0.85" filter="url(#barovian_witch-glow)"/>
+<ellipse cx="151" cy="61" rx="2.2" ry="1.6" fill="#c23849"/>
+<ellipse cx="150.7" cy="60.8" rx="1" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="169" cy="61" rx="2.2" ry="1.6" fill="#c23849"/>
+<ellipse cx="168.7" cy="60.8" rx="1" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<path d="M148 68 C150 70 152 70 154 68 M166 68 C168 70 170 70 172 68" fill="none" stroke="#3e4234" stroke-width=".8"/>
+<path d="M120 52 C136 46 184 46 202 54 C190 58 130 58 120 52Z" fill="#141216"/>
+<path d="M138 50 C144 36 150 22 158 14 C162 8 170 6 176 10 C170 12 166 16 168 24 C172 36 178 44 182 50Z" fill="url(#barovian_witch-robe)" filter="url(#barovian_witch-tex)"/>
+<path d="M140 48 L180 48" stroke="#4a1a22" stroke-width="3"/><path d="M152 30 C156 22 160 16 166 12" fill="none" stroke="#4a4652" stroke-width="1" opacity=".7"/>
+</svg>

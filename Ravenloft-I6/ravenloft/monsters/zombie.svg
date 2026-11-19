@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="zombie">
+ <title>Zombie</title>
+ <defs>
+  <filter id="zombie-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="zombie-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="zombie-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="zombie-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="11" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.44 0.75" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="zombie-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="11" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="zombie-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="zombie-cloth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a40"/><stop offset="1" stop-color="#1c1c22"/></linearGradient><radialGradient id="zombie-skin" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#7d8270"/><stop offset="1" stop-color="#3f4338"/></radialGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="70" ry="8" fill="url(#zombie-shadow)"/>
+<g filter="url(#zombie-tex)">
+<path d="M134 150 C130 172 126 190 120 214 L140 217 C144 198 150 180 156 162 Z" fill="url(#zombie-cloth)"/>
+<path d="M166 160 C172 178 176 196 182 216 L200 212 C196 192 192 172 188 150 Z" fill="url(#zombie-cloth)"/>
+<path d="M120 206 L124 202 L127 208 L131 201 L135 209 L140 204 L141 212 L120 214Z M182 206 L186 200 L190 207 L194 201 L199 206 L200 212 L183 214Z" fill="#1c1c22"/>
+<path d="M119 214 C116 220 118 223 128 223 L142 222 L140 214Z M181 214 L180 222 C190 224 204 222 203 216 L200 211Z" fill="#3f4338"/>
+<path d="M204 104 L230 118" stroke="#7d8270" stroke-width="15" stroke-linecap="round"/>
+<path d="M230 118 L254 124" stroke="#7d8270" stroke-width="11" stroke-linecap="round"/>
+<path d="M204 107.8 L230 121.8" stroke="#3f4338" stroke-width="6.8" stroke-linecap="round" opacity=".55"/>
+<path d="M230 120.8 L254 126.8" stroke="#3f4338" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+<path d="M204 104 L224 115" stroke="url(#zombie-cloth)" stroke-width="17" stroke-linecap="round"/>
+<path d="M218 108 L228 112 L222 118 L230 122 L216 124 Z" fill="#1c1c22"/>
+<path d="M116 98 C106 102 104 114 110 126 C116 138 124 146 130 158 L190 158 C196 146 204 138 210 126 C216 114 214 102 204 98 C194 90 182 86 160 86 C138 86 126 90 116 98 Z" fill="url(#zombie-cloth)"/>
+<path d="M129 154 L130 166 L136 160 L141 172 L146 162 L152 170 L158 160 L164 172 L170 162 L176 170 L181 160 L186 168 L191 154Z" fill="url(#zombie-cloth)"/>
+<path d="M126 102 C134 112 140 130 142 152 M194 102 C186 112 180 130 178 152" fill="none" stroke="#000" stroke-width="3" opacity=".35"/>
+<path d="M172 108 C180 104 190 110 190 120 C190 132 182 138 174 134 C166 130 166 114 172 108Z" fill="#1a0f10"/>
+<path d="M171 114 Q180 110 188 116 M170 121 Q180 117 189 123 M171 128 Q179 125 186 130" fill="none" stroke="#b9ae96" stroke-width="2.2" stroke-linecap="round"/>
+</g>
+<path d="M116 104 L92 128" stroke="#7d8270" stroke-width="15" stroke-linecap="round"/>
+<path d="M92 128 L70 142" stroke="#7d8270" stroke-width="11" stroke-linecap="round"/>
+<path d="M116 107.8 L92 131.8" stroke="#3f4338" stroke-width="6.8" stroke-linecap="round" opacity=".55"/>
+<path d="M92 130.8 L70 144.8" stroke="#3f4338" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+<path d="M116 104 L98 122" stroke="url(#zombie-cloth)" stroke-width="17" stroke-linecap="round"/>
+<path d="M96 116 L104 124 L94 126 L100 132 L90 130 Z" fill="#1c1c22"/>
+<ellipse cx="72.3" cy="142.5" rx="5" ry="3.8" fill="#7d8270" transform="rotate(168 72.3 142.5)"/>
+<path d="M70 143 L64.4 146.9 L60.6 151.4 L58.9 155.3" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M57.5 155.2 L58.3 160.3 L60.3 155.5Z" fill="#2a2220"/>
+<path d="M70 143 L62.5 145.7 L56.8 149.7 L53.6 153.6" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52.4 153.1 L51.7 158.3 L54.9 154.2Z" fill="#2a2220"/>
+<path d="M70 143 L62 143.6 L55.5 146.1 L51.4 149.1" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M50.3 148.2 L48.4 153 L52.6 149.9Z" fill="#2a2220"/>
+<path d="M70 143 L63.3 141.8 L57.4 142.3 L53.4 143.9" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52.6 142.8 L49.5 146.9 L54.3 145Z" fill="#2a2220"/>
+<ellipse cx="252.6" cy="123.7" rx="5" ry="3.8" fill="#7d8270" transform="rotate(8 252.6 123.7)"/>
+<path d="M255 124 L261.6 122.3 L267.5 122.5 L271.6 123.7" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M270.8 124.9 L275.8 126.5 L272.4 122.6Z" fill="#2a2220"/>
+<path d="M255 124 L263 124.1 L269.7 126.1 L273.9 128.7" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M272.9 129.7 L277.2 132.5 L275 127.8Z" fill="#2a2220"/>
+<path d="M255 124 L262.7 126.1 L268.7 129.8 L272.1 133.5" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M270.8 134.1 L274.3 138 L273.3 132.9Z" fill="#2a2220"/>
+<path d="M255 124 L260.9 127.5 L265 131.8 L266.9 135.5" fill="none" stroke="#7d8270" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M265.5 135.8 L267.9 140.4 L268.3 135.3Z" fill="#2a2220"/>
+<path d="M146 84 L174 84 L178 96 L142 96 Z" fill="#3f4338"/>
+<g transform="translate(24 18) scale(.85) rotate(-12 160 66)" filter="url(#zombie-tex)">
+<path d="M142 62 C140 44 150 34 162 34 C176 34 184 46 182 62 C181 76 178 86 172 94 C166 100 156 100 150 94 C144 86 142 76 142 62 Z" fill="url(#zombie-skin)"/>
+<path d="M144 50 C148 40 156 36 162 36 C170 36 178 42 180 50 C174 44 168 46 162 42 C156 46 150 44 144 50Z" fill="#1d1b1a" opacity=".85"/>
+<path d="M146 66 Q152 58 158 64 Q156 72 150 72 Q146 70 146 66Z M166 64 Q172 58 178 66 Q178 70 174 72 Q168 72 166 64Z" fill="#120c0c"/>
+<ellipse cx="152" cy="66" rx="5.7" ry="4.4" fill="#c23849" opacity="0.85" filter="url(#zombie-glow)"/>
+<ellipse cx="172" cy="66" rx="5.7" ry="4.4" fill="#c23849" opacity="0.85" filter="url(#zombie-glow)"/>
+<ellipse cx="152" cy="66" rx="2.6" ry="2" fill="#c23849"/>
+<ellipse cx="151.6" cy="65.7" rx="1.2" ry="0.8" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="172" cy="66" rx="2.6" ry="2" fill="#c23849"/>
+<ellipse cx="171.6" cy="65.7" rx="1.2" ry="0.8" fill="#fff4e8" opacity=".9"/>
+<path d="M160 70 L157 79 L163 79 Z" fill="#1a1212"/>
+<path d="M150 84 C154 82 166 82 172 84 C170 92 166 98 161 98 C156 98 151 92 150 84Z" fill="#170c0c"/>
+<path d="M152 84 L154 88 L156 84 L158 89 L160 84 L162 89 L164 84 L166 88 L169 84 M154 96 L156 92 L159 96 L162 91 L165 96" fill="none" stroke="#c4b896" stroke-width="1.3" stroke-linejoin="round"/>
+<path d="M144 58 Q150 56 156 60 M176 74 C180 78 178 84 174 86" fill="none" stroke="#3f4338" stroke-width="1.4"/>
+<path d="M172 46 C176 50 178 56 177 60" fill="none" stroke="#6e2a26" stroke-width="2"/>
+<path d="M171 47 L175 45 M173 52 L177 50 M174 57 L178 56" stroke="#2a1d1a" stroke-width="1"/>
+</g>
+<path d="M118 96 C128 86 140 88 146 94 L142 100 Z M202 96 C192 86 180 88 174 94 L178 100 Z" fill="url(#zombie-cloth)"/>
+</svg>

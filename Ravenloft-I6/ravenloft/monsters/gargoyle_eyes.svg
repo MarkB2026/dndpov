@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240">
+<title>Gargoyle glowing eyes - distance stage</title>
+<defs><filter id="glow" x="-150%" y="-250%" width="400%" height="600%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<path d="M133 99 Q142 98 148 103 Q139 110 133 104Z M187 99 Q178 98 172 103 Q181 110 187 104Z" fill="#d90018" opacity=".8" filter="url(#glow)"/>
+<path d="M133 99 Q142 98 148 103 Q139 110 133 104Z M187 99 Q178 98 172 103 Q181 110 187 104Z" fill="#f01429"/>
+</svg>

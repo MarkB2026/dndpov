@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="animated armor">
+ <title>Animated Armor</title>
+ <defs>
+  <filter id="animated_armor-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="animated_armor-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="animated_armor-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="animated_armor-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="3" seed="81" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.84 0.44" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="animated_armor-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="81" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="animated_armor-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="animated_armor-m" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#141418"/><stop offset="0.3" stop-color="#4e4e58"/><stop offset="0.45" stop-color="#7a7a86"/><stop offset="0.6" stop-color="#363640"/><stop offset="1" stop-color="#0e0e12"/></linearGradient><linearGradient id="animated_armor-mv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#62626e"/><stop offset="0.5" stop-color="#2e2e36"/><stop offset="1" stop-color="#0e0e12"/></linearGradient><linearGradient id="animated_armor-blade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a3a42"/><stop offset="0.5" stop-color="#b6b6c0"/><stop offset="1" stop-color="#4a4a52"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="218" rx="70" ry="8" fill="url(#animated_armor-shadow)"/>
+<g filter="url(#animated_armor-tex)">
+<path d="M129 150 L151 150 L149 176 L152 182 L149 206 L156 214 L126 214 L131 206 L128 182 L131 176Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1"/>
+<ellipse cx="140" cy="179" rx="10" ry="6" fill="url(#animated_armor-mv)" stroke="#0e0e12" stroke-width="1"/>
+<path d="M169 150 L191 150 L189 176 L192 182 L189 206 L196 214 L166 214 L171 206 L168 182 L171 176Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1"/>
+<ellipse cx="180" cy="179" rx="10" ry="6" fill="url(#animated_armor-mv)" stroke="#0e0e12" stroke-width="1"/>
+<path d="M126 132 L194 132 L198 146 L190 160 L172 156 L160 162 L148 156 L130 160 L122 146Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1.2"/>
+<path d="M124 142 L196 142 M126 150 L194 150" stroke="#0e0e12" stroke-width="1"/>
+<path d="M124 90 C136 84 184 84 196 90 L200 118 C196 130 184 136 160 138 C136 136 124 130 120 118Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1.2"/>
+<path d="M160 88 L160 136" stroke="#0e0e12" stroke-width="1.4"/><path d="M161 90 L161 134" stroke="#c0c0cc" stroke-width=".8" opacity=".6"/>
+<path d="M128 100 C138 108 150 110 158 110 M192 100 C182 108 170 110 162 110" fill="none" stroke="#0e0e12" stroke-width="1" opacity=".7"/>
+<path d="M104 98 C104 82 122 78 134 84 C138 92 136 102 128 108 C118 112 106 108 104 98Z M216 98 C216 82 198 78 186 84 C182 92 184 102 192 108 C202 112 214 108 216 98Z" fill="url(#animated_armor-mv)" stroke="#0e0e12" stroke-width="1.2"/>
+<path d="M108 96 C112 88 122 86 130 88 M108 102 C114 96 124 94 132 96 M212 96 C208 88 198 86 190 88 M212 102 C206 96 196 94 188 96" fill="none" stroke="#0e0e12" stroke-width="1"/>
+<path d="M108 108 L120 108 L136 150 L124 156Z M212 108 L200 108 L184 150 L196 156Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1"/>
+</g>
+<path d="M156 160 L164 160 L163 214 L160 222 L157 214Z" fill="url(#animated_armor-blade)"/>
+<path d="M140 156 L180 156 L178 162 L142 162Z" fill="#3a3238" stroke="#0e0e12" stroke-width="1"/>
+<rect x="157" y="132" width="6" height="24" fill="#2a1e18"/><circle cx="160" cy="131" r="4.5" fill="#6a5a3a"/>
+<path d="M130 148 C136 142 150 144 154 152 C152 160 138 162 130 158Z M190 148 C184 142 170 144 166 152 C168 160 182 162 190 158Z" fill="url(#animated_armor-mv)" stroke="#0e0e12" stroke-width="1"/>
+<g filter="url(#animated_armor-tex)"><path d="M140 62 C140 42 180 42 180 62 L182 84 C176 92 144 92 138 84Z" fill="url(#animated_armor-m)" stroke="#0e0e12" stroke-width="1.2"/></g>
+<path d="M160 40 C162 32 168 26 176 24 C172 30 170 36 170 44Z" fill="#5a1a20"/>
+<path d="M142 66 L178 66 L176 71 L144 71Z" fill="#050506"/><path d="M160 72 L160 88 M152 76 L152 86 M168 76 L168 86" stroke="#0a0a0c" stroke-width="1.6"/>
+<ellipse cx="152" cy="68.5" rx="10.4" ry="3.6" fill="#c23849" opacity="0.85" filter="url(#animated_armor-glow)"/>
+<ellipse cx="168" cy="68.5" rx="10.4" ry="3.6" fill="#c23849" opacity="0.85" filter="url(#animated_armor-glow)"/>
+<ellipse cx="152" cy="68.5" rx="4" ry="1.4" fill="#c23849"/>
+<ellipse cx="151.4" cy="68.3" rx="1.8" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="168" cy="68.5" rx="4" ry="1.4" fill="#c23849"/>
+<ellipse cx="167.4" cy="68.3" rx="1.8" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<path d="M146 50 C150 44 156 42 160 42" fill="none" stroke="#e0e0ea" stroke-width="1.4" opacity=".6"/>
+<path d="M132 120 L140 114 M182 98 L188 104 M146 196 L150 190" stroke="#c0c0cc" stroke-width=".7" opacity=".5"/>
+</svg>

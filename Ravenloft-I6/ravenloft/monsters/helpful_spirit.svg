@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="helpful spirit">
+ <title>Helpful Spirit</title>
+ <defs>
+  <filter id="helpful_spirit-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="helpful_spirit-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="helpful_spirit-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="helpful_spirit-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.96 0.50" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="helpful_spirit-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="helpful_spirit-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="helpful_spirit-robe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9c6cc"/><stop offset="0.55" stop-color="#3a5056"/><stop offset="1" stop-color="#3a5056"/></linearGradient><radialGradient id="helpful_spirit-void" cx="0.5" cy="0.45" r="0.5"><stop offset="0" stop-color="#000"/><stop offset="0.7" stop-color="#050508"/><stop offset="1" stop-color="#16161c"/></radialGradient><linearGradient id="helpful_spirit-fadeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="0.72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="helpful_spirit-fade" maskUnits="userSpaceOnUse" x="0" y="0" width="320" height="240"><rect width="320" height="240" fill="url(#helpful_spirit-fadeg)"/></mask><linearGradient id="helpful_spirit-hl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4f6f8" stop-opacity="0.55"/><stop offset="1" stop-color="#e4f6f8" stop-opacity="0"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="140" rx="96" ry="96" fill="#91c5c8" opacity=".18" filter="url(#helpful_spirit-mist)"/>
+<g mask="url(#helpful_spirit-fade)" opacity="0.6">
+<g filter="url(#helpful_spirit-tex)">
+<path d="M158 30 C146 32 134 40 127 54 C121 66 120 80 116 92 C110 100 100 106 96 116 C92 128 96 142 100 156 C104 172 100 190 92 206 Q98 204 102 208 Q104 220 110 230 Q114 216 120 212 Q128 226 134 238 Q138 220 144 214 Q152 228 156 240 Q160 222 166 214 Q174 226 182 236 Q184 218 190 212 Q198 222 208 228 Q206 212 210 204 Q218 208 232 208 C218 190 220 170 222 154 C224 138 228 124 222 112 C216 102 206 96 202 88 C198 76 198 62 192 52 C184 40 172 32 158 30 Z" fill="url(#helpful_spirit-robe)"/>
+</g>
+<path d="M158 30 C146 32 134 40 127 54 C121 66 120 80 116 92 C110 100 100 106 96 116 C92 128 96 142 100 156 C104 172 100 190 92 206 Q98 204 102 208 Q104 220 110 230 Q114 216 120 212 Q128 226 134 238 Q138 220 144 214 Q152 228 156 240 Q160 222 166 214 Q174 226 182 236 Q184 218 190 212 Q198 222 208 228 Q206 212 210 204 Q218 208 232 208 C218 190 220 170 222 154 C224 138 228 124 222 112 C216 102 206 96 202 88 C198 76 198 62 192 52 C184 40 172 32 158 30 Z" fill="none" stroke="#e4f6f8" stroke-width="1.6" opacity=".55"/>
+<path d="M126 120 C120 150 118 180 112 214 M144 124 C140 160 142 190 138 222 M176 124 C180 160 178 190 184 222 M194 120 C200 150 202 180 208 214 M160 124 C160 160 162 196 160 226" fill="none" stroke="#000" stroke-width="5" opacity=".28" filter="url(#helpful_spirit-soft)"/>
+<path d="M127 118 C122 148 120 176 115 206 M178 122 C182 156 181 188 186 216" fill="none" stroke="#e4f6f8" stroke-width="1.4" opacity=".3"/>
+<path d="M126 128 C136 150 146 162 152 168 L168 168 C174 162 184 150 194 128 C184 140 172 150 160 152 C148 150 136 140 126 128Z" fill="url(#helpful_spirit-robe)" stroke="#e4f6f8" stroke-opacity=".45" stroke-width="1.2"/>
+<path d="M153 166 C151 150 155 138 160 132 C165 138 169 150 167 166 Z" fill="#c7cbc6" opacity=".9"/><path d="M160 134 L160 166 M155 146 L158 147 M165 146 L162 147" stroke="#6b6f6a" stroke-width="1"/>
+<path d="M160 54 C144 54 134 67 134 84 C134 101 145 114 160 119 C175 114 186 101 186 84 C186 67 176 54 160 54 Z" fill="url(#helpful_spirit-void)"/>
+<path d="M134 84 C134 64 146 52 160 52 C174 52 186 64 186 84" fill="none" stroke="#e4f6f8" stroke-width="2.2" opacity=".6"/>
+<path d="M122 72 C124 56 138 40 160 40" fill="none" stroke="url(#helpful_spirit-hl)" stroke-width="3"/>
+<ellipse cx="150" cy="86" rx="10.9" ry="6.8" fill="#91c5c8" opacity="0.85" filter="url(#helpful_spirit-glow)" transform="rotate(8 150 86)"/>
+<ellipse cx="170" cy="86" rx="10.9" ry="6.8" fill="#91c5c8" opacity="0.85" filter="url(#helpful_spirit-glow)" transform="rotate(-8 170 86)"/>
+<ellipse cx="150" cy="86" rx="4.2" ry="2.6" fill="#91c5c8" transform="rotate(8 150 86)"/>
+<ellipse cx="149.4" cy="85.6" rx="1.9" ry="1" fill="#fff4e8" opacity=".9" transform="rotate(8 150 86)"/>
+<ellipse cx="170" cy="86" rx="4.2" ry="2.6" fill="#91c5c8" transform="rotate(-8 170 86)"/>
+<ellipse cx="169.4" cy="85.6" rx="1.9" ry="1" fill="#fff4e8" opacity=".9" transform="rotate(-8 170 86)"/>
+<path d="M110 228 C118 236 112 240 104 240 M156 238 C166 240 172 236 170 230 M208 226 C214 236 222 236 228 232" fill="none" stroke="#e4f6f8" stroke-width="1.2" opacity=".35"/>
+
+</g>
+</svg>

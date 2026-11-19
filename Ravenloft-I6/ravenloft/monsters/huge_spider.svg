@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="huge spider">
+ <title>Huge Spider</title>
+ <defs>
+  <filter id="huge_spider-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="huge_spider-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="huge_spider-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="huge_spider-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="3" seed="47" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.32 0.69" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="huge_spider-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="47" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="huge_spider-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="huge_spider-abd" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#4a4650"/><stop offset="0.6" stop-color="#24222a"/><stop offset="1" stop-color="#0c0b0e"/></radialGradient><radialGradient id="huge_spider-ceph" cx="0.5" cy="0.3" r="0.7"><stop offset="0" stop-color="#3e3a44"/><stop offset="1" stop-color="#121116"/></radialGradient><linearGradient id="huge_spider-fang" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2628"/><stop offset="1" stop-color="#060606"/></linearGradient><filter id="huge_spider-hair" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.9" numOctaves="1" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+ </defs>
+<ellipse cx="160" cy="214" rx="120" ry="10" fill="url(#huge_spider-shadow)"/>
+<g filter="url(#huge_spider-hair)"><path d="M148 138 L60 132" stroke="#26242c" stroke-width="12" stroke-linecap="round"/>
+<path d="M60 132 L26 176" stroke="#26242c" stroke-width="9" stroke-linecap="round"/>
+<path d="M26 176 L14 216" stroke="#26242c" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M148 138 L60 132 L26 176" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="60" cy="132" r="5.4" fill="#3a3640"/>
+<circle cx="26" cy="176" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M146 132 L66 96" stroke="#26242c" stroke-width="12" stroke-linecap="round"/>
+<path d="M66 96 L40 156" stroke="#26242c" stroke-width="9" stroke-linecap="round"/>
+<path d="M40 156 L30 204" stroke="#26242c" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M146 132 L66 96 L40 156" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="66" cy="96" r="5.4" fill="#3a3640"/>
+<circle cx="40" cy="156" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M146 126 L90 74" stroke="#34313a" stroke-width="12" stroke-linecap="round"/>
+<path d="M90 74 L70 140" stroke="#34313a" stroke-width="9" stroke-linecap="round"/>
+<path d="M70 140 L64 206" stroke="#34313a" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M146 126 L90 74 L70 140" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="90" cy="74" r="5.4" fill="#3a3640"/>
+<circle cx="70" cy="140" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M148 120 L112 60" stroke="#34313a" stroke-width="12" stroke-linecap="round"/>
+<path d="M112 60 L90 72" stroke="#34313a" stroke-width="9" stroke-linecap="round"/>
+<path d="M90 72 L84 98" stroke="#34313a" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M148 120 L112 60 L90 72" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="112" cy="60" r="5.4" fill="#3a3640"/>
+<circle cx="90" cy="72" r="5.4" fill="#3a3640"/>
+<path d="M84 98 l4 6" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round"/>
+<g filter="url(#huge_spider-hair)"><path d="M172 138 L260 132" stroke="#26242c" stroke-width="12" stroke-linecap="round"/>
+<path d="M260 132 L294 176" stroke="#26242c" stroke-width="9" stroke-linecap="round"/>
+<path d="M294 176 L306 216" stroke="#26242c" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M172 138 L260 132 L294 176" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="260" cy="132" r="5.4" fill="#3a3640"/>
+<circle cx="294" cy="176" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M174 132 L254 96" stroke="#26242c" stroke-width="12" stroke-linecap="round"/>
+<path d="M254 96 L280 156" stroke="#26242c" stroke-width="9" stroke-linecap="round"/>
+<path d="M280 156 L290 204" stroke="#26242c" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M174 132 L254 96 L280 156" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="254" cy="96" r="5.4" fill="#3a3640"/>
+<circle cx="280" cy="156" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M174 126 L230 74" stroke="#34313a" stroke-width="12" stroke-linecap="round"/>
+<path d="M230 74 L250 140" stroke="#34313a" stroke-width="9" stroke-linecap="round"/>
+<path d="M250 140 L256 206" stroke="#34313a" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M174 126 L230 74 L250 140" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="230" cy="74" r="5.4" fill="#3a3640"/>
+<circle cx="250" cy="140" r="5.4" fill="#3a3640"/>
+<g filter="url(#huge_spider-hair)"><path d="M172 120 L208 60" stroke="#34313a" stroke-width="12" stroke-linecap="round"/>
+<path d="M208 60 L230 72" stroke="#34313a" stroke-width="9" stroke-linecap="round"/>
+<path d="M230 72 L236 98" stroke="#34313a" stroke-width="5.5" stroke-linecap="round"/></g>
+<path d="M172 120 L208 60 L230 72" fill="none" stroke="#5a5662" stroke-width="1.2" opacity=".5"/>
+<circle cx="208" cy="60" r="5.4" fill="#3a3640"/>
+<circle cx="230" cy="72" r="5.4" fill="#3a3640"/>
+<path d="M236 98 l-4 6" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round"/>
+<g filter="url(#huge_spider-shag)"><g filter="url(#huge_spider-tex)"><ellipse cx="160" cy="94" rx="44" ry="38" fill="url(#huge_spider-abd)"/></g></g>
+<path d="M160 70 C150 74 146 84 152 92 L148 104 L160 98 L172 104 L168 92 C174 84 170 74 160 70Z" fill="#8a2a2e" opacity=".85"/><ellipse cx="155" cy="84" rx="3" ry="4" fill="#120a0a"/><ellipse cx="165" cy="84" rx="3" ry="4" fill="#120a0a"/>
+<path d="M130 86 C138 74 150 68 162 68" fill="none" stroke="#8a8494" stroke-width="1.5" opacity=".5"/>
+<g filter="url(#huge_spider-tex)"><path d="M138 126 C138 112 182 112 182 126 C182 140 172 148 160 148 C148 148 138 140 138 126Z" fill="url(#huge_spider-ceph)"/></g>
+<path d="M150 140 L140 150" stroke="#1e1c22" stroke-width="4" stroke-linecap="round"/>
+<path d="M140 150 L146 160" stroke="#1e1c22" stroke-width="3" stroke-linecap="round"/>
+<path d="M170 140 L180 150" stroke="#1e1c22" stroke-width="4" stroke-linecap="round"/>
+<path d="M180 150 L174 160" stroke="#1e1c22" stroke-width="3" stroke-linecap="round"/>
+<path d="M150 144 C146 154 148 164 156 170 C154 162 156 154 158 148 Z M170 144 C174 154 172 164 164 170 C166 162 164 154 162 148 Z" fill="url(#huge_spider-fang)"/>
+<path d="M151 150 C150 156 152 162 155 166 M169 150 C170 156 168 162 165 166" fill="none" stroke="#8a8490" stroke-width=".8" opacity=".7"/>
+<path d="M156 170 L157 175 M164 170 L163 175" stroke="#c8d4a0" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>
+<ellipse cx="154" cy="128" rx="6.8" ry="6.8" fill="#c23849" opacity="0.85" filter="url(#huge_spider-glow)"/>
+<ellipse cx="166" cy="128" rx="6.8" ry="6.8" fill="#c23849" opacity="0.85" filter="url(#huge_spider-glow)"/>
+<ellipse cx="154" cy="128" rx="3.4" ry="3.4" fill="#c23849"/>
+<ellipse cx="153.5" cy="127.5" rx="1.5" ry="1.4" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="166" cy="128" rx="3.4" ry="3.4" fill="#c23849"/>
+<ellipse cx="165.5" cy="127.5" rx="1.5" ry="1.4" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="147" cy="124" rx="3.2" ry="3.2" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="173" cy="124" rx="3.2" ry="3.2" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="152" cy="120" rx="2.7" ry="2.7" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="168" cy="120" rx="2.7" ry="2.7" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="157" cy="135" rx="2.3" ry="2.3" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="163" cy="135" rx="2.3" ry="2.3" fill="#c23849" opacity="0.5" filter="url(#huge_spider-glow)"/>
+<ellipse cx="147" cy="124" rx="1.8" ry="1.8" fill="#c23849"/>
+<ellipse cx="146.7" cy="123.7" rx="0.8" ry="0.7" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="173" cy="124" rx="1.8" ry="1.8" fill="#c23849"/>
+<ellipse cx="172.7" cy="123.7" rx="0.8" ry="0.7" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="152" cy="120" rx="1.5" ry="1.5" fill="#c23849"/>
+<ellipse cx="151.8" cy="119.8" rx="0.7" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="168" cy="120" rx="1.5" ry="1.5" fill="#c23849"/>
+<ellipse cx="167.8" cy="119.8" rx="0.7" ry="0.6" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="157" cy="135" rx="1.3" ry="1.3" fill="#c23849"/>
+<ellipse cx="156.8" cy="134.8" rx="0.6" ry="0.5" fill="#fff4e8" opacity=".9"/>
+<ellipse cx="163" cy="135" rx="1.3" ry="1.3" fill="#c23849"/>
+<ellipse cx="162.8" cy="134.8" rx="0.6" ry="0.5" fill="#fff4e8" opacity=".9"/>
+</svg>

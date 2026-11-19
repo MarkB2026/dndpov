@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="hell hound">
+ <title>Hell Hound</title>
+ <defs>
+  <filter id="hell_hound-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="hell_hound-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="hell_hound-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="hell_hound-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" seed="31" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.56 0.81" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="hell_hound-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="31" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="hell_hound-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="hell_hound-fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2a22"/><stop offset="0.55" stop-color="#24140f"/><stop offset="1" stop-color="#0a0605"/></linearGradient><linearGradient id="hell_hound-far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24140f"/><stop offset="1" stop-color="#0c0b0a"/></linearGradient><radialGradient id="hell_hound-fire" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff2b0"/><stop offset="0.35" stop-color="#ffb040"/><stop offset="0.7" stop-color="#e0461c"/><stop offset="1" stop-color="#e0461c" stop-opacity="0"/></radialGradient>
+ </defs>
+<g transform="translate(160 214) scale(0.92) translate(-160 -214)">
+<ellipse cx="158" cy="214" rx="92" ry="8" fill="url(#hell_hound-shadow)"/>
+<ellipse cx="160" cy="130" rx="100" ry="60" fill="#e0461c" opacity=".14" filter="url(#hell_hound-mist)"/>
+<g filter="url(#hell_hound-shag)">
+<path d="M184 150 C186 172 186 192 190 208 L200 210 L196 202 C196 184 198 166 198 150 Z" fill="url(#hell_hound-far)"/>
+<path d="M116 140 C104 152 106 170 118 178 L114 208 L124 210 L126 180 C134 168 134 152 130 144 Z" fill="url(#hell_hound-far)"/>
+<path d="M100 114 C80 112 66 126 58 150 C56 160 62 162 66 154 C72 140 84 130 102 128 Z" fill="url(#hell_hound-fur)"/>
+</g>
+<g filter="url(#hell_hound-shag)"><g filter="url(#hell_hound-tex)">
+<path d="M96 112 C120 98 168 94 196 102 C206 106 214 112 218 120 C222 136 216 152 206 160 C190 166 170 160 150 158 C130 156 114 156 102 148 C92 140 90 124 96 112 Z" fill="url(#hell_hound-fur)"/>
+<path d="M198 146 C202 168 204 190 206 208 L218 212 L212 204 C212 186 214 166 214 148 Z" fill="url(#hell_hound-fur)"/>
+<path d="M104 134 C88 146 88 168 102 178 L96 208 L110 212 L114 180 C124 168 124 150 118 140 Z" fill="url(#hell_hound-fur)"/>
+<path d="M188 100 C200 92 214 96 220 108 C224 122 220 138 212 146 C204 136 196 120 188 100 Z" fill="url(#hell_hound-fur)"/>
+<path d="M210 92 L214 70 L226 90 Z M222 90 L232 70 L236 94 Z" fill="#0a0605"/>
+<path d="M204 98 C212 86 230 84 242 94 L264 106 C270 110 271 117 266 120 L248 124 C238 132 222 130 212 122 C206 116 202 106 204 98 Z" fill="url(#hell_hound-fur)"/>
+</g></g>
+<path d="M120 112 C140 108 160 108 180 112 M108 130 C116 140 122 146 130 150 M196 118 C200 130 202 140 200 150" fill="none" stroke="#0a0605" stroke-width="2.5" opacity=".7"/>
+<path d="M110 104 C130 98 160 96 190 100 M210 90 C218 86 230 86 240 92" fill="none" stroke="#4a2a22" stroke-width="1.6" opacity=".55"/>
+<path d="M206 210 L222 213 L220 209 Z M96 209 L112 213 L110 208 Z" fill="#0a0605"/><path d="M216 212 L222 215 M212 212 L217 216 M108 212 L114 215 M104 212 L109 216" stroke="#cfc6b0" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M266 120 C262 126 252 130 244 128 L238 122 L250 120 Z" fill="#2a0c0e"/>
+<path d="M264 120 L262 124 L259 120 L257 125 L254 121 L251 125 L248 121 L246 124 L243 121" fill="none" stroke="#e8dfc8" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M262 126 L260 123 L257 127 L254 124 L251 128" fill="none" stroke="#e8dfc8" stroke-width="1" stroke-linejoin="round"/>
+<path d="M246 114 C250 110 256 110 262 112" fill="none" stroke="#0a0605" stroke-width="1.6"/>
+<ellipse cx="267" cy="111" rx="3.6" ry="2.6" fill="#0a0808"/>
+<path d="M226 100 C232 96 238 98 242 102" fill="none" stroke="#0a0605" stroke-width="2.2"/>
+<ellipse cx="262" cy="126" rx="12" ry="8" fill="url(#hell_hound-fire)" opacity=".9"/>
+<path d="M262 128 C276 124 284 128 290 120 C284 132 274 136 262 134 Z" fill="#ff8a30" opacity=".75" filter="url(#hell_hound-soft)"/>
+<path d="M206 214 C208 204 214 206 216 212 M98 212 C100 202 106 204 110 212" fill="none" stroke="#ff8a30" stroke-width="2" opacity=".8" filter="url(#hell_hound-soft)"/>
+<circle cx="120" cy="90" r="1.4" fill="#ffb040"/><circle cx="120" cy="90" r="4.199999999999999" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<circle cx="150" cy="82" r="1.1" fill="#ffb040"/><circle cx="150" cy="82" r="3.3000000000000003" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<circle cx="176" cy="86" r="1.5" fill="#ffb040"/><circle cx="176" cy="86" r="4.5" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<circle cx="232" cy="76" r="1.2" fill="#ffb040"/><circle cx="232" cy="76" r="3.5999999999999996" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<circle cx="90" cy="130" r="1.1" fill="#ffb040"/><circle cx="90" cy="130" r="3.3000000000000003" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<circle cx="204" cy="80" r="1" fill="#ffb040"/><circle cx="204" cy="80" r="3" fill="#ff7020" opacity=".4" filter="url(#hell_hound-soft)"/>
+<path d="M110 106 C130 100 170 98 196 104 M212 92 C222 88 236 90 242 96" fill="none" stroke="#ff6a20" stroke-width="1.4" opacity=".7"/>
+<ellipse cx="236" cy="104" rx="8.3" ry="4.7" fill="#e47b3d" opacity="0.85" filter="url(#hell_hound-glow)" transform="rotate(14 236 104)"/>
+<ellipse cx="236" cy="104" rx="3.2" ry="1.8" fill="#e47b3d" transform="rotate(14 236 104)"/>
+<ellipse cx="236" cy="104" rx="0.7" ry="1.7" fill="#120808" transform="rotate(14 236 104)"/>
+</g>
+</svg>

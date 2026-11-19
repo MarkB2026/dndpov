@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="black cat">
+ <title>Black Cat</title>
+ <defs>
+  <filter id="black_cat-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="black_cat-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="black_cat-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="black_cat-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="3" seed="41" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.20 0.62" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="black_cat-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="41" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="black_cat-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="black_cat-fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3840"/><stop offset="0.5" stop-color="#1e1d22"/><stop offset="1" stop-color="#0c0c0e"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="214" rx="62" ry="6" fill="url(#black_cat-shadow)"/>
+<path d="M112 140 C112 170 114 190 113 208 C113 212 125 212 124 208 C123 190 124 170 124 140 Z" fill="url(#black_cat-fur)"/>
+<path d="M126 140 C126 170 128 190 127 208 C127 212 139 212 138 208 C137 190 138 170 138 140 Z" fill="url(#black_cat-fur)"/>
+<path d="M178 140 C178 170 180 190 179 208 C179 212 191 212 190 208 C189 190 190 170 190 140 Z" fill="url(#black_cat-fur)"/>
+<path d="M190 140 C190 170 192 190 191 208 C191 212 203 212 202 208 C201 190 202 170 202 140 Z" fill="url(#black_cat-fur)"/>
+<g filter="url(#black_cat-shag)"><g filter="url(#black_cat-tex)">
+<path d="M116 132 C96 124 88 100 94 76 C97 64 108 62 108 72 C104 94 110 112 126 124 Z" fill="url(#black_cat-fur)"/>
+<path d="M106 142 C104 110 126 86 154 86 C180 86 198 104 206 128 C208 142 200 152 190 152 L122 154 C112 154 106 150 106 142Z" fill="url(#black_cat-fur)"/>
+</g></g>
+<path d="M126 92 C140 86 160 84 176 90" fill="none" stroke="#56535e" stroke-width="1.6" opacity=".7"/>
+<g transform="translate(219 126) scale(1.35) translate(-219 -126)">
+<path d="M204 116 L192 100 L214 108 Z M224 108 L238 96 L236 116 Z" fill="#1a191d"/><path d="M204 113 L196 103 L210 109Z M226 109 L235 100 L233 113Z" fill="#4a3238"/>
+<path d="M200 124 C200 112 210 106 220 107 C232 108 238 118 237 130 C235 142 224 148 214 146 C204 144 200 134 200 124Z" fill="url(#black_cat-fur)" filter="url(#black_cat-tex)"/>
+<ellipse cx="212" cy="122" rx="6.4" ry="4.4" fill="#d8b66a" opacity="0.85" filter="url(#black_cat-glow)" transform="rotate(12 212 122)"/>
+<ellipse cx="227" cy="121" rx="6" ry="4.2" fill="#d8b66a" opacity="0.85" filter="url(#black_cat-glow)" transform="rotate(-10 227 121)"/>
+<ellipse cx="212" cy="122" rx="3.2" ry="2.2" fill="#d8b66a" transform="rotate(12 212 122)"/>
+<ellipse cx="212" cy="122" rx="0.7" ry="2.1" fill="#120808" transform="rotate(12 212 122)"/>
+<ellipse cx="227" cy="121" rx="3" ry="2.1" fill="#d8b66a" transform="rotate(-10 227 121)"/>
+<ellipse cx="227" cy="121" rx="0.7" ry="2" fill="#120808" transform="rotate(-10 227 121)"/>
+<path d="M213 134 C216 130 226 130 229 134 C228 142 222 146 221 146 C218 146 214 142 213 134Z" fill="#3a1016"/>
+<path d="M215 134 L216.5 139 L218 134 M224 134 L225.5 139 L227 134" fill="#f0e8d8"/>
+<path d="M219 130 L221 128 L223 130 Z" fill="#7a4a52"/>
+<path d="M210 132 L186 128 M210 135 L188 138 M232 132 L254 126 M232 135 L252 138" stroke="#bdb6aa" stroke-width=".6" opacity=".7"/>
+</g>
+</svg>

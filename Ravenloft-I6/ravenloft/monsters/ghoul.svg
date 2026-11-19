@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="ghoul">
+ <title>Ghoul</title>
+ <defs>
+  <filter id="ghoul-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="ghoul-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="ghoul-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="ghoul-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="13" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.44 0.75" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="ghoul-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="13" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="ghoul-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="ghoul-skin" cx="0.4" cy="0.3" r="0.75"><stop offset="0" stop-color="#8c9384"/><stop offset="1" stop-color="#4c5249"/></radialGradient><linearGradient id="ghoul-rag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3732"/><stop offset="1" stop-color="#1f1d1a"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="92" ry="9" fill="url(#ghoul-shadow)"/>
+<path d="M140 150 L112 176" stroke="#4c5249" stroke-width="16" stroke-linecap="round"/>
+<path d="M112 176 L122 214" stroke="#4c5249" stroke-width="11" stroke-linecap="round"/>
+<path d="M180 150 L208 176" stroke="#4c5249" stroke-width="16" stroke-linecap="round"/>
+<path d="M208 176 L198 214" stroke="#4c5249" stroke-width="11" stroke-linecap="round"/>
+<path d="M110 216 C106 210 120 208 132 212 L138 218 L128 220 L124 216 L120 220 L116 216 L110 220Z M210 216 C214 210 200 208 188 212 L182 218 L192 220 L196 216 L200 220 L204 216 L210 220Z" fill="#4c5249"/>
+<g filter="url(#ghoul-tex)">
+<path d="M124 98 C112 108 118 126 128 146 C136 160 184 160 192 146 C202 126 208 108 196 98 C184 88 136 88 124 98Z" fill="url(#ghoul-skin)"/>
+<path d="M134 110 Q148 116 152 108 M132 120 Q146 126 152 118 M134 130 Q146 136 152 128 M186 110 Q172 116 168 108 M188 120 Q174 126 168 118 M186 130 Q174 136 168 128" fill="none" stroke="#4c5249" stroke-width="2.2"/>
+<path d="M160 100 L160 146" stroke="#4c5249" stroke-width="1.6"/>
+<path d="M128 142 C140 150 180 150 192 142 L196 160 L188 156 L182 166 L174 158 L166 168 L160 158 L152 168 L146 158 L138 166 L132 156 L124 160Z" fill="url(#ghoul-rag)"/>
+</g>
+<path d="M126 102 L96 132" stroke="#8c9384" stroke-width="13" stroke-linecap="round"/>
+<path d="M96 132 L82 166" stroke="#8c9384" stroke-width="9" stroke-linecap="round"/>
+<path d="M126 105.2 L96 135.2" stroke="#4c5249" stroke-width="5.9" stroke-linecap="round" opacity=".55"/>
+<path d="M96 134.2 L82 168.2" stroke="#4c5249" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+<path d="M194 102 L224 132" stroke="#8c9384" stroke-width="13" stroke-linecap="round"/>
+<path d="M224 132 L238 166" stroke="#8c9384" stroke-width="9" stroke-linecap="round"/>
+<path d="M194 105.2 L224 135.2" stroke="#4c5249" stroke-width="5.9" stroke-linecap="round" opacity=".55"/>
+<path d="M224 134.2 L238 168.2" stroke="#4c5249" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+<ellipse cx="82.8" cy="165.1" rx="6.2" ry="4.8" fill="#8c9384" transform="rotate(105 82.8 165.1)"/>
+<path d="M82 168 L83.1 176.4 L82.8 184.1 L81.5 189.9" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80.2 189.3 L79.6 194.5 L82.8 190.4Z" fill="#1d1814"/>
+<path d="M82 168 L80.7 177.9 L78 186.5 L74.8 192.7" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73.6 191.9 L71.7 196.7 L75.9 193.6Z" fill="#1d1814"/>
+<path d="M82 168 L78.2 177.2 L73.3 184.8 L68.6 190" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M67.8 188.9 L64.6 193 L69.5 191.1Z" fill="#1d1814"/>
+<path d="M82 168 L76.8 174.7 L71.2 179.9 L66.2 183.1" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M65.6 181.8 L61.5 185 L66.7 184.4Z" fill="#1d1814"/>
+<ellipse cx="237.2" cy="165.1" rx="6.2" ry="4.8" fill="#8c9384" transform="rotate(75 237.2 165.1)"/>
+<path d="M238 168 L243.2 174.7 L248.8 179.9 L253.8 183.1" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M253.3 184.4 L258.5 185 L254.4 181.8Z" fill="#1d1814"/>
+<path d="M238 168 L241.8 177.2 L246.7 184.8 L251.4 190" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M250.5 191.1 L255.4 193 L252.2 188.9Z" fill="#1d1814"/>
+<path d="M238 168 L239.3 177.9 L242 186.5 L245.2 192.7" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M244.1 193.6 L248.3 196.7 L246.4 191.9Z" fill="#1d1814"/>
+<path d="M238 168 L236.9 176.4 L237.2 184.1 L238.5 189.9" fill="none" stroke="#8c9384" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M237.2 190.4 L240.4 194.5 L239.8 189.3Z" fill="#1d1814"/>
+<g filter="url(#ghoul-tex)">
+<path d="M140 72 L122 56 L142 66 Z M180 72 L198 56 L178 66 Z" fill="#4c5249"/>
+<path d="M142 72 C140 54 150 46 160 46 C170 46 180 54 178 72 C177 84 172 94 166 100 C162 103 158 103 154 100 C148 94 143 84 142 72Z" fill="url(#ghoul-skin)"/>
+<path d="M144 70 Q151 63 158 70 Q152 76 144 70Z M162 70 Q169 63 176 70 Q168 76 162 70Z" fill="#0f0c0c"/>
+</g>
+<ellipse cx="151" cy="70" rx="5.3" ry="4" fill="#c23849" opacity="0.85" filter="url(#ghoul-glow)" transform="rotate(12 151 70)"/>
+<ellipse cx="169" cy="70" rx="5.3" ry="4" fill="#c23849" opacity="0.85" filter="url(#ghoul-glow)" transform="rotate(-12 169 70)"/>
+<ellipse cx="151" cy="70" rx="2.4" ry="1.8" fill="#c23849" transform="rotate(12 151 70)"/>
+<ellipse cx="150.6" cy="69.7" rx="1.1" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(12 151 70)"/>
+<ellipse cx="169" cy="70" rx="2.4" ry="1.8" fill="#c23849" transform="rotate(-12 169 70)"/>
+<ellipse cx="168.6" cy="69.7" rx="1.1" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(-12 169 70)"/>
+<path d="M158 76 L156 82 L160 83 Z" fill="#2a2420"/>
+<path d="M148 86 C154 84 166 84 172 86 C170 96 166 102 160 103 C154 102 150 96 148 86Z" fill="#160b0c"/>
+<path d="M150 86 L152 92 L154 86 L156 93 L158 86 L160 93 L162 86 L164 93 L166 86 L168 92 L170 86 M152 101 L154 96 L157 101 L160 95 L163 101 L166 96 L168 101" fill="none" stroke="#d2c7a8" stroke-width="1.2"/>
+<path d="M160 98 C162 106 158 112 162 118" fill="none" stroke="#7a2c34" stroke-width="3" stroke-linecap="round"/>
+<path d="M148 54 C152 50 156 48 160 48" fill="none" stroke="#c9cfc0" stroke-width="1.2" opacity=".5"/>
+</svg>

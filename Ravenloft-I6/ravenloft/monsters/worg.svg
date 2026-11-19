@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="worg">
+ <title>Worg</title>
+ <defs>
+  <filter id="worg-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="worg-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="worg-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="worg-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" seed="37" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.56 0.81" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="worg-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="37" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="worg-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="worg-fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#55504a"/><stop offset="0.5" stop-color="#2c2926"/><stop offset="1" stop-color="#0b0a09"/></linearGradient><linearGradient id="worg-far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c2926"/><stop offset="1" stop-color="#060505"/></linearGradient><radialGradient id="worg-mus" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#6a645c" stop-opacity="0.55"/><stop offset="1" stop-color="#6a645c" stop-opacity="0"/></radialGradient>
+ </defs>
+<ellipse cx="168" cy="216" rx="108" ry="9" fill="url(#worg-shadow)"/>
+<g filter="url(#worg-shag)">
+<path d="M186 140 C180 162 184 182 188 196 L186 208 L204 211 L200 202 C202 184 204 166 206 146 Z" fill="url(#worg-far)"/>
+<path d="M112 130 C96 142 96 166 110 178 L106 206 L122 209 L124 180 C136 168 138 146 128 136 Z" fill="url(#worg-far)"/>
+<path d="M94 116 C74 118 62 134 58 160 C58 170 66 170 68 162 C72 146 82 136 98 132 Z" fill="url(#worg-fur)"/>
+</g>
+<g filter="url(#worg-shag)"><g filter="url(#worg-tex)">
+<path d="M90 110 C108 98 138 92 166 82 C180 72 200 66 216 74 C230 82 238 98 240 116 C242 138 232 156 216 166 C196 174 176 168 158 162 C138 158 118 160 104 154 C88 146 82 126 90 110 Z" fill="url(#worg-fur)"/>
+<path d="M120 98 L124 83 L129 96 L134 73 L139 92 L144 76 L149 89 L154 67 L159 86 L164 69 L169 82 L174 58 L179 77 L184 59 L189 72 L194 50 L199 69 L204 55 L209 68 L212 51 L217 70 L218 78 L120 104 Z" fill="url(#worg-fur)" transform="translate(0 -3) scale(1 1)"/>
+<path d="M190 112 C206 104 228 114 230 136 C230 152 226 164 222 176 C220 188 220 198 222 206 L230 212 L202 213 L204 200 C200 184 196 168 190 152 C184 136 182 120 190 112 Z" fill="url(#worg-fur)"/>
+<path d="M100 118 C120 110 138 124 136 146 C134 160 124 170 114 178 L110 204 L120 212 L96 212 L94 180 C80 168 78 150 84 134 C88 126 92 120 100 118 Z" fill="url(#worg-fur)"/>
+<path d="M196 84 C210 74 228 80 236 96 C242 112 238 130 228 140 C216 128 204 108 196 84 Z" fill="url(#worg-fur)"/>
+<path d="M218 84 L220 60 L234 82 Z M230 82 L242 60 L244 86 Z" fill="#0b0a09"/>
+<path d="M214 92 C222 78 246 76 260 88 L284 102 C292 108 292 120 286 124 L266 128 C256 140 234 140 222 132 C210 122 206 104 214 92 Z" fill="url(#worg-fur)"/>
+</g></g>
+<path d="M110 152 C130 160 150 160 170 166 C186 170 200 170 214 164 C200 176 170 174 150 168 C132 164 116 162 110 152Z" fill="#000" opacity=".35"/>
+<ellipse cx="208" cy="132" rx="18" ry="22" fill="url(#worg-mus)"/>
+<ellipse cx="112" cy="140" rx="20" ry="22" fill="url(#worg-mus)"/>
+<ellipse cx="176" cy="104" rx="22" ry="14" fill="url(#worg-mus)"/>
+<ellipse cx="150" cy="128" rx="22" ry="14" fill="url(#worg-mus)"/>
+<path d="M192 112 C204 120 210 134 208 150 M206 156 C212 162 216 170 216 182 M98 126 C112 132 120 144 118 158 M140 112 C150 122 152 136 148 150 M160 112 C168 122 170 136 166 150 M124 158 C134 162 146 162 156 160 M196 92 C206 98 214 108 216 120" fill="none" stroke="#0b0a09" stroke-width="1.5" opacity=".45"/>
+<path d="M104 102 C130 94 160 86 186 72 M218 84 C228 80 242 80 254 88" fill="none" stroke="#55504a" stroke-width="1.6" opacity=".6"/>
+<path d="M200 207 C206 203 226 203 232 211 L200 213Z" fill="#0b0a09"/>
+<path d="M220 211 l6 4 M214 212 l5 4 M208 212 l4 4" stroke="#d8cfb8" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M96 206 C102 202 122 202 128 210 L96 212Z" fill="#0b0a09"/>
+<path d="M116 210 l6 4 M110 211 l5 4 M104 211 l4 4" stroke="#d8cfb8" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M286 124 C280 138 266 146 252 144 L238 132 L262 127 Z" fill="#240a0c"/>
+<path d="M262 128 L250 132 L240 130 C246 138 256 142 266 140Z" fill="#5a1a22" opacity=".8"/>
+<path d="M285 123 L283 130 L280 123 L278 132 L274 124 L271 130 L268 125 L265 129 L262 126" fill="#ece3cc" stroke="#ece3cc" stroke-width=".8" stroke-linejoin="round"/>
+<path d="M280 136 L278 130 L275 138 L272 132 L268 141 L265 135 L261 142" fill="#ece3cc" stroke="#ece3cc" stroke-width=".8" stroke-linejoin="round"/>
+<path d="M272 134 C272 142 270 148 272 152" fill="none" stroke="#c0c8cc" stroke-width="1" opacity=".55"/>
+<path d="M250 112 C258 106 268 106 278 110 M256 98 C264 100 272 104 280 104" fill="none" stroke="#0b0a09" stroke-width="1.8"/>
+<ellipse cx="288" cy="112" rx="4.2" ry="3" fill="#080606"/>
+<path d="M234 94 C240 90 248 92 254 98" fill="none" stroke="#0b0a09" stroke-width="2.6"/>
+<ellipse cx="246" cy="101" rx="10.1" ry="5.6" fill="#c23849" opacity="0.85" filter="url(#worg-glow)" transform="rotate(16 246 101)"/>
+<ellipse cx="246" cy="101" rx="3.6" ry="2" fill="#c23849" transform="rotate(16 246 101)"/>
+<ellipse cx="246" cy="101" rx="0.8" ry="1.9" fill="#120808" transform="rotate(16 246 101)"/>
+</svg>

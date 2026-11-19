@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="nightmare">
+ <title>Nightmare</title>
+ <defs>
+  <filter id="nightmare-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="nightmare-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="nightmare-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="nightmare-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" seed="61" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.20 0.62" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="nightmare-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="61" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="nightmare-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="nightmare-hide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3236"/><stop offset="0.6" stop-color="#1a1618"/><stop offset="1" stop-color="#060506"/></linearGradient><linearGradient id="nightmare-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff1a8"/><stop offset="0.3" stop-color="#ffb040"/><stop offset="0.7" stop-color="#e8501a"/><stop offset="1" stop-color="#8a1a0a" stop-opacity="0.3"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="214" rx="90" ry="8" fill="url(#nightmare-shadow)"/>
+<ellipse cx="200" cy="80" rx="60" ry="46" fill="#ff7020" opacity=".18" filter="url(#nightmare-mist)"/>
+<path d="M89 120 C89 100.0 81.2 90.0 68 70 C82.7 90.0 107 100.0 107 120 Z" fill="url(#nightmare-fire)" transform="rotate(-70 98 120)" opacity=".9"/>
+<path d="M85 130 C85 114.0 73.6 106.0 58 90 C73.69999999999999 106.0 99 114.0 99 130 Z" fill="url(#nightmare-fire)" transform="rotate(-70 92 130)" opacity=".9"/>
+<path d="M98 116 C98 102.4 92.8 95.6 84 82 C93.8 95.6 110 102.4 110 116 Z" fill="url(#nightmare-fire)" transform="rotate(-70 104 116)" opacity=".9"/>
+<path d="M188 140 C190 166 190 188 192 206 L200 207 C200 188 200 166 198 140Z M118 136 C108 150 106 168 114 180 L112 206 L120 207 L124 180 C130 166 130 150 126 140Z" fill="#0c0a0b"/>
+<g filter="url(#nightmare-tex)"><path d="M96 112 C110 98 150 96 188 100 C198 92 204 78 210 66 C214 58 222 52 230 52 L238 42 L240 54 C248 60 256 72 262 84 C266 90 264 97 257 97 C250 97 244 93 238 89 C230 92 224 100 220 110 C218 122 214 134 208 144 C190 152 170 152 150 150 C130 152 112 148 104 140 C94 132 90 120 96 112 Z" fill="url(#nightmare-hide)"/>
+<path d="M200 138 C204 160 204 180 202 196 L206 208 L216 208 L212 196 C214 178 214 158 212 140 Z" fill="url(#nightmare-hide)"/>
+<path d="M104 128 C90 140 90 160 100 174 L98 196 L96 208 L108 208 L108 196 L112 176 C122 160 122 144 116 134 Z" fill="url(#nightmare-hide)"/></g>
+<path d="M226 54 C240 54 252 66 262 84 C266 92 263 99 255 99 C247 99 241 94 235 88 C226 82 220 72 222 62 Z" fill="url(#nightmare-hide)" filter="url(#nightmare-tex)"/>
+<path d="M234 60 C244 64 252 74 258 84 M236 84 C240 76 236 70 232 68" fill="none" stroke="#5a4a50" stroke-width="1.3" opacity=".8"/>
+<path d="M96 112 C110 98 150 96 188 100 C198 92 204 78 210 66 C214 58 222 52 230 52 L238 42 L240 54 C248 60 256 72 262 84 C266 90 264 97 257 97 C250 97 244 93 238 89 C230 92 224 100 220 110 C218 122 214 134 208 144 C190 152 170 152 150 150 C130 152 112 148 104 140 C94 132 90 120 96 112 Z" fill="none" stroke="#ff7a30" stroke-width="1.2" opacity=".35"/>
+<path d="M120 112 C140 106 170 106 186 110 M196 118 C200 128 202 136 200 144 M108 124 C112 134 118 140 126 142 M232 64 C238 70 244 78 250 84" fill="none" stroke="#000" stroke-width="2.4" opacity=".55"/>
+<path d="M106 104 C130 96 160 96 186 98 M212 62 C218 56 226 54 232 54" fill="none" stroke="#6a5a5e" stroke-width="1.4" opacity=".7"/>
+<g filter="url(#nightmare-soft)" opacity=".7"><path d="M221.5 52 C221.5 40.56 234.9 34.84 242 23.4 C241.15 34.84 242.5 40.56 242.5 52 Z" fill="#ff6a1a"/><path d="M214.0 56 C214.0 38.4 218.6 29.6 216 12.0 C223.6 29.6 238.0 38.4 238.0 56 Z" fill="#ff6a1a"/><path d="M208.5 62 C208.5 48.8 207.9 42.2 201 29.0 C211.35 42.2 229.5 48.8 229.5 62 Z" fill="#ff6a1a"/><path d="M199.5 68 C199.5 47.76 196.3 37.64 185 17.4 C200.25 37.64 226.5 47.76 226.5 68 Z" fill="#ff6a1a"/><path d="M194.0 78 C194.0 63.92 190.6 56.879999999999995 180 42.8 C194.0 56.879999999999995 218.0 63.92 218.0 78 Z" fill="#ff6a1a"/><path d="M188.0 88 C188.0 70.4 179.6 61.6 164 44.0 C182.0 61.6 212.0 70.4 212.0 88 Z" fill="#ff6a1a"/><path d="M184.0 96 C184.0 85.44 176.2 80.16 163 69.6 C177.7 80.16 202.0 85.44 202.0 96 Z" fill="#ff6a1a"/><path d="M228.5 48 C228.5 40.96 236.5 37.44 240 30.4 C240.65 37.44 243.5 40.96 243.5 48 Z" fill="#ff6a1a"/></g>
+<path d="M225 52 C225 41.6 235.6 36.4 242 26 C240.1 36.4 239 41.6 239 52 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M218 56 C218 40.0 219.4 32.0 216 16 C222.4 32.0 234 40.0 234 56 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M212 62 C212 50.0 208.6 44.0 201 32 C210.29999999999998 44.0 226 50.0 226 62 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M204 68 C204 49.599999999999994 197.2 40.400000000000006 185 22 C198.89999999999998 40.400000000000006 222 49.599999999999994 222 68 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M198 78 C198 65.2 191.4 58.8 180 46 C192.8 58.8 214 65.2 214 78 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M192 88 C192 72.0 180.4 64.0 164 48 C180.8 64.0 208 72.0 208 88 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M187 96 C187 86.4 176.8 81.6 163 72 C176.8 81.6 199 86.4 199 96 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M231 48 C231 41.6 237.0 38.4 240 32 C239.9 38.4 241 41.6 241 48 Z" fill="url(#nightmare-fire)" opacity=".92"/>
+<path d="M210 66 C210 54.0 205.2 48.0 198 36 C205.6 48.0 218 54.0 218 66 Z M197 86 C197 77.2 188.4 72.8 178 64 C187.70000000000002 72.8 203 77.2 203 86 Z" fill="#fff1a8" opacity=".6"/>
+<path d="M94 210 C94 203.6 98.4 200.4 98 194 C102.0 200.4 110 203.6 110 210 Z" fill="url(#nightmare-fire)" opacity=".85"/>
+<path d="M202 210 C202 203.6 206.4 200.4 206 194 C210.0 200.4 218 203.6 218 210 Z" fill="url(#nightmare-fire)" opacity=".85"/>
+<path d="M108 210 C108 203.6 112.4 200.4 112 194 C116.0 200.4 124 203.6 124 210 Z" fill="url(#nightmare-fire)" opacity=".85"/>
+<path d="M188 210 C188 203.6 192.4 200.4 192 194 C196.0 200.4 204 203.6 204 210 Z" fill="url(#nightmare-fire)" opacity=".85"/>
+<path d="M96 208 L108 208 L109 212 L95 212Z M204 208 L216 208 L217 212 L203 212Z" fill="#0a0808"/>
+<path d="M262 92 C272 90 278 96 288 92 C282 100 272 102 262 98Z" fill="#ff8a30" opacity=".7" filter="url(#nightmare-soft)"/>
+<ellipse cx="259" cy="90" rx="2" ry="1.4" fill="#ffb040"/>
+<path d="M250 96 L262 95" stroke="#000" stroke-width="1.2"/>
+<ellipse cx="240" cy="66" rx="10.1" ry="6.2" fill="#ff9a43" opacity="0.85" filter="url(#nightmare-glow)" transform="rotate(30 240 66)"/>
+<ellipse cx="240" cy="66" rx="3.6" ry="2.2" fill="#ff9a43" transform="rotate(30 240 66)"/>
+<ellipse cx="239.5" cy="65.7" rx="1.6" ry="0.9" fill="#fff4e8" opacity=".9" transform="rotate(30 240 66)"/>
+</svg>

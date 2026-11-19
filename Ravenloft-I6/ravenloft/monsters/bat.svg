@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="bat">
+ <title>Bat</title>
+ <defs>
+  <filter id="bat-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="bat-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="bat-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="bat-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" seed="43" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.20 0.62" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="bat-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="43" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="bat-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="bat-mem" cx="0.5" cy="0.3" r="0.8"><stop offset="0" stop-color="#3a2c34"/><stop offset="0.7" stop-color="#1d1820"/><stop offset="1" stop-color="#0c0a0e"/></radialGradient><radialGradient id="bat-body" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#4a3e40"/><stop offset="1" stop-color="#16121a"/></radialGradient>
+ </defs>
+<path d="M148 100 L104 62 L52 54 Q54 80 26 96 Q56 112 40 136 Q70 132 78 150 Q108 126 150 132 Z" fill="url(#bat-mem)" filter="url(#bat-tex)"/>
+<path d="M148 100 L104 62 L52 54 Q54 80 26 96 Q56 112 40 136 Q70 132 78 150 Q108 126 150 132 Z" fill="none" stroke="#5a4a52" stroke-width="1" opacity=".6"/>
+<path d="M150 104 L104 62 M104 62 L52 54 M104 62 L26 96 M104 62 L40 136 M104 62 L78 150" fill="none" stroke="#2c2228" stroke-width="3.4" stroke-linecap="round"/>
+<path d="M150 104 L104 62 M104 62 L52 54 M104 62 L26 96 M104 62 L40 136 M104 62 L78 150" fill="none" stroke="#6e5c62" stroke-width="1.1" stroke-linecap="round" opacity=".8"/>
+<path d="M104 62 L110 50 L114 56" fill="none" stroke="#2c2228" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M112 52 L118 54" stroke="#d0c6b4" stroke-width="1.4"/>
+<path d="M120 90 Q90 100 66 118 M126 112 Q100 120 84 136" fill="none" stroke="#5a3842" stroke-width=".8" opacity=".6"/>
+<path d="M172 100 L216 62 L268 54 Q266 80 294 96 Q264 112 280 136 Q250 132 242 150 Q212 126 170 132 Z" fill="url(#bat-mem)" filter="url(#bat-tex)"/>
+<path d="M172 100 L216 62 L268 54 Q266 80 294 96 Q264 112 280 136 Q250 132 242 150 Q212 126 170 132 Z" fill="none" stroke="#5a4a52" stroke-width="1" opacity=".6"/>
+<path d="M170 104 L216 62 M216 62 L268 54 M216 62 L294 96 M216 62 L280 136 M216 62 L242 150" fill="none" stroke="#2c2228" stroke-width="3.4" stroke-linecap="round"/>
+<path d="M170 104 L216 62 M216 62 L268 54 M216 62 L294 96 M216 62 L280 136 M216 62 L242 150" fill="none" stroke="#6e5c62" stroke-width="1.1" stroke-linecap="round" opacity=".8"/>
+<path d="M216 62 L210 50 L206 56" fill="none" stroke="#2c2228" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M208 52 L202 54" stroke="#d0c6b4" stroke-width="1.4"/>
+<path d="M200 90 Q230 100 254 118 M194 112 Q220 120 236 136" fill="none" stroke="#5a3842" stroke-width=".8" opacity=".6"/>
+<g filter="url(#bat-shag)"><path d="M146 96 C146 84 174 84 174 96 C178 116 172 136 160 146 C148 136 142 116 146 96Z" fill="url(#bat-body)"/></g>
+<path d="M154 144 L152 152 M158 146 L157 154 M166 144 L168 152 M162 146 L163 154" stroke="#2c2228" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M146 82 L138 52 L154 74 Z M174 82 L182 52 L166 74 Z" fill="#241c22"/><path d="M146 78 L141 58 L151 74Z M174 78 L179 58 L169 74Z" fill="#5a3a44"/>
+<g filter="url(#bat-shag)"><path d="M146 84 C146 72 174 72 174 84 C174 96 168 102 160 102 C152 102 146 96 146 84Z" fill="url(#bat-body)"/></g>
+<path d="M156 88 L160 82 L164 88 L160 92 Z" fill="#4a2e36"/>
+<path d="M153 94 C156 92 164 92 167 94 C166 100 162 102 160 102 C158 102 154 100 153 94Z" fill="#2a0c12"/><path d="M155 94 L156 99 L157.5 94 M162.5 94 L164 99 L165 94" fill="#f0e8d8"/>
+<ellipse cx="153" cy="84" rx="5.8" ry="4.3" fill="#c23849" opacity="0.85" filter="url(#bat-glow)" transform="rotate(15 153 84)"/>
+<ellipse cx="167" cy="84" rx="5.8" ry="4.3" fill="#c23849" opacity="0.85" filter="url(#bat-glow)" transform="rotate(-15 167 84)"/>
+<ellipse cx="153" cy="84" rx="2.4" ry="1.8" fill="#c23849" transform="rotate(15 153 84)"/>
+<ellipse cx="152.6" cy="83.7" rx="1.1" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(15 153 84)"/>
+<ellipse cx="167" cy="84" rx="2.4" ry="1.8" fill="#c23849" transform="rotate(-15 167 84)"/>
+<ellipse cx="166.6" cy="83.7" rx="1.1" ry="0.7" fill="#fff4e8" opacity=".9" transform="rotate(-15 167 84)"/>
+</svg>

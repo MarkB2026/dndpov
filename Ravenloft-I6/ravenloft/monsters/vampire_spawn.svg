@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="vampire spawn">
+ <title>Vampire Spawn</title>
+ <defs>
+  <filter id="vampire_spawn-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="vampire_spawn-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="vampire_spawn-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="vampire_spawn-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="139" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.20 0.62" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="vampire_spawn-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="139" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="vampire_spawn-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="vampire_spawn-skin" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#e0d6da"/><stop offset="0.7" stop-color="#9e94a2"/><stop offset="1" stop-color="#5e5668"/></radialGradient><linearGradient id="vampire_spawn-shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7e7670"/><stop offset="0.6" stop-color="#45403c"/><stop offset="1" stop-color="#1a1818"/></linearGradient><linearGradient id="vampire_spawn-pants" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2628"/><stop offset="1" stop-color="#0c0a0c"/></linearGradient>
+ </defs>
+<ellipse cx="160" cy="220" rx="86" ry="9" fill="url(#vampire_spawn-shadow)"/>
+<path d="M144 146 L118 172" stroke="url(#vampire_spawn-pants)" stroke-width="15" stroke-linecap="round"/>
+<path d="M118 172 L126 212" stroke="url(#vampire_spawn-pants)" stroke-width="11" stroke-linecap="round"/>
+<path d="M176 146 L204 170" stroke="url(#vampire_spawn-pants)" stroke-width="15" stroke-linecap="round"/>
+<path d="M204 170 L194 212" stroke="url(#vampire_spawn-pants)" stroke-width="11" stroke-linecap="round"/>
+<path d="M116 212 C114 206 128 206 138 210 L140 216 L114 217Z M184 210 C194 206 208 206 206 212 L208 217 L182 216Z" fill="#6a6270"/>
+<path d="M112 196 L120 190 L122 200 L130 192 L134 200 M190 192 L196 200 L200 190 L206 198 L210 192" fill="none" stroke="#0c0a0c" stroke-width="2"/>
+<g filter="url(#vampire_spawn-tex)"><path d="M126 94 C114 104 118 124 128 140 L132 152 L138 146 L144 156 L150 148 L158 158 L164 148 L172 156 L178 146 L186 152 L190 140 C202 124 206 104 194 94 C180 86 140 86 126 94Z" fill="url(#vampire_spawn-shirt)"/></g>
+<path d="M150 92 L158 120 L166 92 Z" fill="url(#vampire_spawn-skin)"/>
+<path d="M138 104 C142 120 144 134 142 148 M182 104 C178 120 176 134 178 148" fill="none" stroke="#000" stroke-width="2.4" opacity=".35"/>
+<path d="M156 118 C152 126 156 132 152 140 C160 136 166 130 164 120Z" fill="#5a1018" opacity=".8"/><circle cx="170" cy="112" r="2" fill="#5a1018" opacity=".8"/>
+<path d="M128 98 L100 90" stroke="url(#vampire_spawn-shirt)" stroke-width="12" stroke-linecap="round"/>
+<path d="M100 90 L84 66" stroke="url(#vampire_spawn-shirt)" stroke-width="9" stroke-linecap="round"/>
+<path d="M192 98 L220 90" stroke="url(#vampire_spawn-shirt)" stroke-width="12" stroke-linecap="round"/>
+<path d="M220 90 L236 66" stroke="url(#vampire_spawn-shirt)" stroke-width="9" stroke-linecap="round"/>
+<path d="M92 78 L84 66" stroke="#c8bec6" stroke-width="8" stroke-linecap="round"/>
+<path d="M228 78 L236 66" stroke="#c8bec6" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="84.8" cy="66.3" rx="5" ry="3.8" fill="#c8bec6" transform="rotate(-110 84.8 66.3)"/>
+<path d="M84 64 L79 59.4 L75.6 54.5 L73.6 49.8" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M75 49.5 L72.7 44.9 L72.2 50.1Z" fill="#1a1014"/>
+<path d="M84 64 L80.1 57 L78.1 50.3 L77.6 44.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M78.9 44.5 L78.2 39.4 L76.2 44.2Z" fill="#1a1014"/>
+<path d="M84 64 L82.5 56.1 L82.6 49.1 L83.9 43.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M85.2 43.9 L86.1 38.8 L82.7 42.7Z" fill="#1a1014"/>
+<path d="M84 64 L84.8 57.3 L86.8 51.6 L89.4 47.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M90.4 48.2 L92.8 43.6 L88.4 46.3Z" fill="#1a1014"/>
+<ellipse cx="235.2" cy="66.3" rx="5" ry="3.8" fill="#c8bec6" transform="rotate(-70 235.2 66.3)"/>
+<path d="M236 64 L235.2 57.3 L233.2 51.6 L230.6 47.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M231.6 46.3 L227.2 43.6 L229.6 48.2Z" fill="#1a1014"/>
+<path d="M236 64 L237.5 56.1 L237.4 49.1 L236.1 43.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M237.3 42.7 L233.9 38.8 L234.8 43.9Z" fill="#1a1014"/>
+<path d="M236 64 L239.9 57 L241.9 50.3 L242.4 44.3" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M243.8 44.2 L241.8 39.4 L241.1 44.5Z" fill="#1a1014"/>
+<path d="M236 64 L241 59.4 L244.4 54.5 L246.4 49.8" fill="none" stroke="#c8bec6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M247.8 50.1 L247.3 44.9 L245 49.5Z" fill="#1a1014"/>
+<path d="M154 74 L166 74 L167 92 L153 92Z" fill="#9e94a2"/>
+<path d="M145 56 C145 40 175 40 175 56 C175 70 170 82 160 86 C150 82 145 70 145 56Z" fill="url(#vampire_spawn-skin)"/>
+<path d="M148 68 C150 74 154 78 158 80 M172 68 C170 74 166 78 162 80" fill="none" stroke="#6a6470" stroke-width="1" opacity=".7"/>
+<path d="M149 59 Q154 55 158 59 Q154 63 149 59Z M171 59 Q166 55 162 59 Q166 63 171 59Z" fill="#2a1a22" opacity=".8"/>
+<path d="M148 54 L158 57 M172 54 L162 57" stroke="#141014" stroke-width="2" stroke-linecap="round"/>
+<ellipse cx="154" cy="59" rx="5.3" ry="3.3" fill="#e55b60" opacity="0.85" filter="url(#vampire_spawn-glow)" transform="rotate(10 154 59)"/>
+<ellipse cx="166" cy="59" rx="5.3" ry="3.3" fill="#e55b60" opacity="0.85" filter="url(#vampire_spawn-glow)" transform="rotate(-10 166 59)"/>
+<ellipse cx="154" cy="59" rx="2.4" ry="1.5" fill="#e55b60" transform="rotate(10 154 59)"/>
+<ellipse cx="153.6" cy="58.8" rx="1.1" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(10 154 59)"/>
+<ellipse cx="166" cy="59" rx="2.4" ry="1.5" fill="#e55b60" transform="rotate(-10 166 59)"/>
+<ellipse cx="165.6" cy="58.8" rx="1.1" ry="0.6" fill="#fff4e8" opacity=".9" transform="rotate(-10 166 59)"/>
+<path d="M160 61 L158 69 L161 70" fill="none" stroke="#8a828e" stroke-width="1"/>
+<path d="M154 74 Q160 72 166 74 Q160 77 154 74Z" fill="#5a1420"/>
+<path d="M156 74 l1 4 l1 -4 M162 74 l1 4 l1 -4" fill="#f4eee4"/>
+<path d="M150 74 Q160 70 170 74 Q166 84 160 86 Q154 84 150 74Z" fill="#2a060c"/><path d="M152 74 l1.6 7 l1.6 -7 M165 74 l1.6 7 l1.6 -7" fill="#f4eee4"/><path d="M155 75 L157 75 L156 78Z M163 75 L165 75 L164 78Z" fill="#f4eee4"/>
+<path d="M156 86 C155 92 157 96 156 100 M164 86 C165 90 164 94 166 96" fill="none" stroke="#7a1420" stroke-width="1.4"/>
+<path d="M144 58 C138 40 150 30 162 32 C174 30 184 42 176 58 L178 48 L172 52 L170 42 L164 48 L160 40 L156 48 L150 42 L148 52 L142 48Z" fill="#0e0c10"/><path d="M144 56 L136 64 L144 62 M176 56 L184 66 L176 62" fill="none" stroke="#0e0c10" stroke-width="2.4"/>
+</svg>

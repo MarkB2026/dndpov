@@ -1,31 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" role="img" aria-label="Animated stone dragon with long snout, wings, claws, and curling tail">
-<title>Animated Stone Dragon</title>
-<g stroke="#171a20" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
-<!-- curling tail -->
-<path d="M318 253 Q411 246 428 185 Q437 144 406 137 Q380 135 383 162 Q396 155 400 172 Q400 211 332 210 Z" fill="#434750"/>
-<!-- broad folded wings -->
-<path d="M215 170 Q137 102 79 42 L95 139 L42 112 L82 218 L147 204 L184 239 Z" fill="#414650"/>
-<path d="M275 170 Q352 88 424 58 L398 151 L451 130 L402 233 L325 210 L294 235 Z" fill="#454a54"/>
-<path d="M215 171 L103 91 L129 176 L79 153 L131 215" fill="none" stroke="#717782" stroke-width="4"/>
-<path d="M274 171 L396 99 L365 185 L411 165 L356 218" fill="none" stroke="#777d86" stroke-width="4"/>
-<!-- heavy hindquarters and muscular body -->
-<path d="M171 197 Q177 155 226 145 L287 154 Q326 176 329 226 L312 280 L276 295 L195 289 L161 265 Z" fill="#565b65"/>
-<path d="M193 221 Q214 208 240 223 Q263 204 293 223" fill="none" stroke="#888e98" stroke-width="5"/>
-<path d="M184 250 L157 296 L139 303 L141 317 L167 314 L185 302 L211 266" fill="#454a53"/>
-<path d="M287 248 L317 292 L340 299 L340 314 L315 315 L296 301 L269 271" fill="#454a53"/>
-<!-- muscular forearms and talons -->
-<path d="M199 205 Q170 217 170 254 L153 285 L164 298 L182 293 L203 263 L225 230 Z" fill="#636873"/>
-<path d="M277 205 Q311 217 311 253 L329 285 L317 299 L300 293 L276 261 L255 230 Z" fill="#636873"/>
-<path d="M154 286 L145 306 M165 292 L161 310 M176 290 L179 309 M326 287 L338 307 M316 293 L318 312 M304 292 L298 309" fill="none" stroke="#b7b7ae" stroke-width="5"/>
-<!-- neck, shoulders and horned head -->
-<path d="M208 192 Q205 152 221 128 L214 108 L236 116 L251 90 L270 118 L292 108 L285 135 Q302 164 282 200 Z" fill="#626873"/>
-<path d="M215 126 L193 76 L226 97 L233 57 L253 94 L283 61 L277 106 L307 83 L290 141" fill="#444b56"/>
-<!-- elongated dragon muzzle, distinct from rounded gargoyle -->
-<path d="M211 140 Q229 124 249 132 Q270 124 286 142 L303 180 L290 202 L269 207 L253 197 L235 207 L211 202 L197 182 Z" fill="#777d85"/>
-<path d="M206 169 Q234 177 249 171 Q275 179 294 168 L290 193 Q267 207 249 196 Q226 208 209 191 Z" fill="#4b5059"/>
-<path d="M214 186 L225 198 L233 184 L243 199 L254 185 L266 198 L275 183 L286 195" fill="none" stroke="#d4c9aa" stroke-width="3"/>
-<path d="M213 152 L235 149 L230 158 L217 158 Z M266 149 L286 152 L282 158 L270 158 Z" fill="#f0a448" stroke="#4b3030" stroke-width="2"/>
-<path d="M226 179 L230 181 M276 179 L272 181" stroke="#171a20" stroke-width="5"/>
-<!-- stone texture accents -->
-<path d="M182 233 L191 242 M299 236 L290 245 M236 261 L245 272 M259 260 L270 271" stroke="#969ba3" stroke-width="3"/>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img" aria-label="animated red dragon">
+ <title>Animated Red Dragon</title>
+ <defs>
+  <filter id="animated_red_dragon-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="animated_red_dragon-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="animated_red_dragon-mist" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="animated_red_dragon-tex" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="3" seed="171" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.32 0.69" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="animated_red_dragon-shag" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="turbulence" baseFrequency="0.32" numOctaves="2" seed="171" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <radialGradient id="animated_red_dragon-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="animated_red_dragon-scale" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c23a26"/><stop offset="0.5" stop-color="#7a160e"/><stop offset="1" stop-color="#2a0604"/></linearGradient><linearGradient id="animated_red_dragon-mem" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a2016" stop-opacity="0.95"/><stop offset="0.6" stop-color="#4a0c08" stop-opacity="0.95"/><stop offset="1" stop-color="#1a0402" stop-opacity="0.95"/></linearGradient><linearGradient id="animated_red_dragon-belly" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8a050"/><stop offset="1" stop-color="#8a4a1a"/></linearGradient><linearGradient id="animated_red_dragon-horn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8dcc0"/><stop offset="1" stop-color="#4a3a2a"/></linearGradient><radialGradient id="animated_red_dragon-maw" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff2b0"/><stop offset="0.35" stop-color="#ffa030"/><stop offset="0.8" stop-color="#c0300c"/><stop offset="1" stop-color="#3a0804"/></radialGradient><pattern id="animated_red_dragon-scales" width="7" height="6" patternUnits="userSpaceOnUse"><path d="M0 6 Q3.5 0 7 6" fill="none" stroke="#1a0402" stroke-width=".8" opacity=".55"/></pattern>
+ </defs>
+<ellipse cx="160" cy="216" rx="120" ry="9" fill="url(#animated_red_dragon-shadow)"/>
+<ellipse cx="160" cy="100" rx="70" ry="50" fill="#ff5a1a" opacity=".16" filter="url(#animated_red_dragon-mist)"/>
+<path d="M180 126 L236 52 L294 30 Q282 70 308 96 Q278 124 290 150 Q258 152 246 172 Q210 160 188 156 Z" fill="url(#animated_red_dragon-mem)" filter="url(#animated_red_dragon-tex)"/>
+<path d="M200 100 Q240 110 270 130 M198 130 Q224 140 244 156" fill="none" stroke="#c03a22" stroke-width=".9" opacity=".5"/>
+<path d="M180 128 L236 52 M236 52 L294 30 M236 52 L308 96 M236 52 L290 150 M236 52 L246 172" fill="none" stroke="#3a0806" stroke-width="5" stroke-linecap="round"/>
+<path d="M180 128 L236 52 M236 52 L294 30 M236 52 L308 96 M236 52 L290 150 M236 52 L246 172" fill="none" stroke="#c84a2e" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>
+<path d="M236 52 l2 -12 l-6 8 Z" fill="url(#animated_red_dragon-horn)"/>
+<path d="M140 126 L84 52 L26 30 Q38 70 12 96 Q42 124 30 150 Q62 152 74 172 Q110 160 132 156 Z" fill="url(#animated_red_dragon-mem)" filter="url(#animated_red_dragon-tex)"/>
+<path d="M120 100 Q80 110 50 130 M122 130 Q96 140 76 156" fill="none" stroke="#c03a22" stroke-width=".9" opacity=".5"/>
+<path d="M140 128 L84 52 M84 52 L26 30 M84 52 L12 96 M84 52 L30 150 M84 52 L74 172" fill="none" stroke="#3a0806" stroke-width="5" stroke-linecap="round"/>
+<path d="M140 128 L84 52 M84 52 L26 30 M84 52 L12 96 M84 52 L30 150 M84 52 L74 172" fill="none" stroke="#c84a2e" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>
+<path d="M84 52 l-2 -12 l6 8 Z" fill="url(#animated_red_dragon-horn)"/>
+<path d="M210 196 C246 196 276 188 292 202 C300 210 296 220 284 216 C268 208 248 212 222 214 Z" fill="url(#animated_red_dragon-scale)"/>
+<path d="M284 204 l14 -10 l-4 14 Z" fill="#3a0806"/>
+<ellipse cx="104" cy="194" rx="26" ry="20" fill="url(#animated_red_dragon-scale)"/><ellipse cx="216" cy="194" rx="26" ry="20" fill="url(#animated_red_dragon-scale)"/>
+<g filter="url(#animated_red_dragon-tex)"><path d="M108 204 C96 170 108 132 140 120 L180 120 C212 132 224 170 212 204 Z" fill="url(#animated_red_dragon-scale)"/></g>
+<path d="M108 204 C96 170 108 132 140 120 L180 120 C212 132 224 170 212 204 Z" fill="url(#animated_red_dragon-scales)"/>
+<path d="M140 130 C136 156 138 184 146 206 L174 206 C182 184 184 156 180 130 Z" fill="url(#animated_red_dragon-belly)"/>
+<path d="M139.3 138 Q160 142 180.7 138" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M139.7 147 Q160 151 180.3 147" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M140.0 156 Q160 160 180.0 156" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M140.4 165 Q160 169 179.6 165" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M140.8 174 Q160 178 179.2 174" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M141.1 183 Q160 187 178.9 183" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M141.5 192 Q160 196 178.5 192" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M141.8 201 Q160 205 178.2 201" fill="none" stroke="#6a3010" stroke-width="1.2"/>
+<path d="M196 150 C216 160 222 184 214 210 L186 212 C188 196 184 180 178 168 Z" fill="url(#animated_red_dragon-scale)" filter="url(#animated_red_dragon-tex)"/>
+<path d="M204 160 C212 172 214 186 210 200" fill="none" stroke="#e05a3a" stroke-width="1.4" opacity=".6"/>
+<path d="M218 208 C222 214 224 218 228 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M208 208 C212 214 214 218 218 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M198 208 C202 214 204 218 208 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M188 208 C192 214 194 218 198 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M124 150 C104 160 98 184 106 210 L134 212 C132 196 136 180 142 168 Z" fill="url(#animated_red_dragon-scale)" filter="url(#animated_red_dragon-tex)"/>
+<path d="M116 160 C108 172 106 186 110 200" fill="none" stroke="#e05a3a" stroke-width="1.4" opacity=".6"/>
+<path d="M102 208 C98 214 96 218 92 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M112 208 C108 214 106 218 102 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M122 208 C118 214 116 218 112 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M132 208 C128 214 126 218 122 220" fill="none" stroke="url(#animated_red_dragon-horn)" stroke-width="3" stroke-linecap="round"/>
+<path d="M140 128 C136 110 144 94 148 82 L172 82 C176 94 184 110 180 128 Z" fill="url(#animated_red_dragon-scale)" filter="url(#animated_red_dragon-tex)"/>
+<path d="M150 90 L170 90 L176 126 L144 126 Z" fill="url(#animated_red_dragon-belly)" opacity=".9"/>
+<path d="M147.4 96 Q160 99 172.6 96" fill="none" stroke="#6a3010" stroke-width="1"/>
+<path d="M146.7 103 Q160 106 173.3 103" fill="none" stroke="#6a3010" stroke-width="1"/>
+<path d="M146.0 110 Q160 113 174.0 110" fill="none" stroke="#6a3010" stroke-width="1"/>
+<path d="M145.3 117 Q160 120 174.7 117" fill="none" stroke="#6a3010" stroke-width="1"/>
+<path d="M144.6 124 Q160 127 175.4 124" fill="none" stroke="#6a3010" stroke-width="1"/>
+<path d="M140 120 l-10 -6 l8 -2 Z M180 120 l10 -6 l-8 -2 Z M142 106 l-10 -4 l8 -3 Z M178 106 l10 -4 l-8 -3 Z" fill="#3a0806"/>
+<path d="M136 48 C120 40 108 28 100 10 C114 22 126 30 142 40 Z M184 48 C200 40 212 28 220 10 C206 22 194 30 178 40 Z" fill="url(#animated_red_dragon-horn)"/>
+<path d="M134 60 C120 58 110 52 104 42 C116 48 126 50 136 52 Z M186 60 C200 58 210 52 216 42 C204 48 194 50 184 52 Z" fill="url(#animated_red_dragon-horn)"/>
+<path d="M132 66 L114 74 L130 76 L118 86 L136 82 Z M188 66 L206 74 L190 76 L202 86 L184 82 Z" fill="#5a0e08"/>
+<g filter="url(#animated_red_dragon-tex)"><path d="M130 52 C134 38 150 32 160 32 C170 32 186 38 190 52 L186 68 C182 78 178 86 174 94 L146 94 C142 86 138 78 134 68 Z" fill="url(#animated_red_dragon-scale)"/></g>
+<path d="M152 34 l8 -12 l8 12 Z M158 26 l2 -6 l2 6 Z" fill="#3a0806"/>
+<path d="M138 50 C146 44 154 46 158 52 M182 50 C174 44 166 46 162 52" fill="none" stroke="#2a0402" stroke-width="3"/>
+<path d="M140 44 C148 38 156 36 160 36" fill="none" stroke="#e8604a" stroke-width="1.4" opacity=".6"/>
+<path d="M144 90 L176 90 L172 114 C168 120 152 120 148 114 Z" fill="url(#animated_red_dragon-maw)"/>
+<ellipse cx="160" cy="104" rx="22" ry="16" fill="#ff7a20" opacity=".45" filter="url(#animated_red_dragon-glow)"/>
+<path d="M144 90 L146 114 C150 120 170 120 174 114 L176 90 L176 118 C170 126 150 126 144 118 Z" fill="url(#animated_red_dragon-scale)"/>
+<path d="M146 92 l2 7 l2 -7 l2 6 l2 -6 l2 7 l2 -7 l2 7 l2 -7 l2 6 l2 -6 l2 7 l2 -7 l2 7 l2 -7" fill="#f0e6cc"/>
+<path d="M148 114 l2 -6 l2 6 l3 -7 l3 7 l2 -6 l2 6 l3 -7 l3 7 l2 -6 l2 6" fill="#f0e6cc"/>
+<path d="M152 84 C150 82 150 80 152 79 M168 84 C170 82 170 80 168 79" fill="none" stroke="#1a0202" stroke-width="2"/>
+<path d="M150 82 C136 80 128 72 120 74 C112 76 108 70 100 70 M170 82 C184 80 192 72 200 74 C208 76 212 70 220 70" fill="none" stroke="#8a8078" stroke-width="4" opacity=".3" filter="url(#animated_red_dragon-soft)"/>
+<ellipse cx="146" cy="60" rx="11.4" ry="5.7" fill="#ffa020" opacity="0.85" filter="url(#animated_red_dragon-glow)" transform="rotate(22 146 60)"/>
+<ellipse cx="174" cy="60" rx="11.4" ry="5.7" fill="#ffa020" opacity="0.85" filter="url(#animated_red_dragon-glow)" transform="rotate(-22 174 60)"/>
+<ellipse cx="146" cy="60" rx="4.4" ry="2.2" fill="#ffa020" transform="rotate(22 146 60)"/>
+<ellipse cx="146" cy="60" rx="1" ry="2.1" fill="#120808" transform="rotate(22 146 60)"/>
+<ellipse cx="174" cy="60" rx="4.4" ry="2.2" fill="#ffa020" transform="rotate(-22 174 60)"/>
+<ellipse cx="174" cy="60" rx="1" ry="2.1" fill="#120808" transform="rotate(-22 174 60)"/>
+</svg>

@@ -848,6 +848,23 @@ summary>.rpgpov-panel-icon {
 #character-awareness .awareness-grid figcaption{padding:16px 18px!important;font:14px/1.5 Arial,sans-serif!important;flex:1!important}
 #character-awareness .awareness-grid figcaption strong{font:700 17px/1.3 Georgia,serif!important;margin:0 0 8px!important}
 @media(max-width:640px){#dm-settings-showcase .settings-links,#character-awareness .awareness-grid{grid-template-columns:1fr!important}#dm-settings-showcase .settings-link{min-height:125px!important}#character-awareness .awareness-grid figure img{height:210px!important}}
+</style><style id="rpgpov-wider-adventure-cards-gold-buttons">
+/* Widen the feature area without changing the four destinations. */
+.rpgpov-section-accordions{max-width:1280px!important;width:calc(100% - 32px)!important}
+#explore .cards{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important;align-items:stretch!important}
+#explore .cards>.card{min-width:0!important;height:100%!important;display:flex!important;flex-direction:column!important}
+#explore .cards>.card .card-body{flex:1!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(148px,auto) 52px minmax(32px,auto) auto 1fr!important;gap:9px!important;align-content:start!important;padding:18px 17px 20px!important}
+#explore .cards>.card .card-body>h3{margin:0!important;min-height:52px!important;display:flex!important;align-items:center!important;font-size:21px!important;line-height:1.2!important}
+#explore .cards>.card .card-body>p{margin:0!important;font-size:14px!important;line-height:1.52!important}
+#explore .cards>.card .card-body>a.btn{margin:0!important;align-self:stretch!important;min-height:52px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:9px 12px!important;box-sizing:border-box!important;background:linear-gradient(180deg,#b9955d,#9b7441)!important;border:1px solid #e0bd83!important;border-radius:5px!important;color:#20170f!important;font:700 13px/1.3 Arial,sans-serif!important;letter-spacing:.045em!important;text-align:center!important;text-decoration:none!important;box-shadow:inset 0 1px rgba(255,240,204,.25)!important}
+#explore .cards>.card .card-body>a.btn:hover{background:linear-gradient(180deg,#cda974,#aa824c)!important;box-shadow:0 0 0 2px rgba(196,151,83,.25)!important}
+#explore .cards>.card .card-body>.tiny{margin:0!important;align-self:start!important;font-size:12px!important;line-height:1.35!important}
+#explore .cards>.card .card-body>.thumb-heading{margin:8px 0 0!important;font:700 12px/1.35 Arial,sans-serif!important;letter-spacing:.06em!important;color:#d9b986!important}
+#explore .cards>.card .card-body>.game-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;align-self:start!important;margin:0!important}
+#explore .cards>.card .card-body>.game-thumbs button{width:100%!important;min-width:0!important;min-height:45px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:8px 4px!important;overflow:hidden!important;border:1px solid #b99a67!important;border-radius:5px!important;background:#30251e!important;color:#f2d6a3!important;font:700 11px/1.2 Arial,sans-serif!important;text-align:center!important;cursor:pointer!important;box-sizing:border-box!important}
+#explore .cards>.card .card-body>.game-thumbs button:hover{background:#4a3526!important;border-color:#e4c38b!important}
+@media(max-width:1050px){#explore .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#explore .cards>.card .card-body{grid-template-rows:auto minmax(120px,auto) 52px minmax(32px,auto) auto 1fr!important}}
+@media(max-width:600px){.rpgpov-section-accordions{width:calc(100% - 20px)!important}#explore .cards{grid-template-columns:1fr!important}#explore .cards>.card .card-body{grid-template-rows:auto auto 52px auto auto auto!important}#explore .cards>.card .card-body>h3{min-height:0!important}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>

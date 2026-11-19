@@ -426,6 +426,20 @@
 #dm-settings-showcase .settings-link span{display:block;font-size:14px;color:#d4c7c4}
 @media(max-width:650px){#dm-settings-showcase .settings-links{grid-template-columns:1fr}#dm-settings-showcase .settings-banner{padding:18px}}
 </style>
+<style id="character-awareness-banner-css">
+#character-awareness{padding:55px 0 65px;background:linear-gradient(145deg,#15111b,#292034 55%,#151219);border-top:1px solid #846b9d}
+#character-awareness .awareness-panel{border:1px solid #8f75ad;border-radius:13px;background:linear-gradient(135deg,#2c2338,#1c1926);padding:clamp(20px,3vw,34px);box-shadow:0 18px 40px #0008}
+#character-awareness .awareness-kicker{font:700 11px Arial,sans-serif;letter-spacing:.2em;color:#cba9ff;text-transform:uppercase}
+#character-awareness h2{margin:10px 0;color:#f2dcff;font-size:clamp(25px,3.5vw,37px);line-height:1.2}
+#character-awareness .awareness-lede{color:#d9cfe0;font-size:16px;max-width:940px;margin:0 0 25px}
+#character-awareness .awareness-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+#character-awareness figure{margin:0;background:#15121b;border:1px solid #695b80;border-radius:9px;overflow:hidden}
+#character-awareness figure img{display:block;width:100%;height:440px;object-fit:contain;object-position:top center;background:#0d0c12}
+#character-awareness figcaption{padding:14px 16px;color:#e9dcf2;font:14px/1.5 Arial,sans-serif}
+#character-awareness figcaption strong{display:block;color:#f0d8aa;margin-bottom:4px;font-size:15px}
+#character-awareness .awareness-note{margin:18px 0 0;color:#bcaecb;font:12px/1.6 Arial,sans-serif}
+@media(max-width:740px){#character-awareness .awareness-grid{grid-template-columns:1fr}#character-awareness figure img{height:340px}}
+</style>
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
@@ -768,6 +782,18 @@
 <a class="settings-link" href="Svalich_Verbosity_Test_Report.html"><strong>Verbosity — Three Responses</strong><span>Read all three complete answers to “Where are we?” and compare the level of narration and party dialogue.</span></a>
 <a class="settings-link" href="Svalich_Maiden_Vampire_Transcript.html"><strong>Heroism — Maiden Vampire Encounter</strong><span>Read the vampire battle transcript and examine how the AI handles danger, companions and consequences.</span></a>
 </div></div></div></section>
+<section id="character-awareness" aria-labelledby="character-awareness-title">
+ <div class="wrap"><div class="awareness-panel">
+  <div class="awareness-kicker">RPGPOV · AI Dungeon Master · Live beta example</div>
+  <h2 id="character-awareness-title">AI Dungeon Master · Character Sheet Awareness</h2>
+  <p class="awareness-lede">Your character sheet matters. The AI Dungeon Master references your party's spells, equipment, and abilities when responding to your actions. In this real encounter, a player tries to cast <em>Fireball</em>—and the AI correctly points out that the wizard hasn't prepared it.</p>
+  <div class="awareness-grid">
+   <figure><img src="images/ai_dm_journal.png" alt="Adventure Journal showing the AI Dungeon Master declining an unprepared Fireball spell" loading="lazy"/><figcaption><strong>The AI DM checks the action</strong>The wizard attempts Fireball. The AI responds based on the prepared spell list instead of inventing an available spell.</figcaption></figure>
+   <figure><img src="images/arc_character_sheet.png" alt="Adventure Ready Character sheet displaying a level six wizard's prepared spells and abilities" loading="lazy"/><figcaption><strong>The character sheet confirms it</strong>The Adventure Ready Character (ARC) sheet shows the wizard's actual prepared spells, including Dispel Magic and Hold Undead.</figcaption></figure>
+  </div>
+  <p class="awareness-note">Screenshots from the evolving Windows beta. Character-sheet awareness is demonstrated here; automated tracking of every spell expenditure and combat state is still being tested.</p>
+ </div></div>
+</section>
 </main>
 <footer><b>RPGPOV</b> • Ravenloft I6 Browser Beta<br/>Unofficial fan-made mapping and exploration project. Dungeons &amp; Dragons and Ravenloft belong to their respective rights holders.</footer>
 <div aria-label="In-game screenshot" aria-modal="true" class="image-lightbox" id="gameLightbox" role="dialog"><button id="closeLightbox" type="button">Close ×</button><img alt="" id="lightboxImg"/><div class="caption" id="lightboxCaption"></div></div>

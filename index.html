@@ -938,6 +938,25 @@ summary>.rpgpov-panel-icon {
 .hero .edition-choice.adventure .edition-details[open]>.edition-levels{background:#2a2027!important}
 @media(max-width:1050px){.hero .edition-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .edition-choice.adventure{grid-column:1/-1;max-width:430px;margin:auto}}
 @media(max-width:680px){.hero .edition-choices{grid-template-columns:1fr}.hero .edition-choice.adventure{grid-column:auto;max-width:none}.hero .edition-card-header{min-height:145px!important}}
+</style><style id="rpgpov-edition-actions-aligned-v2">
+/* One actual primary action per card, aligned along the same horizontal row. */
+#edition-comparison .original-editions-hero .edition-choice{min-height:690px!important;padding-bottom:76px!important}
+#edition-comparison .original-editions-hero .edition-choice.browser::after{content:none!important;display:none!important}
+#edition-comparison .original-editions-hero .edition-choice.browser>.btn,
+#edition-comparison .original-editions-hero .edition-choice.download>.btn{display:flex!important;flex-direction:column!important;flex:1 1 auto!important;padding:0 0 60px!important;position:relative!important;text-decoration:none!important}
+#edition-comparison .original-editions-hero .edition-choice .edition-action-label{
+position:absolute!important;left:12px!important;right:12px!important;bottom:12px!important;
+height:42px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+font:700 12px/1.2 Arial,sans-serif!important;letter-spacing:.025em!important;
+border-radius:5px!important;text-align:center!important;box-sizing:border-box!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.browser .edition-action-label{color:#fff!important;background:linear-gradient(#78519d,#4b2a69)!important;border:1px solid #c5a3ed!important}
+#edition-comparison .original-editions-hero .edition-choice.download .edition-action-label{color:#fff!important;background:linear-gradient(#b48a4a,#79501f)!important;border:1px solid #f0ca82!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-coming-soon{
+margin-top:auto!important;transform:none!important;min-height:42px!important;height:42px!important;box-sizing:border-box!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-card-body{padding-bottom:12px!important}
+#edition-comparison .original-editions-hero .edition-choice.download>.edition-support{bottom:10px!important}
+@media(max-width:900px){#edition-comparison .original-editions-hero .edition-choice{min-height:690px!important}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
@@ -1258,6 +1277,7 @@ summary>.rpgpov-panel-icon {
 <span class="edition-level-tag"><strong>Level 3</strong> Main Floor</span>
 </div>
 </div>
+<span class="edition-action-label">▶ ENTER BROWSER ADVENTURE</span>
 </a>
 </div>
 <div class="edition-choice download">
@@ -1287,6 +1307,7 @@ summary>.rpgpov-panel-icon {
 <span class="edition-level-tag"><strong>Level 3</strong> Main Floor</span>
 </div>
 </div>
+<span class="edition-action-label">⬇ DOWNLOAD WINDOWS BETA</span>
 </a>
 <div aria-label="Windows beta setup help" class="edition-support">
 <button aria-controls="apiKeySteps" aria-haspopup="dialog" class="beta-key-guide-link" id="showApiKeySteps" type="button">How to get your AI secret key</button>

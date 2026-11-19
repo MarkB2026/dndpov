@@ -640,6 +640,43 @@ summary>.rpgpov-panel-icon {
 #edition-comparison .original-editions-hero .edition-choice{min-width:0}
 #edition-comparison .original-editions-hero .edition-choice.download>.btn{padding-bottom:76px}
 @media(max-width:680px){#edition-comparison .original-editions-hero>.wrap{width:100%}}
+</style><style id="rpgpov-unified-meaningful-icons-fix">
+/* Single coherent header layout for all ten category accordions. */
+.rpgpov-gallery-panel>summary,.rpgpov-section-panel>summary,.rpgpov-panel>summary{
+ display:flex!important;align-items:center!important;gap:16px!important;
+ min-height:88px!important;padding:12px 24px!important;box-sizing:border-box!important;
+}
+.rpgpov-gallery-panel>summary .rpgpov-uniform-icon,
+.rpgpov-section-panel>summary .rpgpov-uniform-icon,
+.rpgpov-panel>summary .rpgpov-uniform-icon{
+ display:grid!important;place-items:center!important;width:62px!important;height:62px!important;
+ min-width:62px!important;flex:0 0 62px!important;border-radius:50%!important;
+ border:1px solid #a88a61!important;background:#3a2d35!important;color:#f4d9a1!important;
+ font:normal 32px/1 Georgia,'Segoe UI Symbol',sans-serif!important;
+ padding:0!important;margin:0!important;text-align:center!important;
+}
+.rpgpov-gallery-panel>summary .rpgpov-panel-label,
+.rpgpov-section-panel>summary .rpgpov-panel-label,
+.rpgpov-panel>summary .rpgpov-panel-label{
+ display:flex!important;flex:1 1 auto!important;min-width:0!important;flex-direction:column!important;
+ align-items:flex-start!important;justify-content:center!important;text-align:left!important;
+ font:normal 16px/1.35 Georgia,serif!important;letter-spacing:normal!important;
+}
+.rpgpov-panel-label>strong,.rpgpov-panel-label>.rpgpov-panel-heading{
+ display:block!important;font:700 clamp(17px,2vw,23px)/1.2 Georgia,serif!important;
+ color:#efd09c!important;margin:0!important;
+}
+.rpgpov-panel-label>small{
+ display:block!important;margin:5px 0 0!important;font:normal 12px/1.4 Arial,sans-serif!important;
+ color:#c6b6b4!important;letter-spacing:normal!important;
+}
+.rpgpov-gallery-panel>summary::after,.rpgpov-section-panel>summary::after,.rpgpov-panel>summary::after{
+ margin-left:auto!important;flex-shrink:0!important;
+}
+@media(max-width:560px){
+ .rpgpov-gallery-panel>summary,.rpgpov-section-panel>summary,.rpgpov-panel>summary{gap:11px!important;padding:10px 14px!important;min-height:72px!important}
+ .rpgpov-gallery-panel>summary .rpgpov-uniform-icon,.rpgpov-section-panel>summary .rpgpov-uniform-icon,.rpgpov-panel>summary .rpgpov-uniform-icon{width:48px!important;height:48px!important;min-width:48px!important;flex-basis:48px!important;font-size:26px!important}
+}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
@@ -659,7 +696,7 @@ summary>.rpgpov-panel-icon {
 <div class="core-entry-links"><a href="#explore">Choose another adventure location</a><a href="#edition-comparison">Compare editions &amp; setup</a></div>
 </div>
 </div></div>
-<div aria-label="RPGPOV exploration and guides" class="rpgpov-section-accordions"><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-icon">◈</span><span class="rpgpov-panel-title"><strong>See the Adventure</strong><small>3D screenshots and scenes from Ravenloft</small></span><span class="rpgpov-panel-chevron">▾</span></summary><section aria-labelledby="rpgpov-gallery-title" id="rpgpov-image-gallery">
+<div aria-label="RPGPOV exploration and guides" class="rpgpov-section-accordions"><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-glyph rpgpov-uniform-icon">▣</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">See the Adventure</strong><small>3D screenshots and scenes from Ravenloft</small></span></summary><section aria-labelledby="rpgpov-gallery-title" id="rpgpov-image-gallery">
 <div class="wrap">
 <h2 class="section-title" id="rpgpov-gallery-title">Scenes</h2>
 <div class="gallery-grid">
@@ -677,7 +714,7 @@ summary>.rpgpov-panel-icon {
 <a class="gallery-item" data-gallery-title="Messenger's Cart" href="beta/images/messengers_cart.png"><img alt="Messenger's Cart" decoding="async" loading="lazy" src="beta/images/messengers_cart.png"/><span>Messenger's Cart</span></a>
 </div>
 </div>
-</section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-icon">♜</span><span class="rpgpov-panel-title"><strong>Monsters of Ravenloft</strong><small>Browse all creature thumbnails and open their entries</small></span><span class="rpgpov-panel-chevron">▾</span></summary><section aria-labelledby="rpgpov-monster-title" id="rpgpov-monster-thumbnails">
+</section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-glyph rpgpov-uniform-icon">♞</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">Monsters of Ravenloft</strong><small>Browse all creature thumbnails and open their entries</small></span></summary><section aria-labelledby="rpgpov-monster-title" id="rpgpov-monster-thumbnails">
 <div class="wrap">
 <h2 class="section-title" id="rpgpov-monster-title">Creatures</h2>
 <div class="monster-thumb-grid"><a class="monster-thumb" href="monsters.html#angry_villagers"><img alt="Angry Villagers" loading="lazy" src="Ravenloft-I6/ravenloft/monsters/angry_villagers.svg"/><span>Angry Villagers</span></a>
@@ -913,7 +950,7 @@ summary>.rpgpov-panel-icon {
 <section><div class="wrap"><div class="section-label">Built around the original adventure</div><h2 class="section-title">Maps Matter</h2><p class="section-intro">The current RPGPOV beta is a map-first interpretation of Ravenloft I6. The wider dungeon-mapping project covers the castle's levels; the free public beta intentionally unlocks only the listed castle maps. Layout and location relationships are kept as faithful as practical, while the three-dimensional scenery uses artistic interpretation.</p></div></section>
 </div>
 </details>
-<details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-icon">✧</span><span class="rpgpov-panel-title"><strong>Verbosity &amp; Heroism</strong><small>How AI narration and player choices change the adventure</small></span><span class="rpgpov-panel-chevron">▾</span></summary><section aria-labelledby="dm-settings-showcase-title" id="dm-settings-showcase">
+<details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-glyph rpgpov-uniform-icon">⚖</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">Verbosity &amp; Heroism</strong><small>How AI narration and player choices change the adventure</small></span></summary><section aria-labelledby="dm-settings-showcase-title" id="dm-settings-showcase">
 <div class="wrap"><div class="settings-banner">
 <div class="tag">AI DUNGEON MASTER • LIVE TEST EXAMPLES</div>
 <h2 id="dm-settings-showcase-title">VERBOSITY &amp; HEROISM settings</h2>
@@ -921,7 +958,7 @@ summary>.rpgpov-panel-icon {
 <div class="settings-links">
 <a class="settings-link rpgpov-report-thumb" href="Svalich_Verbosity_Test_Report.html"><strong>Verbosity — Three Responses</strong><span>Read all three complete answers to “Where are we?” and compare the level of narration and party dialogue.</span></a>
 <a class="settings-link rpgpov-report-thumb" href="Svalich_Maiden_Vampire_Transcript.html"><strong>Heroism — Maiden Vampire Encounter</strong><span>Read the vampire battle transcript and examine how the AI handles danger, companions and consequences.</span></a>
-</div></div></div></section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-icon">✦</span><span class="rpgpov-panel-title"><strong>Character Sheet Awareness</strong><small>The Fireball test, AI DM Journal and ARC character sheet</small></span><span class="rpgpov-panel-chevron">▾</span></summary><section aria-labelledby="character-awareness-title" id="character-awareness">
+</div></div></div></section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-glyph rpgpov-uniform-icon">▤</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">Character Sheet Awareness</strong><small>The Fireball test, AI DM Journal and ARC character sheet</small></span></summary><section aria-labelledby="character-awareness-title" id="character-awareness">
 <div class="wrap"><div class="awareness-panel">
 <div class="awareness-kicker">RPGPOV · AI Dungeon Master · Live beta example</div>
 <h2 id="character-awareness-title">AI Dungeon Master · Character Sheet Awareness</h2>
@@ -932,7 +969,7 @@ summary>.rpgpov-panel-icon {
 </div>
 <p class="awareness-note">Screenshots from the evolving Windows beta. Character-sheet awareness is demonstrated here; automated tracking of every spell expenditure and combat state is still being tested.</p>
 </div></div>
-</section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-icon">⌄</span><span class="rpgpov-panel-title"><strong>Editions &amp; Downloads</strong><small>Compare browser, Windows beta and upcoming editions</small></span><span class="rpgpov-panel-chevron">▾</span></summary><details class="core-edition-details" id="edition-comparison"><summary>Compare browser, Windows and upcoming editions</summary><div class="hero original-editions-hero"><div class="wrap"><div aria-label="Choose your Ravenloft I6 beta" class="edition-choices">
+</section></details><details class="rpgpov-section-panel rpgpov-media-panel"><summary><span class="rpgpov-panel-glyph rpgpov-uniform-icon">⇩</span><span class="rpgpov-panel-label"><strong class="rpgpov-panel-heading">Editions &amp; Downloads</strong><small>Compare browser, Windows beta and upcoming editions</small></span></summary><details class="core-edition-details" id="edition-comparison"><summary>Compare browser, Windows and upcoming editions</summary><div class="hero original-editions-hero"><div class="wrap"><div aria-label="Choose your Ravenloft I6 beta" class="edition-choices">
 <div class="edition-choice browser">
 <a class="btn hero-enter-adventure" href="#explore">
 <div class="edition-card-header">

@@ -865,6 +865,17 @@ summary>.rpgpov-panel-icon {
 #explore .cards>.card .card-body>.game-thumbs button:hover{background:#4a3526!important;border-color:#e4c38b!important}
 @media(max-width:1050px){#explore .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#explore .cards>.card .card-body{grid-template-rows:auto minmax(120px,auto) 52px minmax(32px,auto) auto 1fr!important}}
 @media(max-width:600px){.rpgpov-section-accordions{width:calc(100% - 20px)!important}#explore .cards{grid-template-columns:1fr!important}#explore .cards>.card .card-body{grid-template-rows:auto auto 52px auto auto auto!important}#explore .cards>.card .card-body>h3{min-height:0!important}}
+</style><style id="rpgpov-edition-bottom-alignment">
+/* Align the bottom actions on the three original comparison cards. */
+#edition-comparison .original-editions-hero .edition-choices{align-items:stretch!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;max-width:1080px!important}
+#edition-comparison .original-editions-hero .edition-choice{position:relative!important;display:flex!important;flex-direction:column!important;min-height:690px!important;padding-bottom:82px!important;box-sizing:border-box!important}
+#edition-comparison .original-editions-hero .edition-choice.browser>.btn,
+#edition-comparison .original-editions-hero .edition-choice.download>.btn{flex:1 1 auto!important;padding-bottom:18px!important;box-sizing:border-box!important}
+#edition-comparison .original-editions-hero .edition-choice.browser::after{content:"▶ ENTER BROWSER ADVENTURE";position:absolute;bottom:18px;left:16px;right:16px;padding:12px 5px;text-align:center;font:700 12px/1.4 Arial,sans-serif;letter-spacing:.05em;color:#f0d7ff;border:1px solid #a789c5;border-radius:4px;pointer-events:none}
+#edition-comparison .original-editions-hero .edition-choice.download>.edition-support{position:absolute!important;bottom:14px!important;left:12px!important;right:12px!important;margin:0!important;padding:8px 3px!important;min-height:49px!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;gap:6px 12px!important;box-sizing:border-box!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-locked-card{flex:1 1 auto!important;display:flex!important;flex-direction:column!important;min-height:0!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-coming-soon{margin-top:auto!important;min-height:40px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+@media(max-width:900px){#edition-comparison .original-editions-hero .edition-choices{grid-template-columns:1fr!important;max-width:540px!important}#edition-comparison .original-editions-hero .edition-choice{min-height:0!important}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
@@ -1226,7 +1237,7 @@ summary>.rpgpov-panel-icon {
 <div class="edition-locked-card">
 <div class="edition-card-header">
 <span class="edition-button-title">Full Adventure Package</span>
-<span class="edition-button-subtitle">Coming Soon · All of Barovia &amp; All Castle Levels</span>
+<span class="edition-button-subtitle">Pre-Beta · All Castle Levels</span>
 </div>
 <div class="edition-card-body">
 <span class="edition-list-heading">Features</span>

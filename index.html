@@ -876,7 +876,17 @@ summary>.rpgpov-panel-icon {
 #edition-comparison .original-editions-hero .edition-choice.adventure .edition-locked-card{flex:1 1 auto!important;display:flex!important;flex-direction:column!important;min-height:0!important}
 #edition-comparison .original-editions-hero .edition-choice.adventure .edition-coming-soon{margin-top:auto!important;min-height:40px!important;display:flex!important;align-items:center!important;justify-content:center!important}
 @media(max-width:900px){#edition-comparison .original-editions-hero .edition-choices{grid-template-columns:1fr!important;max-width:540px!important}#edition-comparison .original-editions-hero .edition-choice{min-height:0!important}}
-</style></head>
+</style><style id="rpgpov-larger-neutral-adventure-thumbnails">
+/* Larger, neutral-toned screenshot previews; preserve existing click-to-enlarge. */
+#explore .cards>.card .card-body>.game-thumbs{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-self:start!important}
+#explore .cards>.card .card-body>.game-thumbs button{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-items:stretch!important;aspect-ratio:auto!important;min-height:0!important;padding:0!important;background:#17191d!important;border:1px solid #555b63!important;border-radius:6px!important;color:#e1e4e8!important;overflow:hidden!important}
+#explore .cards>.card .card-body>.game-thumbs button img{display:block!important;position:static!important;width:100%!important;height:auto!important;aspect-ratio:4/3!important;object-fit:cover!important;filter:none!important;opacity:1!important}
+#explore .cards>.card .card-body>.game-thumbs button span{display:block!important;position:static!important;inset:auto!important;flex:1!important;background:#202126!important;color:#e1e2e6!important;padding:8px 5px!important;font:600 11px/1.35 Arial,sans-serif!important;text-align:center!important;text-shadow:none!important}
+#explore .cards>.card .card-body>.game-thumbs button:hover{background:#272b31!important;border-color:#a3aab4!important}
+#explore .cards>.card .card-body>.thumb-heading{color:#c9cbd1!important}
+@media(max-width:600px){#explore .cards>.card .card-body>.game-thumbs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+</head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">

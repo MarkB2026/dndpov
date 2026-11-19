@@ -440,7 +440,24 @@
 #character-awareness .awareness-note{margin:18px 0 0;color:#bcaecb;font:12px/1.6 Arial,sans-serif}
 @media(max-width:740px){#character-awareness .awareness-grid{grid-template-columns:1fr}#character-awareness figure img{height:340px}}
 </style>
-<style id="wraith-feature-style">.wraith-hero{max-width:960px;margin:12px auto 24px}.wraith-hero img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #876747;border-radius:8px;box-shadow:0 15px 55px #000a;background:#0b0d14}.wraith-hero figcaption{margin-top:11px;color:#e9cfaa;font:15px/1.5 Georgia,serif}.monster-gallery-link{display:inline-block;margin:15px auto 0;color:#f3d9aa;font:700 13px Arial,sans-serif;text-underline-offset:4px}@media(max-width:650px){.wraith-hero{margin:10px auto 20px}.wraith-hero figcaption{font-size:13px}}</style></head>
+<style id="wraith-feature-style">.wraith-hero{max-width:960px;margin:12px auto 24px}.wraith-hero img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #876747;border-radius:8px;box-shadow:0 15px 55px #000a;background:#0b0d14}.wraith-hero figcaption{margin-top:11px;color:#e9cfaa;font:15px/1.5 Georgia,serif}.monster-gallery-link{display:inline-block;margin:15px auto 0;color:#f3d9aa;font:700 13px Arial,sans-serif;text-underline-offset:4px}@media(max-width:650px){.wraith-hero{margin:10px auto 20px}.wraith-hero figcaption{font-size:13px}}</style>
+<style id="rpgpov-new-image-gallery-style">
+#rpgpov-image-gallery{padding:58px 0 72px;background:linear-gradient(180deg,#171219,#241923 50%,#100e11);border-top:1px solid #70513e}
+#rpgpov-image-gallery .gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px;margin-top:28px}
+#rpgpov-image-gallery .gallery-item{display:block;background:#1c171c;border:1px solid #705741;border-radius:8px;overflow:hidden;text-decoration:none;transition:transform .2s,border-color .2s}
+#rpgpov-image-gallery .gallery-item:hover,#rpgpov-image-gallery .gallery-item:focus-visible{transform:translateY(-4px);border-color:#e5bf78;outline-offset:3px}
+#rpgpov-image-gallery .gallery-item img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#0b0a0d}
+#rpgpov-image-gallery .gallery-item span{display:block;padding:12px 13px;color:#f0d3a0;font:700 14px/1.35 Georgia,serif}
+#rpgpov-image-gallery .gallery-note{text-align:center;color:#bcaea8;font:13px/1.6 Arial,sans-serif}
+#rpgpov-image-gallery-lightbox{position:fixed;inset:0;z-index:20000;background:rgba(4,3,6,.96);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+#rpgpov-image-gallery-lightbox.open{display:flex}
+#rpgpov-image-gallery-lightbox img{max-width:95vw;max-height:82vh;object-fit:contain;border:1px solid #a48457}
+#rpgpov-image-gallery-lightbox .gallery-lightbox-label{margin-top:12px;color:#f1d8ac;font:17px Georgia,serif;text-align:center}
+#rpgpov-image-gallery-lightbox button{align-self:flex-end;margin-bottom:12px;background:#30252a;color:#f8e2bf;border:1px solid #b08b57;padding:9px 16px;cursor:pointer}
+@media(max-width:850px){#rpgpov-image-gallery .gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:580px){#rpgpov-image-gallery .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+</style>
+</head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">
@@ -794,6 +811,51 @@
   <p class="awareness-note">Screenshots from the evolving Windows beta. Character-sheet awareness is demonstrated here; automated tracking of every spell expenditure and combat state is still being tested.</p>
  </div></div>
 </section>
+
+<section id="rpgpov-image-gallery" aria-labelledby="rpgpov-gallery-title">
+ <div class="wrap">
+  <div class="section-label">Scenes from Ravenloft</div>
+  <h2 class="section-title" id="rpgpov-gallery-title">Ravenloft Image Gallery</h2>
+  <p class="section-intro">Creatures, encounters and scenes from the adventure. Select an image to see it full size.</p>
+  <div class="gallery-grid">
+<a class="gallery-item" href="beta/images/1_ghost.png" data-gallery-title="Ghost"><img src="beta/images/1_ghost.png" alt="Ghost" loading="lazy" decoding="async"><span>Ghost</span></a>
+<a class="gallery-item" href="beta/images/1_mainden_vampire.png" data-gallery-title="Maiden Vampire"><img src="beta/images/1_mainden_vampire.png" alt="Maiden Vampire" loading="lazy" decoding="async"><span>Maiden Vampire</span></a>
+<a class="gallery-item" href="beta/images/2_wights.png" data-gallery-title="Two Wights"><img src="beta/images/2_wights.png" alt="Two Wights" loading="lazy" decoding="async"><span>Two Wights</span></a>
+<a class="gallery-item" href="beta/images/2_worg_wolves.png" data-gallery-title="Two Worg Wolves"><img src="beta/images/2_worg_wolves.png" alt="Two Worg Wolves" loading="lazy" decoding="async"><span>Two Worg Wolves</span></a>
+<a class="gallery-item" href="beta/images/3_bats.png" data-gallery-title="Three Bats"><img src="beta/images/3_bats.png" alt="Three Bats" loading="lazy" decoding="async"><span>Three Bats</span></a>
+<a class="gallery-item" href="beta/images/3_wraiths.png" data-gallery-title="Three Wraiths"><img src="beta/images/3_wraiths.png" alt="Three Wraiths" loading="lazy" decoding="async"><span>Three Wraiths</span></a>
+<a class="gallery-item" href="beta/images/8_ghouls.png" data-gallery-title="Eight Ghouls"><img src="beta/images/8_ghouls.png" alt="Eight Ghouls" loading="lazy" decoding="async"><span>Eight Ghouls</span></a>
+<a class="gallery-item" href="beta/images/8_worg_wolfs_in_forest.png" data-gallery-title="Worg Wolves in the Forest"><img src="beta/images/8_worg_wolfs_in_forest.png" alt="Worg Wolves in the Forest" loading="lazy" decoding="async"><span>Worg Wolves in the Forest</span></a>
+<a class="gallery-item" href="beta/images/before after monsters.png" data-gallery-title="Before &amp; After Monsters"><img src="beta/images/before after monsters.png" alt="Before &amp; After Monsters" loading="lazy" decoding="async"><span>Before &amp; After Monsters</span></a>
+<a class="gallery-item" href="beta/images/gates_close.png" data-gallery-title="Gates Closing"><img src="beta/images/gates_close.png" alt="Gates Closing" loading="lazy" decoding="async"><span>Gates Closing</span></a>
+<a class="gallery-item" href="beta/images/gates_far.png" data-gallery-title="Gates from Afar"><img src="beta/images/gates_far.png" alt="Gates from Afar" loading="lazy" decoding="async"><span>Gates from Afar</span></a>
+<a class="gallery-item" href="beta/images/messengers_cart.png" data-gallery-title="Messenger&#x27;s Cart"><img src="beta/images/messengers_cart.png" alt="Messenger&#x27;s Cart" loading="lazy" decoding="async"><span>Messenger&#x27;s Cart</span></a>
+  </div>
+  <p class="gallery-note">Images are loaded directly from <code>beta/images/</code>.</p>
+ </div>
+</section>
+<div id="rpgpov-image-gallery-lightbox" role="dialog" aria-modal="true" aria-label="Ravenloft image viewer">
+ <button type="button" aria-label="Close image viewer">✕ Close</button>
+ <img alt="">
+ <div class="gallery-lightbox-label"></div>
+</div>
+<script id="rpgpov-new-image-gallery-script">
+(function(){
+ const root=document.getElementById('rpgpov-image-gallery');
+ const box=document.getElementById('rpgpov-image-gallery-lightbox');
+ const img=box.querySelector('img'), label=box.querySelector('.gallery-lightbox-label'), close=box.querySelector('button');
+ let priorFocus=null;
+ function hide(){box.classList.remove('open');img.removeAttribute('src');document.body.style.overflow='';if(priorFocus)priorFocus.focus();}
+ root.addEventListener('click',function(e){
+  const link=e.target.closest('a.gallery-item');if(!link)return;
+  e.preventDefault();priorFocus=link;img.src=link.getAttribute('href');img.alt=link.dataset.galleryTitle;label.textContent=link.dataset.galleryTitle;box.classList.add('open');document.body.style.overflow='hidden';close.focus();
+ });
+ close.addEventListener('click',hide);
+ box.addEventListener('click',e=>{if(e.target===box)hide();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&box.classList.contains('open'))hide();});
+})();
+</script>
+
 </main>
 <footer><b>RPGPOV</b> • Ravenloft I6 Browser Beta<br/>Unofficial fan-made mapping and exploration project. Dungeons &amp; Dragons and Ravenloft belong to their respective rights holders.</footer>
 <div aria-label="In-game screenshot" aria-modal="true" class="image-lightbox" id="gameLightbox" role="dialog"><button id="closeLightbox" type="button">Close ×</button><img alt="" id="lightboxImg"/><div class="caption" id="lightboxCaption"></div></div>

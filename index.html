@@ -466,11 +466,92 @@
 #rpgpov-monster-thumbnails .monster-thumb span{display:block;padding:9px 6px 11px;text-align:center;color:#efd2a2;font:700 12px/1.3 Georgia,serif}
 @media(max-width:950px){#rpgpov-monster-thumbnails .monster-thumb-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:580px){#rpgpov-monster-thumbnails .monster-thumb-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}}
+</style><style id="rpgpov-compact-top-galleries">
+/* Both galleries directly beneath the logo, with smaller thumbnails. */
+.hero #rpgpov-image-gallery,.hero #rpgpov-monster-thumbnails{padding:15px 0 19px;background:none;border:0;text-align:center}
+.hero #rpgpov-image-gallery .wrap,.hero #rpgpov-monster-thumbnails .wrap{width:100%;max-width:1050px}
+.hero #rpgpov-image-gallery .section-title,.hero #rpgpov-monster-thumbnails .section-title{font-size:clamp(1.25rem,2.1vw,1.75rem);margin:4px 0 4px}
+.hero #rpgpov-image-gallery .section-intro,.hero #rpgpov-monster-thumbnails .section-intro{font-size:.85rem;margin:0 auto 10px}
+.hero #rpgpov-image-gallery .gallery-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-top:12px}
+.hero #rpgpov-monster-thumbnails .monster-thumb-grid{grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;margin-top:12px}
+.hero #rpgpov-image-gallery .gallery-item img{aspect-ratio:16/10}
+.hero #rpgpov-image-gallery .gallery-item span{padding:6px 5px;font-size:11px}
+.hero #rpgpov-monster-thumbnails .monster-thumb img{aspect-ratio:1;padding:3px}
+.hero #rpgpov-monster-thumbnails .monster-thumb span{padding:5px 3px;font-size:10px}
+.hero #rpgpov-image-gallery .gallery-note{font-size:11px;margin:8px 0 0}
+@media(max-width:800px){.hero #rpgpov-image-gallery .gallery-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero #rpgpov-monster-thumbnails .monster-thumb-grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:520px){.hero #rpgpov-image-gallery .gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero #rpgpov-monster-thumbnails .monster-thumb-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style></head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">
-<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 Beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/><figure class="wraith-hero"><img src="beta/images/3_wraiths.png" alt="Three wraiths emerge from the mist during a Ravenloft encounter" loading="eager" decoding="async"><figcaption>Face the unknown. Explore Ravenloft in first person, with an AI Dungeon Master and your party at your side.</figcaption></figure><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede">Explore Ravenloft I6 in first person. Play in your browser or download the Windows beta for AI Dungeon Master and multiplayer.</p>
+<div class="hero"><div class="wrap"><span class="eyebrow">RPGPOV.com • Ravenloft I6 Beta</span><img class="hero-logo" src="logo.png" alt="RPGPOV.com"/>
+<section id="rpgpov-image-gallery" aria-labelledby="rpgpov-gallery-title">
+ <div class="wrap">
+  <div class="section-label">Scenes from Ravenloft</div>
+  <h2 class="section-title" id="rpgpov-gallery-title">Ravenloft Image Gallery</h2>
+  <p class="section-intro">Creatures, encounters and scenes from the adventure. Select an image to see it full size.</p>
+  <div class="gallery-grid">
+<a class="gallery-item" href="beta/images/1_ghost.png" data-gallery-title="Ghost"><img src="beta/images/1_ghost.png" alt="Ghost" loading="lazy" decoding="async"><span>Ghost</span></a>
+<a class="gallery-item" href="beta/images/1_mainden_vampire.png" data-gallery-title="Maiden Vampire"><img src="beta/images/1_mainden_vampire.png" alt="Maiden Vampire" loading="lazy" decoding="async"><span>Maiden Vampire</span></a>
+<a class="gallery-item" href="beta/images/2_wights.png" data-gallery-title="Two Wights"><img src="beta/images/2_wights.png" alt="Two Wights" loading="lazy" decoding="async"><span>Two Wights</span></a>
+<a class="gallery-item" href="beta/images/2_worg_wolves.png" data-gallery-title="Two Worg Wolves"><img src="beta/images/2_worg_wolves.png" alt="Two Worg Wolves" loading="lazy" decoding="async"><span>Two Worg Wolves</span></a>
+<a class="gallery-item" href="beta/images/3_bats.png" data-gallery-title="Three Bats"><img src="beta/images/3_bats.png" alt="Three Bats" loading="lazy" decoding="async"><span>Three Bats</span></a>
+<a class="gallery-item" href="beta/images/3_wraiths.png" data-gallery-title="Three Wraiths"><img src="beta/images/3_wraiths.png" alt="Three Wraiths" loading="lazy" decoding="async"><span>Three Wraiths</span></a>
+<a class="gallery-item" href="beta/images/8_ghouls.png" data-gallery-title="Eight Ghouls"><img src="beta/images/8_ghouls.png" alt="Eight Ghouls" loading="lazy" decoding="async"><span>Eight Ghouls</span></a>
+<a class="gallery-item" href="beta/images/8_worg_wolfs_in_forest.png" data-gallery-title="Worg Wolves in the Forest"><img src="beta/images/8_worg_wolfs_in_forest.png" alt="Worg Wolves in the Forest" loading="lazy" decoding="async"><span>Worg Wolves in the Forest</span></a>
+<a class="gallery-item" href="beta/images/before after monsters.png" data-gallery-title="Before &amp; After Monsters"><img src="beta/images/before after monsters.png" alt="Before &amp; After Monsters" loading="lazy" decoding="async"><span>Before &amp; After Monsters</span></a>
+<a class="gallery-item" href="beta/images/gates_close.png" data-gallery-title="Gates Closing"><img src="beta/images/gates_close.png" alt="Gates Closing" loading="lazy" decoding="async"><span>Gates Closing</span></a>
+<a class="gallery-item" href="beta/images/gates_far.png" data-gallery-title="Gates from Afar"><img src="beta/images/gates_far.png" alt="Gates from Afar" loading="lazy" decoding="async"><span>Gates from Afar</span></a>
+<a class="gallery-item" href="beta/images/messengers_cart.png" data-gallery-title="Messenger&#x27;s Cart"><img src="beta/images/messengers_cart.png" alt="Messenger&#x27;s Cart" loading="lazy" decoding="async"><span>Messenger&#x27;s Cart</span></a>
+  </div>
+  <p class="gallery-note">Images are loaded directly from <code>beta/images/</code>.</p>
+ </div>
+</section>
+<section id="rpgpov-monster-thumbnails" aria-labelledby="rpgpov-monster-title">
+ <div class="wrap">
+  <div class="section-label">Creatures of Ravenloft</div>
+  <h2 class="section-title" id="rpgpov-monster-title">Ravenloft Monster Gallery</h2>
+  <p class="section-intro">Choose a creature to jump directly to its entry in the full monster gallery.</p>
+  <div class="monster-thumb-grid"><a class="monster-thumb" href="monsters.html#angry_villagers"><img src="Ravenloft-I6/ravenloft/monsters/angry_villagers.svg" loading="lazy" alt="Angry Villagers"><span>Angry Villagers</span></a>
+<a class="monster-thumb" href="monsters.html#animated_armor"><img src="Ravenloft-I6/ravenloft/monsters/animated_armor.svg" loading="lazy" alt="Animated Armor"><span>Animated Armor</span></a>
+<a class="monster-thumb" href="monsters.html#animated_red_dragon"><img src="Ravenloft-I6/ravenloft/monsters/animated_red_dragon.svg" loading="lazy" alt="Animated Red Dragon"><span>Animated Red Dragon</span></a>
+<a class="monster-thumb" href="monsters.html#barovian_witch"><img src="Ravenloft-I6/ravenloft/monsters/barovian_witch.svg" loading="lazy" alt="Barovian Witch"><span>Barovian Witch</span></a>
+<a class="monster-thumb" href="monsters.html#bat"><img src="Ravenloft-I6/ravenloft/monsters/bat.svg" loading="lazy" alt="Bat"><span>Bat</span></a>
+<a class="monster-thumb" href="monsters.html#black_cat"><img src="Ravenloft-I6/ravenloft/monsters/black_cat.svg" loading="lazy" alt="Black Cat"><span>Black Cat</span></a>
+<a class="monster-thumb" href="monsters.html#ghast"><img src="Ravenloft-I6/ravenloft/monsters/ghast.svg" loading="lazy" alt="Ghast"><span>Ghast</span></a>
+<a class="monster-thumb" href="monsters.html#ghost"><img src="Ravenloft-I6/ravenloft/monsters/ghost.svg" loading="lazy" alt="Ghost"><span>Ghost</span></a>
+<a class="monster-thumb" href="monsters.html#ghoul"><img src="Ravenloft-I6/ravenloft/monsters/ghoul.svg" loading="lazy" alt="Ghoul"><span>Ghoul</span></a>
+<a class="monster-thumb" href="monsters.html#giant_rat"><img src="Ravenloft-I6/ravenloft/monsters/giant_rat.svg" loading="lazy" alt="Giant Rat"><span>Giant Rat</span></a>
+<a class="monster-thumb" href="monsters.html#giant_spider"><img src="Ravenloft-I6/ravenloft/monsters/giant_spider.svg" loading="lazy" alt="Giant Spider"><span>Giant Spider</span></a>
+<a class="monster-thumb" href="monsters.html#green_slime"><img src="Ravenloft-I6/ravenloft/monsters/green_slime.svg" loading="lazy" alt="Green Slime"><span>Green Slime</span></a>
+<a class="monster-thumb" href="monsters.html#groaning_spirit"><img src="Ravenloft-I6/ravenloft/monsters/groaning_spirit.svg" loading="lazy" alt="Groaning Spirit"><span>Groaning Spirit</span></a>
+<a class="monster-thumb" href="monsters.html#guardian_of_sorrow"><img src="Ravenloft-I6/ravenloft/monsters/guardian_of_sorrow.svg" loading="lazy" alt="Guardian Of Sorrow"><span>Guardian Of Sorrow</span></a>
+<a class="monster-thumb" href="monsters.html#hell_hound"><img src="Ravenloft-I6/ravenloft/monsters/hell_hound.svg" loading="lazy" alt="Hell Hound"><span>Hell Hound</span></a>
+<a class="monster-thumb" href="monsters.html#helpful_spirit"><img src="Ravenloft-I6/ravenloft/monsters/helpful_spirit.svg" loading="lazy" alt="Helpful Spirit"><span>Helpful Spirit</span></a>
+<a class="monster-thumb" href="monsters.html#huge_spider"><img src="Ravenloft-I6/ravenloft/monsters/huge_spider.svg" loading="lazy" alt="Huge Spider"><span>Huge Spider</span></a>
+<a class="monster-thumb" href="monsters.html#iron_golem"><img src="Ravenloft-I6/ravenloft/monsters/iron_golem.svg" loading="lazy" alt="Iron Golem"><span>Iron Golem</span></a>
+<a class="monster-thumb" href="monsters.html#nightmare"><img src="Ravenloft-I6/ravenloft/monsters/nightmare.svg" loading="lazy" alt="Nightmare"><span>Nightmare</span></a>
+<a class="monster-thumb" href="monsters.html#rat_swarm"><img src="Ravenloft-I6/ravenloft/monsters/rat_swarm.svg" loading="lazy" alt="Rat Swarm"><span>Rat Swarm</span></a>
+<a class="monster-thumb" href="monsters.html#rust_monster"><img src="Ravenloft-I6/ravenloft/monsters/rust_monster.svg" loading="lazy" alt="Rust Monster"><span>Rust Monster</span></a>
+<a class="monster-thumb" href="monsters.html#shadow_demon"><img src="Ravenloft-I6/ravenloft/monsters/shadow_demon.svg" loading="lazy" alt="Shadow Demon"><span>Shadow Demon</span></a>
+<a class="monster-thumb" href="monsters.html#skeleton"><img src="Ravenloft-I6/ravenloft/monsters/skeleton.svg" loading="lazy" alt="Skeleton"><span>Skeleton</span></a>
+<a class="monster-thumb" href="monsters.html#spectre"><img src="Ravenloft-I6/ravenloft/monsters/spectre.svg" loading="lazy" alt="Spectre"><span>Spectre</span></a>
+<a class="monster-thumb" href="monsters.html#strahd"><img src="Ravenloft-I6/ravenloft/monsters/strahd.svg" loading="lazy" alt="Strahd"><span>Strahd</span></a>
+<a class="monster-thumb" href="monsters.html#strahd_zombie"><img src="Ravenloft-I6/ravenloft/monsters/strahd_zombie.svg" loading="lazy" alt="Strahd Zombie"><span>Strahd Zombie</span></a>
+<a class="monster-thumb" href="monsters.html#trapper"><img src="Ravenloft-I6/ravenloft/monsters/trapper.svg" loading="lazy" alt="Trapper"><span>Trapper</span></a>
+<a class="monster-thumb" href="monsters.html#vampire_maiden"><img src="Ravenloft-I6/ravenloft/monsters/vampire_maiden.svg" loading="lazy" alt="Vampire Maiden"><span>Vampire Maiden</span></a>
+<a class="monster-thumb" href="monsters.html#vampire_silhouette"><img src="Ravenloft-I6/ravenloft/monsters/vampire_silhouette.svg" loading="lazy" alt="Vampire"><span>Vampire</span></a>
+<a class="monster-thumb" href="monsters.html#vampire_spawn"><img src="Ravenloft-I6/ravenloft/monsters/vampire_spawn.svg" loading="lazy" alt="Vampire Spawn"><span>Vampire Spawn</span></a>
+<a class="monster-thumb" href="monsters.html#vistani_traveler"><img src="Ravenloft-I6/ravenloft/monsters/vistani_traveler.svg" loading="lazy" alt="Vistani Traveler"><span>Vistani Traveler</span></a>
+<a class="monster-thumb" href="monsters.html#werewolf"><img src="Ravenloft-I6/ravenloft/monsters/werewolf.svg" loading="lazy" alt="Werewolf"><span>Werewolf</span></a>
+<a class="monster-thumb" href="monsters.html#wight"><img src="Ravenloft-I6/ravenloft/monsters/wight.svg" loading="lazy" alt="Wight"><span>Wight</span></a>
+<a class="monster-thumb" href="monsters.html#wolf_silhouette"><img src="Ravenloft-I6/ravenloft/monsters/wolf_silhouette.svg" loading="lazy" alt="Wolf"><span>Wolf</span></a>
+<a class="monster-thumb" href="monsters.html#worg"><img src="Ravenloft-I6/ravenloft/monsters/worg.svg" loading="lazy" alt="Worg"><span>Worg</span></a>
+<a class="monster-thumb" href="monsters.html#wraith"><img src="Ravenloft-I6/ravenloft/monsters/wraith.svg" loading="lazy" alt="Wraith"><span>Wraith</span></a>
+<a class="monster-thumb" href="monsters.html#zombie"><img src="Ravenloft-I6/ravenloft/monsters/zombie.svg" loading="lazy" alt="Zombie"><span>Zombie</span></a></div>
+ </div>
+</section><div class="subhead">Step Inside the Legend of Ravenloft</div><p class="lede">Explore Ravenloft I6 in first person. Play in your browser or download the Windows beta for AI Dungeon Master and multiplayer.</p>
 <div class="edition-choices" aria-label="Choose your Ravenloft I6 beta">
  <div class="edition-choice browser">
   <a class="btn hero-enter-adventure" href="#explore">
@@ -821,28 +902,7 @@
  </div></div>
 </section>
 
-<section id="rpgpov-image-gallery" aria-labelledby="rpgpov-gallery-title">
- <div class="wrap">
-  <div class="section-label">Scenes from Ravenloft</div>
-  <h2 class="section-title" id="rpgpov-gallery-title">Ravenloft Image Gallery</h2>
-  <p class="section-intro">Creatures, encounters and scenes from the adventure. Select an image to see it full size.</p>
-  <div class="gallery-grid">
-<a class="gallery-item" href="beta/images/1_ghost.png" data-gallery-title="Ghost"><img src="beta/images/1_ghost.png" alt="Ghost" loading="lazy" decoding="async"><span>Ghost</span></a>
-<a class="gallery-item" href="beta/images/1_mainden_vampire.png" data-gallery-title="Maiden Vampire"><img src="beta/images/1_mainden_vampire.png" alt="Maiden Vampire" loading="lazy" decoding="async"><span>Maiden Vampire</span></a>
-<a class="gallery-item" href="beta/images/2_wights.png" data-gallery-title="Two Wights"><img src="beta/images/2_wights.png" alt="Two Wights" loading="lazy" decoding="async"><span>Two Wights</span></a>
-<a class="gallery-item" href="beta/images/2_worg_wolves.png" data-gallery-title="Two Worg Wolves"><img src="beta/images/2_worg_wolves.png" alt="Two Worg Wolves" loading="lazy" decoding="async"><span>Two Worg Wolves</span></a>
-<a class="gallery-item" href="beta/images/3_bats.png" data-gallery-title="Three Bats"><img src="beta/images/3_bats.png" alt="Three Bats" loading="lazy" decoding="async"><span>Three Bats</span></a>
-<a class="gallery-item" href="beta/images/3_wraiths.png" data-gallery-title="Three Wraiths"><img src="beta/images/3_wraiths.png" alt="Three Wraiths" loading="lazy" decoding="async"><span>Three Wraiths</span></a>
-<a class="gallery-item" href="beta/images/8_ghouls.png" data-gallery-title="Eight Ghouls"><img src="beta/images/8_ghouls.png" alt="Eight Ghouls" loading="lazy" decoding="async"><span>Eight Ghouls</span></a>
-<a class="gallery-item" href="beta/images/8_worg_wolfs_in_forest.png" data-gallery-title="Worg Wolves in the Forest"><img src="beta/images/8_worg_wolfs_in_forest.png" alt="Worg Wolves in the Forest" loading="lazy" decoding="async"><span>Worg Wolves in the Forest</span></a>
-<a class="gallery-item" href="beta/images/before after monsters.png" data-gallery-title="Before &amp; After Monsters"><img src="beta/images/before after monsters.png" alt="Before &amp; After Monsters" loading="lazy" decoding="async"><span>Before &amp; After Monsters</span></a>
-<a class="gallery-item" href="beta/images/gates_close.png" data-gallery-title="Gates Closing"><img src="beta/images/gates_close.png" alt="Gates Closing" loading="lazy" decoding="async"><span>Gates Closing</span></a>
-<a class="gallery-item" href="beta/images/gates_far.png" data-gallery-title="Gates from Afar"><img src="beta/images/gates_far.png" alt="Gates from Afar" loading="lazy" decoding="async"><span>Gates from Afar</span></a>
-<a class="gallery-item" href="beta/images/messengers_cart.png" data-gallery-title="Messenger&#x27;s Cart"><img src="beta/images/messengers_cart.png" alt="Messenger&#x27;s Cart" loading="lazy" decoding="async"><span>Messenger&#x27;s Cart</span></a>
-  </div>
-  <p class="gallery-note">Images are loaded directly from <code>beta/images/</code>.</p>
- </div>
-</section>
+
 <div id="rpgpov-image-gallery-lightbox" role="dialog" aria-modal="true" aria-label="Ravenloft image viewer">
  <button type="button" aria-label="Close image viewer">✕ Close</button>
  <img alt="">
@@ -866,50 +926,7 @@
 </script>
 
 
-<section id="rpgpov-monster-thumbnails" aria-labelledby="rpgpov-monster-title">
- <div class="wrap">
-  <div class="section-label">Creatures of Ravenloft</div>
-  <h2 class="section-title" id="rpgpov-monster-title">Ravenloft Monster Gallery</h2>
-  <p class="section-intro">Choose a creature to jump directly to its entry in the full monster gallery.</p>
-  <div class="monster-thumb-grid"><a class="monster-thumb" href="monsters.html#angry_villagers"><img src="Ravenloft-I6/ravenloft/monsters/angry_villagers.svg" loading="lazy" alt="Angry Villagers"><span>Angry Villagers</span></a>
-<a class="monster-thumb" href="monsters.html#animated_armor"><img src="Ravenloft-I6/ravenloft/monsters/animated_armor.svg" loading="lazy" alt="Animated Armor"><span>Animated Armor</span></a>
-<a class="monster-thumb" href="monsters.html#animated_red_dragon"><img src="Ravenloft-I6/ravenloft/monsters/animated_red_dragon.svg" loading="lazy" alt="Animated Red Dragon"><span>Animated Red Dragon</span></a>
-<a class="monster-thumb" href="monsters.html#barovian_witch"><img src="Ravenloft-I6/ravenloft/monsters/barovian_witch.svg" loading="lazy" alt="Barovian Witch"><span>Barovian Witch</span></a>
-<a class="monster-thumb" href="monsters.html#bat"><img src="Ravenloft-I6/ravenloft/monsters/bat.svg" loading="lazy" alt="Bat"><span>Bat</span></a>
-<a class="monster-thumb" href="monsters.html#black_cat"><img src="Ravenloft-I6/ravenloft/monsters/black_cat.svg" loading="lazy" alt="Black Cat"><span>Black Cat</span></a>
-<a class="monster-thumb" href="monsters.html#ghast"><img src="Ravenloft-I6/ravenloft/monsters/ghast.svg" loading="lazy" alt="Ghast"><span>Ghast</span></a>
-<a class="monster-thumb" href="monsters.html#ghost"><img src="Ravenloft-I6/ravenloft/monsters/ghost.svg" loading="lazy" alt="Ghost"><span>Ghost</span></a>
-<a class="monster-thumb" href="monsters.html#ghoul"><img src="Ravenloft-I6/ravenloft/monsters/ghoul.svg" loading="lazy" alt="Ghoul"><span>Ghoul</span></a>
-<a class="monster-thumb" href="monsters.html#giant_rat"><img src="Ravenloft-I6/ravenloft/monsters/giant_rat.svg" loading="lazy" alt="Giant Rat"><span>Giant Rat</span></a>
-<a class="monster-thumb" href="monsters.html#giant_spider"><img src="Ravenloft-I6/ravenloft/monsters/giant_spider.svg" loading="lazy" alt="Giant Spider"><span>Giant Spider</span></a>
-<a class="monster-thumb" href="monsters.html#green_slime"><img src="Ravenloft-I6/ravenloft/monsters/green_slime.svg" loading="lazy" alt="Green Slime"><span>Green Slime</span></a>
-<a class="monster-thumb" href="monsters.html#groaning_spirit"><img src="Ravenloft-I6/ravenloft/monsters/groaning_spirit.svg" loading="lazy" alt="Groaning Spirit"><span>Groaning Spirit</span></a>
-<a class="monster-thumb" href="monsters.html#guardian_of_sorrow"><img src="Ravenloft-I6/ravenloft/monsters/guardian_of_sorrow.svg" loading="lazy" alt="Guardian Of Sorrow"><span>Guardian Of Sorrow</span></a>
-<a class="monster-thumb" href="monsters.html#hell_hound"><img src="Ravenloft-I6/ravenloft/monsters/hell_hound.svg" loading="lazy" alt="Hell Hound"><span>Hell Hound</span></a>
-<a class="monster-thumb" href="monsters.html#helpful_spirit"><img src="Ravenloft-I6/ravenloft/monsters/helpful_spirit.svg" loading="lazy" alt="Helpful Spirit"><span>Helpful Spirit</span></a>
-<a class="monster-thumb" href="monsters.html#huge_spider"><img src="Ravenloft-I6/ravenloft/monsters/huge_spider.svg" loading="lazy" alt="Huge Spider"><span>Huge Spider</span></a>
-<a class="monster-thumb" href="monsters.html#iron_golem"><img src="Ravenloft-I6/ravenloft/monsters/iron_golem.svg" loading="lazy" alt="Iron Golem"><span>Iron Golem</span></a>
-<a class="monster-thumb" href="monsters.html#nightmare"><img src="Ravenloft-I6/ravenloft/monsters/nightmare.svg" loading="lazy" alt="Nightmare"><span>Nightmare</span></a>
-<a class="monster-thumb" href="monsters.html#rat_swarm"><img src="Ravenloft-I6/ravenloft/monsters/rat_swarm.svg" loading="lazy" alt="Rat Swarm"><span>Rat Swarm</span></a>
-<a class="monster-thumb" href="monsters.html#rust_monster"><img src="Ravenloft-I6/ravenloft/monsters/rust_monster.svg" loading="lazy" alt="Rust Monster"><span>Rust Monster</span></a>
-<a class="monster-thumb" href="monsters.html#shadow_demon"><img src="Ravenloft-I6/ravenloft/monsters/shadow_demon.svg" loading="lazy" alt="Shadow Demon"><span>Shadow Demon</span></a>
-<a class="monster-thumb" href="monsters.html#skeleton"><img src="Ravenloft-I6/ravenloft/monsters/skeleton.svg" loading="lazy" alt="Skeleton"><span>Skeleton</span></a>
-<a class="monster-thumb" href="monsters.html#spectre"><img src="Ravenloft-I6/ravenloft/monsters/spectre.svg" loading="lazy" alt="Spectre"><span>Spectre</span></a>
-<a class="monster-thumb" href="monsters.html#strahd"><img src="Ravenloft-I6/ravenloft/monsters/strahd.svg" loading="lazy" alt="Strahd"><span>Strahd</span></a>
-<a class="monster-thumb" href="monsters.html#strahd_zombie"><img src="Ravenloft-I6/ravenloft/monsters/strahd_zombie.svg" loading="lazy" alt="Strahd Zombie"><span>Strahd Zombie</span></a>
-<a class="monster-thumb" href="monsters.html#trapper"><img src="Ravenloft-I6/ravenloft/monsters/trapper.svg" loading="lazy" alt="Trapper"><span>Trapper</span></a>
-<a class="monster-thumb" href="monsters.html#vampire_maiden"><img src="Ravenloft-I6/ravenloft/monsters/vampire_maiden.svg" loading="lazy" alt="Vampire Maiden"><span>Vampire Maiden</span></a>
-<a class="monster-thumb" href="monsters.html#vampire_silhouette"><img src="Ravenloft-I6/ravenloft/monsters/vampire_silhouette.svg" loading="lazy" alt="Vampire"><span>Vampire</span></a>
-<a class="monster-thumb" href="monsters.html#vampire_spawn"><img src="Ravenloft-I6/ravenloft/monsters/vampire_spawn.svg" loading="lazy" alt="Vampire Spawn"><span>Vampire Spawn</span></a>
-<a class="monster-thumb" href="monsters.html#vistani_traveler"><img src="Ravenloft-I6/ravenloft/monsters/vistani_traveler.svg" loading="lazy" alt="Vistani Traveler"><span>Vistani Traveler</span></a>
-<a class="monster-thumb" href="monsters.html#werewolf"><img src="Ravenloft-I6/ravenloft/monsters/werewolf.svg" loading="lazy" alt="Werewolf"><span>Werewolf</span></a>
-<a class="monster-thumb" href="monsters.html#wight"><img src="Ravenloft-I6/ravenloft/monsters/wight.svg" loading="lazy" alt="Wight"><span>Wight</span></a>
-<a class="monster-thumb" href="monsters.html#wolf_silhouette"><img src="Ravenloft-I6/ravenloft/monsters/wolf_silhouette.svg" loading="lazy" alt="Wolf"><span>Wolf</span></a>
-<a class="monster-thumb" href="monsters.html#worg"><img src="Ravenloft-I6/ravenloft/monsters/worg.svg" loading="lazy" alt="Worg"><span>Worg</span></a>
-<a class="monster-thumb" href="monsters.html#wraith"><img src="Ravenloft-I6/ravenloft/monsters/wraith.svg" loading="lazy" alt="Wraith"><span>Wraith</span></a>
-<a class="monster-thumb" href="monsters.html#zombie"><img src="Ravenloft-I6/ravenloft/monsters/zombie.svg" loading="lazy" alt="Zombie"><span>Zombie</span></a></div>
- </div>
-</section>
+
 </main>
 <footer><b>RPGPOV</b> • Ravenloft I6 Browser Beta<br/>Unofficial fan-made mapping and exploration project. Dungeons &amp; Dragons and Ravenloft belong to their respective rights holders.</footer>
 <div aria-label="In-game screenshot" aria-modal="true" class="image-lightbox" id="gameLightbox" role="dialog"><button id="closeLightbox" type="button">Close ×</button><img alt="" id="lightboxImg"/><div class="caption" id="lightboxCaption"></div></div>

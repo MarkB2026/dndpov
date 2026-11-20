@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="maelis vorn">
+ <title>Maelis Vorn</title>
+ <defs>
+  <filter id="maelis_vorn-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="maelis_vorn-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="maelis_vorn-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="maelis_vorn-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="maelis_vorn-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="maelis_vorn-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18182a"/><stop offset="1" stop-color="#06060c"/></linearGradient>
+  <radialGradient id="maelis_vorn-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#ece0d4"/><stop offset="0.55" stop-color="#cfc0b0"/><stop offset="1" stop-color="#6e6058"/></radialGradient>
+  <linearGradient id="maelis_vorn-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#6e6058" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="maelis_vorn-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="maelis_vorn-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="maelis_vorn-robe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e2a4a"/><stop offset="0.6" stop-color="#0e1426"/><stop offset="1" stop-color="#04060c"/></linearGradient><linearGradient id="maelis_vorn-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0d080"/><stop offset="0.4" stop-color="#b08a3a"/><stop offset="0.7" stop-color="#e0b860"/><stop offset="1" stop-color="#5a3e14"/></linearGradient><linearGradient id="maelis_vorn-book" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a1a1a"/><stop offset="1" stop-color="#2a0808"/></linearGradient>
+ </defs>
+<g filter="url(#maelis_vorn-paint)">
+<rect width="320" height="320" fill="url(#maelis_vorn-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#2a2a5a" opacity=".45" filter="url(#maelis_vorn-blur)"/>
+<path d="M196 320 L196 120 L202 120 L202 104 L208 120 L214 120 L214 150 L226 150 L226 90 L232 70 L238 90 L238 150 L250 150 L250 112 L258 96 L266 112 L266 160 L280 160 L280 130 L286 118 L292 130 L292 170 L320 170 L320 320Z" fill="#141220" opacity=".9"/>
+<path d="M0 320 L0 150 L18 150 L18 120 L24 104 L30 120 L30 170 L50 170 L50 140 L58 128 L66 140 L66 190 L90 200 L90 320Z" fill="#110f1c" opacity=".85"/>
+<rect x="230" y="104" width="3" height="6" fill="#d8a050" opacity=".6"/><rect x="256" y="124" width="3" height="5" fill="#d8a050" opacity=".5"/>
+<path d="M116 100 C104 150 104 210 96 280 L126 280 C126 220 128 160 128 112Z M204 100 C216 150 216 210 224 280 L194 280 C194 220 192 160 192 112Z" fill="#8a8890" filter="url(#maelis_vorn-brush)" transform="translate(160 150) scale(1.12) translate(-160 -150)"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M140 198 L136 264 L184 264 L180 198Z" fill="url(#maelis_vorn-skin)"/><path d="M140 212 C150 230 170 230 180 212 L180 234 L140 234Z" fill="#6e6058" opacity=".55" filter="url(#maelis_vorn-blur2)"/><path d="M174 218 L178 262" stroke="#6e6058" stroke-width="5" opacity=".5" filter="url(#maelis_vorn-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#maelis_vorn-robe)"/><path d="M60 320 C70 290 86 262 110 246 M260 320 C250 290 234 262 210 246 M30 320 C40 296 56 276 80 262 M290 320 C280 296 264 276 240 262" fill="none" stroke="#000" stroke-width="5" opacity="0.35"/>
+<path d="M110 250 L92 168 C110 180 124 206 132 236Z M210 250 L228 168 C210 180 196 206 188 236Z" fill="url(#maelis_vorn-robe)" stroke="url(#maelis_vorn-gold)" stroke-width="2"/>
+<path d="M140 240 L160 264 L180 240" fill="none" stroke="url(#maelis_vorn-gold)" stroke-width="2.4"/><circle cx="160" cy="270" r="6" fill="#3a2a8a" stroke="#e0b860" stroke-width="2"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M122 124 C110 116 108 136 112 150 C114 156 120 156 122 152 Z" fill="url(#maelis_vorn-skin)"/>
+<path d="M119 130 C113 128 113 140 117 146" fill="none" stroke="#6e6058" stroke-width="1.6" opacity=".7"/>
+<path d="M198 124 C210 116 212 136 208 150 C206 156 200 156 198 152 Z" fill="url(#maelis_vorn-skin)"/>
+<path d="M201 130 C207 128 207 140 203 146" fill="none" stroke="#6e6058" stroke-width="1.6" opacity=".7"/>
+<clipPath id="maelis_vorn-fclip"><path d="M160 72 C184.0 72 200 82 200 102 C202 98 200 114 200 128 C200 146 190 170 190 184 C188 196 176 216 160 218 C144 216 132 196 130 184 C130 170 120 146 120 128 C120 114 118 98 120 102 C120 82 136.0 72 160 72 Z"/></clipPath>
+<path d="M160 72 C184.0 72 200 82 200 102 C202 98 200 114 200 128 C200 146 190 170 190 184 C188 196 176 216 160 218 C144 216 132 196 130 184 C130 170 120 146 120 128 C120 114 118 98 120 102 C120 82 136.0 72 160 72 Z" fill="url(#maelis_vorn-skin)"/>
+<g clip-path="url(#maelis_vorn-fclip)">
+<rect x="80" y="62" width="160" height="166" fill="url(#maelis_vorn-turn)"/>
+<ellipse cx="130" cy="144" rx="14" ry="20" fill="#6e6058" opacity="0.75" filter="url(#maelis_vorn-blur)"/>
+<ellipse cx="190" cy="144" rx="14" ry="20" fill="#6e6058" opacity="0.75" filter="url(#maelis_vorn-blur)"/>
+<ellipse cx="138" cy="122" rx="13" ry="7" fill="#ece0d4" opacity="0.6" filter="url(#maelis_vorn-blur)"/>
+<ellipse cx="152" cy="94" rx="24" ry="12" fill="#ece0d4" opacity=".35" filter="url(#maelis_vorn-blur)"/>
+<ellipse cx="160" cy="224" rx="30" ry="10" fill="#6e6058" opacity=".5" filter="url(#maelis_vorn-blur)"/>
+</g>
+<path d="M138 88 q22 -5 44 0 M142 96 q18 -4 36 0 M148 170 C142 176 145 190 147 198 M172 170 C178 176 175 190 173 198 M132.5 130 l-6 3 M132.5 133 l-5 5 M187.5 130 l6 3 M187.5 133 l5 5" fill="none" stroke="#6e6058" stroke-width="1" opacity="0.95"/>
+<ellipse cx="143" cy="123" rx="11.899999999999999" ry="4" fill="#6e6058" opacity=".35" filter="url(#maelis_vorn-blur2)"/><ellipse cx="177" cy="123" rx="11.899999999999999" ry="4" fill="#6e6058" opacity=".45" filter="url(#maelis_vorn-blur2)"/>
+<clipPath id="maelis_vorn-eye0"><path d="M151.5 128.3 C146.4 124.48 138.75 124.64 134.5 127 C138.75 130.72 146.4 130.88 151.5 128.3 Z"/></clipPath>
+<ellipse cx="143" cy="126" rx="12.75" ry="7.040000000000001" fill="#6e6058" opacity="0.8" filter="url(#maelis_vorn-blur2)"/>
+<path d="M151.5 128.3 C146.4 124.48 138.75 124.64 134.5 127 C138.75 130.72 146.4 130.88 151.5 128.3 Z" fill="#d8ccc0"/>
+<g clip-path="url(#maelis_vorn-eye0)"><circle cx="143" cy="128" r="3" fill="#3a3060"/><circle cx="143" cy="128" r="3" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="143" cy="128" r="1.3" fill="#0a0806"/><path d="M151.5 128.3 C146.4 124.48 138.75 124.64 134.5 127 L134.5 121.6 L151.5 121.6Z" fill="#000" opacity=".25"/></g>
+<circle cx="141.9" cy="126.9" r="0.7" fill="#fff" opacity=".85"/>
+<path d="M151.5 128.3 C146.4 124.48 138.75 124.64 134.5 127" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M149.5 129.3 C145.55 131.04 139.6 130.88 136.5 128" fill="none" stroke="#6e6058" stroke-width=".9" opacity=".8"/>
+<path d="M149.5 125.30000000000001 C146.4 121.92 138.75 121.92 133.5 125" fill="none" stroke="#6e6058" stroke-width="1.1" opacity=".8"/>
+<path d="M148.5 132.48 C143 136.32 137.9 135.04 134.5 131.84" fill="none" stroke="#6e6058" stroke-width="1" opacity=".8"/>
+<clipPath id="maelis_vorn-eye1"><path d="M168.5 127.7 C173.6 124.48 181.25 124.64 185.5 129 C181.25 130.72 173.6 130.88 168.5 127.7 Z"/></clipPath>
+<ellipse cx="177" cy="126" rx="12.75" ry="7.040000000000001" fill="#6e6058" opacity="0.8" filter="url(#maelis_vorn-blur2)"/>
+<path d="M168.5 127.7 C173.6 124.48 181.25 124.64 185.5 129 C181.25 130.72 173.6 130.88 168.5 127.7 Z" fill="#d8ccc0"/>
+<g clip-path="url(#maelis_vorn-eye1)"><circle cx="177" cy="128" r="3" fill="#3a3060"/><circle cx="177" cy="128" r="3" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="177" cy="128" r="1.3" fill="#0a0806"/><path d="M168.5 127.7 C173.6 124.48 181.25 124.64 185.5 129 L185.5 121.6 L168.5 121.6Z" fill="#000" opacity=".25"/></g>
+<circle cx="175.9" cy="126.9" r="0.7" fill="#fff" opacity=".85"/>
+<path d="M168.5 127.7 C173.6 124.48 181.25 124.64 185.5 129" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M170.5 128.7 C174.45 131.04 180.4 130.88 183.5 130" fill="none" stroke="#6e6058" stroke-width=".9" opacity=".8"/>
+<path d="M170.5 124.7 C173.6 121.92 181.25 121.92 186.5 127" fill="none" stroke="#6e6058" stroke-width="1.1" opacity=".8"/>
+<path d="M171.5 132.48 C177 136.32 182.1 135.04 185.5 131.84" fill="none" stroke="#6e6058" stroke-width="1" opacity=".8"/>
+<path d="M152.2 119 Q139 104.8 131 117.2 Q139 108.7 152.2 121.6 Z" fill="#8a8890"/>
+<path d="M167.8 119 Q181 104.8 189 117.2 Q181 108.7 167.8 121.6 Z" fill="#8a8890"/>
+<path d="M164 132 C165 144 166 156 167 164" fill="none" stroke="#6e6058" stroke-width="3.5" opacity=".55" filter="url(#maelis_vorn-blur2)"/>
+<path d="M164 132 C165 144 166 156 167 164" fill="none" stroke="#6e6058" stroke-width="1.1" opacity=".8"/>
+<path d="M157 136 C157 146 158 156 159 162" fill="none" stroke="#ece0d4" stroke-width="2.4" opacity=".55" filter="url(#maelis_vorn-blur2)"/>
+<ellipse cx="160" cy="165" rx="3.8500000000000005" ry="5" fill="#ece0d4" opacity=".35" filter="url(#maelis_vorn-blur2)"/>
+<path d="M153 165 C150 170 155 173 157.2 171 M167 165 C170 170 165 173 162.8 171" fill="none" stroke="#6e6058" stroke-width="1.6"/>
+<ellipse cx="156.5" cy="170.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/><ellipse cx="163.5" cy="170.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/>
+<path d="M157.2 172 Q160 174 162.8 172" fill="none" stroke="#6e6058" stroke-width="1" opacity=".7"/>
+<path d="M149 191 C153.4 188.2 156 187.525 160 188.65 C164 187.525 166.6 188.2 171 186 C165.5 191 154.5 191 149 191Z" fill="#7a5a58" opacity=".9"/>
+<path d="M151 191.5 C154.5 191 165.5 191 169 186.5 C166.6 193.15 153.4 193.15 151 191.5Z" fill="#7a5a58"/>
+<ellipse cx="160" cy="191.8" rx="4.4" ry="0.7875" fill="#fff" opacity=".18"/>
+<path d="M149 191 C154.5 191.2 165.5 191.2 171 186" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="195.85" rx="4.95" ry="2.5" fill="#6e6058" opacity=".45" filter="url(#maelis_vorn-blur2)"/>
+<path d="M172 185 q3 -1 3 -5" fill="none" stroke="#6e6058" stroke-width="1"/>
+<path d="M146 168 C140 176 143 188 145 194 M174 168 C180 176 177 188 175 194" fill="none" stroke="#6e6058" stroke-width="1.4" opacity="0.85"/>
+<path d="M150 198 C152 220 156 250 160 276 C164 250 168 220 170 198 C164 204 156 204 150 198Z" fill="#6a6870"/>
+<path d="M154 204 C156 230 158 252 160 272" fill="none" stroke="#c8c6cc" stroke-width="1" opacity="0.6" stroke-linecap="round"/><path d="M166 204 C164 228 162 250 161 270" fill="none" stroke="#c8c6cc" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+<path d="M146 186 C152 182 158 184 160 186 C162 184 168 182 174 186 C168 188 164 190 160 190 C156 190 152 188 146 186Z" fill="#6a6870"/>
+<circle cx="143" cy="129" r="11" fill="#c0d8ff" fill-opacity=".1" stroke="url(#maelis_vorn-gold)" stroke-width="1.6"/><circle cx="177" cy="129" r="11" fill="#c0d8ff" fill-opacity=".1" stroke="url(#maelis_vorn-gold)" stroke-width="1.6"/><path d="M154 128 Q160 124 166 128 M132 128 L118 126 M188 128 L202 126" fill="none" stroke="url(#maelis_vorn-gold)" stroke-width="1.4"/><path d="M137 122 l4 -3" stroke="#fff" stroke-width="1.2" opacity=".7"/>
+<path d="M132 82 C142 74 152 72 160 72" fill="none" stroke="#fff" stroke-width="5" opacity=".25" filter="url(#maelis_vorn-blur2)"/></g>
+<g transform="rotate(-12 64 262)"><rect x="24" y="226" width="80" height="62" rx="3" fill="url(#maelis_vorn-book)" stroke="#1a0404" stroke-width="2"/><rect x="28" y="230" width="72" height="54" fill="none" stroke="url(#maelis_vorn-gold)" stroke-width="1.6"/><circle cx="64" cy="257" r="13" fill="none" stroke="#8a7aff" stroke-width="1.8"/><path d="M64 244 L64 270 M51 257 L77 257 M55 248 L73 266" stroke="#8a7aff" stroke-width="1.2"/></g>
+<circle cx="64" cy="257" r="24" fill="#6a5aff" opacity=".3" filter="url(#maelis_vorn-glow)"/>
+<rect width="320" height="320" fill="url(#maelis_vorn-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

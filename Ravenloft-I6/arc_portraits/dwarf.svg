@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="dwarf">
+ <title>Dwarf</title>
+ <defs>
+  <filter id="dwarf-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="dwarf-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="dwarf-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="dwarf-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="dwarf-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="dwarf-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2430"/><stop offset="1" stop-color="#0c0a10"/></linearGradient>
+  <radialGradient id="dwarf-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#e8a88a"/><stop offset="0.55" stop-color="#c8866a"/><stop offset="1" stop-color="#723c2c"/></radialGradient>
+  <linearGradient id="dwarf-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#723c2c" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="dwarf-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="dwarf-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="dwarf-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a3a44"/><stop offset="0.25" stop-color="#b8b8c4"/><stop offset="0.4" stop-color="#eaeaf2"/><stop offset="0.55" stop-color="#7a7a86"/><stop offset="0.8" stop-color="#4a4a54"/><stop offset="1" stop-color="#1a1a22"/></linearGradient><linearGradient id="dwarf-fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a7a68"/><stop offset="1" stop-color="#3a3028"/></linearGradient><linearGradient id="dwarf-beard" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c0581e"/><stop offset="0.6" stop-color="#8a3410"/><stop offset="1" stop-color="#4a1a06"/></linearGradient>
+ </defs>
+<g filter="url(#dwarf-paint)">
+<rect width="320" height="320" fill="url(#dwarf-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#3a3058" opacity=".45" filter="url(#dwarf-blur)"/>
+<path d="M196 320 L196 120 L202 120 L202 104 L208 120 L214 120 L214 150 L226 150 L226 90 L232 70 L238 90 L238 150 L250 150 L250 112 L258 96 L266 112 L266 160 L280 160 L280 130 L286 118 L292 130 L292 170 L320 170 L320 320Z" fill="#141220" opacity=".9"/>
+<path d="M0 320 L0 150 L18 150 L18 120 L24 104 L30 120 L30 170 L50 170 L50 140 L58 128 L66 140 L66 190 L90 200 L90 320Z" fill="#110f1c" opacity=".85"/>
+<rect x="230" y="104" width="3" height="6" fill="#d8a050" opacity=".6"/><rect x="256" y="124" width="3" height="5" fill="#d8a050" opacity=".5"/>
+<path d="M262 320 L262 30" stroke="#4a3020" stroke-width="10"/>
+<path d="M266 50 C296 40 312 60 314 92 C300 84 284 84 266 92Z M258 50 C236 44 222 56 220 76 C232 72 246 72 258 78Z" fill="url(#dwarf-metal)" stroke="#1a1a20"/>
+<path d="M280 62 l8 6 l-8 6 Z" fill="#3a3a44"/>
+<g transform="translate(160 150) scale(1.1) translate(-160 -150)"><path d="M120 180 L116 246 L204 246 L200 180Z" fill="url(#dwarf-skin)"/><path d="M120 194 C150 212 170 212 200 194 L200 216 L120 216Z" fill="#723c2c" opacity=".55" filter="url(#dwarf-blur2)"/><path d="M194 200 L198 244" stroke="#723c2c" stroke-width="5" opacity=".5" filter="url(#dwarf-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#dwarf-metal)" stroke="#121218"/>
+<path d="M0 320 L0 240 C40 220 80 214 120 222 C100 240 70 250 40 280 L30 320Z M320 320 L320 240 C280 220 240 214 200 222 C220 240 250 250 280 280 L290 320Z" fill="url(#dwarf-fur)" filter="url(#dwarf-brush)"/>
+<path d="M44 300 L76 300" stroke="#121218" stroke-width="1.4"/><circle cx="60" cy="290" r="2.4" fill="#a08850"/>
+<path d="M84 300 L116 300" stroke="#121218" stroke-width="1.4"/><circle cx="100" cy="290" r="2.4" fill="#a08850"/>
+<path d="M204 300 L236 300" stroke="#121218" stroke-width="1.4"/><circle cx="220" cy="290" r="2.4" fill="#a08850"/>
+<path d="M244 300 L276 300" stroke="#121218" stroke-width="1.4"/><circle cx="260" cy="290" r="2.4" fill="#a08850"/>
+<g transform="translate(160 150) scale(1.1) translate(-160 -150)"><path d="M106 128 C94 120 92 140 96 154 C98 160 104 160 106 156 Z" fill="url(#dwarf-skin)"/>
+<path d="M103 134 C97 132 97 144 101 150" fill="none" stroke="#723c2c" stroke-width="1.6" opacity=".7"/>
+<path d="M214 128 C226 120 228 140 224 154 C222 160 216 160 214 156 Z" fill="url(#dwarf-skin)"/>
+<path d="M217 134 C223 132 223 144 219 150" fill="none" stroke="#723c2c" stroke-width="1.6" opacity=".7"/>
+<clipPath id="dwarf-fclip"><path d="M160 84 C190.0 84 210 94 210 114 C212 106 216 122 216 136 C216 154 214 162 214 176 C212 188 198 198 160 200 C122 198 108 188 106 176 C106 162 104 154 104 136 C104 122 108 106 110 114 C110 94 130.0 84 160 84 Z"/></clipPath>
+<path d="M160 84 C190.0 84 210 94 210 114 C212 106 216 122 216 136 C216 154 214 162 214 176 C212 188 198 198 160 200 C122 198 108 188 106 176 C106 162 104 154 104 136 C104 122 108 106 110 114 C110 94 130.0 84 160 84 Z" fill="url(#dwarf-skin)"/>
+<g clip-path="url(#dwarf-fclip)">
+<rect x="80" y="74" width="160" height="136" fill="url(#dwarf-turn)"/>
+<ellipse cx="114" cy="152" rx="14" ry="20" fill="#723c2c" opacity="0.15" filter="url(#dwarf-blur)"/>
+<ellipse cx="206" cy="152" rx="14" ry="20" fill="#723c2c" opacity="0.15" filter="url(#dwarf-blur)"/>
+<ellipse cx="122" cy="130" rx="13" ry="7" fill="#e8a88a" opacity="0.35" filter="url(#dwarf-blur)"/>
+<ellipse cx="152" cy="106" rx="24" ry="12" fill="#e8a88a" opacity=".35" filter="url(#dwarf-blur)"/>
+<ellipse cx="124" cy="142" rx="11" ry="7" fill="#c04a3a" opacity=".3" filter="url(#dwarf-blur)"/>
+<ellipse cx="196" cy="142" rx="11" ry="7" fill="#c04a3a" opacity=".3" filter="url(#dwarf-blur)"/>
+<ellipse cx="160" cy="206" rx="54" ry="10" fill="#723c2c" opacity=".5" filter="url(#dwarf-blur)"/>
+</g>
+<path d="M138 100 q22 -5 44 0 M142 108 q18 -4 36 0 M148 168 C142 174 142 184 144 192 M172 168 C178 174 178 184 176 192 M128 134 l-6 3 M128 137 l-5 5 M192 134 l6 3 M192 137 l5 5" fill="none" stroke="#723c2c" stroke-width="1" opacity="0.6"/>
+<ellipse cx="138" cy="127" rx="11.2" ry="4" fill="#723c2c" opacity=".35" filter="url(#dwarf-blur2)"/><ellipse cx="182" cy="127" rx="11.2" ry="4" fill="#723c2c" opacity=".45" filter="url(#dwarf-blur2)"/>
+<clipPath id="dwarf-eye0"><path d="M146 132.0 C141.2 128.04 134.0 128.22 130 132 C134.0 135.06 141.2 135.24 146 132.0 Z"/></clipPath>
+<ellipse cx="138" cy="130" rx="12.0" ry="7.920000000000001" fill="#723c2c" opacity="0.45" filter="url(#dwarf-blur2)"/>
+<path d="M146 132.0 C141.2 128.04 134.0 128.22 130 132 C134.0 135.06 141.2 135.24 146 132.0 Z" fill="#d8ccc0"/>
+<g clip-path="url(#dwarf-eye0)"><circle cx="141" cy="130" r="3.4" fill="#4a5a6a"/><circle cx="141" cy="130" r="3.4" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="141" cy="130" r="1.4" fill="#0a0806"/><path d="M146 132.0 C141.2 128.04 134.0 128.22 130 132 L130 124.8 L146 124.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="139.8" cy="128.8" r="0.8" fill="#fff" opacity=".85"/>
+<path d="M146 132.0 C141.2 128.04 134.0 128.22 130 132" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M144 133.0 C140.4 135.42 134.8 135.24 132 133" fill="none" stroke="#723c2c" stroke-width=".9" opacity=".8"/>
+<path d="M144 129.0 C141.2 125.16 134.0 125.16 129 130" fill="none" stroke="#723c2c" stroke-width="1.1" opacity=".8"/>
+<clipPath id="dwarf-eye1"><path d="M174 132.0 C178.8 128.04 186.0 128.22 190 132 C186.0 135.06 178.8 135.24 174 132.0 Z"/></clipPath>
+<ellipse cx="182" cy="130" rx="12.0" ry="7.920000000000001" fill="#723c2c" opacity="0.45" filter="url(#dwarf-blur2)"/>
+<path d="M174 132.0 C178.8 128.04 186.0 128.22 190 132 C186.0 135.06 178.8 135.24 174 132.0 Z" fill="#d8ccc0"/>
+<g clip-path="url(#dwarf-eye1)"><circle cx="185" cy="130" r="3.4" fill="#4a5a6a"/><circle cx="185" cy="130" r="3.4" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="185" cy="130" r="1.4" fill="#0a0806"/><path d="M174 132.0 C178.8 128.04 186.0 128.22 190 132 L190 124.8 L174 124.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="183.8" cy="128.8" r="0.8" fill="#fff" opacity=".85"/>
+<path d="M174 132.0 C178.8 128.04 186.0 128.22 190 132" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M176 133.0 C179.6 135.42 185.2 135.24 188 133" fill="none" stroke="#723c2c" stroke-width=".9" opacity=".8"/>
+<path d="M176 129.0 C178.8 125.16 186.0 125.16 191 130" fill="none" stroke="#723c2c" stroke-width="1.1" opacity=".8"/>
+<path d="M146.6 127 Q134.2 113.7 126.7 122 Q134.2 123.5 146.6 133.5 Z" fill="#a8481a"/>
+<path d="M173.4 127 Q185.8 113.7 193.3 122 Q185.8 123.5 173.4 133.5 Z" fill="#a8481a"/>
+<path d="M164 136 C165 148 166 154 167 162" fill="none" stroke="#723c2c" stroke-width="3.5" opacity=".55" filter="url(#dwarf-blur2)"/>
+<path d="M164 136 C165 148 166 154 167 162" fill="none" stroke="#723c2c" stroke-width="1.1" opacity=".8"/>
+<path d="M157 140 C157 150 158 154 159 160" fill="none" stroke="#e8a88a" stroke-width="2.4" opacity=".55" filter="url(#dwarf-blur2)"/>
+<ellipse cx="160" cy="163" rx="7.700000000000001" ry="5" fill="#e8a88a" opacity=".35" filter="url(#dwarf-blur2)"/>
+<path d="M146 163 C143 168 148 171 154.4 169 M174 163 C177 168 172 171 165.6 169" fill="none" stroke="#723c2c" stroke-width="1.6"/>
+<ellipse cx="153.0" cy="168.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/><ellipse cx="167.0" cy="168.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/>
+<path d="M154.4 170 Q160 172 165.6 170" fill="none" stroke="#723c2c" stroke-width="1" opacity=".7"/>
+<path d="M146 184 C151.6 181.0 156 179.875 160 181.75 C164 179.875 168.4 181.0 174 184 C167.0 185 153.0 185 146 184Z" fill="#9a4a3a" opacity=".9"/>
+<path d="M148 184.5 C153.0 185 167.0 185 172 184.5 C168.4 189.25 151.6 189.25 148 184.5Z" fill="#9a4a3a"/>
+<ellipse cx="160" cy="187.0" rx="5.6000000000000005" ry="1.3125" fill="#fff" opacity=".18"/>
+<path d="M146 184 C153.0 185.2 167.0 185.2 174 184" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="193.75" rx="6.3" ry="2.5" fill="#723c2c" opacity=".45" filter="url(#dwarf-blur2)"/>
+<path d="M146 166 C140 174 140 182 142 188 M174 166 C180 174 180 182 178 188" fill="none" stroke="#723c2c" stroke-width="1.4" opacity="0.5"/>
+<path d="M126 92 C134 80 150 76 160 78" fill="none" stroke="#fff" stroke-width="5" opacity=".25" filter="url(#dwarf-blur2)"/>
+<path d="M104 140 C102 180 110 214 124 240 L136 300 L184 300 L196 240 C210 214 218 180 216 140 C208 168 196 178 184 176 C176 192 144 192 136 176 C124 178 112 168 104 140Z" fill="url(#dwarf-beard)" filter="url(#dwarf-brush)"/>
+<path d="M118 189 C116 210 123 240 119 294" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M123 190 C125 210 117 240 126 265" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M128 190 C122 210 124 240 125 273" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M133 185 C130 210 133 240 137 256" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M138 188 C135 210 132 240 137 276" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M143 178 C139 210 149 240 145 260" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M148 172 C144 210 151 240 151 258" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M153 174 C147 210 147 240 152 263" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M158 175 C154 210 156 240 159 262" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M163 187 C167 210 167 240 162 261" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M168 176 C168 210 166 240 164 273" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M173 183 C169 210 169 240 173 254" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M178 180 C176 210 181 240 174 288" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M183 180 C178 210 181 240 184 269" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M188 185 C193 210 187 240 186 280" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M193 185 C198 210 189 240 189 266" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M198 170 C203 210 197 240 200 251" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/><path d="M203 187 C209 210 203 240 204 274" fill="none" stroke="#e07a3a" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+<ellipse cx="140" cy="238" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="140" cy="252" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="140" cy="266" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="140" cy="280" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="140" cy="294" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="180" cy="238" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="180" cy="252" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="180" cy="266" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="180" cy="280" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<ellipse cx="180" cy="294" rx="9" ry="8" fill="url(#dwarf-beard)" stroke="#4a1a06"/>
+<rect x="171" y="270" width="18" height="9" rx="2" fill="url(#dwarf-metal)" stroke="#1a1a20"/>
+<path d="M160 176 C146 168 128 172 116 186 C130 182 146 182 158 184 Z M160 176 C174 168 192 172 204 186 C190 182 174 182 162 184Z" fill="#a8481a"/>
+<path d="M106 120 C104 100 108 92 112 88 M214 120 C216 100 212 92 208 88" fill="none" stroke="#a8481a" stroke-width="6" opacity=".8"/></g>
+<rect width="320" height="320" fill="url(#dwarf-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

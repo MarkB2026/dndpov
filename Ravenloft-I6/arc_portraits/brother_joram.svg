@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="brother joram">
+ <title>Brother Joram</title>
+ <defs>
+  <filter id="brother_joram-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="brother_joram-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="brother_joram-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="brother_joram-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="brother_joram-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="brother_joram-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e2a22"/><stop offset="1" stop-color="#080e0a"/></linearGradient>
+  <radialGradient id="brother_joram-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#e0b494"/><stop offset="0.55" stop-color="#c09070"/><stop offset="1" stop-color="#6e4630"/></radialGradient>
+  <linearGradient id="brother_joram-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#6e4630" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="brother_joram-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="brother_joram-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="brother_joram-robe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a5a36"/><stop offset="0.6" stop-color="#3a3018"/><stop offset="1" stop-color="#141008"/></linearGradient><linearGradient id="brother_joram-wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a180a"/><stop offset="0.5" stop-color="#7a5432"/><stop offset="1" stop-color="#2a180a"/></linearGradient><linearGradient id="brother_joram-beard" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a7a6a"/><stop offset="0.5" stop-color="#5a4636"/><stop offset="1" stop-color="#2e2218"/></linearGradient>
+ </defs>
+<g filter="url(#brother_joram-paint)">
+<rect width="320" height="320" fill="url(#brother_joram-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#2a4a3a" opacity=".45" filter="url(#brother_joram-blur)"/>
+<circle cx="70" cy="60" r="42" fill="#f4ecd8" opacity=".18" filter="url(#brother_joram-glow)"/>
+<circle cx="70" cy="60" r="22" fill="url(#brother_joram-moon)"/>
+<path d="M62 54 q4 3 8 0 M74 66 q3 2 6 -1" stroke="#a8a090" stroke-width="2" fill="none" opacity=".5"/>
+<path d="M20 320 L20 0 L36 0 L36 320Z" fill="#101a14" opacity="0.8"/>
+<path d="M28.0 120 C-2.0 100 -20 106 -30 90 M28.0 80 C56 60 76 66 86 50" stroke="#101a14" stroke-width="4" fill="none" opacity="0.8"/>
+<path d="M60 320 L60 0 L70 0 L70 320Z" fill="#101a14" opacity="0.6"/>
+<path d="M65.0 120 C35.0 100 20 106 10 90 M65.0 80 C90 60 110 66 120 50" stroke="#101a14" stroke-width="4" fill="none" opacity="0.6"/>
+<path d="M250 320 L250 0 L264 0 L264 320Z" fill="#101a14" opacity="0.7"/>
+<path d="M257.0 120 C227.0 100 210 106 200 90 M257.0 80 C284 60 304 66 314 50" stroke="#101a14" stroke-width="4" fill="none" opacity="0.7"/>
+<path d="M290 320 L290 0 L310 0 L310 320Z" fill="#101a14" opacity="0.85"/>
+<path d="M300.0 120 C270.0 100 250 106 240 90 M300.0 80 C330 60 350 66 360 50" stroke="#101a14" stroke-width="4" fill="none" opacity="0.85"/>
+<path d="M226 320 L226 0 L234 0 L234 320Z" fill="#101a14" opacity="0.5"/>
+<path d="M230.0 120 C200.0 100 186 106 176 90 M230.0 80 C254 60 274 66 284 50" stroke="#101a14" stroke-width="4" fill="none" opacity="0.5"/>
+<path d="M58 320 C62 250 52 180 60 110" fill="none" stroke="url(#brother_joram-wood)" stroke-width="11" stroke-linecap="round"/>
+<path d="M60 112 C50 90 36 80 28 58 M44 86 C38 74 40 64 34 54 M60 112 C70 88 86 78 92 54 M78 84 C86 74 86 64 94 60 M60 112 L60 70" fill="none" stroke="#cdbf9e" stroke-width="5" stroke-linecap="round"/>
+<circle cx="60" cy="102" r="7" fill="#7ac050" opacity=".6" filter="url(#brother_joram-glow)"/>
+<g transform="translate(160 150) scale(1.1) translate(-160 -150)"><path d="M120 180 L116 246 L204 246 L200 180Z" fill="url(#brother_joram-skin)"/><path d="M120 194 C150 212 170 212 200 194 L200 216 L120 216Z" fill="#6e4630" opacity=".55" filter="url(#brother_joram-blur2)"/><path d="M194 200 L198 244" stroke="#6e4630" stroke-width="5" opacity=".5" filter="url(#brother_joram-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#brother_joram-robe)" filter="url(#brother_joram-brush)"/><path d="M60 320 C70 290 86 262 110 246 M260 320 C250 290 234 262 210 246 M30 320 C40 296 56 276 80 262 M290 320 C280 296 264 276 240 262" fill="none" stroke="#000" stroke-width="5" opacity="0.35"/>
+<path d="M100 236 C120 252 200 252 220 236" fill="none" stroke="#3a2a14" stroke-width="6"/>
+<g transform="translate(160 150) scale(1.1) translate(-160 -150)"><path d="M105 130 C93 122 91 142 95 156 C97 162 103 162 105 158 Z" fill="url(#brother_joram-skin)"/>
+<path d="M102 136 C96 134 96 146 100 152" fill="none" stroke="#6e4630" stroke-width="1.6" opacity=".7"/>
+<path d="M215 130 C227 122 229 142 225 156 C223 162 217 162 215 158 Z" fill="url(#brother_joram-skin)"/>
+<path d="M218 136 C224 134 224 146 220 152" fill="none" stroke="#6e4630" stroke-width="1.6" opacity=".7"/>
+<clipPath id="brother_joram-fclip"><path d="M160 84 C190.0 84 210 94 210 114 C212 106 217 122 217 136 C217 154 214 162 214 176 C212 188 198 198 160 200 C122 198 108 188 106 176 C106 162 103 154 103 136 C103 122 108 106 110 114 C110 94 130.0 84 160 84 Z"/></clipPath>
+<path d="M160 84 C190.0 84 210 94 210 114 C212 106 217 122 217 136 C217 154 214 162 214 176 C212 188 198 198 160 200 C122 198 108 188 106 176 C106 162 103 154 103 136 C103 122 108 106 110 114 C110 94 130.0 84 160 84 Z" fill="url(#brother_joram-skin)"/>
+<g clip-path="url(#brother_joram-fclip)">
+<rect x="80" y="74" width="160" height="136" fill="url(#brother_joram-turn)"/>
+<ellipse cx="113" cy="152" rx="14" ry="20" fill="#6e4630" opacity="0.1" filter="url(#brother_joram-blur)"/>
+<ellipse cx="207" cy="152" rx="14" ry="20" fill="#6e4630" opacity="0.1" filter="url(#brother_joram-blur)"/>
+<ellipse cx="121" cy="130" rx="13" ry="7" fill="#e0b494" opacity="0.35" filter="url(#brother_joram-blur)"/>
+<ellipse cx="152" cy="106" rx="24" ry="12" fill="#e0b494" opacity=".35" filter="url(#brother_joram-blur)"/>
+<ellipse cx="123" cy="142" rx="11" ry="7" fill="#c05a40" opacity=".3" filter="url(#brother_joram-blur)"/>
+<ellipse cx="197" cy="142" rx="11" ry="7" fill="#c05a40" opacity=".3" filter="url(#brother_joram-blur)"/>
+<ellipse cx="160" cy="206" rx="54" ry="10" fill="#6e4630" opacity=".5" filter="url(#brother_joram-blur)"/>
+</g>
+<path d="M138 100 q22 -5 44 0 M142 108 q18 -4 36 0 M148 168 C142 174 143 184 145 192 M172 168 C178 174 177 184 175 192 M127.5 136 l-6 3 M127.5 139 l-5 5 M192.5 136 l6 3 M192.5 139 l5 5" fill="none" stroke="#6e4630" stroke-width="1" opacity="0.6"/>
+<ellipse cx="138" cy="129" rx="11.899999999999999" ry="4" fill="#6e4630" opacity=".35" filter="url(#brother_joram-blur2)"/><ellipse cx="182" cy="129" rx="11.899999999999999" ry="4" fill="#6e4630" opacity=".45" filter="url(#brother_joram-blur2)"/>
+<clipPath id="brother_joram-eye0"><path d="M146.5 134.3 C141.4 130.7 133.75 130.85 129.5 133 C133.75 136.55 141.4 136.7 146.5 134.3 Z"/></clipPath>
+<ellipse cx="138" cy="132" rx="12.75" ry="6.6000000000000005" fill="#6e4630" opacity="0.45" filter="url(#brother_joram-blur2)"/>
+<path d="M146.5 134.3 C141.4 130.7 133.75 130.85 129.5 133 C133.75 136.55 141.4 136.7 146.5 134.3 Z" fill="#d8ccc0"/>
+<g clip-path="url(#brother_joram-eye0)"><circle cx="138" cy="133" r="2.8" fill="#5a7a3a"/><circle cx="138" cy="133" r="2.8" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="138" cy="133" r="1.2" fill="#0a0806"/><path d="M146.5 134.3 C141.4 130.7 133.75 130.85 129.5 133 L129.5 128 L146.5 128Z" fill="#000" opacity=".25"/></g>
+<circle cx="137.0" cy="132.0" r="0.6" fill="#fff" opacity=".85"/>
+<path d="M146.5 134.3 C141.4 130.7 133.75 130.85 129.5 133" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M144.5 135.3 C140.55 136.85 134.6 136.7 131.5 134" fill="none" stroke="#6e4630" stroke-width=".9" opacity=".8"/>
+<path d="M144.5 131.3 C141.4 128.3 133.75 128.3 128.5 131" fill="none" stroke="#6e4630" stroke-width="1.1" opacity=".8"/>
+<path d="M143.5 138.2 C138 141.8 132.9 140.6 129.5 137.6" fill="none" stroke="#6e4630" stroke-width="1" opacity=".8"/>
+<clipPath id="brother_joram-eye1"><path d="M173.5 133.7 C178.6 130.7 186.25 130.85 190.5 135 C186.25 136.55 178.6 136.7 173.5 133.7 Z"/></clipPath>
+<ellipse cx="182" cy="132" rx="12.75" ry="6.6000000000000005" fill="#6e4630" opacity="0.45" filter="url(#brother_joram-blur2)"/>
+<path d="M173.5 133.7 C178.6 130.7 186.25 130.85 190.5 135 C186.25 136.55 178.6 136.7 173.5 133.7 Z" fill="#d8ccc0"/>
+<g clip-path="url(#brother_joram-eye1)"><circle cx="182" cy="133" r="2.8" fill="#5a7a3a"/><circle cx="182" cy="133" r="2.8" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="182" cy="133" r="1.2" fill="#0a0806"/><path d="M173.5 133.7 C178.6 130.7 186.25 130.85 190.5 135 L190.5 128 L173.5 128Z" fill="#000" opacity=".25"/></g>
+<circle cx="181.0" cy="132.0" r="0.6" fill="#fff" opacity=".85"/>
+<path d="M173.5 133.7 C178.6 130.7 186.25 130.85 190.5 135" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M175.5 134.7 C179.45 136.85 185.4 136.7 188.5 136" fill="none" stroke="#6e4630" stroke-width=".9" opacity=".8"/>
+<path d="M175.5 130.7 C178.6 128.3 186.25 128.3 191.5 133" fill="none" stroke="#6e4630" stroke-width="1.1" opacity=".8"/>
+<path d="M176.5 138.2 C182 141.8 187.1 140.6 190.5 137.6" fill="none" stroke="#6e4630" stroke-width="1" opacity=".8"/>
+<path d="M147.2 123 Q134 116.4 126 127 Q134 123.9 147.2 128 Z" fill="#6a6058"/>
+<path d="M172.8 123 Q186 116.4 194 127 Q186 123.9 172.8 128 Z" fill="#6a6058"/>
+<path d="M163 144 C164 154 166 158 166 162" fill="none" stroke="#6e4630" stroke-width="3.5" opacity=".55" filter="url(#brother_joram-blur2)"/>
+<path d="M163 144 C164 154 166 158 166 162" fill="none" stroke="#6e4630" stroke-width="1.1" opacity=".8"/>
+<path d="M157 142 C157 152 158 154 159 160" fill="none" stroke="#e0b494" stroke-width="2.4" opacity=".55" filter="url(#brother_joram-blur2)"/>
+<ellipse cx="160" cy="160" rx="6.6000000000000005" ry="5" fill="#e0b494" opacity=".35" filter="url(#brother_joram-blur2)"/>
+<path d="M148 163 C145 168 150 171 155.2 169 M172 163 C175 168 170 171 164.8 169" fill="none" stroke="#6e4630" stroke-width="1.6"/>
+<ellipse cx="154.0" cy="167.1" rx="3.2" ry="2.2" fill="#2a120c" opacity=".85"/><ellipse cx="166.0" cy="167.1" rx="3.2" ry="2.2" fill="#2a120c" opacity=".85"/>
+<path d="M155.2 170 Q160 172 164.8 170" fill="none" stroke="#6e4630" stroke-width="1" opacity=".7"/>
+<path d="M147 181 C152.2 181.0 156 179.875 160 181.75 C164 179.875 167.8 181.0 173 181 C166.5 185 153.5 185 147 181Z" fill="#9a5a44" opacity=".9"/>
+<path d="M149 181.5 C153.5 185 166.5 185 171 181.5 C167.8 189.25 152.2 189.25 149 181.5Z" fill="#9a5a44"/>
+<ellipse cx="160" cy="187.0" rx="5.2" ry="1.3125" fill="#fff" opacity=".18"/>
+<path d="M147 181 C153.5 185.2 166.5 185.2 173 181" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="193.75" rx="5.8500000000000005" ry="2.5" fill="#6e4630" opacity=".45" filter="url(#brother_joram-blur2)"/>
+<path d="M174 180 q3 -1 3 -5" fill="none" stroke="#6e4630" stroke-width="1"/>
+<path d="M146 166 C140 174 141 182 143 188 M174 166 C180 174 179 182 177 188" fill="none" stroke="#6e4630" stroke-width="1.4" opacity="0.4"/>
+<path d="M104 140 C98 110 104 92 116 84 C112 104 112 120 116 140Z M216 140 C222 110 216 92 204 84 C208 104 208 120 204 140Z" fill="#5a4a3a"/>
+<path d="M120 92 C132 82 150 78 160 78" fill="none" stroke="#fff" stroke-width="5" opacity=".2" filter="url(#brother_joram-blur2)"/>
+<path d="M110 104 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(-50 110 104)"/>
+<path d="M120 92 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(-30 120 92)"/>
+<path d="M136 84 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(-10 136 84)"/>
+<path d="M184 84 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(10 184 84)"/>
+<path d="M200 92 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(30 200 92)"/>
+<path d="M210 104 c-4 -8 2 -14 8 -14 c0 8 -4 12 -8 14Z" fill="#4a7a2a" stroke="#1e3a0a" stroke-width=".7" transform="rotate(50 210 104)"/>
+<path d="M102 144 C100 184 110 218 126 246 C138 268 150 290 160 300 C170 290 182 268 194 246 C210 218 220 184 218 144 C210 168 196 180 184 178 C176 194 144 194 136 178 C124 180 110 168 102 144Z" fill="url(#brother_joram-beard)" filter="url(#brother_joram-brush)"/>
+<path d="M116 186 C118 214 122 240 119 268" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M121 188 C124 214 118 240 119 272" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M126 187 C130 214 129 240 124 246" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M131 186 C129 214 127 240 128 274" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M136 173 C139 214 136 240 139 281" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M141 177 C144 214 135 240 145 244" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M146 173 C140 214 143 240 145 278" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M151 172 C157 214 152 240 152 268" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M156 190 C153 214 158 240 155 280" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M161 181 C162 214 155 240 158 269" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M166 180 C166 214 168 240 163 285" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M171 180 C170 214 177 240 170 272" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M176 181 C170 214 171 240 173 265" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M181 175 C179 214 181 240 178 241" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M186 172 C183 214 183 240 182 270" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M191 184 C196 214 191 240 193 244" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M196 190 C200 214 193 240 196 261" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/><path d="M201 174 C199 214 200 240 197 266" fill="none" stroke="#b0a494" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+<path d="M160 178 C146 170 128 174 116 188 C130 184 146 184 158 186Z M160 178 C174 170 192 174 204 188 C190 184 174 184 162 186Z" fill="#7a6a5a"/>
+<path d="M142 230 L146 270 M178 230 L174 270" stroke="#3a2a1a" stroke-width="3"/>
+<path d="M146 274 c-4 -8 2 -12 8 -12 c0 8 -4 10 -8 12Z" fill="#5a8a2a"/>
+<path d="M174 274 c-4 -8 2 -12 8 -12 c0 8 -4 10 -8 12Z" fill="#5a8a2a"/>
+<path d="M132 214 c-4 -8 2 -12 8 -12 c0 8 -4 10 -8 12Z" fill="#5a8a2a"/>
+<path d="M190 220 c-4 -8 2 -12 8 -12 c0 8 -4 10 -8 12Z" fill="#5a8a2a"/></g>
+<path d="M43.0 216 C43.0 201.72 53.2 198.15 63.4 199.34 C77.0 201.72 79.0 216 75.0 225.52 C70.2 233.85 46.4 233.85 43.0 216Z" fill="url(#brother_joram-skin)"/><path d="M45.72 208.86 L74.28 208.86 M44.36 217.19 L75.64 217.19 M46.4 225.52 L72.92 225.52" stroke="#6e4630" stroke-width="1.2"/>
+<rect width="320" height="320" fill="url(#brother_joram-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="virelya red veil">
+ <title>Virelya Red Veil</title>
+ <defs>
+  <filter id="virelya_red_veil-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="virelya_red_veil-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="virelya_red_veil-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="virelya_red_veil-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="virelya_red_veil-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="virelya_red_veil-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1418"/><stop offset="1" stop-color="#0c0406"/></linearGradient>
+  <radialGradient id="virelya_red_veil-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#faeee8"/><stop offset="0.55" stop-color="#e8d4cc"/><stop offset="1" stop-color="#8e7068"/></radialGradient>
+  <linearGradient id="virelya_red_veil-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#8e7068" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="virelya_red_veil-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="virelya_red_veil-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="virelya_red_veil-veil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d02a2a" stop-opacity="0.85"/><stop offset="1" stop-color="#5a0a10" stop-opacity="0.9"/></linearGradient><linearGradient id="virelya_red_veil-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0d080"/><stop offset="0.4" stop-color="#b08a3a"/><stop offset="0.7" stop-color="#e0b860"/><stop offset="1" stop-color="#5a3e14"/></linearGradient><linearGradient id="virelya_red_veil-gown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a0a10"/><stop offset="1" stop-color="#0c0204"/></linearGradient><linearGradient id="virelya_red_veil-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff1a8"/><stop offset="0.35" stop-color="#ffb040"/><stop offset="0.75" stop-color="#e8501a"/><stop offset="1" stop-color="#8a1a0a" stop-opacity="0.2"/></linearGradient>
+ </defs>
+<g filter="url(#virelya_red_veil-paint)">
+<rect width="320" height="320" fill="url(#virelya_red_veil-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#6a1a1a" opacity=".45" filter="url(#virelya_red_veil-blur)"/>
+<path d="M196 320 L196 120 L202 120 L202 104 L208 120 L214 120 L214 150 L226 150 L226 90 L232 70 L238 90 L238 150 L250 150 L250 112 L258 96 L266 112 L266 160 L280 160 L280 130 L286 118 L292 130 L292 170 L320 170 L320 320Z" fill="#141220" opacity=".9"/>
+<path d="M0 320 L0 150 L18 150 L18 120 L24 104 L30 120 L30 170 L50 170 L50 140 L58 128 L66 140 L66 190 L90 200 L90 320Z" fill="#110f1c" opacity=".85"/>
+<rect x="230" y="104" width="3" height="6" fill="#d8a050" opacity=".6"/><rect x="256" y="124" width="3" height="5" fill="#d8a050" opacity=".5"/>
+<path d="M106 100 C94 160 96 220 90 280 L230 280 C224 220 226 160 214 100Z" fill="#0a0606" transform="translate(160 150) scale(1.12) translate(-160 -150)"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M137.68 186 L133.68 252 L186.32 252 L182.32 186Z" fill="url(#virelya_red_veil-skin)"/><path d="M137.68 200 C150 218 170 218 182.32 200 L182.32 222 L137.68 222Z" fill="#8e7068" opacity=".55" filter="url(#virelya_red_veil-blur2)"/><path d="M176.32 206 L180.32 250" stroke="#8e7068" stroke-width="5" opacity=".5" filter="url(#virelya_red_veil-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#virelya_red_veil-gown)"/>
+<path d="M118 240 C140 262 180 262 202 240" fill="none" stroke="url(#virelya_red_veil-gold)" stroke-width="3"/><path d="M126 248 C144 274 176 274 194 248" fill="none" stroke="url(#virelya_red_veil-gold)" stroke-width="2"/><circle cx="160" cy="268" r="5" fill="#c02020" stroke="#e0b860" stroke-width="1.5"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M100 120 C96 70 126 50 160 50 C194 50 224 70 220 120 C226 180 232 230 240 270 L80 270 C88 230 94 180 100 120Z" fill="url(#virelya_red_veil-veil)" opacity=".75"/>
+<path d="M117 124 C105 116 103 136 107 150 C109 156 115 156 117 152 Z" fill="url(#virelya_red_veil-skin)"/>
+<path d="M114 130 C108 128 108 140 112 146" fill="none" stroke="#8e7068" stroke-width="1.6" opacity=".7"/>
+<path d="M203 124 C215 116 217 136 213 150 C211 156 205 156 203 152 Z" fill="url(#virelya_red_veil-skin)"/>
+<path d="M206 130 C212 128 212 140 208 146" fill="none" stroke="#8e7068" stroke-width="1.6" opacity=".7"/>
+<clipPath id="virelya_red_veil-fclip"><path d="M160 80 C185.2 80 202 90 202 110 C204 98 205 114 205 128 C205 146 196 164 196 178 C194 190 178 204 160 206 C142 204 126 190 124 178 C124 164 115 146 115 128 C115 114 116 98 118 110 C118 90 134.8 80 160 80 Z"/></clipPath>
+<path d="M160 80 C185.2 80 202 90 202 110 C204 98 205 114 205 128 C205 146 196 164 196 178 C194 190 178 204 160 206 C142 204 126 190 124 178 C124 164 115 146 115 128 C115 114 116 98 118 110 C118 90 134.8 80 160 80 Z" fill="url(#virelya_red_veil-skin)"/>
+<g clip-path="url(#virelya_red_veil-fclip)">
+<rect x="80" y="70" width="160" height="146" fill="url(#virelya_red_veil-turn)"/>
+<ellipse cx="125" cy="144" rx="14" ry="20" fill="#8e7068" opacity="0.3" filter="url(#virelya_red_veil-blur)"/>
+<ellipse cx="195" cy="144" rx="14" ry="20" fill="#8e7068" opacity="0.3" filter="url(#virelya_red_veil-blur)"/>
+<ellipse cx="133" cy="122" rx="13" ry="7" fill="#faeee8" opacity="0.55" filter="url(#virelya_red_veil-blur)"/>
+<ellipse cx="152" cy="102" rx="24" ry="12" fill="#faeee8" opacity=".35" filter="url(#virelya_red_veil-blur)"/>
+<ellipse cx="160" cy="212" rx="36" ry="10" fill="#8e7068" opacity=".5" filter="url(#virelya_red_veil-blur)"/>
+</g>
+<ellipse cx="141" cy="123" rx="16.099999999999998" ry="4" fill="#8e7068" opacity=".35" filter="url(#virelya_red_veil-blur2)"/><ellipse cx="179" cy="123" rx="16.099999999999998" ry="4" fill="#8e7068" opacity=".45" filter="url(#virelya_red_veil-blur2)"/>
+<clipPath id="virelya_red_veil-eye0"><path d="M152.5 127.1 C145.6 122.94 135.25 123.17 129.5 131 C135.25 131.91 145.6 132.14 152.5 127.1 Z"/></clipPath>
+<ellipse cx="141" cy="126" rx="17.25" ry="10.12" fill="#8e7068" opacity="0.45" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M152.5 127.1 C145.6 122.94 135.25 123.17 129.5 131 C135.25 131.91 145.6 132.14 152.5 127.1 Z" fill="#d8ccc0"/>
+<g clip-path="url(#virelya_red_veil-eye0)"><circle cx="141" cy="128" r="4.4" fill="#c02020"/><circle cx="141" cy="128" r="4.4" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="141" cy="128" r="1.8" fill="#0a0806"/><path d="M152.5 127.1 C145.6 122.94 135.25 123.17 129.5 131 L129.5 118.8 L152.5 118.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="139.5" cy="126.5" r="1.0" fill="#fff" opacity=".85"/>
+<circle cx="141" cy="128" r="9.6" fill="#ff3020" opacity=".35" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M152.5 127.1 C145.6 122.94 135.25 123.17 129.5 131" fill="none" stroke="#120a08" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M129.5 131 l-4 -3 M132.5 129 l-3 -4" stroke="#120a08" stroke-width="1.2"/>
+<path d="M150.5 128.1 C144.45 132.37 136.4 132.14 131.5 132" fill="none" stroke="#8e7068" stroke-width=".9" opacity=".8"/>
+<path d="M150.5 124.1 C145.6 119.26 135.25 119.26 128.5 129" fill="none" stroke="#8e7068" stroke-width="1.1" opacity=".8"/>
+<clipPath id="virelya_red_veil-eye1"><path d="M167.5 128.9 C174.4 122.94 184.75 123.17 190.5 125 C184.75 131.91 174.4 132.14 167.5 128.9 Z"/></clipPath>
+<ellipse cx="179" cy="126" rx="17.25" ry="10.12" fill="#8e7068" opacity="0.45" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M167.5 128.9 C174.4 122.94 184.75 123.17 190.5 125 C184.75 131.91 174.4 132.14 167.5 128.9 Z" fill="#d8ccc0"/>
+<g clip-path="url(#virelya_red_veil-eye1)"><circle cx="179" cy="128" r="4.4" fill="#c02020"/><circle cx="179" cy="128" r="4.4" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="179" cy="128" r="1.8" fill="#0a0806"/><path d="M167.5 128.9 C174.4 122.94 184.75 123.17 190.5 125 L190.5 118.8 L167.5 118.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="177.5" cy="126.5" r="1.0" fill="#fff" opacity=".85"/>
+<circle cx="179" cy="128" r="9.6" fill="#ff3020" opacity=".35" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M167.5 128.9 C174.4 122.94 184.75 123.17 190.5 125" fill="none" stroke="#120a08" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M190.5 125 l4 -3 M187.5 123 l3 -4" stroke="#120a08" stroke-width="1.2"/>
+<path d="M169.5 129.9 C175.55 132.37 183.6 132.14 188.5 126" fill="none" stroke="#8e7068" stroke-width=".9" opacity=".8"/>
+<path d="M169.5 125.9 C174.4 119.26 184.75 119.26 191.5 123" fill="none" stroke="#8e7068" stroke-width="1.1" opacity=".8"/>
+<path d="M153.4 118 Q135.6 107.2 124.7 117 Q135.6 110.8 153.4 120.4 Z" fill="#120808"/>
+<path d="M166.6 118 Q184.4 107.2 195.3 117 Q184.4 110.8 166.6 120.4 Z" fill="#120808"/>
+<path d="M164 132 C165 144 166 146 167 154" fill="none" stroke="#8e7068" stroke-width="3.5" opacity=".55" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M164 132 C165 144 166 146 167 154" fill="none" stroke="#8e7068" stroke-width="1.1" opacity=".8"/>
+<path d="M157 136 C157 146 158 146 159 152" fill="none" stroke="#faeee8" stroke-width="2.4" opacity=".55" filter="url(#virelya_red_veil-blur2)"/>
+<ellipse cx="160" cy="155" rx="4.125" ry="5" fill="#faeee8" opacity=".35" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M152.5 155 C149.5 160 154.5 163 157.0 161 M167.5 155 C170.5 160 165.5 163 163.0 161" fill="none" stroke="#8e7068" stroke-width="1.6"/>
+<ellipse cx="156.25" cy="160.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/><ellipse cx="163.75" cy="160.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/>
+<path d="M157.0 162 Q160 164 163.0 162" fill="none" stroke="#8e7068" stroke-width="1" opacity=".7"/>
+<path d="M146 181 C151.6 176.2 156 174.775 160 177.15 C164 174.775 168.4 176.2 174 176 C167.0 181 153.0 181 146 181Z" fill="#8a1a22" opacity=".9"/>
+<path d="M148 181.5 C153.0 181 167.0 181 172 176.5 C168.4 186.65 151.6 186.65 148 181.5Z" fill="#8a1a22"/>
+<ellipse cx="160" cy="183.8" rx="5.6000000000000005" ry="1.6624999999999999" fill="#fff" opacity=".18"/>
+<path d="M146 181 C153.0 181.2 167.0 181.2 174 176" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="192.35" rx="6.3" ry="2.5" fill="#8e7068" opacity=".45" filter="url(#virelya_red_veil-blur2)"/>
+<path d="M175 175 q3 -1 3 -5" fill="none" stroke="#8e7068" stroke-width="1"/>
+<path d="M146 158 C140 166 140 178 142 184 M174 158 C180 166 180 178 178 184" fill="none" stroke="#8e7068" stroke-width="1.4" opacity="0.2"/>
+<path d="M114 128 C108 90 128 68 160 66 C192 68 212 90 206 128 C200 100 186 86 160 86 C134 86 120 100 114 128Z" fill="#0a0606"/>
+<path d="M108 146 C130 150 190 150 212 146 C214 180 200 214 160 232 C120 214 106 180 108 146Z" fill="url(#virelya_red_veil-veil)" opacity=".72"/>
+<path d="M108 146 C130 150 190 150 212 146" fill="none" stroke="url(#virelya_red_veil-gold)" stroke-width="2.2"/>
+<circle cx="114" cy="150.6" r="1.8" fill="#e8c060"/><circle cx="122" cy="150.9" r="1.8" fill="#e8c060"/><circle cx="130" cy="151.1" r="1.8" fill="#e8c060"/><circle cx="138" cy="151.3" r="1.8" fill="#e8c060"/><circle cx="146" cy="151.6" r="1.8" fill="#e8c060"/><circle cx="154" cy="151.8" r="1.8" fill="#e8c060"/><circle cx="162" cy="151.9" r="1.8" fill="#e8c060"/><circle cx="170" cy="151.7" r="1.8" fill="#e8c060"/><circle cx="178" cy="151.5" r="1.8" fill="#e8c060"/><circle cx="186" cy="151.2" r="1.8" fill="#e8c060"/><circle cx="194" cy="151" r="1.8" fill="#e8c060"/><circle cx="202" cy="150.7" r="1.8" fill="#e8c060"/>
+<path d="M104 112 C108 80 130 60 160 58 C190 60 212 80 216 112 C208 88 190 76 160 74 C130 76 112 88 104 112Z" fill="url(#virelya_red_veil-veil)"/>
+<path d="M108 104 C122 84 198 84 212 104" fill="none" stroke="url(#virelya_red_veil-gold)" stroke-width="2.4"/><path d="M155 90 l5 -7 l5 7 l-5 6Z" fill="#c02020" stroke="#e0b860"/></g>
+<ellipse cx="256" cy="230" rx="40" ry="44" fill="#ff5020" opacity=".4" filter="url(#virelya_red_veil-glow)"/>
+<path d="M256 236 C236 224 240 200 250 186 C252 200 258 198 258 190 C270 204 276 224 256 236Z" fill="url(#virelya_red_veil-fire)"/><path d="M256 232 C248 226 250 214 256 206 C262 216 264 226 256 232Z" fill="#fff4c0"/>
+<path d="M222 250 C226 262 240 270 256 270 C272 270 284 262 288 250 C280 256 268 258 256 258 C244 258 230 256 222 250Z" fill="url(#virelya_red_veil-skin)"/>
+<path d="M226 252 Q221.0 244.0 220 236" stroke="url(#virelya_red_veil-skin)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M220 236 l0 -1" stroke="#5a0a10" stroke-width="5" stroke-linecap="round"/>
+<path d="M238 256 Q234.0 247.0 234 238" stroke="url(#virelya_red_veil-skin)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M234 238 l0 -1" stroke="#5a0a10" stroke-width="5" stroke-linecap="round"/>
+<path d="M252 258 Q250.0 249.0 252 240" stroke="url(#virelya_red_veil-skin)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M252 240 l0 -1" stroke="#5a0a10" stroke-width="5" stroke-linecap="round"/>
+<path d="M266 256 Q266.0 247.0 270 238" stroke="url(#virelya_red_veil-skin)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M270 238 l0 -1" stroke="#5a0a10" stroke-width="5" stroke-linecap="round"/>
+<path d="M280 252 Q282.0 245.0 288 238" stroke="url(#virelya_red_veil-skin)" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M288 238 l0 -1" stroke="#5a0a10" stroke-width="5" stroke-linecap="round"/>
+<path d="M222 252 C232 276 284 276 290 252 L292 320 L220 320Z" fill="url(#virelya_red_veil-gown)"/>
+<rect width="320" height="320" fill="url(#virelya_red_veil-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

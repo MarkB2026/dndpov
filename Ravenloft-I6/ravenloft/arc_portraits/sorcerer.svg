@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="sorcerer">
+ <title>Sorcerer</title>
+ <defs>
+  <filter id="sorcerer-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="sorcerer-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="sorcerer-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="sorcerer-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="sorcerer-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="sorcerer-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241a36"/><stop offset="1" stop-color="#0a0812"/></linearGradient>
+  <radialGradient id="sorcerer-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#eed2ae"/><stop offset="0.55" stop-color="#d8b48c"/><stop offset="1" stop-color="#86603f"/></radialGradient>
+  <linearGradient id="sorcerer-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#86603f" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="sorcerer-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="sorcerer-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="sorcerer-cloak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a2020"/><stop offset="0.6" stop-color="#4a0c10"/><stop offset="1" stop-color="#1a0406"/></linearGradient><linearGradient id="sorcerer-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0d080"/><stop offset="0.4" stop-color="#b08a3a"/><stop offset="0.7" stop-color="#e0b860"/><stop offset="1" stop-color="#5a3e14"/></linearGradient>
+ </defs>
+<g filter="url(#sorcerer-paint)">
+<rect width="320" height="320" fill="url(#sorcerer-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#5a2a8a" opacity=".45" filter="url(#sorcerer-blur)"/>
+<path d="M196 320 L196 120 L202 120 L202 104 L208 120 L214 120 L214 150 L226 150 L226 90 L232 70 L238 90 L238 150 L250 150 L250 112 L258 96 L266 112 L266 160 L280 160 L280 130 L286 118 L292 130 L292 170 L320 170 L320 320Z" fill="#141220" opacity=".9"/>
+<path d="M0 320 L0 150 L18 150 L18 120 L24 104 L30 120 L30 170 L50 170 L50 140 L58 128 L66 140 L66 190 L90 200 L90 320Z" fill="#110f1c" opacity=".85"/>
+<rect x="230" y="104" width="3" height="6" fill="#d8a050" opacity=".6"/><rect x="256" y="124" width="3" height="5" fill="#d8a050" opacity=".5"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M134.58 184 L130.58 250 L189.42 250 L185.42 184Z" fill="url(#sorcerer-skin)"/><path d="M134.58 198 C150 216 170 216 185.42 198 L185.42 220 L134.58 220Z" fill="#86603f" opacity=".55" filter="url(#sorcerer-blur2)"/><path d="M179.42 204 L183.42 248" stroke="#86603f" stroke-width="5" opacity=".5" filter="url(#sorcerer-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#sorcerer-cloak)" filter="url(#sorcerer-brush)"/><path d="M60 320 C70 290 86 262 110 246 M260 320 C250 290 234 262 210 246 M30 320 C40 296 56 276 80 262 M290 320 C280 296 264 276 240 262" fill="none" stroke="#000" stroke-width="5" opacity="0.35"/>
+<path d="M118 232 L140 222 L160 250 L180 222 L202 232 L196 270 L160 290 L124 270Z" fill="#2a1418" stroke="url(#sorcerer-gold)" stroke-width="2"/>
+<circle cx="160" cy="262" r="6" fill="url(#sorcerer-gold)"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M116 126 C104 118 102 138 106 152 C108 158 114 158 116 154 Z" fill="url(#sorcerer-skin)"/>
+<path d="M113 132 C107 130 107 142 111 148" fill="none" stroke="#86603f" stroke-width="1.6" opacity=".7"/>
+<path d="M204 126 C216 118 218 138 214 152 C212 158 206 158 204 154 Z" fill="url(#sorcerer-skin)"/>
+<path d="M207 132 C213 130 213 142 209 148" fill="none" stroke="#86603f" stroke-width="1.6" opacity=".7"/>
+<clipPath id="sorcerer-fclip"><path d="M160 80 C186.4 80 204 90 204 110 C206 98 206 114 206 128 C206 146 201 164 201 178 C199 190 180 202 160 204 C140 202 121 190 119 178 C119 164 114 146 114 128 C114 114 114 98 116 110 C116 90 133.6 80 160 80 Z"/></clipPath>
+<path d="M160 80 C186.4 80 204 90 204 110 C206 98 206 114 206 128 C206 146 201 164 201 178 C199 190 180 202 160 204 C140 202 121 190 119 178 C119 164 114 146 114 128 C114 114 114 98 116 110 C116 90 133.6 80 160 80 Z" fill="url(#sorcerer-skin)"/>
+<g clip-path="url(#sorcerer-fclip)">
+<rect x="80" y="70" width="160" height="144" fill="url(#sorcerer-turn)"/>
+<ellipse cx="124" cy="144" rx="14" ry="20" fill="#86603f" opacity="0.4" filter="url(#sorcerer-blur)"/>
+<ellipse cx="196" cy="144" rx="14" ry="20" fill="#86603f" opacity="0.4" filter="url(#sorcerer-blur)"/>
+<ellipse cx="132" cy="122" rx="13" ry="7" fill="#eed2ae" opacity="0.35" filter="url(#sorcerer-blur)"/>
+<ellipse cx="152" cy="102" rx="24" ry="12" fill="#eed2ae" opacity=".35" filter="url(#sorcerer-blur)"/>
+<ellipse cx="160" cy="210" rx="41" ry="10" fill="#86603f" opacity=".5" filter="url(#sorcerer-blur)"/>
+</g>
+<ellipse cx="141" cy="125" rx="14.7" ry="4" fill="#86603f" opacity=".35" filter="url(#sorcerer-blur2)"/><ellipse cx="179" cy="125" rx="14.7" ry="4" fill="#86603f" opacity=".45" filter="url(#sorcerer-blur2)"/>
+<clipPath id="sorcerer-eye0"><path d="M151.5 129.55 C145.2 126.59 135.75 126.745 130.5 131.5 C135.75 132.635 145.2 132.79 151.5 129.55 Z"/></clipPath>
+<ellipse cx="141" cy="128" rx="15.75" ry="6.820000000000001" fill="#86603f" opacity="0.45" filter="url(#sorcerer-blur2)"/>
+<path d="M151.5 129.55 C145.2 126.59 135.75 126.745 130.5 131.5 C135.75 132.635 145.2 132.79 151.5 129.55 Z" fill="#d8ccc0"/>
+<g clip-path="url(#sorcerer-eye0)"><circle cx="140" cy="130" r="2.9" fill="#1a1010"/><circle cx="140" cy="130" r="2.9" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="140" cy="130" r="1.2" fill="#0a0806"/><path d="M151.5 129.55 C145.2 126.59 135.75 126.745 130.5 131.5 L130.5 123.8 L151.5 123.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="139.0" cy="129.0" r="0.6" fill="#fff" opacity=".85"/>
+<circle cx="140" cy="130" r="6.5" fill="#a060ff" opacity=".35" filter="url(#sorcerer-blur2)"/>
+<path d="M151.5 129.55 C145.2 126.59 135.75 126.745 130.5 131.5" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M149.5 130.55 C144.15 132.945 136.8 132.79 132.5 132.5" fill="none" stroke="#86603f" stroke-width=".9" opacity=".8"/>
+<clipPath id="sorcerer-eye1"><path d="M168.5 130.45 C174.8 126.59 184.25 126.745 189.5 128.5 C184.25 132.635 174.8 132.79 168.5 130.45 Z"/></clipPath>
+<ellipse cx="179" cy="128" rx="15.75" ry="6.820000000000001" fill="#86603f" opacity="0.45" filter="url(#sorcerer-blur2)"/>
+<path d="M168.5 130.45 C174.8 126.59 184.25 126.745 189.5 128.5 C184.25 132.635 174.8 132.79 168.5 130.45 Z" fill="#d8ccc0"/>
+<g clip-path="url(#sorcerer-eye1)"><circle cx="178" cy="130" r="2.9" fill="#1a1010"/><circle cx="178" cy="130" r="2.9" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="178" cy="130" r="1.2" fill="#0a0806"/><path d="M168.5 130.45 C174.8 126.59 184.25 126.745 189.5 128.5 L189.5 123.8 L168.5 123.8Z" fill="#000" opacity=".25"/></g>
+<circle cx="177.0" cy="129.0" r="0.6" fill="#fff" opacity=".85"/>
+<circle cx="178" cy="130" r="6.5" fill="#a060ff" opacity=".35" filter="url(#sorcerer-blur2)"/>
+<path d="M168.5 130.45 C174.8 126.59 184.25 126.745 189.5 128.5" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M170.5 131.45 C175.85 132.945 183.2 132.79 187.5 129.5" fill="none" stroke="#86603f" stroke-width=".9" opacity=".8"/>
+<path d="M152.3 125 Q136 114 126.1 118.6 Q136 118.5 152.3 128 Z" fill="#0a0808"/>
+<path d="M167.7 125 Q184 114 193.9 118.6 Q184 118.5 167.7 128 Z" fill="#0a0808"/>
+<path d="M164 134 C165 146 166 146 167 154" fill="none" stroke="#86603f" stroke-width="3.5" opacity=".55" filter="url(#sorcerer-blur2)"/>
+<path d="M164 134 C165 146 166 146 167 154" fill="none" stroke="#86603f" stroke-width="1.1" opacity=".8"/>
+<path d="M157 138 C157 148 158 146 159 152" fill="none" stroke="#eed2ae" stroke-width="2.4" opacity=".55" filter="url(#sorcerer-blur2)"/>
+<ellipse cx="160" cy="155" rx="4.675000000000001" ry="5" fill="#eed2ae" opacity=".35" filter="url(#sorcerer-blur2)"/>
+<path d="M151.5 155 C148.5 160 153.5 163 156.6 161 M168.5 155 C171.5 160 166.5 163 163.4 161" fill="none" stroke="#86603f" stroke-width="1.6"/>
+<ellipse cx="155.75" cy="160.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/><ellipse cx="164.25" cy="160.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/>
+<path d="M156.6 162 Q160 164 163.4 162" fill="none" stroke="#86603f" stroke-width="1" opacity=".7"/>
+<path d="M147 183 C152.2 177.2 156 176.15 160 177.9 C164 176.15 167.8 177.2 173 183 C166.5 181 153.5 181 147 183Z" fill="#9a6250" opacity=".9"/>
+<path d="M149 183.5 C153.5 181 166.5 181 171 183.5 C167.8 184.9 152.2 184.9 149 183.5Z" fill="#9a6250"/>
+<ellipse cx="160" cy="182.8" rx="5.2" ry="1.2249999999999999" fill="#fff" opacity=".18"/>
+<path d="M147 183 C153.5 181.2 166.5 181.2 173 183" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="189.1" rx="5.8500000000000005" ry="2.5" fill="#86603f" opacity=".45" filter="url(#sorcerer-blur2)"/>
+<path d="M146 158 C140 166 141 178 143 184 M174 158 C180 166 179 178 177 184" fill="none" stroke="#86603f" stroke-width="1.4" opacity="0.4"/>
+<path d="M146 174 C150 170 156 170 160 172 C164 170 170 170 174 174 C168 174 164 175 160 176 C156 175 152 174 146 174Z" fill="#0e0a08"/>
+<path d="M146 174 L142 184 M174 174 L178 184" stroke="#0e0a08" stroke-width="1.6"/>
+<path d="M112 124 C106 84 126 60 160 58 C196 60 216 84 208 124 C204 102 196 92 186 88 L178 96 L172 86 L160 94 L150 84 L140 94 L134 86 C122 94 116 106 112 124Z" fill="#0c0a0a"/>
+<path d="M128 74 C140 70 150 70 160 72" fill="none" stroke="#4a4048" stroke-width="1.4" opacity="0.6" stroke-linecap="round"/><path d="M170 66 C182 70 192 76 198 86" fill="none" stroke="#4a4048" stroke-width="1.4" opacity="0.6" stroke-linecap="round"/></g>
+<circle cx="250" cy="150" r="60" fill="#8a40ff" opacity=".35" filter="url(#sorcerer-glow)"/>
+<path d="M226 230 C220 200 226 176 236 166 L246 120 C248 114 254 116 254 122 L250 162 L262 112 C264 106 271 108 270 114 L262 160 L276 120 C278 114 285 116 284 122 L272 166 L288 140 C292 134 298 138 295 144 L276 186 C270 204 258 222 252 232Z" fill="url(#sorcerer-skin)"/>
+<path d="M250 162 L248 176 M262 160 L262 176 M272 166 L270 180" stroke="#86603f" stroke-width="1.2"/>
+<path d="M262 108 L254 80 L266 70 L256 40 L270 22" fill="none" stroke="#b070ff" stroke-width="5" opacity=".6" filter="url(#sorcerer-blur2)"/><path d="M262 108 L254 80 L266 70 L256 40 L270 22" fill="none" stroke="#f0e0ff" stroke-width="1.6"/>
+<path d="M276 116 L292 90 L284 76 L304 58" fill="none" stroke="#b070ff" stroke-width="5" opacity=".6" filter="url(#sorcerer-blur2)"/><path d="M276 116 L292 90 L284 76 L304 58" fill="none" stroke="#f0e0ff" stroke-width="1.6"/>
+<path d="M246 116 L230 90 L238 74 L222 50" fill="none" stroke="#b070ff" stroke-width="5" opacity=".6" filter="url(#sorcerer-blur2)"/><path d="M246 116 L230 90 L238 74 L222 50" fill="none" stroke="#f0e0ff" stroke-width="1.6"/>
+<path d="M290 136 L310 124 L304 112 L318 104" fill="none" stroke="#b070ff" stroke-width="5" opacity=".6" filter="url(#sorcerer-blur2)"/><path d="M290 136 L310 124 L304 112 L318 104" fill="none" stroke="#f0e0ff" stroke-width="1.6"/>
+<rect width="320" height="320" fill="url(#sorcerer-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

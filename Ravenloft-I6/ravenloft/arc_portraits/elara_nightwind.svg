@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="elara nightwind">
+ <title>Elara Nightwind</title>
+ <defs>
+  <filter id="elara_nightwind-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="elara_nightwind-blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <filter id="elara_nightwind-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="elara_nightwind-paint" x="0" y="0" width="100%" height="100%">
+   <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="3" result="n"/>
+   <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 .3" result="a"/>
+   <feComposite in="a" in2="SourceGraphic" operator="in" result="d"/>
+   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="d"/></feMerge>
+  </filter>
+  <filter id="elara_nightwind-brush" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="turbulence" baseFrequency=".05 .18" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <linearGradient id="elara_nightwind-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#221c38"/><stop offset="1" stop-color="#0a0814"/></linearGradient>
+  <radialGradient id="elara_nightwind-skin" cx="0.4" cy="0.38" r="0.75"><stop offset="0" stop-color="#f0d0b8"/><stop offset="0.55" stop-color="#d8b096"/><stop offset="1" stop-color="#80583e"/></radialGradient>
+  <linearGradient id="elara_nightwind-turn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.48" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#80583e" stop-opacity="0.95"/></linearGradient>
+  <radialGradient id="elara_nightwind-vig" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+  <radialGradient id="elara_nightwind-moon" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f4ecd8"/><stop offset="0.6" stop-color="#c8c0b0"/><stop offset="1" stop-color="#c8c0b0" stop-opacity="0"/></radialGradient><linearGradient id="elara_nightwind-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1a1a22"/><stop offset="0.3" stop-color="#5a5a6a"/><stop offset="0.45" stop-color="#9a9aaa"/><stop offset="0.6" stop-color="#3a3a48"/><stop offset="1" stop-color="#0e0e14"/></linearGradient><linearGradient id="elara_nightwind-cloak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2a5a"/><stop offset="1" stop-color="#0e0818"/></linearGradient>
+ </defs>
+<g filter="url(#elara_nightwind-paint)">
+<rect width="320" height="320" fill="url(#elara_nightwind-sky)"/>
+<ellipse cx="120" cy="90" rx="160" ry="110" fill="#4a2a7a" opacity=".45" filter="url(#elara_nightwind-blur)"/>
+<path d="M196 320 L196 120 L202 120 L202 104 L208 120 L214 120 L214 150 L226 150 L226 90 L232 70 L238 90 L238 150 L250 150 L250 112 L258 96 L266 112 L266 160 L280 160 L280 130 L286 118 L292 130 L292 170 L320 170 L320 320Z" fill="#141220" opacity=".9"/>
+<path d="M0 320 L0 150 L18 150 L18 120 L24 104 L30 120 L30 170 L50 170 L50 140 L58 128 L66 140 L66 190 L90 200 L90 320Z" fill="#110f1c" opacity=".85"/>
+<rect x="230" y="104" width="3" height="6" fill="#d8a050" opacity=".6"/><rect x="256" y="124" width="3" height="5" fill="#d8a050" opacity=".5"/>
+<path d="M20 200 C60 160 40 120 90 100 C130 84 120 50 160 40" fill="none" stroke="#a070ff" stroke-width="5" opacity=".35" filter="url(#elara_nightwind-blur2)"/><path d="M20 200 C60 160 40 120 90 100 C130 84 120 50 160 40" fill="none" stroke="#e0d0ff" stroke-width="1.2" opacity=".7"/>
+<path d="M300 220 C260 180 290 140 250 110 C220 90 240 60 210 40" fill="none" stroke="#a070ff" stroke-width="5" opacity=".35" filter="url(#elara_nightwind-blur2)"/><path d="M300 220 C260 180 290 140 250 110 C220 90 240 60 210 40" fill="none" stroke="#e0d0ff" stroke-width="1.2" opacity=".7"/>
+<path d="M10 120 C40 110 50 80 80 70" fill="none" stroke="#a070ff" stroke-width="5" opacity=".35" filter="url(#elara_nightwind-blur2)"/><path d="M10 120 C40 110 50 80 80 70" fill="none" stroke="#e0d0ff" stroke-width="1.2" opacity=".7"/>
+<path d="M108 110 C100 150 104 200 112 230 L208 230 C216 200 220 150 212 110Z" fill="#0e0c10" transform="translate(160 150) scale(1.12) translate(-160 -150)"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M135.2 184 L131.2 250 L188.8 250 L184.8 184Z" fill="url(#elara_nightwind-skin)"/><path d="M135.2 198 C150 216 170 216 184.8 198 L184.8 220 L135.2 220Z" fill="#80583e" opacity=".55" filter="url(#elara_nightwind-blur2)"/><path d="M178.8 204 L182.8 248" stroke="#80583e" stroke-width="5" opacity=".5" filter="url(#elara_nightwind-blur2)"/></g>
+<path d="M0 320 L0 262 C30 236 90 226 124 230 L196 230 C230 226 290 236 320 262 L320 320Z" fill="url(#elara_nightwind-cloak)" filter="url(#elara_nightwind-brush)"/>
+<path d="M100 320 C100 280 120 250 160 246 C200 250 220 280 220 320Z" fill="url(#elara_nightwind-metal)" stroke="#0a0a10"/>
+<path d="M20 320 C24 280 60 252 110 246 L120 280 C80 286 56 300 50 320Z" fill="url(#elara_nightwind-metal)" stroke="#0a0a10"/>
+<path d="M150 266 l10 -12 l10 12 l-10 12Z" fill="#8a50e0" stroke="#d0b0ff"/>
+<g transform="translate(160 150) scale(1.12) translate(-160 -150)"><path d="M114 126 C102 118 100 138 104 152 C106 158 112 158 114 154 Z" fill="url(#elara_nightwind-skin)"/>
+<path d="M111 132 C105 130 105 142 109 148" fill="none" stroke="#80583e" stroke-width="1.6" opacity=".7"/>
+<path d="M206 126 C218 118 220 138 216 152 C214 158 208 158 206 154 Z" fill="url(#elara_nightwind-skin)"/>
+<path d="M209 132 C215 130 215 142 211 148" fill="none" stroke="#80583e" stroke-width="1.6" opacity=".7"/>
+<clipPath id="elara_nightwind-fclip"><path d="M160 80 C186.4 80 204 90 204 110 C206 100 208 116 208 130 C208 148 200 162 200 176 C198 188 181 202 160 204 C139 202 122 188 120 176 C120 162 112 148 112 130 C112 116 114 100 116 110 C116 90 133.6 80 160 80 Z"/></clipPath>
+<path d="M160 80 C186.4 80 204 90 204 110 C206 100 208 116 208 130 C208 148 200 162 200 176 C198 188 181 202 160 204 C139 202 122 188 120 176 C120 162 112 148 112 130 C112 116 114 100 116 110 C116 90 133.6 80 160 80 Z" fill="url(#elara_nightwind-skin)"/>
+<g clip-path="url(#elara_nightwind-fclip)">
+<rect x="80" y="70" width="160" height="144" fill="url(#elara_nightwind-turn)"/>
+<ellipse cx="122" cy="146" rx="14" ry="20" fill="#80583e" opacity="0.3" filter="url(#elara_nightwind-blur)"/>
+<ellipse cx="198" cy="146" rx="14" ry="20" fill="#80583e" opacity="0.3" filter="url(#elara_nightwind-blur)"/>
+<ellipse cx="130" cy="124" rx="13" ry="7" fill="#f0d0b8" opacity="0.45" filter="url(#elara_nightwind-blur)"/>
+<ellipse cx="152" cy="102" rx="24" ry="12" fill="#f0d0b8" opacity=".35" filter="url(#elara_nightwind-blur)"/>
+<ellipse cx="160" cy="210" rx="40" ry="10" fill="#80583e" opacity=".5" filter="url(#elara_nightwind-blur)"/>
+</g>
+<ellipse cx="140" cy="125" rx="14.7" ry="4" fill="#80583e" opacity=".35" filter="url(#elara_nightwind-blur2)"/><ellipse cx="180" cy="125" rx="14.7" ry="4" fill="#80583e" opacity=".45" filter="url(#elara_nightwind-blur2)"/>
+<clipPath id="elara_nightwind-eye0"><path d="M150.5 129.7 C144.2 125.16 134.75 125.38 129.5 131 C134.75 133.74 144.2 133.96 150.5 129.7 Z"/></clipPath>
+<ellipse cx="140" cy="128" rx="15.75" ry="9.680000000000001" fill="#80583e" opacity="0.45" filter="url(#elara_nightwind-blur2)"/>
+<path d="M150.5 129.7 C144.2 125.16 134.75 125.38 129.5 131 C134.75 133.74 144.2 133.96 150.5 129.7 Z" fill="#d8ccc0"/>
+<g clip-path="url(#elara_nightwind-eye0)"><circle cx="140" cy="129" r="4.2" fill="#7a8a9a"/><circle cx="140" cy="129" r="4.2" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="140" cy="129" r="1.8" fill="#0a0806"/><path d="M150.5 129.7 C144.2 125.16 134.75 125.38 129.5 131 L129.5 121.2 L150.5 121.2Z" fill="#000" opacity=".25"/></g>
+<circle cx="138.5" cy="127.5" r="0.9" fill="#fff" opacity=".85"/>
+<circle cx="140" cy="129" r="9.2" fill="#b070ff" opacity=".35" filter="url(#elara_nightwind-blur2)"/>
+<path d="M150.5 129.7 C144.2 125.16 134.75 125.38 129.5 131" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M129.5 131 l-4 -3 M132.5 129 l-3 -4" stroke="#120a08" stroke-width="1.2"/>
+<path d="M148.5 130.7 C143.15 134.18 135.8 133.96 131.5 132" fill="none" stroke="#80583e" stroke-width=".9" opacity=".8"/>
+<path d="M148.5 126.69999999999999 C144.2 121.64 134.75 121.64 128.5 129" fill="none" stroke="#80583e" stroke-width="1.1" opacity=".8"/>
+<clipPath id="elara_nightwind-eye1"><path d="M169.5 130.3 C175.8 125.16 185.25 125.38 190.5 129 C185.25 133.74 175.8 133.96 169.5 130.3 Z"/></clipPath>
+<ellipse cx="180" cy="128" rx="15.75" ry="9.680000000000001" fill="#80583e" opacity="0.45" filter="url(#elara_nightwind-blur2)"/>
+<path d="M169.5 130.3 C175.8 125.16 185.25 125.38 190.5 129 C185.25 133.74 175.8 133.96 169.5 130.3 Z" fill="#d8ccc0"/>
+<g clip-path="url(#elara_nightwind-eye1)"><circle cx="180" cy="129" r="4.2" fill="#7a8a9a"/><circle cx="180" cy="129" r="4.2" fill="none" stroke="#000" stroke-width=".8" opacity=".6"/><circle cx="180" cy="129" r="1.8" fill="#0a0806"/><path d="M169.5 130.3 C175.8 125.16 185.25 125.38 190.5 129 L190.5 121.2 L169.5 121.2Z" fill="#000" opacity=".25"/></g>
+<circle cx="178.5" cy="127.5" r="0.9" fill="#fff" opacity=".85"/>
+<circle cx="180" cy="129" r="9.2" fill="#b070ff" opacity=".35" filter="url(#elara_nightwind-blur2)"/>
+<path d="M169.5 130.3 C175.8 125.16 185.25 125.38 190.5 129" fill="none" stroke="#120a08" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M190.5 129 l4 -3 M187.5 127 l3 -4" stroke="#120a08" stroke-width="1.2"/>
+<path d="M171.5 131.3 C176.85 134.18 184.2 133.96 188.5 130" fill="none" stroke="#80583e" stroke-width=".9" opacity=".8"/>
+<path d="M171.5 127.30000000000001 C175.8 121.64 185.25 121.64 191.5 127" fill="none" stroke="#80583e" stroke-width="1.1" opacity=".8"/>
+<path d="M151.3 122 Q135 112.2 125.1 118.7 Q135 117 151.3 125.2 Z" fill="#120e10"/>
+<path d="M168.7 122 Q185 112.2 194.9 118.7 Q185 117 168.7 125.2 Z" fill="#120e10"/>
+<path d="M164 134 C165 146 166 148 167 156" fill="none" stroke="#80583e" stroke-width="3.5" opacity=".55" filter="url(#elara_nightwind-blur2)"/>
+<path d="M164 134 C165 146 166 148 167 156" fill="none" stroke="#80583e" stroke-width="1.1" opacity=".8"/>
+<path d="M157 138 C157 148 158 148 159 154" fill="none" stroke="#f0d0b8" stroke-width="2.4" opacity=".55" filter="url(#elara_nightwind-blur2)"/>
+<ellipse cx="160" cy="157" rx="4.4" ry="5" fill="#f0d0b8" opacity=".35" filter="url(#elara_nightwind-blur2)"/>
+<path d="M152 157 C149 162 154 165 156.8 163 M168 157 C171 162 166 165 163.2 163" fill="none" stroke="#80583e" stroke-width="1.6"/>
+<ellipse cx="156.0" cy="162.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/><ellipse cx="164.0" cy="162.0" rx="2.0" ry="1.3" fill="#2a120c" opacity=".85"/>
+<path d="M156.8 164 Q160 166 163.2 164" fill="none" stroke="#80583e" stroke-width="1" opacity=".7"/>
+<path d="M146 180 C151.6 176.6 156 175.325 160 177.45 C164 175.325 168.4 176.6 174 180 C167.0 181 153.0 181 146 180Z" fill="#8a4a4a" opacity=".9"/>
+<path d="M148 180.5 C153.0 181 167.0 181 172 180.5 C168.4 185.95 151.6 185.95 148 180.5Z" fill="#8a4a4a"/>
+<ellipse cx="160" cy="183.4" rx="5.6000000000000005" ry="1.4874999999999998" fill="#fff" opacity=".18"/>
+<path d="M146 180 C153.0 181.2 167.0 181.2 174 180" fill="none" stroke="#2a0e0a" stroke-width="1.4" stroke-linecap="round"/>
+<ellipse cx="160" cy="191.05" rx="6.3" ry="2.5" fill="#80583e" opacity=".45" filter="url(#elara_nightwind-blur2)"/>
+<path d="M146 160 C140 168 140 178 142 184 M174 160 C180 168 180 178 178 184" fill="none" stroke="#80583e" stroke-width="1.4" opacity="0.3"/>
+<path d="M110 132 C102 88 126 62 160 60 C194 62 218 88 210 132 C204 104 190 88 176 84 C164 92 150 92 140 86 C126 94 116 110 110 132Z" fill="#0e0c10"/>
+<ellipse cx="118" cy="176" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="116" cy="190" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="114" cy="204" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="112" cy="218" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="110" cy="232" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="108" cy="246" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<ellipse cx="106" cy="260" rx="9" ry="8" fill="#0e0c10" stroke="#2a2630" stroke-width="1"/>
+<rect x="100" y="270" width="12" height="6" rx="2" fill="#8a50e0"/>
+<path d="M130 70 C142 78 152 82 164 80" fill="none" stroke="#4a4458" stroke-width="1.3" opacity="0.6" stroke-linecap="round"/><path d="M174 70 C188 76 198 88 204 104" fill="none" stroke="#4a4458" stroke-width="1.3" opacity="0.6" stroke-linecap="round"/></g>
+<rect width="320" height="320" fill="url(#elara_nightwind-vig)"/><rect x="2" y="2" width="316" height="316" fill="none" stroke="#b08a40" stroke-width="4"/><rect x="6" y="6" width="308" height="308" fill="none" stroke="#3a2a10" stroke-width="1.2"/>
+</g>
+</svg>

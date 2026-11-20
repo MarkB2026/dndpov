@@ -957,7 +957,70 @@ margin-top:auto!important;transform:none!important;min-height:42px!important;hei
 #edition-comparison .original-editions-hero .edition-choice.adventure .edition-card-body{padding-bottom:12px!important}
 #edition-comparison .original-editions-hero .edition-choice.download>.edition-support{bottom:10px!important}
 @media(max-width:900px){#edition-comparison .original-editions-hero .edition-choice{min-height:690px!important}}
-</style></head>
+</style><style id="rpgpov-edition-readable-even-v3">
+/* Final edition-card polish: subdued contrast, consistent dimensions and a single aligned action. */
+#edition-comparison .original-editions-hero .edition-choices{align-items:stretch!important;gap:18px!important}
+#edition-comparison .original-editions-hero .edition-choice{
+  min-height:700px!important;padding:6px 6px 64px!important;position:relative!important;
+  border-radius:9px!important;box-shadow:0 8px 24px #0006!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.browser{--accent:#a895ba;background:linear-gradient(145deg,#302938,#211d27)!important;border-color:#766480!important}
+#edition-comparison .original-editions-hero .edition-choice.download{--accent:#c5a476;background:linear-gradient(145deg,#352b23,#231e1b)!important;border-color:#89704f!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure{--accent:#b18c91;background:linear-gradient(145deg,#34272d,#241e23)!important;border-color:#805e66!important}
+#edition-comparison .original-editions-hero .edition-choice::before{opacity:.48!important;font-size:16px!important;top:-13px!important}
+#edition-comparison .original-editions-hero .edition-choice.browser>.btn,
+#edition-comparison .original-editions-hero .edition-choice.download>.btn,
+#edition-comparison .original-editions-hero .edition-choice.adventure>.edition-locked-card{
+  position:relative!important;display:flex!important;flex-direction:column!important;
+  flex:1 1 auto!important;min-height:0!important;height:auto!important;
+  padding:0!important;border-radius:6px!important;overflow:visible!important;
+  border:1px solid #776879!important;box-shadow:none!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.download>.btn{border-color:#867158!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure>.edition-locked-card{border-color:#765c62!important}
+#edition-comparison .original-editions-hero .edition-card-header{
+  height:145px!important;min-height:145px!important;padding:25px 14px 18px!important;
+  justify-content:center!important;background:linear-gradient(155deg,#45374c,#28212f)!important;
+  border-bottom:1px solid #77677f!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.download .edition-card-header{background:linear-gradient(155deg,#55402b,#2b231d)!important;border-bottom-color:#89704f!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-card-header{background:linear-gradient(155deg,#4b333a,#2b2228)!important;border-bottom-color:#805e66!important}
+#edition-comparison .original-editions-hero .edition-button-title{font:700 clamp(19px,1.7vw,23px)/1.15 Georgia,serif!important;letter-spacing:.018em!important;text-shadow:0 1px 3px #0007!important}
+#edition-comparison .original-editions-hero .edition-button-subtitle{font:500 11px/1.4 Arial,sans-serif!important;letter-spacing:0!important;margin-top:10px!important;padding:0!important;background:none!important;color:#d6c9c4!important}
+#edition-comparison .original-editions-hero .edition-card-body{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;padding:12px 14px 68px!important;gap:0!important}
+#edition-comparison .original-editions-hero .edition-list-heading{font:700 12px/1.3 Georgia,serif!important;letter-spacing:.035em!important;margin:13px 0 8px!important;padding-bottom:6px!important;border-bottom-color:#66565b!important}
+#edition-comparison .original-editions-hero .edition-points{gap:7px!important}
+#edition-comparison .original-editions-hero .edition-points li{font:13px/1.42 Arial,sans-serif!important;color:#e4dadd!important}
+#edition-comparison .original-editions-hero .edition-points li.not-included{color:#a9a0a7!important}
+#edition-comparison .original-editions-hero .edition-level-tag{background:#ffffff08!important;border-color:#786783!important;padding:8px!important}
+#edition-comparison .original-editions-hero .edition-choice.download .edition-level-tag{border-color:#92754d!important}
+#edition-comparison .original-editions-hero .edition-choice.browser .edition-card-body::after,
+#edition-comparison .original-editions-hero .edition-choice.download .edition-card-body::after,
+#edition-comparison .original-editions-hero .edition-choice.browser::after{content:none!important;display:none!important}
+#edition-comparison .original-editions-hero .edition-choice .edition-action-label,
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-coming-soon{
+  position:absolute!important;bottom:12px!important;left:12px!important;right:12px!important;
+  width:auto!important;height:39px!important;min-height:39px!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:5px!important;transform:none!important;box-sizing:border-box!important;
+  font:700 11px/1.2 Arial,sans-serif!important;letter-spacing:.02em!important;
+  box-shadow:none!important;text-align:center!important;padding:6px!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.browser .edition-action-label{background:#59426e!important;border:1px solid #9175ad!important;color:#fff!important}
+#edition-comparison .original-editions-hero .edition-choice.download .edition-action-label{background:#77572e!important;border:1px solid #bd9558!important;color:#fff4dd!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-coming-soon{background:#3a2b31!important;border:1px solid #86636b!important;color:#d9bec3!important}
+#edition-comparison .original-editions-hero .edition-choice.download>.edition-support{
+  position:absolute!important;bottom:6px!important;left:9px!important;right:9px!important;
+  min-height:45px!important;max-height:49px!important;padding:5px 0 0!important;
+  gap:2px 9px!important;border-top:1px solid #796346!important;
+}
+#edition-comparison .original-editions-hero .edition-choice.download>.edition-support a,
+#edition-comparison .original-editions-hero .edition-choice.download>.edition-support button{font:600 10px/1.3 Arial,sans-serif!important;color:#d6b987!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-package-select{margin-top:67px!important}
+#edition-comparison .original-editions-hero .edition-choice.adventure .edition-details{border-color:#80646a!important;background:#30272d!important}
+@media(max-width:900px){#edition-comparison .original-editions-hero .edition-choice{min-height:700px!important}}
+</style>
+</head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="#top">RPGPOV<small>ROLEPLAYING GAMES • POINT OF VIEW</small></a><nav aria-label="Main navigation" class="navlinks"><a href="#explore">Explore the browser adventure</a><a href="#solo">Solo + AI DM</a><a href="#multiplayer">Multiplayer</a></nav></div></header>
 <main id="top">

@@ -3652,7 +3652,7 @@ function partyHasPendingEdits(){
 partyCharacterSelect.onchange=()=>partySelectCharacter(partyCharacterSelect.value);
 // ARC artwork styles: shared existing character sheets and AI data; portrait-only filter.
 const ARC_ABSTRACT_NAMES=new Set(['Alaric','Malachar','Seraphina','Kael','Mira','Brenna','Elowen','Thrain Ironbeard','Lirael Moonwhisper','Cassian Ashborne','Sylvara Greenleaf']);
-// Classic uses the eight supplied photographic portraits. Heroic retains existing SVG art.
+// Classic uses eight supplied PNG portraits; Abstract uses existing SVG art; Heroic uses existing WEBP art.
 const ARC_CLASSIC_FILES={
  'Brother Joram':'Brother_Joram_Hollow_Brightened.png',
  'Elandor Swiftblade':'Elandor Swiftblade.png',
@@ -3671,8 +3671,8 @@ const ARC_ABSTRACT_FILES={
 };
 let arcStyle='abstract';
 try{const saved=localStorage.getItem('rpgpov_arc_art_style');if(['abstract','classic','heroic'].includes(saved))arcStyle=saved;}catch(e){}
-function arcVisibleCharacters(){return partyDefaults.filter(c=>arcStyle==='abstract'?ARC_ABSTRACT_NAMES.has(c.name):arcStyle==='classic'?!!ARC_CLASSIC_FILES[c.name]:!ARC_ABSTRACT_NAMES.has(c.name));}
-function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='abstract'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
+function arcVisibleCharacters(){return partyDefaults.filter(c=>arcStyle==='heroic'?ARC_ABSTRACT_NAMES.has(c.name):arcStyle==='classic'?!!ARC_CLASSIC_FILES[c.name]:!ARC_ABSTRACT_NAMES.has(c.name));}
+function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='heroic'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
 function arcRenderStyleTabs(){
  for(const b of partyBox.querySelectorAll('#arcStyleTabs button')){const selected=b.dataset.arcStyle===arcStyle;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));}
  partyBox.querySelector('#arcStyleHint').textContent=arcVisibleCharacters().length+' characters in '+arcStyle.charAt(0).toUpperCase()+arcStyle.slice(1)+' · Existing character sheets and AI abilities are shared.';

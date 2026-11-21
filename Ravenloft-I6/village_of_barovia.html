@@ -3591,6 +3591,12 @@ function updateChurchOrgan(now){
 // Village E2/E6 illustrated generic patrons. Visual-only; no AI/network changes.
 const VILLAGE_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png',
  'hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
+const VILLAGE_CHURCH_SEATED_FILES=['church_seated_01.png','church_seated_02.png','church_seated_03.png',
+ 'church_seated_04.png','church_seated_05.png','church_seated_06.png'];
+const villageChurchSeatedTextures=VILLAGE_CHURCH_SEATED_FILES.map(file=>{
+ const texture=new THREE.TextureLoader().load('patrons/'+file);
+ texture.colorSpace=THREE.SRGBColorSpace;return texture;
+});
 const villagePatronTextures=VILLAGE_PATRON_FILES.map(file=>{
  const texture=new THREE.TextureLoader().load('patrons/'+file);
  texture.colorSpace=THREE.SRGBColorSpace;
@@ -3600,8 +3606,8 @@ function villagePatronSprite(room,patron){
  const material=new THREE.SpriteMaterial({map:villagePatronTextures[0],transparent:true,
   alphaTest:.08,depthWrite:false});
  const sprite=new THREE.Sprite(material);
- const height=patron.seated?1.72:2.38;
- sprite.position.set(patron.x,patron.seated?.86:1.19,patron.z);
+ const height=patron.seated?1.42:2.38;
+ sprite.position.set(patron.x,patron.seated?.71:1.19,patron.z);
  sprite.scale.set(height*.49,height,1);
  room.add(sprite);
  return sprite;
@@ -3609,15 +3615,26 @@ function villagePatronSprite(room,patron){
 function randomizeVillagePatrons(room){
  const sprites=room.userData.villagePatronSprites;
  if(!sprites)return;
- const pool=villagePatronTextures.map((_,i)=>i);
+ const textures=room.userData.villageSeatedChurch? villageChurchSeatedTextures:villagePatronTextures;
+ const pool=textures.map((_,i)=>i);
  for(let i=pool.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
   [pool[i],pool[j]]=[pool[j],pool[i]];
  }
- sprites.forEach((sprite,i)=>{
-  sprite.material.map=villagePatronTextures[pool[i%pool.length]];
+ // No duplicates: use at most one instance of each available portrait.
+ // Randomize occupied positions as well as portrait assignment on each entry.
+ const positions=sprites.map((_,i)=>i);
+ for(let i=positions.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [positions[i],positions[j]]=[positions[j],positions[i]];
+ }
+ sprites.forEach(sprite=>{sprite.visible=false;});
+ for(let i=0;i<Math.min(pool.length,sprites.length);i++){
+  const sprite=sprites[positions[i]];
+  sprite.material.map=textures[pool[i]];
   sprite.material.needsUpdate=true;
- });
+  sprite.visible=true;
+ }
 }
 function makeInteriorRoom(id){
  const dimensions={
@@ -3732,6 +3749,7 @@ function makeInteriorRoom(id){
    {role:'woman',x:-2.56,z:-3.67,robe:0x655345,accent:0x42392e},
    {role:'villager',x:2.72,z:-6.92,robe:0x4e504a,accent:0x645747}
   ];
+  group.userData.villageSeatedChurch=true;
   group.userData.villagePatronSprites=parishioners.map(p=>
    villagePatronSprite(group,{...p,seated:true}));
   buildChurchOrgan(group,add,furniture);

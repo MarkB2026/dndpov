@@ -3590,9 +3590,9 @@ function updateChurchOrgan(now){
 }
 const VILLAGE_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png',
  'hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
-const VILLAGE_CHURCH_SEATED_FILES=['church_seated_01.png','church_seated_02.png','church_seated_03.png',
- 'church_seated_04.png','church_seated_05.png','church_seated_06.png'];
-const villageChurchSeatedTextures=VILLAGE_CHURCH_SEATED_FILES.map(file=>{
+const VILLAGE_CHURCH_STANDING_FILES=['church_standing_01.png','church_standing_02.png',
+ 'church_standing_03.png','church_standing_04.png','church_standing_05.png','church_standing_06.png'];
+const villageChurchStandingTextures=VILLAGE_CHURCH_STANDING_FILES.map(file=>{
  const texture=new THREE.TextureLoader().load('patrons/'+file);
  texture.colorSpace=THREE.SRGBColorSpace;return texture;
 });
@@ -3605,9 +3605,9 @@ function villagePatronSprite(room,patron){
  const material=new THREE.SpriteMaterial({map:null,transparent:true,
   alphaTest:.08,depthWrite:false});
  const sprite=new THREE.Sprite(material);
- const height=patron.seated?1.25:2.05;
- sprite.position.set(patron.x,patron.seated?1.275:1.025,patron.z);
- sprite.scale.set(height*(patron.seated?1.0:.49),height,1);
+ const height=2.05;
+ sprite.position.set(patron.x,height/2,patron.z);
+ sprite.scale.set(height*.60,height,1);
  sprite.visible=false; // Only show after a unique room-specific portrait is assigned
  room.add(sprite);
  return sprite;
@@ -3615,16 +3615,7 @@ function villagePatronSprite(room,patron){
 function randomizeVillagePatrons(room){
  const sprites=room.userData.villagePatronSprites;
  if(!sprites)return;
- const textures=room.userData.villageSeatedChurch? villageChurchSeatedTextures:villagePatronTextures;
- if(room.userData.villageSeatedChurch){
-  // Fixed congregation: each portrait occupies its own measured pew seat.
-  sprites.forEach((sprite,i)=>{
-   sprite.material.map=textures[i%textures.length];
-   sprite.material.needsUpdate=true;
-   sprite.visible=true;
-  });
-  return;
- }
+ const textures=room.userData.villageStandingChurch? villageChurchStandingTextures:villagePatronTextures;
  const pool=textures.map((_,i)=>i);
  for(let i=pool.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
@@ -3748,18 +3739,20 @@ function makeInteriorRoom(id){
   for(const x of [-1.6,1.6])add(x,2.4,-d/2+2.0,.17,.53,.17,candle);
   add(0,6.1,-d/2+.5,.45,4.2,.32,oldStone);
   add(0,7.4,-d/2+.5,2.0,.38,.32,oldStone);
-  // Four fixed worshippers on the two pew rows nearest the entrance.
-  // Seat height=.65; portrait bottoms=.65. Positioned just in front of the
-  // pew back in the camera-facing view, avoiding heads hidden by the timber.
+  // Standing congregation: occupy the side aisles, NOT the wooden pews.
+  // The nave's pews occupy x roughly -5.35..-1.15 and 1.15..5.35;
+  // the wall-side walking margins are narrow, so keep sprites just beside
+  // the ends of the pews, never embedded in bench backs or seats.
   const parishioners=[
-   {role:'woman',x:-3.95,z:7.48},
-   {role:'elder',x:3.85,z:7.48},
-   {role:'villager',x:-3.85,z:3.98},
-   {role:'woman',x:3.85,z:3.98}
+   {role:'elder',x:-5.70,z:6.25},
+   {role:'woman',x:5.70,z:5.75},
+   {role:'villager',x:-5.70,z:1.90},
+   {role:'woman',x:5.70,z:-1.90},
+   {role:'elder',x:-5.70,z:-5.80},
+   {role:'woman',x:5.70,z:-6.40}
   ];
-  group.userData.villageSeatedChurch=true;
-  group.userData.villagePatronSprites=parishioners.map(p=>
-   villagePatronSprite(group,{...p,seated:true}));
+  group.userData.villageStandingChurch=true;
+  group.userData.villagePatronSprites=parishioners.map(p=>villagePatronSprite(group,p));
   buildChurchOrgan(group,add,furniture);
  }else if(id==='E1'){ // Mercantile counters, shelves and stock.
   for(const x of [-w/2+1.2,w/2-1.2])for(const z of [-3.6,0,3.3])

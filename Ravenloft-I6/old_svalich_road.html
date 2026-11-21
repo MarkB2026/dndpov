@@ -3671,7 +3671,7 @@ const ARC_ABSTRACT_FILES={
 };
 let arcStyle='abstract';
 try{const saved=localStorage.getItem('rpgpov_arc_art_style');if(['abstract','classic','heroic'].includes(saved))arcStyle=saved;}catch(e){}
-function arcVisibleCharacters(){return partyDefaults.filter(c=>arcStyle==='heroic'?ARC_ABSTRACT_NAMES.has(c.name):arcStyle==='classic'?!!ARC_CLASSIC_FILES[c.name]:!ARC_ABSTRACT_NAMES.has(c.name));}
+function arcVisibleCharacters(){return arcStyle==='classic'?partyDefaults.filter(c=>!!ARC_CLASSIC_FILES[c.name]):arcStyle==='heroic'?partyDefaults.filter(c=>ARC_ABSTRACT_NAMES.has(c.name)):partyDefaults;}
 function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='heroic'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
 function arcRenderStyleTabs(){
  for(const b of partyBox.querySelectorAll('#arcStyleTabs button')){const selected=b.dataset.arcStyle===arcStyle;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));}

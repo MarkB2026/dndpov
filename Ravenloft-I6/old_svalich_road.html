@@ -1849,22 +1849,15 @@ for(const [x,z] of [[-3,2.7],[1.6,3.0],[-3.8,-1.3]]){
 // The messenger stays a fixed NPC. Generic patrons reroll on each inn entry.
 const INN_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png','hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
 const innPatronLoader=new THREE.TextureLoader();
-const innPatronTextures={};
-for(const style of ['animated','realistic']){
- innPatronTextures[style]=INN_PATRON_FILES.map(file=>{
-  const texture=innPatronLoader.load('patrons/'+(style==='animated'?'animated/':'')+file);
-  texture.colorSpace=THREE.SRGBColorSpace;
-  return texture;
- });
-}
-// Only the visual selection changes; gameplay, AI and character data remain unchanged.
-function innCurrentArtStyle(){
- try{return ['animated','abstract'].includes(localStorage.getItem('rpgpov_arc_art_style'))?'animated':'realistic';}
- catch(e){return 'animated';}
-}
+// EXE and browser both use the same bundled animated patron assets.
+const innPatronTextures=INN_PATRON_FILES.map(file=>{
+ const texture=innPatronLoader.load('patrons/animated/'+file);
+ texture.colorSpace=THREE.SRGBColorSpace;
+ return texture;
+});
 const innPatronPositions=[[-3.6,2.2], [2.95,2.65],[-5.9,-1.6],[6.3,4.15],[-5.7,3.6],[3.5,-3.6]];
 const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
- const mat=new THREE.SpriteMaterial({map:innPatronTextures.animated[i],transparent:true,depthWrite:false,alphaTest:.08});
+ const mat=new THREE.SpriteMaterial({map:innPatronTextures[i],transparent:true,depthWrite:false,alphaTest:.08});
  const sprite=new THREE.Sprite(mat);
  sprite.position.set(x,1.23,z);
  sprite.scale.set(1.45,2.46,1);
@@ -1872,14 +1865,14 @@ const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
  innScene.add(sprite);
  return sprite;
 });
-const innMessenger=new THREE.Sprite(new THREE.SpriteMaterial({map:innPatronTextures.animated[3],transparent:true,depthWrite:false,alphaTest:.08}));
+const innMessenger=new THREE.Sprite(new THREE.SpriteMaterial({map:innPatronTextures[3],transparent:true,depthWrite:false,alphaTest:.08}));
 innMessenger.position.set(3.2,1.26,.2);
 innMessenger.scale.set(1.5,2.52,1);
 innMessenger.renderOrder=2;
 innScene.add(innMessenger);
 let innPatronSelection=[];
 function refreshInnPatronArt(){
- const textures=innPatronTextures[innCurrentArtStyle()];
+ const textures=innPatronTextures;
  innPatronSprites.forEach((sprite,i)=>{sprite.material.map=textures[innPatronSelection[i]];sprite.material.needsUpdate=true;});
  innMessenger.material.map=textures[3];innMessenger.material.needsUpdate=true;
 }

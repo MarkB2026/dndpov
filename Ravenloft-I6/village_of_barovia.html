@@ -1,4 +1,5 @@
-<!doctype html><html lang="en"><head><script>
+<!DOCTYPE html>
+<html lang="en"><head><script>
 /* Multiplayer typing isolation: do not let gameplay shortcuts capture typed letters.
    Preserve Enter/Escape for form actions and preserve Shift movement in gameplay. */
 (function(){
@@ -19,7 +20,7 @@
   window.addEventListener('keydown',isolate,true);
   window.addEventListener('keyup',isolate,true);
 })();
-</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Village of Barovia v5.77 BASIC · All Barovia</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#171b17;color:#f0dfbb;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#20231fea;border:1px solid #b18a56;padding:13px;z-index:4;max-width:340px}#hud b{font-size:19px;color:#efc98b}#hud p{margin:7px 0}button{background:#463526;border:1px solid #aa8757;color:#f3d8a8;padding:7px 10px;cursor:pointer}button:hover{background:#74512f}select{background:#463526;color:#f3d8a8;border:1px solid #aa8757;padding:5px;font:13px Georgia,serif}#mapbox{position:fixed;right:12px;top:12px;width:min(38vw,410px);background:#171a17ef;border:1px solid #b18a56;padding:8px;z-index:4}#map{width:100%;height:auto;aspect-ratio:1332/1500}#mapbox small{display:block;text-align:center}#help{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:#1a1e1be8;padding:10px;border:1px solid #a38455;z-index:4}#error{position:fixed;top:48%;left:20%;right:20%;background:#531e1e;color:white;padding:20px;z-index:10;display:none}#mapToggle{display:none}@media(max-width:720px){#mapbox{width:180px}#hud{max-width:200px}#help{font-size:11px;white-space:nowrap}}
+</script><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>DNDPOV — Village of Barovia v5.77 BASIC · All Barovia</title><style>html,body{margin:0;height:100%;overflow:hidden;background:#171b17;color:#f0dfbb;font:14px Georgia,serif}canvas{display:block}#hud{position:fixed;left:12px;top:12px;background:#20231fea;border:1px solid #b18a56;padding:13px;z-index:4;max-width:340px}#hud b{font-size:19px;color:#efc98b}#hud p{margin:7px 0}button{background:#463526;border:1px solid #aa8757;color:#f3d8a8;padding:7px 10px;cursor:pointer}button:hover{background:#74512f}select{background:#463526;color:#f3d8a8;border:1px solid #aa8757;padding:5px;font:13px Georgia,serif}#mapbox{position:fixed;right:12px;top:12px;width:min(38vw,410px);background:#171a17ef;border:1px solid #b18a56;padding:8px;z-index:4}#map{width:100%;height:auto;aspect-ratio:1332/1500}#mapbox small{display:block;text-align:center}#help{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:#1a1e1be8;padding:10px;border:1px solid #a38455;z-index:4}#error{position:fixed;top:48%;left:20%;right:20%;background:#531e1e;color:white;padding:20px;z-index:10;display:none}#mapToggle{display:none}@media(max-width:720px){#mapbox{width:180px}#hud{max-width:200px}#help{font-size:11px;white-space:nowrap}}
 /* v5.14 — adventure descriptions, isolated from the 3D scene */
 #hud .build-notes{margin:6px 0;color:#d0b990}
 #hud .build-notes summary{cursor:pointer;font-size:12px}
@@ -121,8 +122,8 @@
 #dndpovEncounterBanner button{display:inline-block!important;width:auto!important;max-width:100%!important;padding:6px 9px!important;margin:5px 3px 0!important;font-size:11px!important}
 #dndpovEncounterBanner button[hidden]{display:none!important}
 </style>
-</head><body>
-<div id="hud"><b>DNDPOV · VILLAGE OF BAROVIA v5.77 · BASIC</b><details class="build-notes"><summary>Scene details</summary><p>Layer 5 — ominous layered storm clouds, overcast lighting and distant rain haze; large dense irregular bushes across open village lawns, closed residential roof gables, benches and barrels; residential expansion with the church sightline cleared, more handcarts, wheelbarrows, barrels and crates, a few low irregular shrubs and natural textured meadow grass (no trees or spikes), preserving the subtle weathered cobblestone road surface, colorful stucco, brick and varied timber trims across seven residential architectural styles distributed around the village; E6 church faces the approach road; E7 cemetery angles toward the approach road with a front-facing stone arch entrance and gravestones only; extended southern approach and mansion gate, cobblestone streets, original E6 church, E2 tavern, E1 mercantile redesigned E3 townhouse, an unkeyed residence between E3 and E5, and E5 guest house (all on the west side of the southern lane). All E# spots marked on the map.</p></details><p>Enter from the <strong>east</strong>; follow the village streets and leave via the <strong>southwest bridge</strong>.</p><p id="pos"></p><button id="reset">Restart at east entrance</button> <button id="overview">Overhead view</button><p style="margin-top:9px"><label for="timeofday">Time</label> <select id="timeofday"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="visibility">Air</label> <select id="visibility"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select></p><div id="adventureControls"><button id="dmMode" aria-pressed="false" title="Show Dungeon Master notes">DM: OFF</button><button id="indexOpen" title="Browse E1–E7 descriptions">Locations E1–E7</button><label class="auto-option" title="Automatically show exterior descriptions once on approach"><input id="autoDescriptions" type="checkbox">Auto descriptions</label></div></div><div id="mapbox"><canvas id="map" width="1332" height="1500"></canvas><small>North ↑ · Gold arrow = player · gray = cobblestone streets</small></div><div id="help">↑ / ↓ walk · ← / → turn · A / D sidestep · Shift run · M map · R read · E / Enter enter/exit</div><div id="locationHint" role="status" aria-live="polite" hidden></div><section id="locationPanel" role="dialog" aria-modal="true" aria-labelledby="locationTitle" hidden><div id="locationPanelHeader"><span id="locationCode"></span><span id="locationTitle"></span><button id="locationClose" aria-label="Close description">×</button></div><div id="locationBody"><p id="locationSource"></p><blockquote id="locationRead"><div id="locationQuoteHeading"></div><div id="locationReadText"></div></blockquote><section id="locationInterior" hidden><h3>Interior read-aloud · DM preview</h3><div id="locationInteriorText"></div></section><section id="locationDM" hidden><h3>Dungeon Master notes</h3><div id="locationDMText"></div></section><div id="locationIndex" hidden></div></div><div id="locationPanelFooter"><button id="locationBack" hidden>All locations</button><span>R: read/close · Esc: close</span></div></section><div id="error"></div><script type="module">
+<style id="browser-only-no-network-ui">#mpButton,#mpPanel,#mpEncounterToast,#aiDmButton,#aiDmPanel,#dndpovPrivateQuickLaunch,#dndpovPrivateAiLaunch,#dndpovPrivateMpLaunch{display:none!important}</style></head><body>
+<div id="hud"><b>DNDPOV · VILLAGE OF BAROVIA v5.77 · BASIC</b><details class="build-notes"><summary>Scene details</summary><p>Layer 5 — ominous layered storm clouds, overcast lighting and distant rain haze; large dense irregular bushes across open village lawns, closed residential roof gables, benches and barrels; residential expansion with the church sightline cleared, more handcarts, wheelbarrows, barrels and crates, a few low irregular shrubs and natural textured meadow grass (no trees or spikes), preserving the subtle weathered cobblestone road surface, colorful stucco, brick and varied timber trims across seven residential architectural styles distributed around the village; E6 church faces the approach road; E7 cemetery angles toward the approach road with a front-facing stone arch entrance and gravestones only; extended southern approach and mansion gate, cobblestone streets, original E6 church, E2 tavern, E1 mercantile redesigned E3 townhouse, an unkeyed residence between E3 and E5, and E5 guest house (all on the west side of the southern lane). All E# spots marked on the map.</p></details><p>Enter from the <strong>east</strong>; follow the village streets and leave via the <strong>southwest bridge</strong>.</p><p id="pos"></p><button id="reset">Restart at east entrance</button> <button id="overview">Overhead view</button><p style="margin-top:9px"><label for="timeofday">Time</label> <select id="timeofday"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="visibility">Air</label> <select id="visibility"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select></p><div id="adventureControls"><button aria-pressed="false" id="dmMode" title="Show Dungeon Master notes">DM: OFF</button><button id="indexOpen" title="Browse E1–E7 descriptions">Locations E1–E7</button><label class="auto-option" title="Automatically show exterior descriptions once on approach"><input id="autoDescriptions" type="checkbox"/>Auto descriptions</label></div></div><div id="mapbox"><canvas height="1500" id="map" width="1332"></canvas><small>North ↑ · Gold arrow = player · gray = cobblestone streets</small></div><div id="help">↑ / ↓ walk · ← / → turn · A / D sidestep · Shift run · M map · R read · E / Enter enter/exit</div><div aria-live="polite" hidden="" id="locationHint" role="status"></div><section aria-labelledby="locationTitle" aria-modal="true" hidden="" id="locationPanel" role="dialog"><div id="locationPanelHeader"><span id="locationCode"></span><span id="locationTitle"></span><button aria-label="Close description" id="locationClose">×</button></div><div id="locationBody"><p id="locationSource"></p><blockquote id="locationRead"><div id="locationQuoteHeading"></div><div id="locationReadText"></div></blockquote><section hidden="" id="locationInterior"><h3>Interior read-aloud · DM preview</h3><div id="locationInteriorText"></div></section><section hidden="" id="locationDM"><h3>Dungeon Master notes</h3><div id="locationDMText"></div></section><div hidden="" id="locationIndex"></div></div><div id="locationPanelFooter"><button hidden="" id="locationBack">All locations</button><span>R: read/close · Esc: close</span></div></section><div id="error"></div><script type="module">
 // Coordinate reference is the approved village redraw (1332 × 1152).
 // Minimal streets traced from the original I6 village map: one through-road,
 // southwest approach, church spur, northern loop and southern residential loop.
@@ -4579,241 +4580,14 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA BASIC · v5.83 �
 
 </script>
 <!-- DNDPOV local multiplayer: matching Castle Ravenloft Host/Join protocol -->
-<style id="dndpovMpStyle">
-#mpButton{position:fixed;top:12px;left:12px;z-index:10005;background:#193326;color:#b8f5c6;border:1px solid #60a77a;border-radius:7px;padding:8px 13px;font:700 12px system-ui;cursor:pointer}
-#mpButton{background:#84262b;color:#fff0ee;border-color:#e97878}
-#mpButton.mp-connected{background:#176a40;color:#e6ffef;border-color:#6fe0a1}
-#mpPanel{position:fixed;z-index:10006;top:48px;left:12px;width:min(350px,calc(100vw - 24px));max-height:85vh;overflow:auto;background:#151b17;color:#eee9da;border:1px solid #6caa7d;border-radius:10px;box-shadow:0 12px 50px #000b;padding:16px;font:13px/1.5 system-ui;display:none}
-#mpPanel h3{margin:0 0 10px;color:#b7e9bd;font:700 18px system-ui}
-#mpPanel input,#mpPanel select{width:100%;padding:8px;margin:4px 0 10px;color:#fff;background:#202c25;border:1px solid #6b8c75;border-radius:5px}
-#mpPanel button{background:#2e6643;color:white;border:1px solid #6aab7a;border-radius:5px;padding:8px 10px;margin:3px;cursor:pointer}
-#mpPanel button:disabled{opacity:.45}#mpPanel .muted{color:#b7bdb5;font-size:11px}#mpPanel .member{padding:5px;border-bottom:1px solid #45564b}
-#mpEncounterToast{position:fixed;z-index:10007;top:28%;left:50%;transform:translateX(-50%);width:min(420px,90vw);padding:24px;background:#180f0df2;color:#f7ddbd;border:2px solid #b65d4b;border-radius:8px;box-shadow:0 15px 60px #000d;text-align:center;font:18px Georgia,serif}
-#mpEncounterToast[hidden]{display:none!important}#mpEncounterToast button{cursor:pointer;background:#44241e;color:#f4e2c8;border:1px solid #b65d4b;padding:7px 14px;margin-top:12px}
-</style>
-<button id="mpButton" type="button">♟ Multiplayer: OFF</button>
-<section id="mpPanel" aria-label="Local multiplayer"><h3>Local Multiplayer · Village of Barovia</h3>
-<p class="muted">Use the same local multiplayer server as Castle Ravenloft. Host or join by session code; party membership can follow you between adventure pages on this server.</p>
-<label>Character name<input id="mpName" maxlength="24" placeholder="Alaric"></label>
-<label>Marker color<select id="mpColor"><option value="#58b8ff">Blue</option><option value="#67d9a0">Green</option><option value="#f5c25c">Gold</option><option value="#ce8dff">Purple</option></select></label>
-<label>Session code<input id="mpCode" maxlength="8" placeholder="Leave blank to host"></label>
-<button id="mpHost" type="button">Host as DM</button><button id="mpJoin" type="button">Join as Player</button><button id="mpLeave" type="button">Disconnect</button><button id="mpClose" type="button">Close ×</button>
-<div id="mpStatus" class="muted">Not connected.</div><div id="mpTransport" class="muted">Network: waiting</div><div id="mpMembers"></div>
-<div id="mpDM" hidden><h3>DM Encounter Control</h3>
-<p class="muted">Send the reveal to adventurers nearby, or to everyone.</p>
-<label>Monster ID<input id="mpMonster" placeholder="zombie"></label>
-<label>Quantity<input id="mpCount" type="number" value="1" min="1" max="99"></label>
-<label>Recipients<select id="mpTargets"><option value="room">Players at my location</option><option value="all">All connected players</option></select></label>
-<button id="mpTrigger" type="button">Trigger monster</button><button id="mpComplete" type="button">Battle complete</button><button id="mpPause" type="button">Pause / resume movement</button>
-<h3>Decision Report</h3><div id="mpLog" class="muted"></div></div>
-</section>
-<aside id="mpEncounterToast" hidden role="alert"><strong id="mpEncounterTitle">ENCOUNTER</strong><p id="mpEncounterMessage"></p><button id="mpEncounterDismiss" type="button">Close</button></aside>
-<script id="dndpovMpController">
-(()=>{
- 'use strict';
- const $=id=>document.getElementById(id);
- const mp={connected:false,id:null,members:[],role:null,session:null,paused:false};
- window.DNDPOV_MP=mp;
- const storageKey='dndpov_mp_session',zoneLabel='Village of Barovia';
- let ws=null,lastSent=0,sessionSecret=null,sent=0,received=0,acked=0;
- function load(){try{return JSON.parse(sessionStorage.getItem(storageKey)||'null')}catch{return null}}
- function store(){try{sessionStorage.setItem(storageKey,JSON.stringify({
-  role:mp.role||'player',code:mp.session||$('mpCode').value.trim().toUpperCase(),
-  name:$('mpName').value,color:$('mpColor').value,secret:sessionSecret
- }))}catch{}}
- const prior=load();
- if(prior){$('mpName').value=prior.name||'';$('mpColor').value=prior.color||'#58b8ff';
-  $('mpCode').value=prior.code||'';sessionSecret=prior.secret||null;}
- function say(message){$('mpStatus').textContent=message}
- function send(message){if(ws&&ws.readyState===WebSocket.OPEN){
-  ws.send(JSON.stringify(message));if(message.type==='position')sent++;}}
- const zoneNames={100:'Village of Barovia',101:'Old Svalich Road',
-  102:'Road to Tser Pool'};
- function displayMembers(){const box=$('mpMembers');box.replaceChildren();
-  for(const m of mp.members){const line=document.createElement('div');line.className='member';
-   const zone=zoneNames[m.floor]||('Castle floor '+m.floor);
-   line.textContent=(m.online?'● ':'○ ')+(m.name||'Adventurer')+' · '+zone+
-    ' · '+(m.room||'Passage')+(m.role==='dm'?' · DM':'');
-   line.style.color=m.color||'#b8f5c6';box.append(line);}
-  $('mpButton').textContent=mp.connected?'♟ '+mp.session+' · '+mp.members.length+' connected':'♟ Multiplayer: OFF';
-  $('mpButton').classList.toggle('mp-connected',mp.connected);
- }
- function connect(role){
-  if(!location.host){say('Open this HTML through the local multiplayer server, not file://.');
-   $('mpPanel').style.display='block';return;}
-  if(ws)ws.close();mp.connected=false;mp.role=role;displayMembers();
-  const protocol=location.protocol==='https:'?'wss:':'ws:';
-  ws=new WebSocket(protocol+'//'+location.host+'/ws');
-  ws.onopen=()=>send({type:'join',role,code:$('mpCode').value.trim().toUpperCase(),
-   name:$('mpName').value.trim()||'Adventurer',color:$('mpColor').value,
-   secret:role==='dm'?sessionSecret:null});
-  ws.onclose=()=>{if(ws){mp.connected=false;say('Disconnected. Rejoin when ready.');displayMembers()}};
-  ws.onerror=()=>say('Connection failed. Start the local multiplayer launcher and open its server URL.');
-  ws.onmessage=event=>{let data;try{data=JSON.parse(event.data)}catch{return}
-   if(data.type==='position_ack'){acked++;return}
-   if(data.type==='error'){say(data.message||'Multiplayer server error');return}
-   if(data.type==='welcome'){
-    mp.connected=true;mp.id=data.id;mp.role=data.role;mp.session=data.code;
-    sessionSecret=data.secret||sessionSecret;$('mpCode').value=data.code;
-    $('mpDM').hidden=data.role!=='dm';store();
-    say('Connected as '+String(data.role).toUpperCase()+' · session '+data.code+
-     ' · '+zoneLabel);sendPosition(true);displayMembers();return;
-   }
-   if(data.type==='state'){
-    received++;mp.members=data.members||[];mp.paused=!!data.paused;
-    displayMembers();window.DNDPOV_ZONE_BRIDGE?.redrawMap?.();return;
-   }
-   if(data.type==='log'&&mp.role==='dm'){
-    const line=document.createElement('div');line.textContent=data.message||'';
-    $('mpLog').prepend(line);return;
-   }
-   if(data.type==='encounter'&&data.id){
-    $('mpEncounterTitle').textContent='ENCOUNTER · '+String(data.id).replaceAll('_',' ').toUpperCase();
-    $('mpEncounterMessage').textContent=(data.count||1)+' × '+String(data.id).replaceAll('_',' ');
-    $('mpEncounterToast').hidden=false;
-    window.dispatchEvent(new CustomEvent('dndpov-monster-reveal',{detail:{id:data.id,count:data.count||1}}));
-    return;
-   }
-   if(data.type==='complete'){$('mpEncounterToast').hidden=true;return}
-  };
- }
- function sendPosition(force=false){if(!mp.connected)return;
-  const now=Date.now();if(!force&&now-lastSent<170)return;lastSent=now;
-  const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.();
-  if(position)send({type:'position',...position});
- }
- setInterval(()=>sendPosition(),180);
- setInterval(()=>{
-  const remote=mp.members.filter(m=>m.id!==mp.id);
-  $('mpTransport').textContent='Network: '+(ws?.readyState===1?'connected':'disconnected')+
-   ' · sent '+sent+' · ACK '+acked+' · updates '+received+' · remote '+remote.length;
- },1000);
- document.addEventListener('keydown',event=>{
-  if(mp.connected&&mp.paused&&mp.role!=='dm'&&
-   ['ArrowUp','ArrowDown','KeyW','KeyS'].includes(event.code)){
-   event.stopImmediatePropagation();event.preventDefault();}
- },true);
- $('mpButton').onclick=()=>{$('mpPanel').style.display=$('mpPanel').style.display==='block'?'none':'block'};
- $('mpClose').onclick=()=>{$('mpPanel').style.display='none'};
- $('mpHost').onclick=()=>connect('dm');$('mpJoin').onclick=()=>connect('player');
- $('mpLeave').onclick=()=>{ws?.close();ws=null;mp.connected=false;mp.members=[];
-  sessionSecret=null;try{sessionStorage.removeItem(storageKey)}catch{}
-  say('Disconnected.');displayMembers();};
- $('mpEncounterDismiss').onclick=()=>{$('mpEncounterToast').hidden=true};
- function encounter(type){const position=window.DNDPOV_ZONE_BRIDGE?.getPosition?.()||{};
-  send({type,id:$('mpMonster').value.trim().toLowerCase().replaceAll(' ','_'),
-   count:Math.max(1,Number($('mpCount').value)||1),
-   targets:$('mpTargets').value,room:position.room||null,floor:position.floor??100});}
- $('mpTrigger').onclick=()=>encounter('encounter');
- $('mpComplete').onclick=()=>encounter('complete');
- $('mpPause').onclick=()=>send({type:'pause'});
- // sessionStorage travels with the browser tab between adventure HTML pages.
- // An explicit Disconnect clears it; changing scenes does not.
- if(prior?.code)setTimeout(()=>connect(prior.role==='dm'?'dm':'player'),500);
-})();
-</script>
-<script id="dndpovMpDockFix">
-/* Dock the shared multiplayer controls outside the scene's options window. */
-(()=>{
- const button=document.getElementById('mpButton');
- const panel=document.getElementById('mpPanel');
- const hud=document.getElementById('hud');
- if(!button||!panel||!hud)return;
- let scheduled=0;
- function positionControls(){
-  const r=hud.getBoundingClientRect();
-  const panelWidth=Math.min(350,Math.max(220,innerWidth-24));
-  const beside=r.right+12+panelWidth+12<=innerWidth;
-  const left=beside?r.right+12:Math.max(12,Math.min(r.left,innerWidth-panelWidth-12));
-  const top=beside?Math.max(12,r.top):Math.max(12,Math.min(innerHeight-56,r.bottom+12));
-  button.style.left=Math.round(left)+'px';
-  button.style.top=Math.round(top)+'px';
-  const panelTop=top+button.getBoundingClientRect().height+9;
-  panel.style.left=Math.round(left)+'px';
-  panel.style.top=Math.round(panelTop)+'px';
-  panel.style.width=Math.min(350,innerWidth-left-12)+'px';
-  panel.style.maxHeight=Math.max(110,innerHeight-panelTop-12)+'px';
- }
- function schedule(){cancelAnimationFrame(scheduled);scheduled=requestAnimationFrame(positionControls)}
- addEventListener('resize',schedule);
- if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(hud);
- schedule();
-})();
-</script>
 
-<style id="aiDmStyle">
-/* v5.56: journal is the only automatic description surface; world HUD stays compact. */
-#hud{max-width:310px;padding:11px;border-radius:6px}#hud .build-notes,#hud #adventureControls,#hud #readNearby,#hud #readNearbyButton{display:none!important}
-#hud b{font-size:16px}#hud>p:first-of-type{font-size:12px}
-#locationPanel{display:none!important}#locationHint{display:none!important}
-#aiDmButton{position:fixed;bottom:24px;right:22px;z-index:40;border-radius:50%;width:65px;height:65px;display:grid;place-items:center;background:linear-gradient(145deg,#8e5cf4,#5525a8);border:2px solid #c6a2ff;box-shadow:0 5px 25px #2e125e99,0 0 15px #a16aff80;color:white;cursor:pointer}
-#aiDmButton svg{width:29px;height:29px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-#aiDmButton.has-new{animation:aiDmPulse 1.8s infinite}@keyframes aiDmPulse{50%{box-shadow:0 0 0 8px #9a6bff33,0 0 28px #aa7bff}}
-#aiDmPanel{position:fixed;right:18px;bottom:103px;width:min(475px,calc(100vw - 36px));height:min(630px,calc(100vh - 130px));z-index:39;background:#26262a;color:#f3e9dc;border:1px solid #9473c5;border-radius:12px;box-shadow:0 16px 50px #000b;display:flex;flex-direction:column;font:14px Georgia,serif;overflow:hidden}
-#aiDmPanel[hidden]{display:none!important}#aiDmPanel header{padding:12px 14px;background:#33313b;display:flex;align-items:center;gap:8px;border-bottom:1px solid #5c526e}
-#aiDmPanel header b{flex:1;font-size:16px;color:#ebd8ff}#aiDmClose{font-size:20px;padding:2px 9px}
-#aiDmPlace{padding:8px 14px;background:#2e2c34;color:#d7c5ec;font-size:12px}
-#aiDmLog{flex:1;overflow:auto;padding:14px;line-height:1.55;display:flex;flex-direction:column;gap:12px;min-height:0}
-.aiDmScroll{background:linear-gradient(145deg,#f1dfaf,#e1c68e);color:#45321d;border:1px solid #b28b49;border-radius:9px;padding:15px 17px;box-shadow:inset 0 0 20px #a97b3c30}
-.aiDmScroll strong{display:block;color:#65401b;border-bottom:1px solid #b59b6e;padding-bottom:7px;margin-bottom:9px;font-size:16px}
-.aiDmScroll .aiDmVerbatim{white-space:pre-wrap;font-style:italic}.aiDmScroll small{display:block;margin-top:11px;color:#765a30;font-size:10px;letter-spacing:.05em}
-.aiDmChat{background:#45464c;color:#f3e9dc;padding:12px 13px;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere}
-.aiDmChat strong{display:block;color:#d8b9ff;margin-bottom:5px;font-size:12px}.aiDmChat.user{background:#3d4050}.aiDmChat.error{border:1px solid #d48a80}
-#aiDmCompose{background:#303037;border-top:1px solid #59505f;padding:9px 11px;display:flex;flex-direction:column;gap:7px}
-#aiDmCompose textarea{box-sizing:border-box;width:100%;resize:vertical;min-height:58px;max-height:130px;background:#42414a;color:#fff0e3;border:1px solid #80669b;border-radius:6px;padding:9px;font:13px Georgia,serif}
-#aiDmCompose footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
-#aiDmPanel button{cursor:pointer}#aiDmConference{font-size:12px}#aiDmSend{background:#7345bb;color:white;border-color:#ad85e4}
-#aiDmCompose textarea:disabled,#aiDmCompose button:disabled{opacity:.38;cursor:not-allowed}
-#aiDmStatus{font-size:11px;color:#d1c1dc;flex:1}#aiDmToggle{accent-color:#a978ef}#aiDmControls{display:flex;gap:8px;align-items:center;padding:8px 12px;background:#302d38;font-size:12px}
-#aiDmReadAgain{font-size:11px;padding:4px 7px}#aiDmToggleLabel{margin-left:auto;white-space:nowrap}
-/* Private v5.73: narrative-only verbosity slider. */
-#aiDmVerbosity{flex:none;padding:8px 13px 6px;background:#292532;border-bottom:1px solid #514361;font:11px system-ui,Arial,sans-serif;color:#dfd0ee}
-#aiDmVerbosity .aiDmVerbosityTop{display:flex;justify-content:space-between;align-items:center;gap:8px}
-#aiDmVerbosity label{font-weight:700;color:#d9b5ff}
-#aiDmVerbosity output{color:#f2dcae;font-weight:700;white-space:nowrap}
-#aiDmVerbosity input[type=range]{display:block;width:100%;height:17px;margin:3px 0 0;cursor:pointer;accent-color:#b78af2}
-#aiDmVerbosity .aiDmVerbosityScale{display:flex;justify-content:space-between;color:#b8a9c5;font-size:10px;line-height:1.2}
-#aiDmVerbosity input:focus-visible{outline:2px solid #e5bf78;outline-offset:2px}
-@media(max-width:650px){#aiDmPanel{right:8px;bottom:88px;width:calc(100vw - 16px);height:min(630px,calc(100vh - 100px))}#aiDmButton{bottom:12px;right:12px}}
-</style>
 
-<style id="aiDmPartyStyles">
-#aiDmPartyBox{position:fixed;z-index:48;right:20px;top:4vh;width:min(610px,calc(100vw - 36px));max-height:92vh;overflow:auto;box-sizing:border-box;background:#211f2b;border:1px solid #8063a7;border-radius:16px;box-shadow:0 25px 80px #000e;color:#eee7f4;padding:0;font:14px Georgia,serif;scrollbar-color:#75628e #292532}
-#aiDmPartyBox[hidden]{display:none!important}
-#aiDmPartyBox header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:17px 22px;background:#30283d;border-bottom:1px solid #5c4b70}
-#aiDmPartyBox header b{font-size:20px;color:#f1dcff}
-#aiDmPartyBox header button{font-size:20px;width:32px;height:32px;padding:0}
-#aiDmPartyBox .partyContent{padding:20px 22px 24px}
-#aiDmPartyBox p{line-height:1.55;color:#c9bed6;margin:0 0 17px;font:13px/1.6 system-ui,sans-serif}
-#aiDmPartyBox label{display:block;margin:15px 0 8px;color:#e3d4f5;font:600 12px system-ui,sans-serif;letter-spacing:.02em}
-#aiDmPartyBox input[type=text],#aiDmPartyBox textarea{box-sizing:border-box;width:100%;margin-top:7px;background:#302d3c;color:#f5eefc;border:1px solid #6d5b83;border-radius:8px;padding:12px;font:14px/1.5 system-ui,sans-serif;outline:none}
-#aiDmPartyBox input:focus,#aiDmPartyBox textarea:focus{border-color:#b78af3;box-shadow:0 0 0 2px #a77ad52a}
-#aiDmPartyBox textarea{min-height:225px;resize:vertical;font:13px/1.55 Consolas,monospace;white-space:pre-wrap}
-#aiDmPartyBox button{background:#654292;border:1px solid #9871c6;color:white;border-radius:7px;padding:9px 13px;cursor:pointer;font:600 12px system-ui,sans-serif}
-#aiDmPartyBox button:hover{background:#8156b4}
-#aiDmPartyBox .partyUpload{padding:21px;border:1px dashed #9577bb;border-radius:12px;cursor:pointer;background:#302a3d;text-align:center;margin:0}
-#aiDmPartyBox .partyUpload strong{display:block;font:700 15px system-ui,sans-serif;color:#f2e4ff;margin:6px 0}
-#aiDmPartyBox .partyUpload span{display:block;font:12px system-ui,sans-serif;color:#bcb0cd;margin:5px 0 12px}
-#aiDmPartyBox .partyUpload input{max-width:100%;font:12px system-ui,sans-serif;color:#d8c9e8}
-#partyMessage{display:block;color:#d9c28f;font:12px/1.5 system-ui,sans-serif;margin-top:9px;min-height:18px}
-#aiDmPartyBox .partyActions{display:flex;gap:10px;margin:18px 0 22px}#partySave{flex:1;background:#8351c2!important;font-size:14px!important;padding:12px!important}
-#aiDmPartyBox .partySectionHeading{display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px;border-top:1px solid #554962;padding-top:18px}
-#aiDmPartyBox h3{font:700 16px system-ui,sans-serif;color:#efddff;margin:0}
-.partyRow{display:flex;gap:8px;align-items:center;padding:11px 12px;margin:7px 0;border:1px solid #51435f;background:#302b3b;border-radius:9px}
-.partyRow strong{flex:1;font:600 13px system-ui,sans-serif;color:#f3e7ff}
-#aiDmPartyBox small{color:#aa9ab9;font:11px/1.5 system-ui,sans-serif;display:block;margin-top:13px}
-#aiDmPartyBox .partyPreview{display:none;background:#302b3a;border:1px solid #68547d;border-radius:11px;padding:15px;margin-top:13px}
-#aiDmPartyBox .partyPreview.visible{display:block}
-#aiDmPartyBox .partyPreviewTitle{font:700 11px system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#c7a6ed;margin-bottom:11px}
-#aiDmPartyBox .partyStats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-#aiDmPartyBox .partyStat{background:#211d2b;border:1px solid #4e435c;border-radius:8px;padding:10px 4px;text-align:center}
-#aiDmPartyBox .partyStat span{display:block;color:#aa9bbd;font:10px system-ui,sans-serif;margin-bottom:4px}
-#aiDmPartyBox .partyStat b{color:#f3e8ff;font:700 18px system-ui,sans-serif}
-#aiDmPartyBox .partyPreviewNote{font:11px/1.5 system-ui,sans-serif;color:#b9a8c8;margin-top:10px}
-#aiDmPartyBox .partyEditHint{font:11px system-ui,sans-serif;color:#ab9cb9;margin-top:5px}
-@media(max-width:550px){#aiDmPartyBox{right:8px;width:calc(100vw - 16px)}#aiDmPartyBox .partyContent{padding:14px}#aiDmPartyBox .partyStats{grid-template-columns:repeat(2,1fr)}}
-#aiDmPartyOpen{font-size:11px;background:#5d4281;color:#fff;border:1px solid #9874c9;border-radius:4px;cursor:pointer}#aiDmPartyOpen:disabled{opacity:.35;filter:grayscale(1);cursor:not-allowed;pointer-events:none}
-</style>
+
+
+
+
+
+
 <style>
 /* v5.60 — character sheet: readable columns and grouped details */
 #aiDmPartyBox{width:min(710px,calc(100vw - 28px))}
@@ -4836,145 +4610,7 @@ document.querySelector('#hud b').textContent='DNDPOV · BAROVIA BASIC · v5.83 �
 #aiDmPartyBox .partyPreviewNote{margin-top:14px}
 @media(max-width:610px){#aiDmPartyBox .partySections{grid-template-columns:1fr}}
 </style>
-<script id="aiDmCompanion">(()=>{
-const btn=document.createElement('button');btn.id='aiDmButton';btn.type='button';btn.title='Adventure Journal / Ask DM';btn.setAttribute('aria-label','Open Adventure Journal');
-btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3.5-.7L3 21l1.7-4.7A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8 11.5h8M8 15h5"/></svg>';document.body.append(btn);
-const panel=document.createElement('section');panel.id='aiDmPanel';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Adventure Journal');
-panel.innerHTML='<header><b>Adventure Journal · v5.83</b><button type="button" id="aiDmClose" aria-label="Close journal">×</button></header><div id="aiDmPlace"></div><div id="aiDmControls"><button id="aiDmReadAgain" type="button">Read Again</button><button id="aiDmPartyOpen" type="button">⚔ Party / Sheets</button><label id="aiDmToggleLabel"><input id="aiDmToggle" type="checkbox" checked> AI DM · Local edition</label></div><div id="aiDmStyleSliders"><div class="dmStyleItem"><label for="aiDmHeroism">Heroism <output id="aiDmHeroismValue">25% · Gritty</output></label><input id="aiDmHeroism" type="range" min="0" max="100" step="1" value="25"><div class="dmStyleScale"><span>Unforgiving</span><span>Legendary</span></div></div><div class="dmStyleItem"><label for="aiDmVerbosityRange">Verbosity <output id="aiDmVerbosityValue">3 · Normal</output></label><input id="aiDmVerbosityRange" type="range" min="1" max="5" step="1" value="3"><div class="dmStyleScale"><span>Brief</span><span>Immersive</span></div></div></div><div id="aiDmLog" aria-live="polite"></div><div id="aiDmCompose"><textarea id="aiDmInput" placeholder="Ask the Dungeon Master…"></textarea><footer><button id="aiDmConference" type="button">We have a conference</button><span id="aiDmStatus">AI ready</span><button id="aiDmSend" type="button">Send</button></footer></div>';
-document.body.append(panel);
-const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
-partyBox.innerHTML=`<header><b>⚔ Character Party Manager · v5.60</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
-<div class="partyContent"><p>Build your adventuring party. Upload a text-based PDF (up to 3 MB / 12 pages), review its details, then save it for your AI Dungeon Master.</p>
-<label class="partyUpload"><strong>📜 Upload a Character Sheet</strong><span>Choose a PDF to extract character details · PDF, up to 3 MB</span><input id="partyFile" type="file" accept="application/pdf,.pdf"></label>
-<div id="partyMessage" role="status">Ready to import a character sheet.</div>
-<label>CHARACTER NAME<input id="partyName" type="text" placeholder="e.g. Brother Garrick"></label>
-<div id="partyPreview" class="partyPreview" aria-live="polite"><div class="partyPreviewTitle">Character at a glance</div><div class="partyStats" id="partyStats"></div><div id="partySections" class="partySections"></div><div class="partyPreviewNote">Organized from the PDF. Review the original sheet before saving; missing information is never invented.</div></div>
-<details class="partyRaw"><summary>✎ Edit original character sheet text</summary><label>EXTRACTED CHARACTER DETAILS<textarea id="partySheet" spellcheck="false" placeholder="Name, class, level, HP, AC, THAC0, stats, saving throws, weapons, spells, equipment…"></textarea></label></details>
-<div class="partyEditHint">Correct any extraction errors here before saving. The AI receives the reviewed text, not the PDF.</div>
-<div class="partyActions"><button id="partySave" type="button">✓ Save to Party</button><button id="partyClear" type="button">New / Clear</button></div>
-<div class="partySectionHeading"><h3>Adventuring Party</h3><span id="partyCount" style="color:#b9a2d1;font:12px system-ui">0 / 8 characters</span></div><div id="partyRoster"></div>
-<small>Local testing only · Combat automation is not enabled yet. Keep DM-only secrets out of character sheets.</small></div>`;
-document.body.append(partyBox);
-let editingPartyId='';
-const partyMsg=partyBox.querySelector('#partyMessage'),partyName=partyBox.querySelector('#partyName'),partySheet=partyBox.querySelector('#partySheet');
-const partyApi=async(path,body)=>{const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session,...body})});const data=await r.json();if(!r.ok)throw Error(data.error||'Request failed');return data};
-const partyPreview=partyBox.querySelector('#partyPreview'),partyStats=partyBox.querySelector('#partyStats');
-function updatePartyPreview(){
- const t=partySheet.value, lines=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
- partyPreview.classList.toggle('visible',!!t.trim());partyStats.replaceChildren();
- const sections=partyBox.querySelector('#partySections');sections.replaceChildren();if(!t.trim())return;
- const headings=['Saving Throws','Weapons & Attacks','Equipment & Treasure','Spells','Special Abilities','Character Background','Questions to Ask the AI DM'];
- const headingIndex=(name)=>lines.findIndex(l=>l.toLowerCase()===name.toLowerCase());
- const sectionText=(name)=>{const i=headingIndex(name);if(i<0)return '';let j=i+1;while(j<lines.length&&!headings.some(h=>h.toLowerCase()===lines[j].toLowerCase())&&!/^TEST DATA ONLY/i.test(lines[j]))j++;return lines.slice(i+1,j).join(' ')};
- const headerEnd=Math.max(0,headingIndex('Saving Throws'));
- const main=lines.slice(0,headerEnd);
- const numbers=main.filter(l=>/^\d+(?:\s*\/\s*\d+)?$/.test(l));
- const abilityLabels=['STR','DEX','CON','INT','WIS','CHA'];
- const abilityStart=main.findIndex((l,i)=>abilityLabels.every((a,j)=>main[i+j]===a));
- const abilities={};
- if(abilityStart>=0){const a=main.slice(abilityStart+6,abilityStart+12);abilityLabels.forEach((k,i)=>{if(/^\d{1,2}$/.test(a[i]||''))abilities[k]=a[i]})}
- for(const a of abilityLabels)if(!abilities[a]){const i=main.findIndex(l=>new RegExp('^'+a+'\\s*[:=]\\s*\\d+','i').test(l));if(i>=0)abilities[a]=main[i].match(/\d+/)?.[0]}
- const coreLabels=['HIT POINTS','ARMOR CLASS','THAC0','MOVE'];const core={};
- const coreStart=main.findIndex((l,i)=>coreLabels.every((a,j)=>main[i+j]?.toUpperCase()===a));
- if(coreStart>=0){const a=main.slice(coreStart+4,coreStart+8);coreLabels.forEach((k,i)=>{if(/^\d+(?:\s*\/\s*\d+)?$/.test(a[i]||''))core[k]=a[i]})}
- coreLabels.forEach(k=>{if(core[k])return;const i=main.findIndex(l=>new RegExp('^'+k+'\\s*[:=]','i').test(l));if(i>=0)core[k]=main[i].split(/[:=]/).slice(1).join(':').trim()});
- const makeStat=(label,value)=>{const el=document.createElement('div');el.className='partyStat';const l=document.createElement('span');l.textContent=label;const v=document.createElement('b');v.textContent=value||'—';el.append(l,v);partyStats.append(el)};
- const makeSection=(title,kind)=>{const el=document.createElement('section');el.className='partyGroup';const h=document.createElement('h4');h.textContent=title;el.append(h);const body=document.createElement('div');body.className=kind||'partyGroupBody';el.append(body);sections.append(el);return body};
- const identity=makeSection('Character','partyIdentity');
- const titleLine=main.find(l=>/\bLevel\s+\d+\b/i.test(l));if(titleLine){const el=document.createElement('div');el.textContent=titleLine;identity.append(el)}
- const abilityBox=makeSection('Ability Scores','partyAbilityGrid');
- for(const a of abilityLabels){const el=document.createElement('div');el.className='partyAbility';const label=document.createElement('span');label.textContent=a;const val=document.createElement('b');val.textContent=abilities[a]||'—';el.append(label,val);abilityBox.append(el)}
- const combat=makeSection('Combat & Movement','partyCombatGrid');
- for(const k of coreLabels){const el=document.createElement('div');el.className='partyCombatRow';const label=document.createElement('span');label.textContent=k;const value=document.createElement('b');value.textContent=core[k]||'—';el.append(label,value);combat.append(el);makeStat(k,core[k])}
- for(const name of headings){const content=sectionText(name);if(!content)continue;const body=makeSection(name);body.textContent=content}
-}
-partySheet.addEventListener('input',updatePartyPreview);
-const partyClear=()=>{editingPartyId='';partyName.value='';partySheet.value='';partyBox.querySelector('#partyFile').value='';updatePartyPreview()};
-async function partyRefresh(){const d=await partyApi('/api/character/list',{});const target=partyBox.querySelector('#partyRoster');target.replaceChildren();partyBox.querySelector('#partyCount').textContent=d.characters.length+' / 8 characters';for(const c of d.characters){const row=document.createElement('div');row.className='partyRow';const name=document.createElement('strong');name.textContent=c.name;const edit=document.createElement('button');edit.textContent='Edit';edit.onclick=()=>{editingPartyId=c.id;partyName.value=c.name;partySheet.value=c.sheet;updatePartyPreview()};const del=document.createElement('button');del.textContent='Remove';del.onclick=async()=>{if(!confirm('Remove '+c.name+'?'))return;await partyApi('/api/character/delete',{id:c.id});if(editingPartyId===c.id)partyClear();partyRefresh()};row.append(name,edit,del);target.append(row)}if(!d.characters.length)target.textContent='No characters added yet.'}
-panel.querySelector('#aiDmPartyOpen').onclick=()=>{partyBox.hidden=false;partyRefresh().catch(e=>partyMsg.textContent=e.message)};
-
-partyBox.querySelector('#partyClose').onclick=()=>partyBox.hidden=true;
-partyBox.querySelector('#partyClear').onclick=partyClear;
-partyBox.querySelector('#partyFile').onchange=async(e)=>{const file=e.target.files?.[0];if(!file)return;if(file.size>3000000){partyMsg.textContent='PDF exceeds 3 MB';return}partyMsg.textContent='Reading PDF…';try{const b64=await new Promise((resolve,reject)=>{const fr=new FileReader();fr.onload=()=>resolve(String(fr.result).split(',')[1]);fr.onerror=reject;fr.readAsDataURL(file)});const d=await partyApi('/api/character/upload',{filename:file.name,pdf_base64:b64});partySheet.value=d.extracted;updatePartyPreview();partyName.value=partyName.value||file.name.replace(/\.pdf$/i,'').replace(/[_-]/g,' ');editingPartyId='';partyMsg.textContent='PDF extracted. Review the text and click Save character.'}catch(err){partyMsg.textContent=err.message}};
-partyBox.querySelector('#partySave').onclick=async()=>{try{const d=await partyApi('/api/character/save',{id:editingPartyId,name:partyName.value,sheet:partySheet.value});editingPartyId=d.id;partyMsg.textContent=d.name+' saved to local party.';await partyRefresh()}catch(e){partyMsg.textContent=e.message}};
-const log=panel.querySelector('#aiDmLog'),input=panel.querySelector('#aiDmInput'),place=panel.querySelector('#aiDmPlace'),toggle=panel.querySelector('#aiDmToggle'),status=panel.querySelector('#aiDmStatus');
-// Shared Last Chance Inn / Tser Pool settings, kept across all adventure legs.
-const heroismRange=panel.querySelector('#aiDmHeroism');
-const verbosityRange=panel.querySelector('#aiDmVerbosityRange');
-const heroismValue=panel.querySelector('#aiDmHeroismValue');
-const verbosityValue=panel.querySelector('#aiDmVerbosityValue');
-const sharedStyleKey='rpgpov_ai_dm_settings_v1';
-const heroismName=n=>n<20?'Unforgiving':n<40?'Gritty':n<60?'Balanced':n<80?'Heroic':'Legendary';
-const verbosityName=n=>({1:'Brief',2:'Concise',3:'Normal',4:'Detailed',5:'Immersive'})[n];
-function dmSettings(){return {heroism:Number(heroismRange.value),verbosity:Number(verbosityRange.value)}}
-function heroismCombatLocked(){return Boolean(window.DNDPOV_ACTIVE_AI_BATTLE?.active||window.RPGPOV_VILLAGE_AI_COMBAT_ACTIVE||window.DNDPOV_AI_COMBAT_ACTIVE)}
-function syncStyleLock(){
- const mp=window.DNDPOV_MP;
- const guest=Boolean(mp?.connected&&mp.role!=='dm');
- heroismRange.disabled=heroismCombatLocked()||guest;
- heroismRange.title=heroismCombatLocked()?'Heroism is locked during combat.':guest?'Only the host may change Heroism.':'Adventure-wide Heroism';
-}
-function showStyle(){
- const v=dmSettings();
- heroismValue.textContent=v.heroism+'% · '+heroismName(v.heroism);
- verbosityValue.textContent=v.verbosity+' · '+verbosityName(v.verbosity);
- syncStyleLock();
-}
-function saveStyle(){
- showStyle();
- try{localStorage.setItem(sharedStyleKey,JSON.stringify(dmSettings()))}catch(_){}
-}
-try{
- const saved=JSON.parse(localStorage.getItem(sharedStyleKey)||'null');
- if(saved){
-  if(Number.isFinite(saved.heroism))heroismRange.value=Math.max(0,Math.min(100,saved.heroism));
-  if(Number.isFinite(saved.verbosity))verbosityRange.value=Math.max(1,Math.min(5,saved.verbosity));
- }
-}catch(_){}
-heroismRange.addEventListener('input',()=>{if(!heroismRange.disabled)saveStyle()});
-verbosityRange.addEventListener('input',saveStyle);
-window.addEventListener('storage',e=>{
- if(e.key!==sharedStyleKey||!e.newValue)return;
- try{const v=JSON.parse(e.newValue);
-  if(Number.isFinite(v.heroism))heroismRange.value=Math.max(0,Math.min(100,v.heroism));
-  if(Number.isFinite(v.verbosity))verbosityRange.value=Math.max(1,Math.min(5,v.verbosity));
-  showStyle();
- }catch(_){}
-});
-for(const event of ['rpgpov:combat-state','dndpov:mp-state','dndpov:mp-connected'])window.addEventListener(event,syncStyleLock);
-setInterval(syncStyleLock,500);
-showStyle();
-let busy=false,lastKey='',serial=0,lastScroll=null;const seenModuleScenes=new Set();const session=sessionStorage.getItem('dndpov_ai_session')||crypto.randomUUID();sessionStorage.setItem('dndpov_ai_session',session);
-function context(){return window.DNDPOV_AI_CONTEXT?.()||{location:'ARRIVAL',position:'village'}}
-function updatePlace(c=context()){place.textContent='Location: '+c.location+' · '+String(c.position).toUpperCase()}
-function addCard(kind,heading,message,label='ORIGINAL MODULE · READ-ALOUD'){
- const card=document.createElement('article');card.className=kind==='scroll'?'aiDmScroll':'aiDmChat '+kind;
- const title=document.createElement('strong');title.textContent=heading;const body=document.createElement('div');body.className=kind==='scroll'?'aiDmVerbatim':'';body.textContent=message;card.append(title,body);
- if(kind==='scroll'){const footer=document.createElement('small');footer.textContent=label;card.append(footer)}log.append(card);log.scrollTop=log.scrollHeight;
- if(panel.hidden)btn.classList.add('has-new');return card;
-}
-function syncControls(){const enabled=toggle.checked;input.disabled=!enabled||busy;panel.querySelector('#aiDmSend').disabled=!enabled||busy;panel.querySelector('#aiDmConference').disabled=!enabled||busy;status.textContent=enabled?(busy?'DM responding…':'AI ready'):'AI off · descriptions still active'}
-toggle.addEventListener('change',syncControls);syncControls();
-async function showModule(c,force=false){const key=c.location+'|'+c.position;if(!force&&key===lastKey)return;lastKey=key;updatePlace(c);const ticket=++serial;
- if(!/^E[1-7]$/.test(c.location)){lastScroll=null;return}
- let title=c.location,boxed='',label='ORIGINAL MODULE · READ-ALOUD';
- try{const r=await fetch('/api/module?location='+encodeURIComponent(c.location)+'&position='+encodeURIComponent(c.position),{cache:'no-store'});if(!r.ok)throw Error('Module lookup unavailable');const d=await r.json();if(ticket!==serial)return;title=d.title||title;boxed=d.boxed||''}catch(e){if(ticket!==serial)return}
- if(!boxed){const fallback=window.DNDPOV_JOURNAL_FALLBACK?.(c.location);if(fallback?.boxed){title=c.location+' — '+fallback.title;boxed=fallback.boxed;label='DNDPOV LOCATION DESCRIPTION · LOCAL REFERENCE'}}
- if(ticket!==serial)return;
- if(c.location==='E4'&&c.position==='inside'){const inside=window.DNDPOV_MODULE_REFERENCE?.scene('E4','inside');if(inside){title='E4 — '+inside.title;boxed=inside.boxed;label='ORIGINAL MODULE · BURGOMASTER INTERIOR READ-ALOUD';}}
- if(boxed){const sceneIdentity=c.location+'|'+boxed;if(!force&&seenModuleScenes.has(sceneIdentity)){lastScroll=null;return;}seenModuleScenes.add(sceneIdentity);if(c.position==='inside')label+=' · LOCATION REFERENCE (INTERIOR BOXED TEXT NOT SEPARATELY VERIFIED)';lastScroll={title,boxed,label};addCard('scroll',title,boxed,label);if(window.DNDPOV_JOURNAL_AUTO_OPEN===true)panel.hidden=false;else btn.classList.add('has-new');if(!panel.hidden)btn.classList.remove('has-new')}
- else{lastScroll=null;/* No invented module text. */}
-}
-async function checkLocation(){const c=context(),key=c.location+'|'+c.position;if(key!==lastKey)await showModule(c)}
-btn.onclick=()=>{panel.hidden=!panel.hidden;btn.classList.remove('has-new');updatePlace();checkLocation();};panel.querySelector('#aiDmClose').onclick=()=>panel.hidden=true;
-panel.querySelector('#aiDmReadAgain').onclick=()=>{if(lastScroll){addCard('scroll',lastScroll.title,lastScroll.boxed,lastScroll.label);panel.hidden=false}else showModule(context(),true)};
-async function send(message){if(busy||!toggle.checked||!message.trim())return;await checkLocation();busy=true;syncControls();addCard('user','YOU',message);input.value='';
- try{const response=await fetch('/api/dm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session,...context(),message,...dmSettings()})});const data=await response.json();if(!response.ok)throw Error(data.error||'Request failed');addCard('dm','AI DUNGEON MASTER',data.reply)}catch(e){addCard('error','ERROR',e.message)}finally{busy=false;syncControls()}}
-panel.querySelector('#aiDmSend').onclick=()=>send(input.value);panel.querySelector('#aiDmConference').onclick=()=>send('We have a conference. Have the party members discuss our present situation and possible next steps, without deciding for me.');
-input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input.value)}});
-document.addEventListener('keydown',e=>{if(!panel.hidden&&panel.contains(document.activeElement))e.stopImmediatePropagation()},true);
-setInterval(checkLocation,350);checkLocation();
-})();</script><script id="dndpovLocalDmTools" data-leg="village">
+<script data-leg="village" id="dndpovLocalDmTools">
 /* DNDPOV local Auto DM · module-specific encounter assistance.
    Works without the AI DM server. Conditional battles are never silently
    decided when the map cannot detect the party's action. */
@@ -5445,8 +5081,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:280px!important}
 @media(max-width:600px){#aiDmButton{right:79px!important;bottom:80px!important;width:54px;height:54px}
 body:has(#dndpovToolsDock.open) #aiDmButton,
 body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!important}}
-</style><script type="application/json" id="dndpovLegReference">{"leg":"village","source":"ADV_DnD_I6_FULL_rooms(3).html · E1–E7","locations":{"E1":{"id":"E1","title":"E1. Bildrath's Mercantile","page":"9","readAloud":["The sparse light from this building spills out from behind drawn heavy curtains. A sign over the door creaks on its hinges, proclaiming this \"Bildrath's Mercantile.\""],"notes":["The building is about 70 feet long by 40 feet wide. Inside, Bildrath is behind the counter. He will sell the PCs anything on the official AD&D™ shopping list, except items found under \"Religious Items,\" \"Livestock,\" and \"Transport.\" Everything is ten times the normal price. If the PCs give him any trouble, he calls Parriwimple, his stock-boy, to help him straighten out the PCs.","Bildrath, Barovian merchant, F-4: AC 8; MV 12\"; hp 30; #AT 1; Dmg 1-8; AL LN; S 15, I 10, W 12, D 14, Con 11, Ch 13.","Bildrath trades with the gypsies when they pass through. He is not, however, above making a profit from anyone else who is unlucky enough to find themselves here. He serves himself. He certainly promises no sanctuary. He never bargains a price since he believes, \"If you want it badly enough, you'll pay for it — because you certainly won't be taking your business elsewhere.\"","Parriwimple, Barovian, F-9: AC 2; MV 12\"; hp 50; #AT 1; Dmg 5-12 (ld8+4); AL LN; S 18/80, I 3, W 9, D 17, Con 14, Ch 8.","Parriwimple is Bildrath's stock boy. Parriwimple may occasionally be asked by his uncle, Bildrath, to carry items out for the PCs to look at. Parriwimple's muscles rippling beneath his leather tunic should give ample warning to the PCs of his strength and power. Parriwimple is extremely simple-minded, unlike Bildrath. Parriwimple is dedicated to his uncle and will not follow the PCs. In his own dim way he knows that to cross the master of the castle is death—or worse."],"stats":["Bildrath, Barovian merchant, F-4: AC 8; MV 12\"; hp 30; #AT 1; Dmg 1-8; AL LN; S 15, I 10, W 12, D 14, Con 11, Ch 13.","Parriwimple, Barovian, F-9: AC 2; MV 12\"; hp 50; #AT 1; Dmg 5-12 (ld8+4); AL LN; S 18/80, I 3, W 9, D 17, Con 14, Ch 8."]},"E2":{"id":"E2","title":"E2. \"Blood of the Vine\" Tavern","page":"9, 10","readAloud":["A single shaft of light thrusts into the main square, its brightness like a solid pillar in the heavy fog. Above the gaping doorway, a sign hangs precariously askew proclaiming this the \"Blood on the Vine Tavern.\""],"notes":["The tavern building is about 60 feet square. Close inspection of the sign reveals that the sign originally read, \"Blood of the Vine,\" but the \"F\" has been scratched over with an \"N.\" This once finely appointed tavern has grown shoddy over the years. A blazing fire in the hearth gives scant warmth to the few huddled souls within. The silence here is broken only by the occasional sip of watery wine. Arik, the barkeeper, is behind the bar. Three gypsies are at a table on the left. Ismark sits mysteriously in shadows to the right.","Arik, Barovian barkeep, F-0: AC 8; MV 12\"; hp 3; #AT 1; Dmg 1-4; AL CN, S 9, I 4, W 7, D 13, Con 8, Ch 10.","Mindlessly, Arik cleans glasses, one after the other. When they are all clean, he starts over. If spoken to, he takes orders for drinks in a dull, hollow voice. After serving drinks, he returns to cleaning glasses. Arik ignores all questions.","3 gypsies, F-4: AC 4; MV 12\"; hp 32, 30, 24; #AT 1; Dmg 2-7 (1d6 +1); AL LN.","The gypsies lurk near the door. They own the tavern and see to it that all customers pay their bills. These gypsies are otherwise disinterested in the PCs.","Ismark the Lesser, Barovian, F-2: AC 7; MV 12\"; hp 18; #AT 1; Dmg 1-6 (longsword); AL LG; S 15, I 12, W 13, D 10, Con 16, Ch 13.","Ismark sits in the corner sipping his wine. He speaks fair common speech. Ismark is the son of the Burgomaster. To aid his adopted sister, Ireena Kolyana, he greets the PCs and takes them to the Burgomaster's home. Ismark is as tight-lipped as any of the other Barovian villagers, unless the subject deals with his adopted sister, Ireena Kolyana or Strahd. Ismark knows everything the other villagers know. Ismark also knows that for some unknown reason, Strahd is attracted to Ismark's sister more than anything else. Ismark's father, the Burgomaster, has been dead for over 10 days. The 8","great holy symbol that provided their strongest protection from the vampire was stolen. Now, Ireena is unprotected and helpless in the house. If Ismark is shown the letter the PCs received at the start of the adventure he confirms that the Burgomaster did attempt to send a letter of warning. The PCs' letter, however, was certainly not written by the Burgomaster. Ismark recognizes that the handwriting is not the Burgomaster's."],"stats":["Arik, Barovian barkeep, F-0: AC 8; MV 12\"; hp 3; #AT 1; Dmg 1-4; AL CN, S 9, I 4, W 7, D 13, Con 8, Ch 10.","3 gypsies, F-4: AC 4; MV 12\"; hp 32, 30, 24; #AT 1; Dmg 2-7 (1d6 +1); AL LN.","Ismark the Lesser, Barovian, F-2: AC 7; MV 12\"; hp 18; #AT 1; Dmg 1-6 (longsword); AL LG; S 15, I 12, W 13, D 10, Con 16, Ch 13."]},"E3":{"id":"E3","title":"E3. Mad Mary's Townhouse","page":"10","readAloud":["A moaning sob floats through the still, gray streets, coloring your thoughts with sadness. The sounds flow from a dark, two-story townhouse."],"notes":["The house (about 40 feet square) is boarded up and barricaded from the inside. Mad Mary sits in the middle of the floor of an upstairs bedroom. She is lost in her sorrow and despondency. She barely recognizes the presence of anyone in the room. Mary hid her beloved daughter, Gertruda, in this house for the girl's entire life. Gertruda broke out of the house and has not been seen since. Her mother fears the worst.","Mad Mary, Barovian, F-0: AC 8; MV 9\"; hp 1; #AT 1; Dmg 1-4; AL CN; S 4, I 14, W 3, D 12, Con 14, Ch 11."],"stats":["Mad Mary, Barovian, F-0: AC 8; MV 9\"; hp 1; #AT 1; Dmg 1-4; AL CN; S 4, I 14, W 3, D 12, Con 14, Ch 11."]},"E5":{"id":"E5","title":"E5. Guest House","page":"10","readAloud":[],"notes":["The guest house is roughly 50 feet square. It is the guest house of the Burgomaster's house, but it is not fortified against undead as are most of the other buildings in town."],"stats":[]},"E6":{"id":"E6","title":"E6. The Church","page":"10","readAloud":["Atop a slight rise, against the very roots of the castle's pillarstone, stands a gray, sagging edifice of stone and wood. This church has weathered the assaults of evil for centuries on end and is worn and weary. The bell tower hangs to one side, its sweet tone long silenced. Flickering light shines through holes burned through the roof shingles. The rafters strain feebly against their load."],"notes":["The church is 50 feet wide by 120 feet long. Its interior is a shambles, with overturned and broken benches littering the dusty floor. At a claw-scarred altar toward the far end is the priest.","Donavich, Barovian priest, C-2: AC 10; MV 10\"; hp 10; #AT 1; Dmg 1-4; AL LG; clerical spells; S 9, I 13, W 16, D 14, Con 14, Ch 15. The priest has been praying and chanting throughout the night. His voice is hoarse and weak. His spells today are:","First Level: protection from evil, sanctuary, detect evil, remove fear","He spent this night, as every night, warding off evil from his church. The priest knows the following.","Only nightly prayers have kept the church a place of cleanly sacredness in Barovia. There is a book in the library of Ravenloft that might be able to help destroy the devil Strand. It is well known from ancient times that Strahd kept meticulous notes on all that he did or said. Perhaps some weakness of his may be found there. Ireena Kolyana was not the natural daughter of Kolyan Indirovich. Although Ireena never knew, Old Kolyan found her one day at the edge of the Svalich Woods near the Pillarstone of Ravenloft. She was but a girl then and seemed to have no memory of her past. Old Kolyan adopted her as though she were one of his own and loved her dearly."],"stats":["Donavich, Barovian priest, C-2: AC 10; MV 10\"; hp 10; #AT 1; Dmg 1-4; AL LG; clerical spells; S 9, I 13, W 16, D 14, Con 14, Ch 15. The priest has been praying and chanting throughout the night. His voice is hoarse and weak. His spells today are:"]},"E7":{"id":"E7","title":"E7. Cemetery","page":"10, 12, 13","readAloud":[],"notes":["During daytime, this is a quiet and peaceful place behind the church. Every night at midnight, however, a ghostly procession takes place. One hundred spirits rise from the graveyard and march up the road to castle Ravenloft. They have no interest in the living and cannot be hit, damaged, or turned. They will not communicate with the PCs. At the castle, the spirits march straight","to the chapel (K15), up the high tower stair (Kl8) to the top of the tower (K59). There, they throw themselves down the shaft toward the crypts, where they disappear. These are the spirits of previous adventurers who died trying to destroy Strahd. Every night they attempt to complete their quest and each night they fail.","100 spirits: AC 0; MV 6\"; HD 0; #AT 0; Dmg 0; AL CN."],"stats":["100 spirits: AC 0; MV 6\"; HD 0; #AT 0; Dmg 0; AL CN."]},"E4":{"id":"E4","title":"E4. Burgomaster's Home","page":"10","readAloud":["A weary-looking mansion squats behind a rusting iron fence. The iron gates are twisted and torn. The right gate lies cast aside while the left swings crazily in the wind. The stuttering squeal and clang of the gate repeats with mindless precision. Weeds choke the grounds and press with menace upon the house itself. Yet, against the walls, the growth has been trodden under to form a path all about the domain. Heavy claw markings have stripped the once-beautiful finish of the walls. Great black blottings tell of the fires that have assailed the walls. Not a pane nor shard of glass stands in any window. All the windows are barred with heavy planking, each plank marked with stains of evil omen.","The interior of the house is well furnished, although the fixtures show sign of considerable wear. Obvious oddities are the boarded-up windows and the overuse of holy symbols in every room. The Burgomaster is in a side drawing room — dead. He is lying in a room that is dark, despite the candles burning in his honor. The stench in the house is horrible."],"notes":["The mansion is approximately 120 feet long east to west and 50 feet wide north to south. Ireena Kolyana is inside and will not open the heavily barred door to anyone unless absolutely convinced that those outside her door are of no allegiance to the Count. If the PCs convince her (or if Ismark is with them), she will open the door and invite them in. If the PCs enter, use the following boxed text.","Ireena will accompany the PCs. She has been bitten twice by the vampire and can no longer be protected here. The townspeople are afraid of her and avoid her. The PCs are her only hope for protection. Ireena is a sweet but troubled woman. Although she may at first appear mild, she has a strong will and a good arm. By no means a hapless victim, she will aid the party as best she can in saving herself. Ireena does not remember her early past. She does not know how she came to Barovia nor where she came from. Ireena will inform the party that each night, wolves and other, 9","terrible creatures attack the house. The Burgomaster's heart could not stand the constant assault and he died a natural death. Strangely, since his death, the wolves have not attacked the house. The Burgomaster has been dead for nearly 10 days, but no one from the town has been brave enough to help Ismark take him out for burial. As the Burgomaster has been dead for nearly a week, the letter presented to the party in the tavern is certainly forged. Ireena Kolyana, Barovian, F-4: AC 10; MV 12\"; hp 6; #AT 1; Dmg 1-4; AL LG; S 13, I 10, W 14, D 17, Ch 18."],"stats":["terrible creatures attack the house. The Burgomaster's heart could not stand the constant assault and he died a natural death. Strangely, since his death, the wolves have not attacked the house. The Burgomaster has been dead for nearly 10 days, but no one from the town has been brave enough to help Ismark take him out for burial. As the Burgomaster has been dead for nearly a week, the letter presented to the party in the tavern is certainly forged. Ireena Kolyana, Barovian, F-4: AC 10; MV 12\"; hp 6; #AT 1; Dmg 1-4; AL LG; S 13, I 10, W 14, D 17, Ch 18."]}}}</script>
-
+</style><script id="dndpovLegReference" type="application/json">{"leg":"village","source":"ADV_DnD_I6_FULL_rooms(3).html · E1–E7","locations":{"E1":{"id":"E1","title":"E1. Bildrath's Mercantile","page":"9","readAloud":["The sparse light from this building spills out from behind drawn heavy curtains. A sign over the door creaks on its hinges, proclaiming this \"Bildrath's Mercantile.\""],"notes":["The building is about 70 feet long by 40 feet wide. Inside, Bildrath is behind the counter. He will sell the PCs anything on the official AD&D™ shopping list, except items found under \"Religious Items,\" \"Livestock,\" and \"Transport.\" Everything is ten times the normal price. If the PCs give him any trouble, he calls Parriwimple, his stock-boy, to help him straighten out the PCs.","Bildrath, Barovian merchant, F-4: AC 8; MV 12\"; hp 30; #AT 1; Dmg 1-8; AL LN; S 15, I 10, W 12, D 14, Con 11, Ch 13.","Bildrath trades with the gypsies when they pass through. He is not, however, above making a profit from anyone else who is unlucky enough to find themselves here. He serves himself. He certainly promises no sanctuary. He never bargains a price since he believes, \"If you want it badly enough, you'll pay for it — because you certainly won't be taking your business elsewhere.\"","Parriwimple, Barovian, F-9: AC 2; MV 12\"; hp 50; #AT 1; Dmg 5-12 (ld8+4); AL LN; S 18/80, I 3, W 9, D 17, Con 14, Ch 8.","Parriwimple is Bildrath's stock boy. Parriwimple may occasionally be asked by his uncle, Bildrath, to carry items out for the PCs to look at. Parriwimple's muscles rippling beneath his leather tunic should give ample warning to the PCs of his strength and power. Parriwimple is extremely simple-minded, unlike Bildrath. Parriwimple is dedicated to his uncle and will not follow the PCs. In his own dim way he knows that to cross the master of the castle is death—or worse."],"stats":["Bildrath, Barovian merchant, F-4: AC 8; MV 12\"; hp 30; #AT 1; Dmg 1-8; AL LN; S 15, I 10, W 12, D 14, Con 11, Ch 13.","Parriwimple, Barovian, F-9: AC 2; MV 12\"; hp 50; #AT 1; Dmg 5-12 (ld8+4); AL LN; S 18/80, I 3, W 9, D 17, Con 14, Ch 8."]},"E2":{"id":"E2","title":"E2. \"Blood of the Vine\" Tavern","page":"9, 10","readAloud":["A single shaft of light thrusts into the main square, its brightness like a solid pillar in the heavy fog. Above the gaping doorway, a sign hangs precariously askew proclaiming this the \"Blood on the Vine Tavern.\""],"notes":["The tavern building is about 60 feet square. Close inspection of the sign reveals that the sign originally read, \"Blood of the Vine,\" but the \"F\" has been scratched over with an \"N.\" This once finely appointed tavern has grown shoddy over the years. A blazing fire in the hearth gives scant warmth to the few huddled souls within. The silence here is broken only by the occasional sip of watery wine. Arik, the barkeeper, is behind the bar. Three gypsies are at a table on the left. Ismark sits mysteriously in shadows to the right.","Arik, Barovian barkeep, F-0: AC 8; MV 12\"; hp 3; #AT 1; Dmg 1-4; AL CN, S 9, I 4, W 7, D 13, Con 8, Ch 10.","Mindlessly, Arik cleans glasses, one after the other. When they are all clean, he starts over. If spoken to, he takes orders for drinks in a dull, hollow voice. After serving drinks, he returns to cleaning glasses. Arik ignores all questions.","3 gypsies, F-4: AC 4; MV 12\"; hp 32, 30, 24; #AT 1; Dmg 2-7 (1d6 +1); AL LN.","The gypsies lurk near the door. They own the tavern and see to it that all customers pay their bills. These gypsies are otherwise disinterested in the PCs.","Ismark the Lesser, Barovian, F-2: AC 7; MV 12\"; hp 18; #AT 1; Dmg 1-6 (longsword); AL LG; S 15, I 12, W 13, D 10, Con 16, Ch 13.","Ismark sits in the corner sipping his wine. He speaks fair common speech. Ismark is the son of the Burgomaster. To aid his adopted sister, Ireena Kolyana, he greets the PCs and takes them to the Burgomaster's home. Ismark is as tight-lipped as any of the other Barovian villagers, unless the subject deals with his adopted sister, Ireena Kolyana or Strahd. Ismark knows everything the other villagers know. Ismark also knows that for some unknown reason, Strahd is attracted to Ismark's sister more than anything else. Ismark's father, the Burgomaster, has been dead for over 10 days. The 8","great holy symbol that provided their strongest protection from the vampire was stolen. Now, Ireena is unprotected and helpless in the house. If Ismark is shown the letter the PCs received at the start of the adventure he confirms that the Burgomaster did attempt to send a letter of warning. The PCs' letter, however, was certainly not written by the Burgomaster. Ismark recognizes that the handwriting is not the Burgomaster's."],"stats":["Arik, Barovian barkeep, F-0: AC 8; MV 12\"; hp 3; #AT 1; Dmg 1-4; AL CN, S 9, I 4, W 7, D 13, Con 8, Ch 10.","3 gypsies, F-4: AC 4; MV 12\"; hp 32, 30, 24; #AT 1; Dmg 2-7 (1d6 +1); AL LN.","Ismark the Lesser, Barovian, F-2: AC 7; MV 12\"; hp 18; #AT 1; Dmg 1-6 (longsword); AL LG; S 15, I 12, W 13, D 10, Con 16, Ch 13."]},"E3":{"id":"E3","title":"E3. Mad Mary's Townhouse","page":"10","readAloud":["A moaning sob floats through the still, gray streets, coloring your thoughts with sadness. The sounds flow from a dark, two-story townhouse."],"notes":["The house (about 40 feet square) is boarded up and barricaded from the inside. Mad Mary sits in the middle of the floor of an upstairs bedroom. She is lost in her sorrow and despondency. She barely recognizes the presence of anyone in the room. Mary hid her beloved daughter, Gertruda, in this house for the girl's entire life. Gertruda broke out of the house and has not been seen since. Her mother fears the worst.","Mad Mary, Barovian, F-0: AC 8; MV 9\"; hp 1; #AT 1; Dmg 1-4; AL CN; S 4, I 14, W 3, D 12, Con 14, Ch 11."],"stats":["Mad Mary, Barovian, F-0: AC 8; MV 9\"; hp 1; #AT 1; Dmg 1-4; AL CN; S 4, I 14, W 3, D 12, Con 14, Ch 11."]},"E5":{"id":"E5","title":"E5. Guest House","page":"10","readAloud":[],"notes":["The guest house is roughly 50 feet square. It is the guest house of the Burgomaster's house, but it is not fortified against undead as are most of the other buildings in town."],"stats":[]},"E6":{"id":"E6","title":"E6. The Church","page":"10","readAloud":["Atop a slight rise, against the very roots of the castle's pillarstone, stands a gray, sagging edifice of stone and wood. This church has weathered the assaults of evil for centuries on end and is worn and weary. The bell tower hangs to one side, its sweet tone long silenced. Flickering light shines through holes burned through the roof shingles. The rafters strain feebly against their load."],"notes":["The church is 50 feet wide by 120 feet long. Its interior is a shambles, with overturned and broken benches littering the dusty floor. At a claw-scarred altar toward the far end is the priest.","Donavich, Barovian priest, C-2: AC 10; MV 10\"; hp 10; #AT 1; Dmg 1-4; AL LG; clerical spells; S 9, I 13, W 16, D 14, Con 14, Ch 15. The priest has been praying and chanting throughout the night. His voice is hoarse and weak. His spells today are:","First Level: protection from evil, sanctuary, detect evil, remove fear","He spent this night, as every night, warding off evil from his church. The priest knows the following.","Only nightly prayers have kept the church a place of cleanly sacredness in Barovia. There is a book in the library of Ravenloft that might be able to help destroy the devil Strand. It is well known from ancient times that Strahd kept meticulous notes on all that he did or said. Perhaps some weakness of his may be found there. Ireena Kolyana was not the natural daughter of Kolyan Indirovich. Although Ireena never knew, Old Kolyan found her one day at the edge of the Svalich Woods near the Pillarstone of Ravenloft. She was but a girl then and seemed to have no memory of her past. Old Kolyan adopted her as though she were one of his own and loved her dearly."],"stats":["Donavich, Barovian priest, C-2: AC 10; MV 10\"; hp 10; #AT 1; Dmg 1-4; AL LG; clerical spells; S 9, I 13, W 16, D 14, Con 14, Ch 15. The priest has been praying and chanting throughout the night. His voice is hoarse and weak. His spells today are:"]},"E7":{"id":"E7","title":"E7. Cemetery","page":"10, 12, 13","readAloud":[],"notes":["During daytime, this is a quiet and peaceful place behind the church. Every night at midnight, however, a ghostly procession takes place. One hundred spirits rise from the graveyard and march up the road to castle Ravenloft. They have no interest in the living and cannot be hit, damaged, or turned. They will not communicate with the PCs. At the castle, the spirits march straight","to the chapel (K15), up the high tower stair (Kl8) to the top of the tower (K59). There, they throw themselves down the shaft toward the crypts, where they disappear. These are the spirits of previous adventurers who died trying to destroy Strahd. Every night they attempt to complete their quest and each night they fail.","100 spirits: AC 0; MV 6\"; HD 0; #AT 0; Dmg 0; AL CN."],"stats":["100 spirits: AC 0; MV 6\"; HD 0; #AT 0; Dmg 0; AL CN."]},"E4":{"id":"E4","title":"E4. Burgomaster's Home","page":"10","readAloud":["A weary-looking mansion squats behind a rusting iron fence. The iron gates are twisted and torn. The right gate lies cast aside while the left swings crazily in the wind. The stuttering squeal and clang of the gate repeats with mindless precision. Weeds choke the grounds and press with menace upon the house itself. Yet, against the walls, the growth has been trodden under to form a path all about the domain. Heavy claw markings have stripped the once-beautiful finish of the walls. Great black blottings tell of the fires that have assailed the walls. Not a pane nor shard of glass stands in any window. All the windows are barred with heavy planking, each plank marked with stains of evil omen.","The interior of the house is well furnished, although the fixtures show sign of considerable wear. Obvious oddities are the boarded-up windows and the overuse of holy symbols in every room. The Burgomaster is in a side drawing room — dead. He is lying in a room that is dark, despite the candles burning in his honor. The stench in the house is horrible."],"notes":["The mansion is approximately 120 feet long east to west and 50 feet wide north to south. Ireena Kolyana is inside and will not open the heavily barred door to anyone unless absolutely convinced that those outside her door are of no allegiance to the Count. If the PCs convince her (or if Ismark is with them), she will open the door and invite them in. If the PCs enter, use the following boxed text.","Ireena will accompany the PCs. She has been bitten twice by the vampire and can no longer be protected here. The townspeople are afraid of her and avoid her. The PCs are her only hope for protection. Ireena is a sweet but troubled woman. Although she may at first appear mild, she has a strong will and a good arm. By no means a hapless victim, she will aid the party as best she can in saving herself. Ireena does not remember her early past. She does not know how she came to Barovia nor where she came from. Ireena will inform the party that each night, wolves and other, 9","terrible creatures attack the house. The Burgomaster's heart could not stand the constant assault and he died a natural death. Strangely, since his death, the wolves have not attacked the house. The Burgomaster has been dead for nearly 10 days, but no one from the town has been brave enough to help Ismark take him out for burial. As the Burgomaster has been dead for nearly a week, the letter presented to the party in the tavern is certainly forged. Ireena Kolyana, Barovian, F-4: AC 10; MV 12\"; hp 6; #AT 1; Dmg 1-4; AL LG; S 13, I 10, W 14, D 17, Ch 18."],"stats":["terrible creatures attack the house. The Burgomaster's heart could not stand the constant assault and he died a natural death. Strangely, since his death, the wolves have not attacked the house. The Burgomaster has been dead for nearly 10 days, but no one from the town has been brave enough to help Ismark take him out for burial. As the Burgomaster has been dead for nearly a week, the letter presented to the party in the tavern is certainly forged. Ireena Kolyana, Barovian, F-4: AC 10; MV 12\"; hp 6; #AT 1; Dmg 1-4; AL LG; S 13, I 10, W 14, D 17, Ch 18."]}}}</script>
 <script id="dndpovLegReferenceRuntime">
 (()=>{
  const raw=document.getElementById('dndpovLegReference');if(!raw)return;
@@ -5467,7 +5102,6 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  }
 })();
 </script>
-
 <style id="dndpovContextDockStyle">
 #dndpovContextDock{position:fixed;left:12px;bottom:70px;width:min(295px,calc(100vw - 24px));max-height:min(370px,53vh);overflow:hidden;z-index:1600;background:rgba(21,20,27,.95);color:#eee1c7;border:1px solid #a08057;border-radius:9px;box-shadow:0 12px 34px #000a;font:13px Georgia,serif;line-height:1.4;backdrop-filter:blur(6px)}
 #dndpovContextDock *{box-sizing:border-box}
@@ -5487,8 +5121,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 #dndpovContextDock .contextEdition{display:block;margin-top:7px;color:#a5a0ac;font:11px Georgia,serif}
 @media(max-width:660px){#dndpovContextDock{left:6px;bottom:54px;width:min(250px,58vw);max-height:34vh}#dndpovContextDockBody{max-height:calc(34vh - 39px)}}
 </style>
-
-<script id="dndpovContextDockScript" data-edition="full" data-leg="village">
+<script data-edition="public" data-leg="village" id="dndpovContextDockScript">
 (()=>{
   'use strict';
   const script=document.currentScript;
@@ -5599,39 +5232,6 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
 </style>
 
 
-<style id="dndpovPrivateQuickLaunchCss">
-#dndpovPrivateQuickLaunch{display:flex;gap:7px;margin:9px 0 7px;flex-wrap:wrap}
-#dndpovPrivateQuickLaunch button{flex:1 1 120px;margin:0!important;min-height:34px;
- background:linear-gradient(155deg,#76532d,#3f2b20)!important;color:#ffebc7!important;
- border:1px solid #d8b478!important;border-radius:5px!important;
- font:bold 13px Georgia,serif!important;padding:7px 8px!important;
- box-shadow:inset 0 1px #ffe9b53a,0 3px 8px #0008}
-#dndpovPrivateQuickLaunch button:hover,#dndpovPrivateQuickLaunch button:focus-visible{
- background:linear-gradient(155deg,#9b7643,#5d402c)!important;
- outline:2px solid #dfb977;outline-offset:2px}
-</style>
-<script id="dndpovPrivateQuickLaunchScript">
-(()=>{
- const hud=document.getElementById('hud');if(!hud)return;
- const heading=hud.querySelector('h2,b');if(!heading)return;
- const bar=document.createElement('div');bar.id='dndpovPrivateQuickLaunch';
- bar.setAttribute('role','group');bar.setAttribute('aria-label','Local edition features');
- bar.innerHTML='<button type="button" id="dndpovPrivateAiLaunch" title="Open the AI DM and journal">✦ AI DM</button><button type="button" id="dndpovPrivateMpLaunch" title="Open local multiplayer controls">♟ Multiplayer</button>';
- heading.insertAdjacentElement('afterend',bar);
- bar.querySelector('#dndpovPrivateAiLaunch').addEventListener('click',()=>{
-  document.exitPointerLock?.();
-  const panel=document.getElementById('aiDmPanel'),btn=document.getElementById('aiDmButton');
-  if(btn&&(!panel||panel.hidden))btn.click();
-  else if(panel)panel.hidden=false;
- });
- bar.querySelector('#dndpovPrivateMpLaunch').addEventListener('click',()=>{
-  document.exitPointerLock?.();
-  const panel=document.getElementById('mpPanel'),btn=document.getElementById('mpButton');
-  if(btn&&(!panel||panel.style.display!=='block'))btn.click();
-  else if(panel)panel.style.display='block';
- });
-})();
-</script>
 <style id="rpgpovAiBattleChoiceStyles">
 #dndpovEncounterBanner .encounter-ai-action{background:linear-gradient(180deg,#9a6bd4,#583383);border-color:#e2c3ff;color:#fff3ff;box-shadow:0 0 22px #8c51c64f}
 #dndpovEncounterBanner .encounter-ai-action:hover,#dndpovEncounterBanner .encounter-ai-action:focus-visible{background:#ab7deb;color:white}
@@ -5733,7 +5333,7 @@ body:has(#dungeonToolDock.open) #aiDmButton{right:79px!important;bottom:80px!imp
  };
 })();
 </script>
-<style id="aiDmStyleSlidersCSS">#aiDmStyleSliders{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:13px;padding:10px 13px;background:#292532;border-bottom:1px solid #514361;font:11px system-ui,Arial,sans-serif;color:#dfd0ee}#aiDmStyleSliders .dmStyleItem{min-width:0}#aiDmStyleSliders label{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:3px;font-weight:700;color:#d9b5ff}#aiDmStyleSliders output{color:#f2dcae;font-size:10px;white-space:nowrap}#aiDmStyleSliders input{display:block;width:100%;box-sizing:border-box;margin:5px 0;accent-color:#b78af2}#aiDmStyleSliders input:disabled{opacity:.45;cursor:not-allowed}#aiDmStyleSliders .dmStyleScale{display:flex;justify-content:space-between;gap:4px;font-size:9px;color:#b8a9c5}@media(max-width:440px){#aiDmStyleSliders{gap:8px;padding:8px}}</style><style id="rpgpov-v578-encounter-window-alignment">
+<style id="rpgpov-v578-encounter-window-alignment">
 /* Layout-only correction: retain the existing monsters and encounter logic. */
 #dndpovEncounterBanner{position:fixed!important;inset:auto 0 54px!important;top:auto!important;left:0!important;right:0!important;bottom:54px!important;display:none;justify-content:center!important;align-items:flex-end!important;transform:none!important;padding:0 12px!important;box-sizing:border-box!important;background:transparent!important;pointer-events:none!important}
 #dndpovEncounterBanner[style*="display: flex"],#dndpovEncounterBanner[style*="display:flex"]{display:flex!important}
@@ -5845,8 +5445,6 @@ toggle.onclick=async()=>{
 panel.querySelector('#arcQuickClose').onclick=()=>{panel.classList.remove('open');toggle.hidden=false};
 })();
 </script>
-
-
 <style id="kobo-reader-only-v2">
 #dndpovContextDock{width:min(490px,calc(100vw - 24px));max-height:min(560px,75vh);resize:both;overflow:auto;min-width:270px;min-height:100px}
 #dndpovContextDockBody{max-height:none;overflow:auto}

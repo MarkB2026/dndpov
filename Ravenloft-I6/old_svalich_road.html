@@ -1849,14 +1849,22 @@ for(const [x,z] of [[-3,2.7],[1.6,3.0],[-3.8,-1.3]]){
 // The messenger stays a fixed NPC. Generic patrons reroll on each inn entry.
 const INN_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png','hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
 const innPatronLoader=new THREE.TextureLoader();
-const innPatronTextures=INN_PATRON_FILES.map(file=>{
- const texture=innPatronLoader.load('patrons/'+file);
- texture.colorSpace=THREE.SRGBColorSpace;
- return texture;
-});
+const innPatronTextures={};
+for(const style of ['animated','realistic']){
+ innPatronTextures[style]=INN_PATRON_FILES.map(file=>{
+  const texture=innPatronLoader.load('patrons/'+(style==='animated'?'animated/':'')+file);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  return texture;
+ });
+}
+// Only the visual selection changes; gameplay, AI and character data remain unchanged.
+function innCurrentArtStyle(){
+ try{return ['animated','abstract'].includes(localStorage.getItem('rpgpov_arc_art_style'))?'animated':'realistic';}
+ catch(e){return 'animated';}
+}
 const innPatronPositions=[[-3.6,2.2], [2.95,2.65],[-5.9,-1.6],[6.3,4.15],[-5.7,3.6],[3.5,-3.6]];
 const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
- const mat=new THREE.SpriteMaterial({map:innPatronTextures[i],transparent:true,depthWrite:false,alphaTest:.08});
+ const mat=new THREE.SpriteMaterial({map:innPatronTextures.realistic[i],transparent:true,depthWrite:false,alphaTest:.08});
  const sprite=new THREE.Sprite(mat);
  sprite.position.set(x,1.23,z);
  sprite.scale.set(1.45,2.46,1);
@@ -1864,19 +1872,25 @@ const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
  innScene.add(sprite);
  return sprite;
 });
-function randomizeInnPatrons(){
- // Index 3 is the fixed story messenger; exclude it from the generic pool to avoid doubles.
- const pool=INN_PATRON_FILES.map((_,i)=>i).filter(i=>i!==3);
- for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
- innPatronSprites.forEach((sprite,i)=>{sprite.material.map=innPatronTextures[pool[i]];sprite.material.needsUpdate=true;});
-}
-randomizeInnPatrons();
-// Keep the story messenger separate from the randomized generic patrons.
-const innMessenger=new THREE.Sprite(new THREE.SpriteMaterial({map:innPatronTextures[3],transparent:true,depthWrite:false,alphaTest:.08}));
+const innMessenger=new THREE.Sprite(new THREE.SpriteMaterial({map:innPatronTextures.realistic[3],transparent:true,depthWrite:false,alphaTest:.08}));
 innMessenger.position.set(3.2,1.26,.2);
 innMessenger.scale.set(1.5,2.52,1);
 innMessenger.renderOrder=2;
 innScene.add(innMessenger);
+let innPatronSelection=[];
+function refreshInnPatronArt(){
+ const textures=innPatronTextures[innCurrentArtStyle()];
+ innPatronSprites.forEach((sprite,i)=>{sprite.material.map=textures[innPatronSelection[i]];sprite.material.needsUpdate=true;});
+ innMessenger.material.map=textures[3];innMessenger.material.needsUpdate=true;
+}
+function randomizeInnPatrons(){
+ // Messenger's portrait is reserved, preventing doubles even across NPC types.
+ const pool=INN_PATRON_FILES.map((_,i)=>i).filter(i=>i!==3);
+ for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+ innPatronSelection=pool.slice(0,innPatronSprites.length);
+ refreshInnPatronArt();
+}
+randomizeInnPatrons();
 innBox(-3.4,1.41,-1.3,.48,.035,.36,new THREE.MeshStandardMaterial({color:'#d6c19a'}));
 const innInteriorPrompt=document.createElement('div');innInteriorPrompt.id='innInteriorPrompt';innInteriorPrompt.style.cssText='display:none;position:fixed;bottom:55px;left:50%;transform:translateX(-50%);z-index:25;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;pointer-events:none';document.body.append(innInteriorPrompt);
 // Blood Vine tavern ambience reused at a subdued level inside The Last Chance Inn.
@@ -1931,6 +1945,7 @@ window.DNDPOV_SVALICH_DEPARTED=()=>i6DepartureSelected||!innInside;
 setInterval(()=>{const near=atInnDoor()&&!innInside&&gameEl('gameModal').style.display!=='flex';innDoorPrompt.style.display=near?'block':'none';},100);
 function enterInn(){
  if(i6DepartureSelected)return;
+ randomizeInnPatrons();
  innInside=true;player.x=0;player.z=-4.55;player.angle=Math.PI;gameRender();
  window.DNDPOV_AI_SHOW_LOCATION?.();
 }
@@ -2292,6 +2307,7 @@ function i6JourneyOpening(){
 }
 
 window.DNDPOV_RESET_I6_JOURNEY=()=>{
+ randomizeInnPatrons();
  ++i6CampTransitionId;
  window.DNDPOV_I6_SET_CAMPSITE?.(0,0,false);i6InnExteriorObjects.forEach(object=>{object.visible=true;});
  document.getElementById('travelFade').classList.remove('active');
@@ -3031,7 +3047,7 @@ partyBox.innerHTML=`<header><b>⚔ ARC Party Selection · v5.72</b><button type=
 <div class="partyContent">
 <p class="arcIntro"><strong>Adventure Ready Characters (ARC’s)</strong><span>Seven fully prepared characters. Four are selected by default; choose 3–5 for your party. Check Player Controlled to play that character yourself; leave it unchecked for the AI to handle everything for that character. <strong>The 3 B’s — Battles, Banter, Behaviour:</strong> Your AI Dungeon Master plays AI-controlled companions using their biographies and character sheets. A timid barbarian acts timidly, even in battle; each ARC’s personality shapes how they fight, speak and react.</span></p>
 <div class="partySectionHeading"><h3>Choose Your Party</h3><span id="partyCount"></span></div>
-<div id="arcStyleTabs" class="arcStyleTabs" role="group" aria-label="ARC portrait style"><button type="button" data-arc-style="abstract">Abstract</button><button type="button" data-arc-style="classic">Classic</button><button type="button" data-arc-style="heroic">Heroic</button></div><p id="arcStyleHint" class="partyEditHint"></p><div id="partyRoster" class="arcChoiceGrid"></div>
+<div id="arcStyleTabs" class="arcStyleTabs" role="group" aria-label="ARC portrait style"><button type="button" data-arc-style="animated">Animated</button><button type="button" data-arc-style="classic">Classic</button><button type="button" data-arc-style="heroic">Heroic</button></div><p id="arcStyleHint" class="partyEditHint"></p><div id="partyRoster" class="arcChoiceGrid"></div>
 <div id="partyControlHint" class="partyEditHint"></div>
 <div class="partySectionHeading"><h3>Character Sheet</h3></div>
 <label class="partyCharacterPicker" for="partyCharacterSelect">SELECT A CHARACTER IN YOUR PARTY
@@ -3573,15 +3589,15 @@ const ARC_ABSTRACT_FILES={
  'Thrain Ironbeard':'thrain_ironbeard.webp','Lirael Moonwhisper':'lirael_moonwhisper.webp',
  'Cassian Ashborne':'cassian_ashborne.webp','Sylvara Greenleaf':'sylvara_greenleaf.webp'
 };
-let arcStyle='abstract';
-try{const saved=localStorage.getItem('rpgpov_arc_art_style');if(['abstract','classic','heroic'].includes(saved))arcStyle=saved;}catch(e){}
+let arcStyle='animated';
+try{const saved=localStorage.getItem('rpgpov_arc_art_style');if(['animated','classic','heroic'].includes(saved))arcStyle=saved;else if(saved==='abstract')arcStyle='animated';}catch(e){}
 function arcVisibleCharacters(){return partyDefaults.filter(c=>arcStyle==='classic'?!!ARC_CLASSIC_FILES[c.name]:arcStyle==='heroic'?!!ARC_ABSTRACT_FILES[c.name]:true);}
 function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='heroic'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
 function arcRenderStyleTabs(){
  for(const b of partyBox.querySelectorAll('#arcStyleTabs button')){const selected=b.dataset.arcStyle===arcStyle;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));}
  partyBox.querySelector('#arcStyleHint').textContent=arcVisibleCharacters().length+' characters in '+arcStyle.charAt(0).toUpperCase()+arcStyle.slice(1)+' · Existing character sheets and AI abilities are shared.';
 }
-partyBox.querySelectorAll('#arcStyleTabs button').forEach(b=>b.addEventListener('click',()=>{arcStyle=b.dataset.arcStyle;try{localStorage.setItem('rpgpov_arc_art_style',arcStyle)}catch(e){}renderPartyRoster();arcQuickRender();}));
+partyBox.querySelectorAll('#arcStyleTabs button').forEach(b=>b.addEventListener('click',()=>{arcStyle=b.dataset.arcStyle;try{localStorage.setItem('rpgpov_arc_art_style',arcStyle)}catch(e){}renderPartyRoster();arcQuickRender();refreshInnPatronArt();}));
 function renderPartyRoster(){
  const grid=partyBox.querySelector('#partyRoster');grid.replaceChildren();
  const active=partyActive();

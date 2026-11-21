@@ -3593,11 +3593,11 @@ const VILLAGE_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager
 const VILLAGE_CHURCH_STANDING_FILES=['church_standing_01.png','church_standing_02.png',
  'church_standing_03.png','church_standing_04.png','church_standing_05.png','church_standing_06.png'];
 const villageChurchStandingTextures=VILLAGE_CHURCH_STANDING_FILES.map(file=>{
- const texture=new THREE.TextureLoader().load('patrons/'+file);
+ const texture=new THREE.TextureLoader().load('patrons/animated/'+file);
  texture.colorSpace=THREE.SRGBColorSpace;return texture;
 });
 const villagePatronTextures=VILLAGE_PATRON_FILES.map(file=>{
- const texture=new THREE.TextureLoader().load('patrons/'+file);
+ const texture=new THREE.TextureLoader().load('patrons/animated/'+file);
  texture.colorSpace=THREE.SRGBColorSpace;
  return texture;
 });

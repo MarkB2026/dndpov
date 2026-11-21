@@ -3588,7 +3588,6 @@ function updateChurchOrgan(now){
  }
  if(t>4.75){state.stage='gone';state.smoke.visible=false;state.bat.visible=false;}
 }
-// Village E2/E6 illustrated generic patrons. Visual-only; no AI/network changes.
 const VILLAGE_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png',
  'hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
 const VILLAGE_CHURCH_SEATED_FILES=['church_seated_01.png','church_seated_02.png','church_seated_03.png',
@@ -3606,9 +3605,9 @@ function villagePatronSprite(room,patron){
  const material=new THREE.SpriteMaterial({map:villagePatronTextures[0],transparent:true,
   alphaTest:.08,depthWrite:false});
  const sprite=new THREE.Sprite(material);
- const height=patron.seated?1.42:2.38;
- sprite.position.set(patron.x,patron.seated?.71:1.19,patron.z);
- sprite.scale.set(height*.49,height,1);
+ const height=patron.seated?1.10:2.05;
+ sprite.position.set(patron.x,patron.seated?1.12:1.025,patron.z);
+ sprite.scale.set(height*(patron.seated?.77:.49),height,1);
  room.add(sprite);
  return sprite;
 }
@@ -3779,7 +3778,7 @@ function makeInteriorRoom(id){
   for(const x of [-5.3,5.3])cupboard(x,-6.8,2.0,4.0);
   for(const x of [-2.2,2.2])add(x,2.2,-d/2+.85,.15,.7,.17,candle);
  }
- group.userData={...group.userData,id,w,d,h,colliders};
+ group.userData={id,w,d,h,colliders};
  group.visible=false;insideScene.add(group);
  roomCache.set(id,group);
  return group;

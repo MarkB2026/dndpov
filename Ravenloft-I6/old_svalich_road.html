@@ -33,9 +33,7 @@
 })();
 </script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNDPOV — Old Svalich Road v2.35 · Multiplayer + AI DM</title><style>
 html,body{margin:0;height:100%;overflow:hidden;background:#10171a;color:#f5e6c8;font:14px Georgia,serif}canvas{display:block}#hud{position:absolute;top:14px;left:14px;background:#171914e6;border:1px solid #a38656;border-radius:8px;padding:13px;max-width:310px}#hud b{font-size:19px;color:#e5c48e}button{background:#40382b;color:#f6e4bd;border:1px solid #a38a61;padding:7px;border-radius:4px;cursor:pointer}#minimap{position:absolute;right:14px;top:14px;background:#181b17e8;border:1px solid #a38a61;padding:8px;border-radius:7px;width:160px}#minimap canvas{width:300px;height:160px}#help{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#171914e0;padding:10px;border:1px solid #a38a61;border-radius:5px;white-space:nowrap}#notice{position:absolute;top:23%;left:50%;transform:translateX(-50%);background:#171914e6;color:#ead4ac;border:1px solid #9d8053;padding:13px 24px;border-radius:5px;display:none;font-size:19px;text-align:center}#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#171914;color:#f8dba8;border:2px solid #a38a61;border-radius:8px;padding:24px;max-width:80vw;z-index:5}
-
-.arcStyleTabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}.arcStyleTabs button{border:1px solid #756a55;border-radius:8px;padding:9px 18px;background:#201d19;color:#eee4d0;cursor:pointer;font-weight:700}.arcStyleTabs button.active{background:#bda474;color:#16130e;border-color:#dfc58d}.arcStyleTabs button:focus-visible{outline:2px solid #e9cb84;outline-offset:2px}
-</style><style id="arc-v224-pending">.arcPortraitPending{display:flex!important;align-items:center;justify-content:center;font:bold 42px Georgia,serif;color:#d5b78b;background:linear-gradient(135deg,#30283b,#17141b)!important}</style><style id="dndpov-gameplay-style">
+.arcStyleTabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}.arcStyleTabs button{border:1px solid #756a55;border-radius:8px;padding:9px 18px;background:#201d19;color:#eee4d0;cursor:pointer;font-weight:700}.arcStyleTabs button.active{background:#bda474;color:#16130e;border-color:#dfc58d}</style><style id="arc-v224-pending">.arcPortraitPending{display:flex!important;align-items:center;justify-content:center;font:bold 42px Georgia,serif;color:#d5b78b;background:linear-gradient(135deg,#30283b,#17141b)!important}</style><style id="dndpov-gameplay-style">
 #gamePanel{position:fixed;left:12px;top:155px;z-index:18;width:min(335px,calc(100vw - 24px));max-height:calc(100vh - 245px);overflow:auto;background:rgba(34,38,43,.95);border:1px solid #9b8057;border-radius:6px;padding:12px;color:#f1e7d7;box-shadow:0 6px 24px #0009;font:13px/1.5 Georgia,serif}
 #gamePanel h2{font-size:17px;color:#eac58a;margin:2px 0 8px}#gamePanel p{white-space:pre-line;margin:6px 0 10px}#gamePanel .readaloud{background:#41464e;border-left:3px solid #d2a965;padding:10px;font-style:italic}#gamePanel .dmnote{background:#30343b;border-top:1px solid #8e754f;padding:10px;white-space:pre-line}#gamePanel .gameTools{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}#gamePanel button,#gameModal button{background:#3b3027;border:1px solid #a68a60;color:#f5dfb7;padding:6px 9px;border-radius:3px;cursor:pointer;font:12px Georgia,serif}#gamePanel button:hover,#gameModal button:hover{background:#695038}#gameModal{display:none;position:fixed;inset:0;z-index:60;background:#000b;align-items:center;justify-content:center;padding:16px}#gameModal article{width:min(720px,96vw);max-height:86vh;overflow:auto;background:#30353b;border:2px solid #a98b5f;padding:20px;color:#f0e5d5;font:14px/1.6 Georgia,serif}#gameModal h2{color:#eac58a}#gameModal .readaloud{border-left:3px solid #d2a965;padding:12px;background:#41464e;white-space:pre-line;font-style:italic}#gameModal .dmnote{border-top:1px solid #806e55;padding:12px;white-space:pre-line}#gameModal .top{display:flex;justify-content:space-between;gap:12px;align-items:center}#gamePanel select{background:#2c2928;color:#f0e0c5;border:1px solid #8e7553;max-width:100%;padding:6px}#gamePanel .hint{font-size:11px;color:#cdb99d}
 @media(max-width:750px){#gamePanel{top:125px;max-height:38vh;width:235px;font-size:11px}}
@@ -1847,127 +1845,37 @@ for(const [x,z] of [[-3,2.7],[1.6,3.0],[-3.8,-1.3]]){
  for(const dx of [-1.65,1.65])innBox(x+dx,.65,z, .6,1.3,1.6,innRoomWood);
  const mug=new THREE.Mesh(new THREE.CylinderGeometry(.16,.14,.36,8),new THREE.MeshStandardMaterial({color:'#b18b51'}));mug.position.set(x+.45,1.58,z);innScene.add(mug);
 }
-// v1.77 — individual, fully dressed and expressive Low Svalich Road inn patrons.
-const patronSkin=['#b98c69','#d2a782','#a77758','#c39a78','#987357','#d6b08b'];
-const patronClothes=['#455640','#5d4337','#374d59','#6b4c38','#4c465b','#70614b'];
-const patronHair=['#2b201b','#5b3b27','#302824','#765136','#49382c','#b09a76'];
-const patronDetails=['#bf9f69','#997449','#ab745e','#c39d73','#a37d6c','#b09f88'];
-const innBootMat=new THREE.MeshStandardMaterial({color:'#2b211c',roughness:1});
-const innButtonMat=new THREE.MeshStandardMaterial({color:'#d3b477',metalness:.48,roughness:.49});
-const innEyeMat=new THREE.MeshStandardMaterial({color:'#241d1c',roughness:1});
-function innPerson(x,z,idx,rotation=0){
- const group=new THREE.Group();group.position.set(x,0,z);group.rotation.y=rotation;
- group.scale.setScalar([1,.97,1.04,1.09,.95,1.02][idx%6]);innScene.add(group);
- const fabric=new THREE.MeshStandardMaterial({color:patronClothes[idx%6],roughness:.98});
- const detail=new THREE.MeshStandardMaterial({color:patronDetails[idx%6],roughness:.94});
- const vest=new THREE.MeshStandardMaterial({color:patronClothes[(idx+3)%6],roughness:1});
- const skin=new THREE.MeshStandardMaterial({color:patronSkin[idx%6],roughness:1});
- const hair=new THREE.MeshStandardMaterial({color:patronHair[idx%6],roughness:.98});
- const boots=innBootMat;
- function part(geometry,material,x,y,z){const mesh=new THREE.Mesh(geometry,material);
-  mesh.position.set(x,y,z);group.add(mesh);return mesh;}
- function arm(a,b,r,material){const va=new THREE.Vector3(...a),vb=new THREE.Vector3(...b),diff=vb.clone().sub(va);
-  const piece=part(new THREE.CylinderGeometry(r*.94,r, diff.length(),10),material,...va.clone().add(vb).multiplyScalar(.5).toArray());
-  piece.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),diff.normalize());return piece;}
- // The jacket has an inward-opening vest, contrasting lapels, and belt details.
- const longCoat=part(new THREE.CylinderGeometry(.34,.49,1.10,12),fabric,0,1.28,.06);
- longCoat.scale.z=.85;
- const shoulders=part(new THREE.SphereGeometry(.42,14,10),fabric,0,1.70,.005);
- shoulders.scale.set(1,.47,.74);
- const shirt=part(new THREE.BoxGeometry(.26,.76,.068),detail,0,1.51,-.332);
- for(const side of [-1,1]){
-  const lapel=part(new THREE.BoxGeometry(.14,.64,.072),vest,side*.205,1.49,-.356);
-  lapel.rotation.z=-side*.13;
-  part(new THREE.BoxGeometry(.045,.58,.014),detail,side*.288,1.48,-.395);
- }
- for(let b=0;b<3;b++)part(new THREE.SphereGeometry(.029,7,5),innButtonMat,.015,1.71-b*.21,-.386);
- const belt=part(new THREE.TorusGeometry(.382,.054,7,18),boots,0,.91,0);
- belt.rotation.x=Math.PI/2;
- const buckle=part(new THREE.BoxGeometry(.16,.13,.05),innButtonMat,0,.91,-.394);
- part(new THREE.BoxGeometry(.085,.075,.059),boots,0,.91,-.425);
- for(const side of [-1,1]){
-  const shoulder=[side*.39,1.68,.015],elbow=[side*.53,1.33,.04],wrist=[side*.52,1.00,-.19];
-  arm(shoulder,elbow,.150,fabric);arm(elbow,wrist,.123,fabric);
-  part(new THREE.SphereGeometry(.119,10,8),skin,...wrist);
-  const cuff=part(new THREE.TorusGeometry(.13,.032,6,12),detail,wrist[0],wrist[1]+.11,wrist[2]);
-  cuff.rotation.x=Math.PI/2;
-  const trouser=part(new THREE.CylinderGeometry(.164,.144,.67,10),vest,side*.19,.57,-.025);
-  trouser.rotation.x=(idx%2?.04:-.035);
-  part(new THREE.BoxGeometry(.35,.22,.51),boots,side*.19,.155,-.14);
-  part(new THREE.BoxGeometry(.36,.063,.055),detail,side*.19,.285,-.385);
- }
- const neck=part(new THREE.CylinderGeometry(.115,.14,.20,10),skin,0,1.93,-.02);
- const head=part(new THREE.SphereGeometry(.31,18,13),skin,0,2.20,-.015);
- head.scale.set(.95,1.075,.88);
- for(const side of [-1,1]){
-  part(new THREE.SphereGeometry(.060,9,7),skin,side*.30,2.17,-.017);
-  const eye=part(new THREE.SphereGeometry(.030,8,6),innEyeMat,side*.118,2.237,-.278);
-  eye.scale.set(1.1,.66,.55);
-  const brow=part(new THREE.BoxGeometry(.15,.022,.015),hair,side*.12,2.32,-.284);
-  brow.rotation.z=side*(idx%2?-.12:.06);
-  const cheek=part(new THREE.SphereGeometry(.11,9,7),skin,side*.154,2.073,-.205);
-  cheek.scale.set(.9,.55,.46);
- }
- const nose=part(new THREE.SphereGeometry(.068,10,8),skin,0,2.166,-.31);
- nose.scale.set(.75,1.25,.86);
- const mouth=part(new THREE.BoxGeometry(.12,.019,.018),vest,0,2.038,-.287);
- mouth.rotation.z=(idx%2?.04:-.06);
- // Side locks, longer hair, beards, and different hats vary each silhouette.
- const hairCap=part(new THREE.SphereGeometry(.323,17,12,0,Math.PI*2,0,Math.PI*.55),hair,0,2.323,-.015);
- if(idx%3!==1){
-  for(const side of [-1,1]){
-   const lock=part(new THREE.SphereGeometry(.13,11,8),hair,side*.272,2.185,.05);
-   lock.scale.set(.62,1.60,.72);
-  }
- }
- if(idx%4===0 || idx===5){
-  const beard=part(new THREE.ConeGeometry(.22,.34,11),hair,0,1.969,-.09);
-  beard.rotation.x=Math.PI;
-  for(const side of [-1,1]){
-   const moustache=part(new THREE.SphereGeometry(.11,9,7),hair,side*.10,2.075,-.296);
-   moustache.scale.set(1,.40,.42);
-  }
- }
- if(idx%4===1){
-  part(new THREE.CylinderGeometry(.47,.47,.06,18),hair,0,2.46,0);
-  part(new THREE.CylinderGeometry(.25,.29,.27,14),hair,0,2.61,0);
-  part(new THREE.CylinderGeometry(.275,.275,.054,14),detail,0,2.54,0);
- }else if(idx%4===2){
-  const cap=part(new THREE.SphereGeometry(.35,16,10),vest,0,2.44,-.002);
-  cap.scale.set(1.08,.36,.95);
-  const ribbon=part(new THREE.TorusGeometry(.32,.035,6,19),detail,0,2.41,0);
-  ribbon.rotation.x=Math.PI/2;
- }
- // A loose wool cloak is layered behind shoulders instead of hiding the face.
- if(idx%3===0){
-  const cloak=part(new THREE.ConeGeometry(.49,1.20,13),vest,0,1.18,.25);
-  cloak.scale.z=.75;
-  const clasp=part(new THREE.SphereGeometry(.084,10,7),innButtonMat,0,1.80,-.33);
-  clasp.scale.z=.55;
- }
- if(idx===1 || idx===4){
-  const apron=part(new THREE.BoxGeometry(.57,.79,.048),detail,0,.66,-.40);
-  apron.rotation.x=.09;
-  for(const side of [-1,1]){
-   const tie=part(new THREE.BoxGeometry(.052,.67,.055),detail,side*.34,1.27,-.28);
-   tie.rotation.z=side*.3;
-  }
- }
- if(idx===0 || idx===2 || idx===5){
-  const mug=part(new THREE.CylinderGeometry(.123,.11,.26,10),detail,.57,1.12,-.19);
-  const handle=part(new THREE.TorusGeometry(.092,.026,6,10),innButtonMat,.705,1.13,-.19);
-  handle.rotation.y=Math.PI/2;
- }
- return group;
+// Last Chance Inn — painted Barovian patron sprites, shared /patrons/ asset pool.
+// The messenger stays a fixed NPC. Generic patrons reroll on each inn entry.
+const INN_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png','hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
+const innPatronLoader=new THREE.TextureLoader();
+const innPatronTextures=INN_PATRON_FILES.map(file=>{
+ const texture=innPatronLoader.load('patrons/'+file);
+ texture.colorSpace=THREE.SRGBColorSpace;
+ return texture;
+});
+const innPatronPositions=[[-3.6,2.2], [2.95,2.65],[-5.9,-1.6],[6.3,4.15],[-5.7,3.6],[3.5,-3.6]];
+const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
+ const mat=new THREE.SpriteMaterial({map:innPatronTextures[i],transparent:true,depthWrite:false,alphaTest:.08});
+ const sprite=new THREE.Sprite(mat);
+ sprite.position.set(x,1.23,z);
+ sprite.scale.set(1.45,2.46,1);
+ sprite.renderOrder=2;
+ innScene.add(sprite);
+ return sprite;
+});
+function randomizeInnPatrons(){
+ const pool=INN_PATRON_FILES.map((_,i)=>i);
+ for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+ innPatronSprites.forEach((sprite,i)=>{sprite.material.map=innPatronTextures[pool[i]];sprite.material.needsUpdate=true;});
 }
-innPerson(-3.6,2.2,0,-.55);innPerson(2.95,2.65,1,.6);
-innPerson(-5.9,-1.6,2,-.35);innPerson(6.3,4.15,3,-.7);
-innPerson(-5.7,3.6,4,.4);innPerson(3.5,-3.6,5,.25);
-// v1.42: replace the blocky red messenger with a detailed patron model.
-// Keep the doorway and central aisle clear for the arriving player.
-const innMessenger=innPerson(3.2,.2,3,-.6);
-const messengerCloak=new THREE.Mesh(new THREE.ConeGeometry(.49,1.25,12),new THREE.MeshStandardMaterial({color:'#8a3533',roughness:1}));
-messengerCloak.position.set(0,1.18,.12);innMessenger.add(messengerCloak);
+randomizeInnPatrons();
+// Keep the story messenger separate from the randomized generic patrons.
+const innMessenger=new THREE.Sprite(new THREE.SpriteMaterial({map:innPatronTextures[3],transparent:true,depthWrite:false,alphaTest:.08}));
+innMessenger.position.set(3.2,1.26,.2);
+innMessenger.scale.set(1.5,2.52,1);
+innMessenger.renderOrder=2;
+innScene.add(innMessenger);
 innBox(-3.4,1.41,-1.3,.48,.035,.36,new THREE.MeshStandardMaterial({color:'#d6c19a'}));
 const innInteriorPrompt=document.createElement('div');innInteriorPrompt.id='innInteriorPrompt';innInteriorPrompt.style.cssText='display:none;position:fixed;bottom:55px;left:50%;transform:translateX(-50%);z-index:25;background:#171914ed;border:1px solid #b9945d;color:#f5d8a5;padding:10px 17px;font:14px Georgia,serif;pointer-events:none';document.body.append(innInteriorPrompt);
 // Blood Vine tavern ambience reused at a subdued level inside The Last Chance Inn.
@@ -3120,11 +3028,9 @@ document.body.append(panel);
 const partyBox=document.createElement('section');partyBox.id='aiDmPartyBox';partyBox.hidden=true;
 partyBox.innerHTML=`<header><b>⚔ ARC Party Selection · v5.72</b><button type="button" id="partyClose" aria-label="Close character manager">×</button></header>
 <div class="partyContent">
-<p class="arcIntro"><strong>Adventure Ready Characters (ARC’s)</strong><span>Choose an artwork tab to browse the available ARCs. Four are selected by default; choose 3–5 for your party. Check Player Controlled to play that character yourself; leave it unchecked for the AI to handle everything for that character. <strong>The 3 B’s — Battles, Banter, Behaviour:</strong> Your AI Dungeon Master plays AI-controlled companions using their biographies and character sheets. A timid barbarian acts timidly, even in battle; each ARC’s personality shapes how they fight, speak and react.</span></p>
+<p class="arcIntro"><strong>Adventure Ready Characters (ARC’s)</strong><span>Seven fully prepared characters. Four are selected by default; choose 3–5 for your party. Check Player Controlled to play that character yourself; leave it unchecked for the AI to handle everything for that character. <strong>The 3 B’s — Battles, Banter, Behaviour:</strong> Your AI Dungeon Master plays AI-controlled companions using their biographies and character sheets. A timid barbarian acts timidly, even in battle; each ARC’s personality shapes how they fight, speak and react.</span></p>
 <div class="partySectionHeading"><h3>Choose Your Party</h3><span id="partyCount"></span></div>
-<div id="arcStyleTabs" class="arcStyleTabs" role="group" aria-label="ARC portrait style"><button type="button" data-arc-style="abstract">Abstract</button><button type="button" data-arc-style="classic">Classic</button><button type="button" data-arc-style="heroic">Heroic</button></div>
-<p id="arcStyleHint" class="partyEditHint"></p>
-<div id="partyRoster" class="arcChoiceGrid"></div>
+<div id="arcStyleTabs" class="arcStyleTabs" role="group" aria-label="ARC portrait style"><button type="button" data-arc-style="abstract">Abstract</button><button type="button" data-arc-style="classic">Classic</button><button type="button" data-arc-style="heroic">Heroic</button></div><p id="arcStyleHint" class="partyEditHint"></p><div id="partyRoster" class="arcChoiceGrid"></div>
 <div id="partyControlHint" class="partyEditHint"></div>
 <div class="partySectionHeading"><h3>Character Sheet</h3></div>
 <label class="partyCharacterPicker" for="partyCharacterSelect">SELECT A CHARACTER IN YOUR PARTY
@@ -3380,7 +3286,7 @@ const arcQuickPanel=document.createElement('aside');arcQuickPanel.id='arcQuickPa
 document.body.append(arcQuickToggle,arcQuickPanel);
 function arcQuickSheetSection(sheet,heading){const lines=String(sheet||'').split(/\r?\n/).map(x=>x.trim());const start=lines.findIndex(x=>x.toLowerCase()===heading.toLowerCase());if(start<0)return '';const heads=['Saving Throws','Weapons & Attacks','Ammunition & Charges','Potions & Consumables','Equipment & Treasure','Spells','Spell Components & Foci','Special Abilities','Character Background','Questions to Ask the AI DM','DNDPOV LOADOUT BEGIN'];let end=start+1;while(end<lines.length&&!heads.some(x=>x.toLowerCase()===lines[end].toLowerCase()))end++;return lines.slice(start+1,end).filter(Boolean).join(' · ').slice(0,350)}
 function arcQuickStat(sheet,label,fallback){const match=String(sheet||'').match(new RegExp('^'+label+'\\s*:\\s*([^\\r\\n]+)','im'));return match?match[1].trim():fallback}
-function arcQuickRender(){const host=arcQuickPanel.querySelector('#arcQuickCards');host.replaceChildren();const active=partyActive();for(const id of active){const c=partyDefaults.find(x=>x.id===id);if(!c)continue;const row=partyRosterCache.find(x=>x.id===id);const sheet=row?.sheet||partyDefaultSheet(c);const name=row?.name||c.name;const level=partySheetLevel(sheet)||c.level;const hp=arcQuickStat(sheet,'HIT POINTS',String(c.hp));const card=document.createElement('section');card.className='arcQuickCard';const top=document.createElement('div');top.className='arcQuickTop';const portrait=arcQuickPortraits[c.name];if(portrait){const img=document.createElement('img');img.src=arcPortraitPath(c.name,portrait);img.alt=name+' portrait';img.loading='lazy';top.append(img)}else{const fallback=document.createElement('div');fallback.className='arcQuickFallback';fallback.textContent=name.slice(0,1);top.append(fallback)}const identity=document.createElement('div');identity.innerHTML='<div class="arcQuickName"></div><div class="arcQuickMeta"></div><div class="arcQuickHp"></div>';identity.children[0].textContent=name;identity.children[1].textContent=c.className+' · Level '+level;identity.children[2].textContent='HP '+hp;top.append(identity);card.append(top);const details=[['Weapons',arcQuickSheetSection(sheet,'Weapons & Attacks')||c.weapons],['Magic / Spells',arcQuickSheetSection(sheet,'Spells')||c.spells],['Abilities',arcQuickSheetSection(sheet,'Special Abilities')]];for(const [label,value] of details){if(!value||value==='None')continue;const detail=document.createElement('div');detail.className='arcQuickDetail';const bold=document.createElement('b');bold.textContent=label+': ';detail.append(bold,document.createTextNode(value));card.append(detail)}host.append(card)}if(!host.children.length)host.textContent='Select your Adventure Ready Characters in Party / Sheets first.';const hint=document.createElement('div');hint.className='arcQuickHint';hint.textContent='Read-only quick reference · values from your character sheets';host.append(hint)}
+function arcQuickRender(){const host=arcQuickPanel.querySelector('#arcQuickCards');host.replaceChildren();const active=partyActive();for(const id of active){const c=partyDefaults.find(x=>x.id===id);if(!c)continue;const row=partyRosterCache.find(x=>x.id===id);const sheet=row?.sheet||partyDefaultSheet(c);const name=row?.name||c.name;const level=partySheetLevel(sheet)||c.level;const hp=arcQuickStat(sheet,'HIT POINTS',String(c.hp));const card=document.createElement('section');card.className='arcQuickCard';const top=document.createElement('div');top.className='arcQuickTop';const portrait=arcQuickPortraits[c.name];if(portrait){const img=document.createElement('img');img.src='arc_portraits/'+portrait+'.svg';img.alt=name+' portrait';img.loading='lazy';top.append(img)}else{const fallback=document.createElement('div');fallback.className='arcQuickFallback';fallback.textContent=name.slice(0,1);top.append(fallback)}const identity=document.createElement('div');identity.innerHTML='<div class="arcQuickName"></div><div class="arcQuickMeta"></div><div class="arcQuickHp"></div>';identity.children[0].textContent=name;identity.children[1].textContent=c.className+' · Level '+level;identity.children[2].textContent='HP '+hp;top.append(identity);card.append(top);const details=[['Weapons',arcQuickSheetSection(sheet,'Weapons & Attacks')||c.weapons],['Magic / Spells',arcQuickSheetSection(sheet,'Spells')||c.spells],['Abilities',arcQuickSheetSection(sheet,'Special Abilities')]];for(const [label,value] of details){if(!value||value==='None')continue;const detail=document.createElement('div');detail.className='arcQuickDetail';const bold=document.createElement('b');bold.textContent=label+': ';detail.append(bold,document.createTextNode(value));card.append(detail)}host.append(card)}if(!host.children.length)host.textContent='Select your Adventure Ready Characters in Party / Sheets first.';const hint=document.createElement('div');hint.className='arcQuickHint';hint.textContent='Read-only quick reference · values from your character sheets';host.append(hint)}
 arcQuickToggle.onclick=()=>{arcQuickRender();arcQuickPanel.classList.add('open');arcQuickToggle.hidden=true};
 arcQuickPanel.querySelector('#arcQuickClose').onclick=()=>{arcQuickPanel.classList.remove('open');arcQuickToggle.hidden=false};
 
@@ -3650,9 +3556,6 @@ function partyHasPendingEdits(){
  return partyGearKeys.some(k=>current[k]!==previous[k]);
 }
 partyCharacterSelect.onchange=()=>partySelectCharacter(partyCharacterSelect.value);
-// ARC artwork styles: shared existing character sheets and AI data; portrait-only filter.
-const ARC_ABSTRACT_NAMES=new Set(['Alaric','Malachar','Seraphina','Kael','Mira','Brenna','Elowen','Thrain Ironbeard','Lirael Moonwhisper','Cassian Ashborne','Sylvara Greenleaf']);
-// Classic uses eight PNG portraits; Abstract uses existing WEBP where available; Heroic uses SVG artwork. Full built-in roster is never filtered.
 const ARC_CLASSIC_FILES={
  'Brother Joram':'Brother_Joram_Hollow_Brightened.png',
  'Elandor Swiftblade':'Elandor Swiftblade.png',
@@ -3671,8 +3574,8 @@ const ARC_ABSTRACT_FILES={
 };
 let arcStyle='abstract';
 try{const saved=localStorage.getItem('rpgpov_arc_art_style');if(['abstract','classic','heroic'].includes(saved))arcStyle=saved;}catch(e){}
-function arcVisibleCharacters(){return arcStyle==='classic'?partyDefaults.filter(c=>!!ARC_CLASSIC_FILES[c.name]):partyDefaults;}
-function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='abstract'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
+function arcVisibleCharacters(){return partyDefaults.filter(c=>arcStyle==='classic'?!!ARC_CLASSIC_FILES[c.name]:arcStyle==='heroic'?!!ARC_ABSTRACT_FILES[c.name]:true);}
+function arcPortraitPath(name,fallback){return 'arc_portraits/'+(arcStyle==='classic'&&ARC_CLASSIC_FILES[name]?ARC_CLASSIC_FILES[name]:arcStyle==='heroic'&&ARC_ABSTRACT_FILES[name]?ARC_ABSTRACT_FILES[name]:fallback+'.svg');}
 function arcRenderStyleTabs(){
  for(const b of partyBox.querySelectorAll('#arcStyleTabs button')){const selected=b.dataset.arcStyle===arcStyle;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));}
  partyBox.querySelector('#arcStyleHint').textContent=arcVisibleCharacters().length+' characters in '+arcStyle.charAt(0).toUpperCase()+arcStyle.slice(1)+' · Existing character sheets and AI abilities are shared.';

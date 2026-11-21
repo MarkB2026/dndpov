@@ -1865,7 +1865,8 @@ const innPatronSprites=innPatronPositions.map(([x,z],i)=>{
  return sprite;
 });
 function randomizeInnPatrons(){
- const pool=INN_PATRON_FILES.map((_,i)=>i);
+ // Index 3 is the fixed story messenger; exclude it from the generic pool to avoid doubles.
+ const pool=INN_PATRON_FILES.map((_,i)=>i).filter(i=>i!==3);
  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
  innPatronSprites.forEach((sprite,i)=>{sprite.material.map=innPatronTextures[pool[i]];sprite.material.needsUpdate=true;});
 }

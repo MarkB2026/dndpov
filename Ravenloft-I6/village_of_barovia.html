@@ -3602,12 +3602,13 @@ const villagePatronTextures=VILLAGE_PATRON_FILES.map(file=>{
  return texture;
 });
 function villagePatronSprite(room,patron){
- const material=new THREE.SpriteMaterial({map:villagePatronTextures[0],transparent:true,
+ const material=new THREE.SpriteMaterial({map:null,transparent:true,
   alphaTest:.08,depthWrite:false});
  const sprite=new THREE.Sprite(material);
- const height=patron.seated?1.10:2.05;
- sprite.position.set(patron.x,patron.seated?1.12:1.025,patron.z);
- sprite.scale.set(height*(patron.seated?.77:.49),height,1);
+ const height=patron.seated?1.52:2.05;
+ sprite.position.set(patron.x,patron.seated?1.04:1.025,patron.z);
+ sprite.scale.set(height*(patron.seated?1.0:.49),height,1);
+ sprite.visible=false; // Only show after a unique room-specific portrait is assigned
  room.add(sprite);
  return sprite;
 }
@@ -3778,7 +3779,7 @@ function makeInteriorRoom(id){
   for(const x of [-5.3,5.3])cupboard(x,-6.8,2.0,4.0);
   for(const x of [-2.2,2.2])add(x,2.2,-d/2+.85,.15,.7,.17,candle);
  }
- group.userData={id,w,d,h,colliders};
+ Object.assign(group.userData,{id,w,d,h,colliders}); // Preserve room-specific patron sprites and church portrait pool
  group.visible=false;insideScene.add(group);
  roomCache.set(id,group);
  return group;

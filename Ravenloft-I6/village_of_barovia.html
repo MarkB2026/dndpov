@@ -121,26 +121,7 @@
 #dndpovEncounterBanner button{display:inline-block!important;width:auto!important;max-width:100%!important;padding:6px 9px!important;margin:5px 3px 0!important;font-size:11px!important}
 #dndpovEncounterBanner button[hidden]{display:none!important}
 </style>
-<script id="rpgpov-browser-preview-guard">
-(function(){
- window.RPGPOV_BROWSER_PREVIEW=true;
- const blocked=/^(?:aiDm(?:Toggle|Send|Input|PartyOpen|Companion|Conference)|mp(?:Button|Host|Join|DM)|dndpovPrivate(?:Ai|Mp)Launch)$/i;
- document.addEventListener('click',function(e){const el=e.target.closest?.('[id]');if(el&&blocked.test(el.id)){e.preventDefault();e.stopImmediatePropagation();}},true);
- document.addEventListener('submit',function(e){if(e.target.closest?.('#aiDmControls,#dndpovMpController')){e.preventDefault();e.stopImmediatePropagation();}},true);
- function hide(){
-  for(const id of ['mpButton','dndpovMpController','dndpovPrivateAiLaunch','dndpovPrivateMpLaunch','aiDmToggle','aiDmControls','aiDmPartyOpen','aiDmCompanion','aiDmConference']){
-   const el=document.getElementById(id);if(el){el.style.setProperty('display','none','important');el.setAttribute('aria-hidden','true');}
-  }
-  if(!document.getElementById('rpgpovBrowserLabel')){
-   const label=document.createElement('div');label.id='rpgpovBrowserLabel';label.textContent='RPGPOV · BROWSER DEMO';
-   label.style.cssText='position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:99;pointer-events:none;background:#211a1bea;color:#e9c58d;border:1px solid #9e7a4d;padding:5px 10px;font:11px Georgia,serif;letter-spacing:.5px';
-   document.body.append(label);
-  }
- }
- document.addEventListener('DOMContentLoaded',hide);
- new MutationObserver(hide).observe(document.documentElement,{childList:true,subtree:true});
-})();
-</script></head><body>
+</head><body>
 <div id="hud"><b>DNDPOV · VILLAGE OF BAROVIA v5.77 · BASIC</b><details class="build-notes"><summary>Scene details</summary><p>Layer 5 — ominous layered storm clouds, overcast lighting and distant rain haze; large dense irregular bushes across open village lawns, closed residential roof gables, benches and barrels; residential expansion with the church sightline cleared, more handcarts, wheelbarrows, barrels and crates, a few low irregular shrubs and natural textured meadow grass (no trees or spikes), preserving the subtle weathered cobblestone road surface, colorful stucco, brick and varied timber trims across seven residential architectural styles distributed around the village; E6 church faces the approach road; E7 cemetery angles toward the approach road with a front-facing stone arch entrance and gravestones only; extended southern approach and mansion gate, cobblestone streets, original E6 church, E2 tavern, E1 mercantile redesigned E3 townhouse, an unkeyed residence between E3 and E5, and E5 guest house (all on the west side of the southern lane). All E# spots marked on the map.</p></details><p>Enter from the <strong>east</strong>; follow the village streets and leave via the <strong>southwest bridge</strong>.</p><p id="pos"></p><button id="reset">Restart at east entrance</button> <button id="overview">Overhead view</button><p style="margin-top:9px"><label for="timeofday">Time</label> <select id="timeofday"><option value="day">Day</option><option value="dawn">Dawn</option><option value="dusk">Dusk</option><option value="night">Night</option></select> <label for="visibility">Air</label> <select id="visibility"><option value="clear">Clear</option><option value="mist">Mist</option><option value="fog">Fog</option></select></p><div id="adventureControls"><button id="dmMode" aria-pressed="false" title="Show Dungeon Master notes">DM: OFF</button><button id="indexOpen" title="Browse E1–E7 descriptions">Locations E1–E7</button><label class="auto-option" title="Automatically show exterior descriptions once on approach"><input id="autoDescriptions" type="checkbox">Auto descriptions</label></div></div><div id="mapbox"><canvas id="map" width="1332" height="1500"></canvas><small>North ↑ · Gold arrow = player · gray = cobblestone streets</small></div><div id="help">↑ / ↓ walk · ← / → turn · A / D sidestep · Shift run · M map · R read · E / Enter enter/exit</div><div id="locationHint" role="status" aria-live="polite" hidden></div><section id="locationPanel" role="dialog" aria-modal="true" aria-labelledby="locationTitle" hidden><div id="locationPanelHeader"><span id="locationCode"></span><span id="locationTitle"></span><button id="locationClose" aria-label="Close description">×</button></div><div id="locationBody"><p id="locationSource"></p><blockquote id="locationRead"><div id="locationQuoteHeading"></div><div id="locationReadText"></div></blockquote><section id="locationInterior" hidden><h3>Interior read-aloud · DM preview</h3><div id="locationInteriorText"></div></section><section id="locationDM" hidden><h3>Dungeon Master notes</h3><div id="locationDMText"></div></section><div id="locationIndex" hidden></div></div><div id="locationPanelFooter"><button id="locationBack" hidden>All locations</button><span>R: read/close · Esc: close</span></div></section><div id="error"></div><script type="module">
 // Coordinate reference is the approved village redraw (1332 × 1152).
 // Minimal streets traced from the original I6 village map: one through-road,
@@ -3607,6 +3588,37 @@ function updateChurchOrgan(now){
  }
  if(t>4.75){state.stage='gone';state.smoke.visible=false;state.bat.visible=false;}
 }
+// Village E2/E6 illustrated generic patrons. Visual-only; no AI/network changes.
+const VILLAGE_PATRON_FILES=['tavern_regular.png','barmaid.png','elderly_villager.png',
+ 'hooded_traveler.png','suspicious_villager.png','guardsman.png','pilgrim.png','innkeeper.png'];
+const villagePatronTextures=VILLAGE_PATRON_FILES.map(file=>{
+ const texture=new THREE.TextureLoader().load('patrons/'+file);
+ texture.colorSpace=THREE.SRGBColorSpace;
+ return texture;
+});
+function villagePatronSprite(room,patron){
+ const material=new THREE.SpriteMaterial({map:villagePatronTextures[0],transparent:true,
+  alphaTest:.08,depthWrite:false});
+ const sprite=new THREE.Sprite(material);
+ const height=patron.seated?1.72:2.38;
+ sprite.position.set(patron.x,patron.seated?.86:1.19,patron.z);
+ sprite.scale.set(height*.49,height,1);
+ room.add(sprite);
+ return sprite;
+}
+function randomizeVillagePatrons(room){
+ const sprites=room.userData.villagePatronSprites;
+ if(!sprites)return;
+ const pool=villagePatronTextures.map((_,i)=>i);
+ for(let i=pool.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [pool[i],pool[j]]=[pool[j],pool[i]];
+ }
+ sprites.forEach((sprite,i)=>{
+  sprite.material.map=villagePatronTextures[pool[i%pool.length]];
+  sprite.material.needsUpdate=true;
+ });
+}
 function makeInteriorRoom(id){
  const dimensions={
   E1:[13,13,6],E2:[14,17,6.4],E3:[10,12,6.8],
@@ -3693,10 +3705,7 @@ function makeInteriorRoom(id){
    {role:'villager',x:3.24,z:-1.57,angle:Math.PI/2,
     robe:0x4e4a35,accent:0x6a5543}
   ];
-  pubPatrons.forEach((patron,i)=>{
-   const actor=barovianActor(group,{...patron,phase:i+1});
-   detailBloodVinePatron(actor,i);
-  });
+  group.userData.villagePatronSprites=pubPatrons.map(p=>villagePatronSprite(group,p));
   // Small drinking details make the seats feel occupied, not staged.
   const pewter=wovenMaterial(0x8b8173);
   for(const [x,z] of [[-3.9,1.25],[-2.95,-4.36],[1.65,-4.77]]){
@@ -3723,8 +3732,8 @@ function makeInteriorRoom(id){
    {role:'woman',x:-2.56,z:-3.67,robe:0x655345,accent:0x42392e},
    {role:'villager',x:2.72,z:-6.92,robe:0x4e504a,accent:0x645747}
   ];
-  parishioners.forEach((person,i)=>barovianActor(group,{...person,
-   z:person.z,angle:Math.PI,seated:true,phase:i+11}));
+  group.userData.villagePatronSprites=parishioners.map(p=>
+   villagePatronSprite(group,{...p,seated:true}));
   buildChurchOrgan(group,add,furniture);
  }else if(id==='E1'){ // Mercantile counters, shelves and stock.
   for(const x of [-w/2+1.2,w/2-1.2])for(const z of [-3.6,0,3.3])
@@ -3752,7 +3761,7 @@ function makeInteriorRoom(id){
   for(const x of [-5.3,5.3])cupboard(x,-6.8,2.0,4.0);
   for(const x of [-2.2,2.2])add(x,2.2,-d/2+.85,.15,.7,.17,candle);
  }
- group.userData={id,w,d,h,colliders};
+ group.userData={...group.userData,id,w,d,h,colliders};
  group.visible=false;insideScene.add(group);
  roomCache.set(id,group);
  return group;
@@ -3775,16 +3784,15 @@ function refreshDoorHint(){
  }
  const entry=closestEntrance();
  doorHint.hidden=!entry||!locationPanel.hidden;
- if(entry)doorHint.textContent=entry.id==='E2'?'E / Enter — enter '+entry.name:'E / Enter — preview '+entry.name+' (full edition)';
+ if(entry)doorHint.textContent='E / Enter — '+'enter '+entry.name;
 }
 function enterBuilding(id){
- // Browser preview: only Blood on the Vine (E2) is enterable.
- if(id!=='E2'){window.alert('This interior is available in the downloadable edition of RPGPOV. You can still explore its exterior and read its description.');return;}
  // BASIC DOWNLOAD: all village interiors are unlocked; browser preview remains restricted.
  if(window.DNDPOV_AUTO_DM_MOVEMENT_LOCKED?.())return;
  if(activeInterior||!locationPanel.hidden)return;
  activeRoom=roomCache.get(id)||makeInteriorRoom(id);
  activeRoom.visible=true;activeInterior=id;
+ if(id==='E2'||id==='E6')randomizeVillagePatrons(activeRoom);
  if(id==='E2')resetTavernBatEgg();
  if(id==='E6')resetChurchOrgan();
  insidePlayer.x=0;insidePlayer.z=activeRoom.userData.d/2-1.6;

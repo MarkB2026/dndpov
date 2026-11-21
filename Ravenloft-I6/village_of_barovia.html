@@ -3605,8 +3605,8 @@ function villagePatronSprite(room,patron){
  const material=new THREE.SpriteMaterial({map:null,transparent:true,
   alphaTest:.08,depthWrite:false});
  const sprite=new THREE.Sprite(material);
- const height=patron.seated?1.52:2.05;
- sprite.position.set(patron.x,patron.seated?1.04:1.025,patron.z);
+ const height=patron.seated?1.25:2.05;
+ sprite.position.set(patron.x,patron.seated?1.275:1.025,patron.z);
  sprite.scale.set(height*(patron.seated?1.0:.49),height,1);
  sprite.visible=false; // Only show after a unique room-specific portrait is assigned
  room.add(sprite);
@@ -3616,6 +3616,15 @@ function randomizeVillagePatrons(room){
  const sprites=room.userData.villagePatronSprites;
  if(!sprites)return;
  const textures=room.userData.villageSeatedChurch? villageChurchSeatedTextures:villagePatronTextures;
+ if(room.userData.villageSeatedChurch){
+  // Fixed congregation: each portrait occupies its own measured pew seat.
+  sprites.forEach((sprite,i)=>{
+   sprite.material.map=textures[i%textures.length];
+   sprite.material.needsUpdate=true;
+   sprite.visible=true;
+  });
+  return;
+ }
  const pool=textures.map((_,i)=>i);
  for(let i=pool.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
@@ -3739,15 +3748,14 @@ function makeInteriorRoom(id){
   for(const x of [-1.6,1.6])add(x,2.4,-d/2+2.0,.17,.53,.17,candle);
   add(0,6.1,-d/2+.5,.45,4.2,.32,oldStone);
   add(0,7.4,-d/2+.5,2.0,.38,.32,oldStone);
+  // Four fixed worshippers on the two pew rows nearest the entrance.
+  // Seat height=.65; portrait bottoms=.65. Positioned just in front of the
+  // pew back in the camera-facing view, avoiding heads hidden by the timber.
   const parishioners=[
-   {role:'woman',x:-4.08,z:6.82,robe:0x4d4c41,accent:0x696052},
-   {role:'elder',x:2.25,z:6.82,robe:0x565347,accent:0x726b61},
-   {role:'villager',x:-2.44,z:3.33,robe:0x605142,accent:0x373d37},
-   {role:'woman',x:4.10,z:3.33,robe:0x49443e,accent:0x66554a},
-   {role:'warrior',x:-4.10,z:-.17,robe:0x3d4145,accent:0x534b47},
-   {role:'elder',x:3.95,z:-.17,robe:0x575245,accent:0x393c36},
-   {role:'woman',x:-2.56,z:-3.67,robe:0x655345,accent:0x42392e},
-   {role:'villager',x:2.72,z:-6.92,robe:0x4e504a,accent:0x645747}
+   {role:'woman',x:-3.95,z:7.48},
+   {role:'elder',x:3.85,z:7.48},
+   {role:'villager',x:-3.85,z:3.98},
+   {role:'woman',x:3.85,z:3.98}
   ];
   group.userData.villageSeatedChurch=true;
   group.userData.villagePatronSprites=parishioners.map(p=>
